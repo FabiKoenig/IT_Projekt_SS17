@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class IT_Projekt_SS17 implements EntryPoint {
+public class ProjektmarktplatzVerwaltung implements EntryPoint {
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -142,5 +142,6 @@ public class IT_Projekt_SS17 implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		nameField.addMouseListener(dialogBox);
 	}
 }
