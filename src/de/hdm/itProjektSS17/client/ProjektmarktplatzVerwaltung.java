@@ -142,5 +142,6 @@ public class ProjektmarktplatzVerwaltung implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		nameField.addMouseListener(dialogBox);
 	}
 }
