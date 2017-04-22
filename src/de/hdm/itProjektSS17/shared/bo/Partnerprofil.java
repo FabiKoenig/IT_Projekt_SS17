@@ -1,7 +1,13 @@
 package de.hdm.itProjektSS17.shared.bo;
 
 import java.util.Date;
-
+/**
+ * Realisierung eines Partnerprofils. Ein Partnerprofil besitzt ein Erstellungsdatum 
+ * und ein Änderungsdatum.
+ * 
+ * @author Tom Alender
+ * @version 1.0
+ */
 public class Partnerprofil extends BusinessObject {
 	
 	
