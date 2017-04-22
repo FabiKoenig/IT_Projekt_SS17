@@ -23,6 +23,33 @@ public class ProjektmarktplatzVerwaltungImpl extends RemoteServiceServlet
 implements ProjektmarktplatzVerwaltung {
 
 
+	private ProjektmarktplatzMapper projektmarktplatzMapper = null;
+	
+	private TeamMapper teamMapper = null;
+	
+	private PersonMapper personMapper = null;
+	
+	private UnternehmenMapper unternehmenMapper = null;
+	
+	private OrganisationseinheitMapper orgaMapper = null;
+	
+	private BewerbungMapper bewerbungMapper = null;
+	
+	private ProjektMapper projektMapper = null;
+	
+	private AusschreibungMapper ausschreibungMapper = null;
+	
+	private PartnerprofilMapper partnerprofilMapper = null;
+	
+	private BewertungMapper bewertungMapper = null;
+	
+	private BeteiligungMapper beteiligungMapper = null;
+	
+	private EigenschaftMapper eigenschaftMapper = null;
+	
+	
+	
+	
 	public ProjektmarktplatzVerwaltungImpl() throws IllegalArgumentException {	
 	}
 	
