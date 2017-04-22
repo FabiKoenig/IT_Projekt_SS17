@@ -13,8 +13,23 @@ public class Ausschreibung extends BusinessObject{
 	
 	private String ausschreibungstext = "";
 	
+	/**
+	 * Realisierung der Beziehung zu einem Projekt
+	 */
 	
+	private Projekt projekt;
 	
+	/**
+	 * Realisierung der Beziehung zu einem Partnerprofil
+	 */
+	
+	private Partnerprofil partnerprofil;
+	
+	/**
+	 * Realisierung der Beziehung zu einem Ausschreibendem
+	 */
+	
+	private Organisationseinheit ausschreibender;
 	
 	
 	
