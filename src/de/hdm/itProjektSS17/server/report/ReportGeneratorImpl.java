@@ -1,5 +1,12 @@
 package de.hdm.itProjektSS17.server.report;
 
-public class ReportGeneratorImpl {
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.itProjektSS17.shared.ReportGenerator;
+
+public class ReportGeneratorImpl extends RemoteServiceServlet
+implements ReportGenerator{
+
+	
+	
 }
