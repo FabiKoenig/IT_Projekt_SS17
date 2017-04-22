@@ -14,22 +14,22 @@ public class Ausschreibung extends BusinessObject{
 	private String ausschreibungstext = "";
 	
 	/**
-	 * Realisierung der Beziehung zu einem Projekt
+	 * Realisierung der Beziehung zu einem Projekt durch einen Fremdschlüssel
 	 */
 	
-	private Projekt projekt;
+	private int projektId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Partnerprofil
+	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschlüssel
 	 */
 	
-	private Partnerprofil partnerprofil;
+	private int partnerprofilId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Ausschreibendem
+	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschlüssel
 	 */
 	
-	private Organisationseinheit ausschreibender;
+	private int ausschreibenderId = 0;
 	
 	
 	
@@ -56,6 +56,52 @@ public class Ausschreibung extends BusinessObject{
 	public void setAusschreibungstext(String ausschreibungstext) {
 		this.ausschreibungstext = ausschreibungstext;
 	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel projektId zurück.
+	 */
+	public int getProjektId() {
+		return projektId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel projektId.
+	 */
+	public void setProjektId(int projektId) {
+		this.projektId = projektId;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel partnerprofilId zurück.
+	 */
+	public int getPartnerprofilId() {
+		return partnerprofilId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel partnerprofilId.
+	 */
+	public void setPartnerprofilId(int partnerprofilId) {
+		this.partnerprofilId = partnerprofilId;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel partnerprofilId zurück.
+	 */
+	public int getAusschreibenderId() {
+		return ausschreibenderId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel ausschreibenderId.
+	 */
+	public void setAusschreibenderId(int ausschreibenderId) {
+		this.ausschreibenderId = ausschreibenderId;
+	}
+
+
+	
+	
 	
 	
 	
