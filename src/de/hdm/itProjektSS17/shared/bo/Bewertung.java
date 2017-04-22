@@ -11,8 +11,10 @@ public class Bewertung extends BusinessObject{
 	
 	private double bewerbungswert = 0.0;
 
-	
-	
+	/**
+	 * Realisierung der Beziehung zu einer Bewerbung durch einen Fremdschlüssel
+	 */
+	private int bewerbungId = 0;
 	
 	public String getStellungsnahme() {
 		return stellungsnahme;
@@ -28,6 +30,20 @@ public class Bewertung extends BusinessObject{
 
 	public void setBewerbungswert(double bewerbungswert) {
 		this.bewerbungswert = bewerbungswert;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel bewerbungId zurück. 
+	 */
+	public int getBewerbungId() {
+		return bewerbungId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel bewerbungId.
+	 */
+	public void setBewerbungId(int bewerbungId) {
+		this.bewerbungId = bewerbungId;
 	}
 	
 	
