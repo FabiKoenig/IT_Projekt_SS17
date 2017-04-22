@@ -1,6 +1,6 @@
 package de.hdm.itProjektSS17.shared.bo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Beteiligung extends BusinessObject {
 
