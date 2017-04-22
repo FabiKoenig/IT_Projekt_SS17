@@ -2,9 +2,18 @@ package de.hdm.itProjektSS17.shared.bo;
 
 public class Person extends Organisationseinheit {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String anrede;
+	
 	private String vorname;
+	
 	private String nachname;
+	
 	
 	public String getAnrede() {
 		return anrede;
