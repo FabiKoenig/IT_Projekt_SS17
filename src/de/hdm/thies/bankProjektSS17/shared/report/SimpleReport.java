@@ -1,6 +1,15 @@
 package de.hdm.thies.bankProjektSS17.shared.report;
 
 import java.util.Date;
+import java.util.Vector;
+
+
+/**
+ * Beschreibung hinzufügen (TODO)
+ * @author Fabian
+ *
+ */
+
 
 public class SimpleReport extends Report{
 
@@ -9,39 +18,33 @@ public class SimpleReport extends Report{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String titel = "";
-	
-	private Date erstellungsdatum = null;
-	
-	private Paragraph header = null;
-
+	/**
+	 * Ein Vector-Objekt, das sämtliche Zeilen enthält.
+	 */
+	private Vector<Row> table = new Vector<Row>();
 	
 	
-	
-	
-	
-	public String getTitel() {
-		return titel;
-	}
-
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
-
-	public Date getErstellungsdatum() {
-		return erstellungsdatum;
-	}
-
-	public void setErstellungsdatum(Date erstellungsdatum) {
-		this.erstellungsdatum = erstellungsdatum;
-	}
-
-	public Paragraph getHeader() {
-		return header;
-	}
-
-	public void setHeader(Paragraph header) {
-		this.header = header;
+	/**
+	 * Hinzufügen eines Zeilen-Objekts.
+	 * @param r die hinzuzufügende Zeile.
+	 */
+	public void addRow(Row r){
+		this.table.addElement(r);
 	}
 	
+	/**
+	 * Entfernen eines Zeilen-Objekts.
+	 * @param r die zu entfernende Zeile.
+	 */
+	public void removeRow(Row r){
+		this.table.removeElement(r);
+	}
+	
+	/**
+	 * Auslesen sämtlicher Zeilen.
+	 * @return ein Vector-Objekt mit sämtlichen Zeilen
+	 */
+	public Vector<Row> getRows(){
+		return this.table;
+	}
 }
