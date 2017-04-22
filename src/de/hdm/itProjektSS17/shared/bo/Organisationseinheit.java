@@ -2,10 +2,10 @@ package de.hdm.itProjektSS17.shared.bo;
 
 public class Organisationseinheit extends BusinessObject {
 
-	String straße;
-	String hausnummer;
-	int plz;
-	String Ort;
+	private String straße;
+	private String hausnummer;
+	private int plz;
+	private String Ort;
 	
 	public String getStraße() {
 		return straße;

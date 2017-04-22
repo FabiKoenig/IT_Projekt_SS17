@@ -2,7 +2,7 @@ package de.hdm.itProjektSS17.shared.bo;
 
 public class Unternehmen extends Organisationseinheit {
 
-	String name;
+	private String name;
 
 	public String getName() {
 		return name;

@@ -2,9 +2,9 @@ package de.hdm.itProjektSS17.shared.bo;
 
 public class Person extends Organisationseinheit {
 	
-	String anrede;
-	String vorname;
-	String nachname;
+	private String anrede;
+	private String vorname;
+	private String nachname;
 	
 	public String getAnrede() {
 		return anrede;
