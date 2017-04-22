@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Projekt extends BusinessObject{
 	
 	/**
-	 * test
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
