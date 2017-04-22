@@ -2,8 +2,14 @@ package de.hdm.itProjektSS17.shared.bo;
 
 import java.util.Date;
 
-public class Bewerbung {
+public class Bewerbung extends BusinessObject{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	   * Erstellungsdatum der Bewerbung
 	   */
@@ -43,6 +49,7 @@ public class Bewerbung {
 		this.bewerbungstext = bewerbungstext;
 	}
 
+	
 	
 	
 	

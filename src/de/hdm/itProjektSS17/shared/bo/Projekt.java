@@ -2,8 +2,13 @@ package de.hdm.itProjektSS17.shared.bo;
 
 import java.sql.Date;
 
-public class Projekt {
+public class Projekt extends BusinessObject{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	   * Startdatum des Projekt.
 	   */
