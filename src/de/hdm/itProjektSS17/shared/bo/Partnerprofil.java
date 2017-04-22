@@ -6,23 +6,43 @@ public class Partnerprofil extends BusinessObject {
 	
 	
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	   * Datum der Erstellung des Partnerprofils
+	   */
 	private Date erstellungsdatum = null;
-	private String bewerbungstext = "";
+	/**
+	   * Datum der Änderung des Partnerprofils
+	   */
+	private Date aenderungdatum = null;
+	
 	//private int OragnisationsID = 0;
 	//private int AusschreibungsID = 0;
+	
+	/**
+	   * Auslesen des Erstellungsdatums
+	   */
 	public Date getErstellungsdatum() {
 		return erstellungsdatum;
 	}
+	/**
+	   * Setzen des Erstellungsdatums
+	   */
 	public void setErstellungsdatum(Date erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
-	public String getBewerbungstext() {
-		return bewerbungstext;
+	/**
+	   * Auslesen des Aenderungsdatums
+	   */
+	public Date getAenderungdatum() {
+		return aenderungdatum;
 	}
-	public void setBewerbungstext(String bewerbungstext) {
-		this.bewerbungstext = bewerbungstext;
+	/**
+	   * Setzen des Aenderungsdatums
+	   */
+	public void setAenderungdatum(Date aenderungdatum) {
+		this.aenderungdatum = aenderungdatum;
 	}
+	
 	
 	
 
