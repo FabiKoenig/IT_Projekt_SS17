@@ -7,6 +7,9 @@ public class DBConnection {
 
 	private static Connection con = null;
 	
+	/**
+	 * Die URL, mit deren Hilfe die Datenbank angesprochen wird.
+	 */
 	private static String url = "jdbc:mysql://localhost:3306/";
 	
 	private static String user = "root";
