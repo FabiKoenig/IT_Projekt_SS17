@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.itProjektSS17.server.db.*;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;

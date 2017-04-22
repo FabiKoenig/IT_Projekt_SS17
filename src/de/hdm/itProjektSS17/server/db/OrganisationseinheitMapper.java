@@ -9,7 +9,7 @@ public class OrganisationseinheitMapper {
 	 *Durch static ist die Variable nur einmal für alle möglichen Instanzen der Klasse vorhanden
 	 *und speichert die einzige Instanz der Klasse.
 	 */
-	private static OrganisationseinheitMapper OrganisationseinheitMapper = null;
+	private static OrganisationseinheitMapper organisationseinheitMapper = null;
 	
 	
 	/*Konstruktor der Klasse Organisationseinheit. Durch protected wird verhindert,
@@ -24,11 +24,11 @@ public class OrganisationseinheitMapper {
 	 *Organisationseinheit existiert.
 	 *Returnt wird das OrganisationseinheitMapper-Objekt.
 	 */
-	public static OrganisationseinheitMapper OrganisationseinheitMapper(){
-		if(OrganisationseinheitMapper == null){
-			OrganisationseinheitMapper = new OrganisationseinheitMapper();
+	public static OrganisationseinheitMapper organisationseinheitMapper(){
+		if(organisationseinheitMapper == null){
+			organisationseinheitMapper = new OrganisationseinheitMapper();
 		}
-		return OrganisationseinheitMapper;
+		return organisationseinheitMapper;
 	}
 	
 	
