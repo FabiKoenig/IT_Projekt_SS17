@@ -20,6 +20,11 @@ public class Bewerbung extends BusinessObject{
 	   */
 	private String bewerbungstext;
 	
+	/**
+	 * Realisierung der Beziehung zu einer Ausschreibung durch einen Fremdschlüssel
+	 */
+	private int ausschreibungId = 0;
+
 	
 	/**
 	   * Auslesen des Erstellungsdatum
@@ -49,6 +54,21 @@ public class Bewerbung extends BusinessObject{
 		this.bewerbungstext = bewerbungstext;
 	}
 
+	/**
+	 * @return Gibt den Fremdschlüssel ausschreibungId zurück.
+	 */
+	public int getAusschreibungId() {
+		return ausschreibungId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel ausschreibungId.
+	 */
+	public void setAusschreibungId(int ausschreibungId) {
+		this.ausschreibungId = ausschreibungId;
+	}
+
+	
 	
 	
 	

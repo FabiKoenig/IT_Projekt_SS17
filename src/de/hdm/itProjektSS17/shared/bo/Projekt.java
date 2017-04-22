@@ -29,6 +29,16 @@ public class Projekt extends BusinessObject{
 	   */
 	private String beschreibung;
 	
+	/**
+	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlüssel.
+	 */
+	private int projektmarktplatzId = 0;
+	
+	/**
+	 * Realisierung der Beziehung zu einer Person durch einen Fremdschlüssel.
+	 */
+	private int projektleiterId = 0;
+	
 	 /**
 	   * Auslesen des Startdatum.
 	   */
@@ -83,6 +93,34 @@ public class Projekt extends BusinessObject{
 	   */
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel projektmarktplatzId zurück.
+	 */
+	public int getProjektmarktplatzId() {
+		return projektmarktplatzId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel projektmarktplatzId.
+	 */
+	public void setProjektmarktplatzId(int projektmarktplatzId) {
+		this.projektmarktplatzId = projektmarktplatzId;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel projektleiterId zurück.
+	 */
+	public int getProjektleiterId() {
+		return projektleiterId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel projektleiterId.
+	 */
+	public void setProjektleiterId(int projektleiterId) {
+		this.projektleiterId = projektleiterId;
 	}
 	
 	
