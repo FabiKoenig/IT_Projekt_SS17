@@ -1,5 +1,12 @@
 package de.hdm.thies.bankProjektSS17.shared.report;
 
-public class Report {
+import java.io.Serializable;
+
+public class Report implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 }
