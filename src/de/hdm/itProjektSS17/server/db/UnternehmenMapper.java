@@ -5,7 +5,7 @@ import java.util.*;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 /**
- * Mapper für ein Unternehmen-Objekt
+ * Mapper fuer ein Unternehmen-Objekt
  */
 public class UnternehmenMapper {
 
@@ -15,14 +15,14 @@ public class UnternehmenMapper {
     private static UnternehmenMapper unternehmenMapper = null;
 
     /**
-     * Geschützter Konstruktor
+     * Geschuetzter Konstruktor
      */
     protected UnternehmenMapper() {
         // TODO implement here
     }
 
     /**
-     * @return Sicherstellung der Singleton-Eigenschaft der Mapperklasse.
+     * @return unternehmenMapper - Sicherstellung der Singleton-Eigenschaft der Mapperklasse.
      */
     public static UnternehmenMapper unternehmenMapper() {
         if(unternehmenMapper == null){
@@ -33,16 +33,26 @@ public class UnternehmenMapper {
 
     /**
      * @param id 
-     * @return Liefert ein Unternehmen entsprechend der übergebenen id zurück
+     * @return Liefert ein Unternehmen entsprechend der ï¿½bergebenen id zurueck
      */
     public Unternehmen findById(int id) {
         // TODO implement here
         return null;
     }
+    
+    /**
+     * 
+     * @param u
+     * @return Liefert ein Unternehmen entsprechend des Ã¼bergebenen Objekts zurueck.
+     */
+    public Unternehmen findByObject(Unternehmen u){
+		return u;
+    	
+    }
 
     /**
      * @param u 
-     * @return Zielentität aus der Datenbank gemäß des übergebenen Objekts löschen.
+     * @return Zielentitaet aus der Datenbank gemaess des uebergebenen Objekts loeschen.
      */
     public void delete(Unternehmen u) {
         // TODO implement here
@@ -50,7 +60,7 @@ public class UnternehmenMapper {
 
     /**
      * @param u 
-     * @return Zielentität aus der Datenbank gemäß den Informationen des übergebenen Objekts aktualisieren.
+     * @return Zielentitaet aus der Datenbank gemaess den Informationen des uebergebenen Objekts aktualisieren.
      */
     public Unternehmen update(Unternehmen u) {
         // TODO implement here
@@ -59,7 +69,7 @@ public class UnternehmenMapper {
 
     /**
      * @param u 
-     * @return Übergebenes Objekt als neue Entität in die Datenbank schreiben.
+     * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
      */
     public Unternehmen insert(Unternehmen u) {
         // TODO implement here

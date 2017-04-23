@@ -5,7 +5,7 @@ import java.util.*;
 import de.hdm.itProjektSS17.shared.bo.*;
 
 /**
- * Mapper für ein Bewerbung-Objekt
+ * Mapper fuer ein Bewerbung-Objekt
  */
 public class BewerbungMapper {
 
@@ -15,7 +15,7 @@ public class BewerbungMapper {
     private static BewerbungMapper bewerbungMapper = null;
 
     /**
-     * Geschützter Konstruktor
+     * Geschuetzter Konstruktor
      */
     protected BewerbungMapper() {
         // TODO implement here
@@ -33,7 +33,7 @@ public class BewerbungMapper {
 
     /**
      * @param id 
-     * @return Liefert eine Bewerbung entsprechend der übergebenen id zurück
+     * @return Liefert eine Bewerbung entsprechend der uebergebenen id zurueck
      */
     public Bewerbung findById(int id) {
         // TODO implement here
@@ -42,16 +42,16 @@ public class BewerbungMapper {
     
     /**
      * @param b 
-     * @return Liefert eine Bewerbung entsprechend des übergebenen Objekts zurück
+     * @return Liefert eine Bewerbung entsprechend des uebergebenen Objekts zurueck
      */
-    public Bewerbung findById(Bewerbung b) {
+    public Bewerbung findByObject(Bewerbung b) {
         // TODO implement here
         return null;
     }
 
     /**
      * @param b 
-     * @return Zielentität aus der Datenbank gemäß des übergebenen Objekts löschen.
+     * @return Zielentitaet aus der Datenbank gemaess des uebergebenen Objekts loeschen.
      */
     public void delete(Bewerbung b) {
         // TODO implement here
@@ -59,7 +59,7 @@ public class BewerbungMapper {
 
     /**
      * @param b 
-     * @return Zielentität aus der Datenbank gemäß den Informationen des übergebenen Objekts aktualisieren.
+     * @return Zielentitaet aus der Datenbank gemaess den Informationen des uebergebenen Objekts aktualisieren.
      */
     public Bewerbung update(Bewerbung b) {
         // TODO implement here
@@ -68,7 +68,7 @@ public class BewerbungMapper {
 
     /**
      * @param b
-     * @return Übergebenes Objekt als neue Entität in die Datenbank schreiben.
+     * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
      */
     public Bewerbung insert(Bewerbung b) {
         // TODO implement here
@@ -76,18 +76,18 @@ public class BewerbungMapper {
     }
     
     /**
-     * @param a
-     * @return Liefert ein Bewerbung-Objekt anhand des übergebenen Beziehungs-Objektes aus der Datenbank zurück.
+     * @param ausschreibungId
+     * @return Liefert alle Bewerbung-Objekte anhand des uebergebenen Beziehungs-Objektes aus der Datenbank zurueck.
      */
-    public Bewerbung findByForeignAusschreibung(Ausschreibung a){
+    public Vector<Bewerbung> findByForeignAusschreibungId(int ausschreibungId){
 		return null;
     }
     
     /**
-     * @param o
-     * @return Liefert ein Bewerbung-Objekt anhand des übergebenen Beziehungs-Objektes aus der Datenbank zurück.
+     * @param organisationseinheitId
+     * @return Liefert alle Bewerbung-Objekte anhand des uebergebenen Beziehungs-Objektes aus der Datenbank zurueck.
      */
-    public Bewerbung findByForeignOrganisationseinheit(Organisationseinheit o){
+    public Vector<Bewerbung> findByForeignOrganisationseinheitId(int organisationseinheitId){
 		return null;
     }
 }
