@@ -15,6 +15,8 @@ public interface ReportGenerator extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
 	
+	public void setPerson() throws IllegalArgumentException;
+	
 	public abstract AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Partnerprofil p) throws IllegalArgumentException;
 	
 	public abstract AlleAusschreibungenReport createAlleAusschreibungenReport() throws IllegalArgumentException;
