@@ -1,7 +1,14 @@
 package de.hdm.itProjektSS17.server.db;
 
-import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
+import java.util.Vector;
 
+import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
+import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
+import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
+
+/**
+ * Mapper für Organisationseinheit- Objekte
+ */
 public class OrganisationseinheitMapper {
 	
 	/*Die Klasse OrganisationseinheitMapper soll durch einen sogenannten Singlelton
@@ -9,7 +16,7 @@ public class OrganisationseinheitMapper {
 	 *Durch static ist die Variable nur einmal für alle möglichen Instanzen der Klasse vorhanden
 	 *und speichert die einzige Instanz der Klasse.
 	 */
-	private static OrganisationseinheitMapper OrganisationseinheitMapper = null;
+	private static OrganisationseinheitMapper organisationseinheitMapper = null;
 	
 	
 	/*Konstruktor der Klasse Organisationseinheit. Durch protected wird verhindert,
@@ -24,11 +31,11 @@ public class OrganisationseinheitMapper {
 	 *Organisationseinheit existiert.
 	 *Returnt wird das OrganisationseinheitMapper-Objekt.
 	 */
-	public static OrganisationseinheitMapper OrganisationseinheitMapper(){
-		if(OrganisationseinheitMapper == null){
-			OrganisationseinheitMapper = new OrganisationseinheitMapper();
+	public static OrganisationseinheitMapper organisationseinheitMapper(){
+		if(organisationseinheitMapper == null){
+			organisationseinheitMapper = new OrganisationseinheitMapper();
 		}
-		return OrganisationseinheitMapper;
+		return organisationseinheitMapper;
 	}
 	
 	
@@ -36,20 +43,32 @@ public class OrganisationseinheitMapper {
 	 *Die Organisationseinheit mit der übergebenen ID wird zurückgegeben.
 	 */
 	public Organisationseinheit findById(int id){
+		return null;
 	}
 	
+	/**
+	 * 
+	 * @param o
+	 * @return Liefert eine Organisationseinheit entsprechend des uebergebenen Objekts zurueck
+	 */
+	public Organisationseinheit findByObject(Organisationseinheit o){
+		return o;
+		
+	}
 	
 	/*Suche von Organisationseinheit-Objekten auf einem bestimmten Projektmarktplatz.
-	 *Hierzu wird ein Projektmarktplatz-Objekt übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
+	 *Hierzu wird ein Projektmarktplatz übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
 	 */
-	public Organisationseinheit findByForeignProjektmarktplatz(Projektmarktplatz p){
+	public Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
+		return null;
 	}
 	
 	
-	/*Such von einer Organisationseinheit durch ein übergebendes Partnerprofil- Objekt.
-	 *Ein Organisationseinheit-Objekt wird returnt.
+	/*Suceh von einer Organisationseinheit durch ein übergebendes Partnerprofil.
+	 *Ein Organisationseinheit-Objekt wird zurueckgegeben.
 	 */
-	public Organisationseinheit findByForeignPartnerprofil(Partnerprofil p){
+	public Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
+		return null;
 		
 	}
 	
@@ -58,6 +77,7 @@ public class OrganisationseinheitMapper {
 	 *Die id des Projekts wird überprüft und im Verlauf der Methode ggf. angepasst.
 	 */
 	public Organisationseinheit insert(Organisationseinheit o){
+		return o;
 	}
 	
 	
@@ -67,12 +87,14 @@ public class OrganisationseinheitMapper {
 	 * 
 	 */
 	public Organisationseinheit update(Organisationseinheit o){
+		return o;
 	}
 	
 	
 	/*Durch die delete- Methode kann ein Organisationseinheit Objekt in der Datenbank gelöscht werden.
 	 *Gelöscht wird das übergebene Objekt.
 	 */
-	public Organisationseinheit delete(Organisationseinheit o){
+	public void delete(Organisationseinheit o){
 		
 	}
+}
