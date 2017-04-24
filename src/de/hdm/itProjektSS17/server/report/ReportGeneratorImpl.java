@@ -91,6 +91,13 @@ implements ReportGenerator{
 		return null;
 	}
 
+
+	@Override
+	public void setPerson() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

@@ -172,4 +172,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void saveUnternehmen(Unternehmen u, AsyncCallback<Unternehmen> callback);
 
+	void getPerson(AsyncCallback<Person> callback);
+
+	void setPerson(Person p, AsyncCallback<Void> callback);
+
 }

@@ -30,4 +30,6 @@ public interface ReportGeneratorAsync {
 
 	void createProjektverflechtungenReport(Organisationseinheit o, AsyncCallback<ProjektverflechtungenReport> callback);
 
+	void setPerson(AsyncCallback<Void> callback);
+
 }

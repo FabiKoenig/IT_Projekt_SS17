@@ -1,5 +1,9 @@
 package de.hdm.itProjektSS17.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
@@ -45,7 +49,9 @@ public class OrganisationseinheitMapper {
 	public Organisationseinheit findById(int id){
 		return null;
 	}
-	
+		
+		
+
 	/**
 	 * 
 	 * @param o
