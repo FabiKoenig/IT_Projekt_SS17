@@ -8,8 +8,7 @@ import java.util.Vector;
 
 
 
-import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
-import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.*;
 
 /**
  * Mapper für Person- Objekte
@@ -63,12 +62,15 @@ public class PersonMapper {
 				p.setNachname(rs.getString("Nachname"));
 				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 				p.setTeamId(rs.getInt("Team_Id"));
-				p.setStraße(rs.getString("Strasse"));
-				p.setHausnummer(rs.getString("Hausnummer"));
-				p.setOrt(rs.getString("Ort"));
-				p.setPlz(rs.getInt("PLZ"));
-				p.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
-				p.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
+
+				
+				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
+				p.setStraße(ptemp.getStraße());
+				p.setHausnummer(ptemp.getHausnummer());
+				p.setOrt(ptemp.getOrt());
+				p.setPlz(ptemp.getPlz());
+				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
+				p.setPartnerprofilId(ptemp.getPartnerprofilId());
 				
 				
 				
@@ -99,6 +101,46 @@ public class PersonMapper {
 	 * @return Liefert alle Personen des uebergebenen Teams zurueck.
 	 */
 	public Vector<Person> findByForeignTeamId(int teamId){
+		
+//		Connection con = DBConnection.connection();
+//		
+//		try{
+//			Statement stmt = con.createStatement();
+//			ResultSet rs = stmt.executeQuery("SELECT * "
+//					+ " FROM person " + "WHERE Team_Id=" + 
+//			teamId + "ORDER BY Nachname");
+//			
+//			
+//			if(rs.next()){
+//				Person p = new Person();
+//				p.setId(rs.getInt("Person_Id"));
+//				p.setAnrede(rs.getString("Anrede"));
+//				p.setVorname(rs.getString("Vorname"));
+//				p.setNachname(rs.getString("Nachname"));
+//				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+//				p.setTeamId(rs.getInt("Team_Id"));
+//
+//				
+//				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findByObject();
+//				p.setStraße(ptemp.getStraße());
+//				p.setHausnummer(ptemp.getHausnummer());
+//				p.setOrt(ptemp.getOrt());
+//				p.setPlz(ptemp.getPlz());
+//				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
+//				p.setPartnerprofilId(ptemp.getPartnerprofilId());
+//				
+//				
+//				
+//				return p;
+//				} 
+//			}   
+//		catch (SQLException e) {
+//		e.printStackTrace();
+//		return null;
+//		}
+		
+		
+		
 		return null;
 		
 	}
@@ -137,6 +179,8 @@ public class PersonMapper {
 	  public Person update(Person p){
 		  
 		    Connection con = DBConnection.connection();
+		    
+		    OrganisationseinheitMapper.organisationseinheitMapper().update(p);
 
 		    try {
 		      Statement stmt = con.createStatement();
@@ -150,10 +194,8 @@ public class PersonMapper {
 		      e.printStackTrace();
 		    }
 
-		    // Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
+		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurück
 		    return p;
-		
-		  
 	  }
 	  
 	  /**
