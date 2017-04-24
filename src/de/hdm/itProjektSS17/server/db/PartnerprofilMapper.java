@@ -61,8 +61,8 @@ public class PartnerprofilMapper {
 		      if (rs.next()) {
 		        // Ergebnis-Tupel in Objekt umwandeln
 		        Partnerprofil p = new Partnerprofil();
-		        p.setId(rs.getInt("id"));
-		        p.setErstellungsdatum(rs.getDate("Stellungnahme"));
+		        p.setId(rs.getInt("Partnerprofil_Id"));
+		        p.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
 		        p.setAenderungdatum(rs.getDate("Aenderungsdate"));
 		        return p;
 		      }
@@ -98,7 +98,7 @@ public class PartnerprofilMapper {
 			  // Leeres SQL-Statement (JDBC) anlegen
 		      Statement stmt = con.createStatement();
 		      //Statement ausfüllen und als Update an die Datenbank schicken.
-		      stmt.executeUpdate("DELETE FROM Partnerprofil " + "WHERE id=" + p.getId());
+		      stmt.executeUpdate("DELETE FROM Partnerprofil " + "WHERE Partnerprofil_Id=" + p.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -120,7 +120,7 @@ public class PartnerprofilMapper {
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE partnerprofil " + "SET Erstellungsdatum=\""
 		          + p.getErstellungsdatum() + "\", " + "Aenderungsdatum=\"" + p.getAenderungdatum() + "Bewerbung_Id=\"" + "\" "
-		          + "WHERE id=" + p.getId());
+		          + "WHERE Partnerprofil_Id=" + p.getId());
 
 		    }
 		    catch (SQLException e) {
@@ -147,7 +147,7 @@ public class PartnerprofilMapper {
 		       * Zunächst schauen wir nach, welches der momentan höchste
 		       * Primärschlüsselwert ist.
 		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Partnerprofil_Id) AS maxid "
 		          + "FROM partnerprofil ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein

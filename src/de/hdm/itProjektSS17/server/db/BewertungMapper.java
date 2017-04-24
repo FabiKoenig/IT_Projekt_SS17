@@ -58,7 +58,7 @@ public class BewertungMapper {
 		      if (rs.next()) {
 		        // Ergebnis-Tupel in Objekt umwandeln
 		        Bewertung b = new Bewertung();
-		        b.setId(rs.getInt("id"));
+		        b.setId(rs.getInt("Bewertung_Id"));
 		        b.setStellungsnahme(rs.getString("Stellungnahme"));
 		        b.setWert(rs.getDouble("Wert"));
 		        b.setBewerbungId(rs.getInt("Bewerbung_Id"));
@@ -107,7 +107,7 @@ public class BewertungMapper {
 		      if (rs.next()) {
 		        // Ergebnis-Tupel in Objekt umwandeln
 		        Bewertung b = new Bewertung();
-		        b.setId(rs.getInt("id"));
+		        b.setId(rs.getInt("Bewertung_Id"));
 		        b.setStellungsnahme(rs.getString("Stellungnahme"));
 		        b.setWert(rs.getDouble("Wert"));
 		        b.setBewerbungId(rs.getInt("Bewerbung_Id"));
@@ -135,7 +135,7 @@ public class BewertungMapper {
 			  // Leeres SQL-Statement (JDBC) anlegen
 		      Statement stmt = con.createStatement();
 		      //Statement ausfüllen und als Update an die Datenbank schicken.
-		      stmt.executeUpdate("DELETE FROM bewertung " + "WHERE id=" + b.getId());
+		      stmt.executeUpdate("DELETE FROM bewertung " + "WHERE Bewertung_Id=" + b.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -159,7 +159,7 @@ public class BewertungMapper {
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE bewertung " + "SET Stellungnahme=\""
 		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "Bewerbung_Id=\"" + b.getWert()+ "\" "
-		          + "WHERE id=" + b.getId());
+		          + "WHERE Bewertung_Id=" + b.getId());
 
 		    }
 		    catch (SQLException e) {
@@ -186,7 +186,7 @@ public class BewertungMapper {
 		       * Zunächst schauen wir nach, welches der momentan höchste
 		       * Primärschlüsselwert ist.
 		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Bewertung_Id) AS maxid "
 		          + "FROM bewertung ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
