@@ -102,47 +102,44 @@ public class PersonMapper {
 	 */
 	public Vector<Person> findByForeignTeamId(int teamId){
 		
-//		Connection con = DBConnection.connection();
-//		
-//		try{
-//			Statement stmt = con.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT * "
-//					+ " FROM person " + "WHERE Team_Id=" + 
-//			teamId + "ORDER BY Nachname");
-//			
-//			
-//			if(rs.next()){
-//				Person p = new Person();
-//				p.setId(rs.getInt("Person_Id"));
-//				p.setAnrede(rs.getString("Anrede"));
-//				p.setVorname(rs.getString("Vorname"));
-//				p.setNachname(rs.getString("Nachname"));
-//				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
-//				p.setTeamId(rs.getInt("Team_Id"));
-//
-//				
-//				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findByObject();
-//				p.setStraße(ptemp.getStraße());
-//				p.setHausnummer(ptemp.getHausnummer());
-//				p.setOrt(ptemp.getOrt());
-//				p.setPlz(ptemp.getPlz());
-//				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
-//				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-//				
-//				
-//				
-//				return p;
-//				} 
-//			}   
-//		catch (SQLException e) {
-//		e.printStackTrace();
-//		return null;
-//		}
+		Connection con = DBConnection.connection();
 		
+		// Vektor, in dem die Personen nach einem bestimmten Team gespeichert werden
+		Vector<Person> result = new Vector<Person>();
 		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ " FROM person " + "WHERE Team_Id=" + 
+			teamId + "ORDER BY Nachname");
+			
+			
+			while (rs.next()){
+				Person p = new Person();
+				p.setId(rs.getInt("Person_Id"));
+				p.setAnrede(rs.getString("Anrede"));
+				p.setVorname(rs.getString("Vorname"));
+				p.setNachname(rs.getString("Nachname"));
+				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+				p.setTeamId(rs.getInt("Team_Id"));
+
+				
+				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(teamId);
+				p.setStraße(ptemp.getStraße());
+				p.setHausnummer(ptemp.getHausnummer());
+				p.setOrt(ptemp.getOrt());
+				p.setPlz(ptemp.getPlz());
+				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
+				p.setPartnerprofilId(ptemp.getPartnerprofilId());
+				
+				result.add(p);
+				} 
+			}   
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
 		
-		return null;
-		
+		return result;
 	}
 	/**
 	 * 
@@ -199,7 +196,7 @@ public class PersonMapper {
 	  }
 	  
 	  /**
-	   * 
+	   *  TODO
 	   * @param p
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
