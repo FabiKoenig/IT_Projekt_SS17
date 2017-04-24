@@ -593,4 +593,16 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
+	@Override
+	public void setPerson(Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Person getPerson() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
