@@ -147,24 +147,23 @@ public class PartnerprofilMapper {
 		       * Zunächst schauen wir nach, welches der momentan höchste
 		       * Primärschlüsselwert ist.
 		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(Partnerprofil_Id) AS maxid "
-		          + "FROM partnerprofil ");
+		      //ResultSet rs = stmt.executeQuery("SELECT MAX(Partnerprofil_Id) AS maxid "
+		      //    + "FROM partnerprofil ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-		      if (rs.next()) {
+		      //if (rs.next()) {
 		        /*
 		         * b erhält den bisher maximalen, nun um 1 inkrementierten
 		         * Primärschlüssel.
 		         */
-		        p.setId(rs.getInt("maxid") + 1);
+		        //p.setId(rs.getInt("maxid") + 1);
 		        
 		        //Leeres SQL-Statement für die Insert- Ausführung anlegen.
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO partnerprofil (Partnerprofil_Id, Erstellungsdatum, Aenderungsdatum) "
-		            + "VALUES (" + p.getId() + ",'" + p.getErstellungsdatum() + "','" + p.getAenderungdatum() + "')");
-		      }
+		        stmt.executeUpdate("INSERT INTO partnerprofil (Erstellungsdatum, Aenderungsdatum) VALUES ('"+p.getErstellungsdatum() + "','" + p.getAenderungdatum() + "')");
+		      //}
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();

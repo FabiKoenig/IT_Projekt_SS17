@@ -7,7 +7,7 @@ public class Ausschreibung extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
 
-	private String bezeichung = "";
+	private String bezeichnung = "";
 	
 	private Date bewerbungsfrist = null;
 	
@@ -37,12 +37,12 @@ public class Ausschreibung extends BusinessObject{
 		return ausschreibungstext;
 	}
 
-	public String getBezeichung() {
-		return bezeichung;
+	public String getBezeichnung() {
+		return bezeichnung;
 	}
 
-	public void setBezeichung(String bezeichung) {
-		this.bezeichung = bezeichung;
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
 	}
 
 	public Date getBewerbungsfrist() {
