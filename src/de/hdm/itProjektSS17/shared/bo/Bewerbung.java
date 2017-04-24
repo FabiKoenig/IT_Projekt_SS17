@@ -24,6 +24,11 @@ public class Bewerbung extends BusinessObject{
 	 * Realisierung der Beziehung zu einer Ausschreibung durch einen Fremdschlüssel
 	 */
 	private int ausschreibungId = 0;
+	
+	/**
+	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschlüssel
+	 */
+	private int organisationseinheitId = 0;
 
 	
 	/**
@@ -66,6 +71,20 @@ public class Bewerbung extends BusinessObject{
 	 */
 	public void setAusschreibungId(int ausschreibungId) {
 		this.ausschreibungId = ausschreibungId;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlüssel organisationseinheitId zurück.
+	 */
+	public int getOrganisationseinheitId() {
+		return organisationseinheitId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlüssel organisationseinheitId.
+	 */
+	public void setOrganisationseinheitId(int organisationseinheitId) {
+		this.organisationseinheitId = organisationseinheitId;
 	}
 
 	
