@@ -49,7 +49,7 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE id=" + id);
+              + "WHERE Bewerbung_Id=" + id);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
