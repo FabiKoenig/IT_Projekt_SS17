@@ -54,12 +54,13 @@ public class OrganisationseinheitMapper {
 			
 			if(rs.next()){
 				Organisationseinheit a = new Organisationseinheit();
-				a.setId(rs.getInt("id"));
+				a.setId(rs.getInt("Organisationseinheit_Id"));
 				a.setStraße(rs.getString("Strasse"));
 				a.setHausnummer(rs.getString("Hausnummer"));
 				a.setPlz(rs.getInt("PLZ"));
-				a.setOrt(rs.getString("PLZ"));
-				
+				a.setOrt(rs.getString("Ort"));
+				a.setPartnerprofilId(rs.getInt("Partnerporfild_Id"));
+				a.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
 				return a;
 			}
 			
@@ -82,7 +83,7 @@ public class OrganisationseinheitMapper {
 	 */
 	public Organisationseinheit findByObject(Organisationseinheit o){
 		
-		return o;
+		return this.findById(o.getId());
 		
 	}
 	
@@ -90,6 +91,20 @@ public class OrganisationseinheitMapper {
 	 *Hierzu wird ein Projektmarktplatz übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
 	 */
 	public Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
+		//DB-Verbindung wird geholt
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("SELECT * FROM Organisationseinheit"+"Where Projektmarktplatz_Id="
+			+projektmarktplatzId);
+			
+		}catch(SQLException e){
+			
+			
+		}
 		return null;
 	}
 	
@@ -147,7 +162,22 @@ public class OrganisationseinheitMapper {
 	 * 
 	 */
 	public Organisationseinheit update(Organisationseinheit o){
-		return o;
+		 Connection con = DBConnection.connection();
+		 
+		 try{
+			 Statement stmt = con.createStatement();
+			 stmt.executeUpdate("UPDATE Organisationseinheit SET Strasse="+o.getStraße()+"PLZ="
+					 +o.getPlz()+
+					 "Ort="+o.getOrt()
+					 +"Partnerprofil_Id="+o.getPartnerprofilId()
+					 +"Projektmarktplatz_Id="+o.getProjektmarktplatzId());
+			 
+			 
+		 }catch(SQLException e){
+			 
+			 e.printStackTrace();
+		 }
+		 return o;
 	}
 	
 	
@@ -155,6 +185,17 @@ public class OrganisationseinheitMapper {
 	 *Gelöscht wird das übergebene Objekt.
 	 */
 	public void delete(Organisationseinheit o){
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM Organisationseinheit"+"Where Organisationseinheit_Id="+o.getId());
+			
+			
+		}catch(SQLException e){
+			
+			e.printStackTrace();
+		}
 		
 	}
 }
