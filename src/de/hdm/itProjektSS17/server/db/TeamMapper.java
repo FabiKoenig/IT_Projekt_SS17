@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.server.db;
 
 import java.util.Vector;
+import java.sql.*;
 
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
@@ -38,6 +39,23 @@ public class TeamMapper {
 	   * @return Liefert ein Team entsprechend der übergebenen id zurueck.
 	   */
 	  public Team findById(int id){
+		  Connection con = DBConnection.connection();
+		  
+		  try{
+			  Statement stmt = con.createStatement();
+			  
+			  ResultSet rs = stmt.executeQuery("Select ");
+			  
+			  while(rs.next()){
+				  Team a = new Team();
+			  }
+			  
+		  }catch(SQLException e){
+			  e.printStackTrace();
+			  
+			  
+		  }
+		  
 		return null;
 		  
 	  }
