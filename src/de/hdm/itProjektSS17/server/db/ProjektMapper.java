@@ -79,8 +79,8 @@ public class ProjektMapper {
 	   * @return Liefert ein Projekt entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Projekt findByObject(Projekt p){
-		return p;
-		  
+		this.findById(p.getId());
+		  return p;		  
 	  }
 	  
 	  /**
