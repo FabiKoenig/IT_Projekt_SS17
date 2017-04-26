@@ -13,7 +13,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 /**
  * Mapper fuer ein Unternehmen-Objekt
  */
-public class UnternehmenMapper {
+public class UnternehmenMapper extends OrganisationseinheitMapper{
 
     /**
      * Speicherung der einzigen Instanz dieser Mapperklasse.
