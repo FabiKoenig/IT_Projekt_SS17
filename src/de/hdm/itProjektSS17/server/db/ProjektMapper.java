@@ -6,13 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.security.auth.login.AccountException;
 
-import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 /**
- * Mapper für Projekt- Objekte
+ * Mapper für Projekt-Objekte
  */
 public class ProjektMapper {
 
@@ -22,7 +20,7 @@ public class ProjektMapper {
 	private static ProjektMapper projektMapper = null;
 	
 	/**
-	 * Geschuetzter Konstruktor
+	 * Geschützter Konstruktor
 	 */
 	protected ProjektMapper(){
 	}
@@ -41,7 +39,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param id
-	   * @return Liefert ein Projekt entsprechend der übergebenen id zurueck.
+	   * @return Liefert ein Projekt entsprechend der übergebenen id zurück.
 	   */
 	  public Projekt findById(int id){
 
@@ -69,7 +67,6 @@ public class ProjektMapper {
 			}
 			  
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return null;
 		}
@@ -79,7 +76,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Liefert ein Projekt entsprechend des übergebenen Objekts zurueck.
+	   * @return Liefert ein Projekt entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Projekt findByObject(Projekt p){
 		return p;
@@ -89,7 +86,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param projektmarktplatzId
-	   * @return Alle Projekte auf dem uebergebenen Projektmarktplatz werden zurueckgegeben.
+	   * @return Alle Projekte auf dem übergebenen Projektmarktplatz werden zurückgegeben.
 	   */
 	  public Vector<Projekt> findByForeignProjektmarktplatzId(int projektmarktplatzId){
 		
@@ -115,7 +112,6 @@ public class ProjektMapper {
 				result.add(p);
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		  
@@ -125,7 +121,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param projektleiterId
-	   * @return Liefert alle Projekt des uebergebenen Projektleiters zurueck.
+	   * @return Liefert alle Projekt des übergebenen Projektleiters zurück.
 	   */
 	  public Vector<Projekt> findByForeignProjektleiterId(int projektleiterId){
 		
@@ -151,7 +147,6 @@ public class ProjektMapper {
 				result.add(p);
 			}
 		  }	catch (SQLException e) {
-			// TODO: handle exception
 			  e.printStackTrace();
 		}
 		  return result;
@@ -160,7 +155,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Zielentitaet aus der Datenbank, gemaess den Informationen des uebergebenen Objekts, loeschen.
+	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, löschen.
 	   */
 	  public void delete(Projekt p){
 		  
@@ -170,9 +165,8 @@ public class ProjektMapper {
 			
 			  Statement stmt = con.createStatement();
 			  
-			  stmt.executeUpdate("DELETE FROM projekt WHERE projekt_Id=" + p.getId());
+			  stmt.executeUpdate("DELETE FROM projekt WHERE Projekt_Id=" + p.getId());
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	  }
@@ -180,7 +174,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Zielentiaet aus der Datenbank, gemaess den Informationen des uebergebenen Obejtks, aktualisieren.
+	   * @return Zielentiät aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
 	   */
 	  public Projekt update(Projekt p){
 		
@@ -196,7 +190,6 @@ public class ProjektMapper {
 					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId());
 			  
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
@@ -207,7 +200,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
+	   * @return Übergebenes Objekt als neue Entität in die Datenbank schreiben.
 	   */
 	  public Projekt insert(Projekt p){
 		
@@ -216,7 +209,7 @@ public class ProjektMapper {
 		  try {
 			  
 			  Statement stmt = con.createStatement();			  
-			  ResultSet rs = stmt.executeQuery("SELECT MAX(projekt_Id) AS maxid FROM projekt");
+			  ResultSet rs = stmt.executeQuery("SELECT MAX(Projekt_Id) AS maxid FROM projekt");
 			  
 			  if (rs.next()) {
 				
@@ -225,12 +218,11 @@ public class ProjektMapper {
 				  stmt.executeUpdate("INSERT INTO projekt (Startdatum, Enddatum, Name, Beschreibung, "
 				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getStartdatum() + ", "
 				  		+ p.getEnddatum() + ", " + p.getName() + ", " + p.getBeschreibung() + ", " + 
-				  		p.getProjektleiterId() + ", " + p.getProjektmarktplatzId());
+				  		p.getProjektleiterId() + ", " + p.getProjektmarktplatzId() + ")");
 			}
 			  
 			
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		  
