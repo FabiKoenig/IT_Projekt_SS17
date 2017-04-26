@@ -88,7 +88,9 @@ public class BeteiligungMapper {
 	   * @return Liefert eine Beteiligung entsprechend des uebergebenen Objekts zurueck.
 	   */
 	  public Beteiligung findByObject(Beteiligung b){
-		return b;
+		  
+			this.findById(b.getId());
+			return b;
 	  }
 	  
 	  /**
@@ -275,39 +277,40 @@ public class BeteiligungMapper {
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
 	  public Beteiligung insert(Beteiligung b){
-//		  
-//		    Connection con = DBConnection.connection();
-//
-//		    try {
-//		      Statement stmt = con.createStatement();
-//
-//		      /*
-//		       * Zunächst schauen wir nach, welches der momentan höchste
-//		       * Primärschlüsselwert ist.
-//		       */
-//		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-//		          + "FROM beteiligung ");
-//
-//		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-//		      if (rs.next()) {
-//		        /*
-//		         * c erhält den bisher maximalen, nun um 1 inkrementierten
-//		         * Primärschlüssel.
-//		         */
-//		        b.setId(rs.getInt("maxid") + 1);
-//
-//		        stmt = con.createStatement();
-//
-//		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-//		        stmt.executeUpdate("INSERT INTO beteiligung (id, firstName, lastName) "
-//		            + "VALUES (" + c.getId() + ",'" + c.getFirstName() + "','"
-//		            + c.getLastName() + "')");
-//		      }
-//		    }
-//		    catch (SQLException e) {
-//		      e.printStackTrace();
-//		    }
-//
+		  
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      Statement stmt = con.createStatement();
+
+		      /*
+		       * Zunächst schauen wir nach, welches der momentan höchste
+		       * Primärschlüsselwert ist.
+		       */
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Beteiligung_Id) AS maxid "
+		          + "FROM beteiligung ");
+
+		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		      if (rs.next()) {
+		        /*
+		         * c erhält den bisher maximalen, nun um 1 inkrementierten
+		         * Primärschlüssel.
+		         */
+		        b.setId(rs.getInt("maxid") + 1);
+
+		        stmt = con.createStatement();
+
+		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, Startdatum, Enddatum, Bewertung_Id, Beteiligter_Id"
+		        		+ "Projekt_Id) "
+		            + "VALUES (" + b.getId() + ",'" + b.getUmfang() + "','" + b.getStartDatum() + "','" +b.getEndDatum() + "','"
+		            + b.getBewertungId() + "','" + b.getBeteiligterId() + "','" + b.getProjektId()+ "')");
+		      }
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
 		    return b;
 		  
 	  }
