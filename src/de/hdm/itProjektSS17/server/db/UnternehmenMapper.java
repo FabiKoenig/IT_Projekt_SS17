@@ -56,20 +56,13 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 				Unternehmen u = new Unternehmen();
 				u.setId(rs.getInt("Unternehmen_Id"));
 				u.setName(rs.getString("Name"));
-				
-
-				
-			/*	Organisationseinheit utemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
-				
-				u.setStrasse(utemp.getStrasse());
-				u.setHausnummer(utemp.getHausnummer());
-				u.setOrt(utemp.getOrt());
-				u.setPlz(utemp.getPlz());
-				u.setProjektmarktplatzId(utemp.getProjektmarktplatzId());
-				u.setPartnerprofilId(utemp.getPartnerprofilId());
-				
-				*/
-				
+				u.setStrasse(super.findById(id).getStrasse());
+				u.setHausnummer(super.findById(id).getHausnummer());
+				u.setOrt(super.findById(id).getOrt());
+				u.setPlz(super.findById(id).getPlz());
+				u.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
+				u.setPartnerprofilId(super.findById(id).getPartnerprofilId());
+						
 				return u;
 				} 
 			}   
@@ -88,7 +81,8 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
      * @return Liefert ein Unternehmen entsprechend des Ã¼bergebenen Objekts zurueck.
      */
     public Unternehmen findByObject(Unternehmen u){
-		return u;
+		this.findById(u.getId());
+    	return u;
     	
     }
 
@@ -104,6 +98,7 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("DELETE FROM unternehmen " + "WHERE Unternehmen_Id=" + u.getId());
+		      super.delete(u);
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -127,7 +122,7 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 
 		      stmt.executeUpdate("UPDATE unternehmen " + "\", " + "Name=\"" + u.getName() + "\" "
 		          + "WHERE Unternehmen_Id=" + u.getId());
-
+		      super.delete(u);
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -165,19 +160,14 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 			         * PrimÃ¤rschlÃ¼ssel.
 			         */
 			        u.setId(rs.getInt("maxid") + 1);
-			        
-		      
-			     //   OrganisationseinheitMapper.organisationseinheitMapper().insert(u);
-			       
-
-		      
-		        
+			        	        
 		        //Leeres SQL-Statement fÃ¼r die Insert- AusfÃ¼hrung anlegen.
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
 		        stmt.executeUpdate("INSERT INTO unternehmen (Unternehmen_Id, Name) "
 		            + "VALUES (" + u.getId() + ",'" + u.getName() + "')");
+		        super.insert(u);
 		      }
 		    }
 		    catch (SQLException e) {
