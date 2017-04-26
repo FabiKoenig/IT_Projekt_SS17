@@ -89,8 +89,7 @@ public class BeteiligungMapper {
 	   */
 	  public Beteiligung findByObject(Beteiligung b){
 		  
-			this.findById(b.getId());
-			return b;
+			return this.findById(b.getId());
 	  }
 	  
 	  /**
@@ -304,17 +303,17 @@ public class BeteiligungMapper {
 		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, Startdatum, Enddatum, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
 		            + "VALUES ("
 		        	+ b.getId() 
-		        	+ ",'" 
+		        	+ "," 
 		        	+ b.getUmfang() 
-		        	+ "','" 
+		        	+ "," 
 		        	+ b.getStartDatum() 
-		        	+ "','" 
+		        	+ "," 
 		        	+ b.getEndDatum() 
-		        	+ "','"
+		        	+ ","
 		            + b.getBewertungId() 
-		            + "','" 
+		            + "," 
 		            + b.getBeteiligterId() 
-		            + "','" 
+		            + "," 
 		            + b.getProjektId()
 		            + ")");
 		      }

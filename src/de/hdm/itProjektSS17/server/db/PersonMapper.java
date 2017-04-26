@@ -87,8 +87,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 	 */
 	public Person findByObject(Person p){
 		
-		this.findById(p.getId());
-		return p;	
+		return this.findById(p.getId());	
 	}
 	
 	/**
