@@ -13,7 +13,7 @@ import de.hdm.itProjektSS17.shared.bo.*;
 /**
  * Mapper für Person- Objekte
  */
-public class PersonMapper {
+public class PersonMapper extends OrganisationseinheitMapper{
 
 	
 	/**
@@ -91,8 +91,9 @@ public class PersonMapper {
 	 * @return Liefert eine Person entsprechend des übergebenen Objekts zurueck.
 	 */
 	public Person findByObject(Person p){
-		return p;
 		
+		this.findById(p.getId());
+		return p;	
 	}
 	
 	/**
