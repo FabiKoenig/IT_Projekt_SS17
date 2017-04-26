@@ -19,7 +19,8 @@ public class BewerbungMapper {
     private static BewerbungMapper bewerbungMapper = null;
 
     /**
-     * Geschuetzter Konstruktor
+	 * Geschuetzter Konstruktor um zu verhindern, dass Objekte dieser Klasse erstellt nicht au�erhalb
+	 * der Vererbungshierarchie dieser Klasse erstellt werden.
      */
     protected BewerbungMapper() {
         // TODO implement here
@@ -49,7 +50,7 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE id=" + id);
+              + "WHERE Bewerbung_Id=" + id);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -138,9 +139,21 @@ public class BewerbungMapper {
            * Zunächst schauen wir nach, welches der momentan höchste
            * Primärschlüsselwert ist.
            */
+          
+          ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+                  + "FROM bewerbung ");
 
-           stmt.executeUpdate("INSERT INTO accounts (Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
-           + "VALUES ('" + b.getBewerbungstext() + "','" + b.getErstellungsdatum() +"','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
+              // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+              if (rs.next()) {
+                /*
+                 * a erhält den bisher maximalen, nun um 1 inkrementierten
+                 * Primärschlüssel.
+                 */
+                b.setId(rs.getInt("maxid") + 1);
+              }
+
+           stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
+           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + b.getErstellungsdatum() +"','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
         }
         catch (SQLException e) {
           e.printStackTrace();
