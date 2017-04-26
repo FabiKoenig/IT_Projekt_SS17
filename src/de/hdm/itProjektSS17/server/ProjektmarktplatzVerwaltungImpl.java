@@ -139,7 +139,7 @@ implements ProjektmarktplatzVerwaltung {
 		this.bewerbungMapper = BewerbungMapper.bewerbungMapper();
 		this.bewertungMapper = BewertungMapper.bewertungMapper();
 		this.eigenschaftMapper = EigenschaftMapper.eigenschaftMapper();
-		this.orgaMapper = OrganisationseinheitMapper.organisationseinheitMapper();
+		//this.orgaMapper = OrganisationseinheitMapper.organisationseinheitMapper();
 		this.partnerprofilMapper = PartnerprofilMapper.partnerprofilMapper();
 		this.personMapper = PersonMapper.personMapper();
 		this.projektMapper = ProjektMapper.projektMapper();

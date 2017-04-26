@@ -64,14 +64,14 @@ public class PersonMapper {
 				p.setTeamId(rs.getInt("Team_Id"));
 
 				
-				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
+				/*Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
 				p.setStrasse(ptemp.getStrasse());
 				p.setHausnummer(ptemp.getHausnummer());
 				p.setOrt(ptemp.getOrt());
 				p.setPlz(ptemp.getPlz());
 				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
 				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				
+				*/
 				
 				
 				return p;
@@ -124,14 +124,14 @@ public class PersonMapper {
 				p.setTeamId(rs.getInt("Team_Id"));
 
 				
-				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(teamId);
+			/*	Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(teamId);
 				p.setStrasse(ptemp.getStrasse());
 				p.setHausnummer(ptemp.getHausnummer());
 				p.setOrt(ptemp.getOrt());
 				p.setPlz(ptemp.getPlz());
 				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
 				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				
+				*/
 				result.add(p);
 				} 
 			}   
@@ -169,18 +169,18 @@ public class PersonMapper {
 				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 				p.setTeamId(rs.getInt("Team_Id"));
 
-				
-				Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(unternehmenId);
+		
+			/*	Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(unternehmenId);
 				p.setStrasse(ptemp.getStrasse());
 				p.setHausnummer(ptemp.getHausnummer());
 				p.setOrt(ptemp.getOrt());
 				p.setPlz(ptemp.getPlz());
 				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
 				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				
+				*/
 				result.add(p);
 				} 
-			}   
+			}  
 		catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -219,7 +219,7 @@ public class PersonMapper {
 
 		    try {
 		    	
-		      OrganisationseinheitMapper.organisationseinheitMapper().update(p);
+		     // OrganisationseinheitMapper.organisationseinheitMapper().update(p);
 		    	
 		      Statement stmt = con.createStatement();
 
@@ -248,7 +248,7 @@ public class PersonMapper {
 
 		    try {
 		    	
-		      OrganisationseinheitMapper.organisationseinheitMapper().insert(p);
+		     // OrganisationseinheitMapper.organisationseinheitMapper().insert(p);
 		    	
 		      Statement stmt = con.createStatement();
 
