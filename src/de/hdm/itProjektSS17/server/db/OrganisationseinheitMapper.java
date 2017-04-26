@@ -8,48 +8,56 @@ import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
+import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
+import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 /**
  * Mapper für Organisationseinheit- Objekte
  */
 public class OrganisationseinheitMapper {
-	
-	/*Die Klasse OrganisationseinheitMapper soll durch einen sogenannten Singlelton
-	 *nur einmal instantiiert werden.
-	 *Durch static ist die Variable nur einmal für alle möglichen Instanzen der Klasse vorhanden
-	 *und speichert die einzige Instanz der Klasse.
-	 */
-	private static OrganisationseinheitMapper organisationseinheitMapper = null;
-	
-	
+		
 	/*Konstruktor der Klasse Organisationseinheit. Durch protected wird verhindert,
 	 *dass durch "new" neue Instanzen der Klasse erzeugt werden können.
 	 */
 	protected OrganisationseinheitMapper(){
 	}
 	
-	/*Durch die static Methode kann durch OrganisationseinheitMapper.OrganisationseinheitMapper() aufgerufen werden.
-	 *(OrganisationseinheitMapper sollte nie über new instantiiert werden, sondern stets über die static Methode!)
-	 *Dank dieser Methode wird die Singletoneigenschaft sicher gestellt, sodass immer nur eine einzige Instanz von 
-	 *Organisationseinheit existiert.
-	 *Returnt wird das OrganisationseinheitMapper-Objekt.
-	 */
-	public static OrganisationseinheitMapper organisationseinheitMapper(){
-		if(organisationseinheitMapper == null){
-			organisationseinheitMapper = new OrganisationseinheitMapper();
-		}
-		return organisationseinheitMapper;
-	}
 	
 	
 	/*Suche einer Organisationseinheit durch eine eindeutige ID(Primärschlüssel).
 	 *Die Organisationseinheit mit der übergebenen ID wird zurückgegeben.
 	 */
 	public Organisationseinheit findById(int id){
+
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id"
+					+ " FROM organisationseinheit " + "WHERE Organisationseinheit_Id=" + id);
+			
+			
+			if(rs.next()){
+				Organisationseinheit o = new Organisationseinheit();
+				o.setId(rs.getInt("Organisationseinheit_Id"));
+				o.setStrasse(rs.getString("Strasse"));
+				o.setHausnummer(rs.getString("Hausnummer"));
+				o.setPlz(rs.getInt("PLZ"));
+				o.setOrt(rs.getString("Ort"));
+				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
+				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
+				
+		return o;
+			
+	}
+	}
+		catch (SQLException e) {
+		e.printStackTrace();
 		return null;
 	}
-		
+		return null;
+	}
 		
 
 	/**
@@ -58,6 +66,7 @@ public class OrganisationseinheitMapper {
 	 * @return Liefert eine Organisationseinheit entsprechend des uebergebenen Objekts zurueck
 	 */
 	public Organisationseinheit findByObject(Organisationseinheit o){
+		this.findById(o.getId());
 		return o;
 		
 	}
@@ -66,7 +75,33 @@ public class OrganisationseinheitMapper {
 	 *Hierzu wird ein Projektmarktplatz übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
 	 */
 	public Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
-		return null;
+		Connection con = DBConnection.connection();
+		
+		// Vektor, in dem die Personen nach einem bestimmten Team gespeichert werden
+		Vector<Organisationseinheit> result = new Vector<Organisationseinheit>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ " FROM organisationseinheit " + "WHERE Projektmarktplatz_Id=" + 
+			projektmarktplatzId);
+			
+			
+			while (rs.next()){
+				Organisationseinheit o = new Organisationseinheit();
+				o.setId(rs.getInt("Organisationseinheit_Id"));
+				o.setStrasse(rs.getString("Strasse"));
+				o.setHausnummer(rs.getString("Hausnummer"));
+				o.setPlz(rs.getInt("PLZ"));
+				o.setProjektmarktplatzId(rs.getInt("Unternehmen_Id"));
+				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
+		result.add(o);
+	}
+	}
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+		return result;
 	}
 	
 	
@@ -74,17 +109,80 @@ public class OrganisationseinheitMapper {
 	 *Ein Organisationseinheit-Objekt wird zurueckgegeben.
 	 */
 	public Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
-		return null;
+	Connection con = DBConnection.connection();
 		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id"
+					+ " FROM organisationseinheit " + "WHERE Partnerprofil_Id=" + partnerprofilId);
+			
+			
+			if(rs.next()){
+				Organisationseinheit o = new Organisationseinheit();
+				o.setId(rs.getInt("Organisationseinheit_Id"));
+				o.setStrasse(rs.getString("Strasse"));
+				o.setHausnummer(rs.getString("Hausnummer"));
+				o.setPlz(rs.getInt("PLZ"));
+				o.setOrt(rs.getString("Ort"));
+				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
+				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
+				
+		return o;
+			
 	}
+	}
+		catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+		return null;
+	}
+		
+	
 	
 	
 	/*Durch die insert-Methode kann eine neue Organisationseinheit in die Datenbank geschrieben werden.
 	 *Die id des Projekts wird überprüft und im Verlauf der Methode ggf. angepasst.
 	 */
 	public Organisationseinheit insert(Organisationseinheit o){
-		return o;
-	}
+		 
+	    Connection con = DBConnection.connection();
+
+	    try {
+	    		
+	      Statement stmt = con.createStatement();
+
+	      /*
+	       * Zunächst schauen wir nach, welches der momentan höchste
+	       * Primärschlüsselwert ist.
+	       */
+	      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+	          + "FROM person ");
+
+	      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+	      if (rs.next()) {
+	        /*
+	         * c erhält den bisher maximalen, nun um 1 inkrementierten
+	         * Primärschlüssel.
+	         */
+	        o.setId(rs.getInt("maxid") + 1);
+
+	        stmt = con.createStatement();
+
+	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+	        stmt.executeUpdate("INSERT INTO person (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id) "
+	            + "VALUES (" + o.getId() + ",'" + o.getStrasse() + "','"
+	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() + "','"+ o.getProjektmarktplatzId() +"')");
+	      }
+	    }
+	    catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+
+	    return o;
+	  
+  }
+
 	
 	
 	/*Durch die update-Methode kann ein Objekt wiederholt in die Datenbank geschrieben und verändert/ angepasst werden.
@@ -93,14 +191,44 @@ public class OrganisationseinheitMapper {
 	 * 
 	 */
 	public Organisationseinheit update(Organisationseinheit o){
-		return o;
-	}
+		
+		Connection con = DBConnection.connection();
+		    
+
+		    try {
+		    	
+		      Statement stmt = con.createStatement();
+
+		      stmt.executeUpdate("UPDATE organisationseinheit " + "SET Strasse=\""
+		          + o.getStrasse() + "\", " + "Hausnummer=\"" + o.getHausnummer() + "\"," + "PLZ=\"" + o.getPlz() + "\","
+		    		  + "Ort=\"" + o.getOrt() + "\"," + "Partnerprofil_Id=\"" + o.getPartnerprofilId() + "\"," + "Projektmarktplatz_Id=\"" + o.getProjektmarktplatzId() + "\","
+		    		  + "WHERE Organisationseinheit_Id=" + o.getId());
+
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
+		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurück
+		    return o;
+	  }
+	
 	
 	
 	/*Durch die delete- Methode kann ein Organisationseinheit Objekt in der Datenbank gelöscht werden.
 	 *Gelöscht wird das übergebene Objekt.
 	 */
 	public void delete(Organisationseinheit o){
-		
+		 Connection con = DBConnection.connection();
+
+		    try {
+		      Statement stmt = con.createStatement();
+
+		      stmt.executeUpdate("DELETE FROM organisationseinheit " + "WHERE Organisationseinheit_Id=" + o.getId());
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+	  }
+	  
 	}
-}

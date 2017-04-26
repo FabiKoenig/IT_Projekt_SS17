@@ -59,7 +59,7 @@ public class UnternehmenMapper {
 				
 
 				
-				Organisationseinheit utemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
+			/*	Organisationseinheit utemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
 				
 				u.setStrasse(utemp.getStrasse());
 				u.setHausnummer(utemp.getHausnummer());
@@ -68,7 +68,7 @@ public class UnternehmenMapper {
 				u.setProjektmarktplatzId(utemp.getProjektmarktplatzId());
 				u.setPartnerprofilId(utemp.getPartnerprofilId());
 				
-				
+				*/
 				
 				return u;
 				} 
@@ -122,7 +122,7 @@ public class UnternehmenMapper {
 
 		    try {
 		    	
-		      OrganisationseinheitMapper.organisationseinheitMapper().update(u);
+		     // OrganisationseinheitMapper.organisationseinheitMapper().update(u);
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("UPDATE unternehmen " + "\", " + "Name=\"" + u.getName() + "\" "
@@ -167,7 +167,7 @@ public class UnternehmenMapper {
 			        u.setId(rs.getInt("maxid") + 1);
 			        
 		      
-			        OrganisationseinheitMapper.organisationseinheitMapper().insert(u);
+			     //   OrganisationseinheitMapper.organisationseinheitMapper().insert(u);
 			       
 
 		      

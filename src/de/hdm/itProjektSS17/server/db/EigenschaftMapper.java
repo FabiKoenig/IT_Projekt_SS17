@@ -77,8 +77,10 @@ public class EigenschaftMapper {
 	     * @param e
 	     * @return Liefert eine Eigenschaft entsprechend des uebergebenen Objekts zurueck.
 	     */
-	    public Bewerbung findByObject(Eigenschaft e) {
-	        return null;
+	    public Eigenschaft findByObject(Eigenschaft e) {
+	      
+	    	this.findById(e.getId());
+	    	return e;
 	    }
 	    
 	    /**
