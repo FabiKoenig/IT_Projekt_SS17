@@ -17,7 +17,8 @@ public class BewertungMapper {
 	private static BewertungMapper bewertungMapper = null;
 	
 	/**
-	 * Geschuetzter Konstruktor
+	 * Geschuetzter Konstruktor. Durch protected wird verhindert,
+	 * dass durch "new" neue Instanzen der Klasse erzeugt werden können.
 	 */
 	protected BewertungMapper(){
 	}
@@ -79,8 +80,12 @@ public class BewertungMapper {
 	   * @return Liefert eine Bewertung entsprechend des uebergebenen Objekts zurueck.
 	   */
 	  public Bewertung findByObject(Bewertung b){
-		return b;
-		  
+		//findById Methode wird aufgerufen
+		  this.findById(b.getId());
+		 /**
+		  * @return b
+		  */
+		  return b;
 	  }
 	  
 	  /**
@@ -158,7 +163,7 @@ public class BewertungMapper {
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE bewertung " + "SET Stellungnahme=\""
-		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "Bewerbung_Id=\"" + b.getWert()+ "\" "
+		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "Bewerbung_Id=\"" + b.getBewerbungId()+ "\" "
 		          + "WHERE Bewertung_Id=" + b.getId());
 
 		    }
