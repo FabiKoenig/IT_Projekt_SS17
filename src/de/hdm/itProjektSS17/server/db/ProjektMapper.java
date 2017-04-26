@@ -56,8 +56,8 @@ public class ProjektMapper {
 				
 				  Projekt p = new Projekt();
 				  p.setId(rs.getInt("Projekt_Id"));
-				  p.setStartdatum(rs.getDate("Startdatum"));
-				  p.setEnddatum(rs.getDate("Enddatum"));
+				  p.setStartdatum(rs.getString("Startdatum"));
+				  p.setEnddatum(rs.getString("Enddatum"));
 				  p.setName(rs.getString("Name"));
 				  p.setBeschreibung(rs.getString("Beschreibung"));
 				  p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -102,8 +102,8 @@ public class ProjektMapper {
 				Projekt p = new Projekt();
 				
 				p.setId(rs.getInt("Projekt_Id"));
-				p.setStartdatum(rs.getDate("Startdatum"));
-				p.setEnddatum(rs.getDate("Enddatum"));
+				p.setStartdatum(rs.getString("Startdatum"));
+				p.setEnddatum(rs.getString("Enddatum"));
 				p.setName(rs.getString("Name"));
 				p.setBeschreibung(rs.getString("Beschreibung"));
 				p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -137,8 +137,8 @@ public class ProjektMapper {
 				Projekt p = new Projekt();
 				
 				p.setId(rs.getInt("Projekt_Id"));
-				p.setStartdatum(rs.getDate("Startdatum"));
-				p.setEnddatum(rs.getDate("Enddatum"));
+				p.setStartdatum(rs.getString("Startdatum"));
+				p.setEnddatum(rs.getString("Enddatum"));
 				p.setName(rs.getString("Name"));
 				p.setBeschreibung(rs.getString("Beschreibung"));
 				p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -184,10 +184,10 @@ public class ProjektMapper {
 			
 			  Statement stmt = con.createStatement();
 			  
-			  stmt.executeUpdate("UPDATE projekt SET Startdatum=" + p.getStartdatum() + ", "
-			  		+ "Enddatum=" + p.getEnddatum() + ", " + "Name=" + p.getName() + ", "
-					+ "Beschreibung=" + p.getBeschreibung() + ", " + "Projektleiter_Id=" + p.getProjektleiterId()
-					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId());
+			  stmt.executeUpdate("UPDATE projekt SET Startdatum='" + p.getStartdatum() + "', "
+			  		+ "Enddatum='" + p.getEnddatum() + "', " + "Name='" + p.getName() + "', "
+					+ "Beschreibung='" + p.getBeschreibung() + "', " + "Projektleiter_Id=" + p.getProjektleiterId()
+					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId() + " WHERE Projekt_Id=" + p.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,11 +213,11 @@ public class ProjektMapper {
 			  
 			  if (rs.next()) {
 				
-				  p.setId(rs.getInt("maxid" + 1));
+				  p.setId(rs.getInt("maxid") + 1);
 				  
-				  stmt.executeUpdate("INSERT INTO projekt (Startdatum, Enddatum, Name, Beschreibung, "
-				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getStartdatum() + ", "
-				  		+ p.getEnddatum() + ", " + p.getName() + ", " + p.getBeschreibung() + ", " + 
+				  stmt.executeUpdate("INSERT INTO projekt (Projekt_Id ,`Startdatum`, `Enddatum`, `Name`, `Beschreibung`, "
+				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getId() + ", '" + p.getStartdatum() + "', '"
+				  		+ p.getEnddatum() + "', '" + p.getName() + "', '" + p.getBeschreibung() + "', " + 
 				  		p.getProjektleiterId() + ", " + p.getProjektmarktplatzId() + ")");
 			}
 			  
