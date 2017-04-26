@@ -268,10 +268,10 @@ public class AusschreibungMapper {
 				  a.setId(rs.getInt("maxid") + 1);
 				  
 				  stmt = con.createStatement();
-				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibender_Id, Ausschreibungstext, "
-				  		+ "Bewerbungsfrist, Bezeichnung, Partnerprofil_Id, Projekt_Id) VALUES ("
-				  		+ a.getAusschreibenderId() + ", " + a.getAusschreibungstext() + ", " + a.getBewerbungsfrist()
-				  		+ ", " + a.getBezeichnung() + ", " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
+				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibender_Id, `Ausschreibungstext`, "
+				  		+ "Bewerbungsfrist, `Bezeichnung`, Partnerprofil_Id, Projekt_Id) VALUES ("
+				  		+ a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', " + a.getBewerbungsfrist()
+				  		+ ", '" + a.getBezeichnung() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
 				  
 			}
 			  
