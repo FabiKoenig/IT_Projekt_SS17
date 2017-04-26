@@ -203,12 +203,14 @@ public class BewertungMapper {
 		         */
 		        b.setId(rs.getInt("maxid") + 1);
 		        
+		        System.out.println(b.getId());
+		        
 		        //Leeres SQL-Statement für die Insert- Ausführung anlegen.
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO bewertung (Bewertung_Id, Stellungnahme, Wert, Bewerbung_Id) "
-		            + "VALUES (" + b.getId() + "," + b.getStellungsnahme() + "," + b.getWert() + "," + 
+		        stmt.executeUpdate("INSERT INTO bewertung (Bewertung_Id, `Stellungnahme`, Wert, Bewerbung_Id) "
+		            + "VALUES (" + b.getId() + ", '" + b.getStellungsnahme() + "', " + b.getWert() + ", " 
 		            + b.getBewerbungId() + ")");
 		      }
 		    }
