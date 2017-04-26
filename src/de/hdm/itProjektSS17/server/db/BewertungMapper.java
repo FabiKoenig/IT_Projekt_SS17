@@ -208,8 +208,8 @@ public class BewertungMapper {
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO bewertung (Bewertung_Id, Stellungnahme, Wert, Bewerbung_Id) "
-		            + "VALUES (" + b.getId() + ",'" + b.getStellungsnahme() + "','" + b.getWert() + "'.'" + 
-		            + b.getBewerbungId() + "')");
+		            + "VALUES (" + b.getId() + "," + b.getStellungsnahme() + "," + b.getWert() + "," + 
+		            + b.getBewerbungId() + ")");
 		      }
 		    }
 		    catch (SQLException e) {
