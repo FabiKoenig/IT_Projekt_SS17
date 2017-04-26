@@ -158,7 +158,7 @@ public class BewertungMapper {
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE bewertung " + "SET Stellungnahme=\""
-		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "Bewerbung_Id=\"" + b.getWert()+ "\" "
+		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "\", " + "Bewerbung_Id=\"" + b.getWert()+ "\" "
 		          + "WHERE Bewertung_Id=" + b.getId());
 
 		    }
