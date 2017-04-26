@@ -62,18 +62,13 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setNachname(rs.getString("Nachname"));
 				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 				p.setTeamId(rs.getInt("Team_Id"));
-
-				
-				/*Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(id);
-				p.setStrasse(ptemp.getStrasse());
-				p.setHausnummer(ptemp.getHausnummer());
-				p.setOrt(ptemp.getOrt());
-				p.setPlz(ptemp.getPlz());
-				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
-				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				*/
-				
-				
+				p.setStrasse(super.findById(id).getStrasse());
+				p.setHausnummer(super.findById(id).getHausnummer());
+				p.setPlz(super.findById(id).getPlz());
+				p.setOrt(super.findById(id).getOrt());
+				p.setPartnerprofilId(super.findById(id).getPartnerprofilId());
+				p.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
+					
 				return p;
 				} 
 			}   
@@ -123,16 +118,14 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setNachname(rs.getString("Nachname"));
 				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 				p.setTeamId(rs.getInt("Team_Id"));
+				p.setStrasse(super.findById(teamId).getStrasse());
+				p.setHausnummer(super.findById(teamId).getHausnummer());
+				p.setPlz(super.findById(teamId).getPlz());
+				p.setOrt(super.findById(teamId).getOrt());
+				p.setPartnerprofilId(super.findById(teamId).getPartnerprofilId());
+				p.setProjektmarktplatzId(super.findById(teamId).getProjektmarktplatzId());		
 
-				
-			/*	Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(teamId);
-				p.setStrasse(ptemp.getStrasse());
-				p.setHausnummer(ptemp.getHausnummer());
-				p.setOrt(ptemp.getOrt());
-				p.setPlz(ptemp.getPlz());
-				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
-				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				*/
+			
 				result.add(p);
 				} 
 			}   
@@ -169,16 +162,14 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setNachname(rs.getString("Nachname"));
 				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 				p.setTeamId(rs.getInt("Team_Id"));
+				p.setStrasse(super.findById(unternehmenId).getStrasse());
+				p.setHausnummer(super.findById(unternehmenId).getHausnummer());
+				p.setPlz(super.findById(unternehmenId).getPlz());
+				p.setOrt(super.findById(unternehmenId).getOrt());
+				p.setPartnerprofilId(super.findById(unternehmenId).getPartnerprofilId());
+				p.setProjektmarktplatzId(super.findById(unternehmenId).getProjektmarktplatzId());
+				
 
-		
-			/*	Organisationseinheit ptemp= OrganisationseinheitMapper.organisationseinheitMapper().findById(unternehmenId);
-				p.setStrasse(ptemp.getStrasse());
-				p.setHausnummer(ptemp.getHausnummer());
-				p.setOrt(ptemp.getOrt());
-				p.setPlz(ptemp.getPlz());
-				p.setProjektmarktplatzId(ptemp.getProjektmarktplatzId());
-				p.setPartnerprofilId(ptemp.getPartnerprofilId());
-				*/
 				result.add(p);
 				} 
 			}  
@@ -202,6 +193,9 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("DELETE FROM person " + "WHERE Person_Id=" + p.getId());
+		      
+		      super.delete(p);
+		      
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -225,8 +219,11 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
-		          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\" "
+		          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
+		          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=\""+ p.getTeamId() + "\" "
 		          + "WHERE Person_Id=" + p.getId());
+		      
+		      super.update(p);
 
 		    }
 		    catch (SQLException e) {
@@ -257,8 +254,8 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		       * Zunächst schauen wir nach, welches der momentan höchste
 		       * Primärschlüsselwert ist.
 		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM person ");
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Organisationseinheit_Id) AS maxid "
+		          + "FROM organisationseinheit ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 		      if (rs.next()) {
@@ -274,6 +271,8 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname, Unternehmen_Id, Team_Id) "
 		            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
 		            + p.getVorname() + "','" + p.getNachname() + "','" + p.getUnternehmenId() + "','" + p.getTeamId() +"')");
+		        
+		        super.insert(p);
 		      }
 		    }
 		    catch (SQLException e) {
