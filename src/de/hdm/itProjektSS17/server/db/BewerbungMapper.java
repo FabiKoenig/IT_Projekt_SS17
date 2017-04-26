@@ -62,7 +62,8 @@ public class BewerbungMapper {
             b.setId(rs.getInt("Bewerbung_Id"));
             b.setBewerbungstext(rs.getString("Bewerbungstext"));
             b.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
-            b.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
+    		Date tempDate = rs.getDate("Erstellungsdatum");
+            b.getErstellungsdatum().setTime(tempDate);
             b.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
             return b;
           }
@@ -140,7 +141,7 @@ public class BewerbungMapper {
            * Primärschlüsselwert ist.
            */
           
-          ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+          ResultSet rs = stmt.executeQuery("SELECT MAX(Bewerbung_Id) AS maxid "
                   + "FROM bewerbung ");
 
               // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
@@ -153,7 +154,7 @@ public class BewerbungMapper {
               }
 
            stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
-           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + b.getErstellungsdatum() +"','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
+           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + b.getErstellungsdatum().get(Calendar.YEAR) +"-"+ b.getErstellungsdatum().get(Calendar.MONTH)+"-"+b.getErstellungsdatum().get(Calendar.DAY_OF_MONTH)+"','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
         }
         catch (SQLException e) {
           e.printStackTrace();
@@ -198,7 +199,8 @@ public class BewerbungMapper {
             bObj.setId(rs.getInt("Bewerbung_Id"));
             bObj.setBewerbungstext(rs.getString("Bewerbungstext"));
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
-            bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
+    		Date tempDate = rs.getDate("Erstellungsdatum");
+            bObj.getErstellungsdatum().setTime(tempDate);
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
             b.add(bObj);
           }
@@ -237,7 +239,8 @@ public class BewerbungMapper {
             bObj.setId(rs.getInt("Bewerbung_Id"));
             bObj.setBewerbungstext(rs.getString("Bewerbungstext"));
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
-            bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
+    		Date tempDate = rs.getDate("Erstellungsdatum");
+            bObj.getErstellungsdatum().setTime(tempDate);
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
             b.add(bObj);
           }

@@ -1,6 +1,9 @@
 package de.hdm.itProjektSS17.shared.bo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Bewerbung extends BusinessObject{
 	
@@ -13,7 +16,7 @@ public class Bewerbung extends BusinessObject{
 	/**
 	   * Erstellungsdatum der Bewerbung
 	   */
-	private  Date erstellungsdatum;
+	private GregorianCalendar erstellungsdatum;
 	
 	/**
 	   * Bewerbungstext der Bewerbung
@@ -34,14 +37,14 @@ public class Bewerbung extends BusinessObject{
 	/**
 	   * Auslesen des Erstellungsdatum
 	   */
-	public Date getErstellungsdatum() {
+	public GregorianCalendar getErstellungsdatum() {
 		return erstellungsdatum;
 	}
 	
 	/**
 	   * Setzen des Erstellungsdatum
 	   */
-	public void setErstellungsdatum(Date erstellungsdatum) {
+	public void setErstellungsdatum(GregorianCalendar erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
 	
