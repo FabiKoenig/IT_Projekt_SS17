@@ -80,7 +80,8 @@ public class ProjektMapper {
 	   */
 	  public Projekt findByObject(Projekt p){
 		this.findById(p.getId());
-		  return p;		  
+		  
+		return p;		  
 	  }
 	  
 	  /**
@@ -174,7 +175,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Zielentiät aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
+	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
 	   */
 	  public Projekt update(Projekt p){
 		
