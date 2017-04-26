@@ -64,7 +64,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				return a;
@@ -111,7 +111,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				result.add(a);
@@ -149,7 +149,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				return a;
@@ -190,7 +190,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 
 				result.add(a);
@@ -235,11 +235,11 @@ public class AusschreibungMapper {
 			
 			  Statement stmt = con.createStatement();
 			  
-			  stmt.executeUpdate("UPDATE ausschreibung SET Bezeichnung=" + a.getBezeichnung() + ", " 
-			  		+ "Bewerbungsfrist=" + a.getBewerbungsfrist() + ", " + "Ausschreibungstext=" + 
-					  a.getAusschreibungstext() + ", " + "Ausschreibender_Id="
+			  stmt.executeUpdate("UPDATE ausschreibung SET Bezeichnung='" + a.getBezeichnung() + "', " 
+			  		+ "Bewerbungsfrist='" + a.getBewerbungsfrist() + "', " + "Ausschreibungstext='" + 
+					  a.getAusschreibungstext() + "', " + "Ausschreibender_Id="
 					  + a.getAusschreibenderId() + ", " + "Partnerprofil_Id=" + a.getPartnerprofilId() + 
-					  ", " + "Projekt_Id=" + a.getProjektId());
+					  ", " + "Projekt_Id=" + a.getProjektId() + " WHERE Ausschreibung_Id = " + a.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -261,17 +261,17 @@ public class AusschreibungMapper {
 			
 			  Statement stmt = con.createStatement(); 
 			  
-			  ResultSet rs = stmt.executeQuery("SELECT MAX(Ausschreibender_Id) AS maxid FROM ausschreibung");
+			  ResultSet rs = stmt.executeQuery("SELECT MAX(Ausschreibung_Id) AS maxid FROM ausschreibung");
 			  
 			  if (rs.next()) {
 				
 				  a.setId(rs.getInt("maxid") + 1);
 				  
 				  stmt = con.createStatement();
-				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibender_Id, `Ausschreibungstext`, "
-				  		+ "Bewerbungsfrist, `Bezeichnung`, Partnerprofil_Id, Projekt_Id) VALUES ("
-				  		+ a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', " + a.getBewerbungsfrist()
-				  		+ ", '" + a.getBezeichnung() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
+				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibung_Id, Ausschreibender_Id, `Ausschreibungstext`, "
+				  		+ "`Bewerbungsfrist`, `Bezeichnung`, Partnerprofil_Id, Projekt_Id) VALUES ("
+				  		+ a.getId()+ ", " + a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', '" + a.getBewerbungsfrist()
+				  		+ "', '" + a.getBezeichnung() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
 				  
 			}
 			  
