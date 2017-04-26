@@ -8,7 +8,7 @@ import de.hdm.itProjektSS17.shared.bo.Team;
 /**
  * Mapper für Team- Objekte
  */
-public class TeamMapper {
+public class TeamMapper extends OrganisationseinheitMapper{
 
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.

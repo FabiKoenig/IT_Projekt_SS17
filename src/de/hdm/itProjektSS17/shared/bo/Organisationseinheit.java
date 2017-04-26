@@ -16,12 +16,12 @@ public class Organisationseinheit extends BusinessObject {
 	private String Ort;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschlï¿½ssel
 	 */
 	private int partnerprofilId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlï¿½ssel
 	 */
 	private int projektmarktplatzId=0;
 	
@@ -30,10 +30,10 @@ public class Organisationseinheit extends BusinessObject {
 	
 	
 	
-	public String getStraÃŸe() {
+	public String getStrasse() {
 		return straÃŸe;
 	}
-	public void setStraÃŸe(String straÃŸe) {
+	public void setStrasse(String straÃŸe) {
 		this.straÃŸe = straÃŸe;
 	}
 	public String getHausnummer() {
@@ -55,25 +55,25 @@ public class Organisationseinheit extends BusinessObject {
 		Ort = ort;
 	}
 	/**
-	 * @return Gibt den Fremdschlüssel partnerprofilId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel partnerprofilId zurï¿½ck.
 	 */
 	public int getPartnerprofilId() {
 		return partnerprofilId;
 	}
 	/**
-	 * @param Setzt den Fremdschlüssel partnerprofilId.
+	 * @param Setzt den Fremdschlï¿½ssel partnerprofilId.
 	 */
 	public void setPartnerprofilId(int partnerprofilId) {
 		this.partnerprofilId = partnerprofilId;
 	}
 	/**
-	 * @return Gibt den Fremdschlüssel projektmartktplatz Id zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektmartktplatz Id zurï¿½ck.
 	 */
 	public int getProjektmarktplatzId() {
 		return projektmarktplatzId;
 	}
 	/**
-	 * @param Setzt den Fremdschlüssel projektmarktplatzId.
+	 * @param Setzt den Fremdschlï¿½ssel projektmarktplatzId.
 	 */
 	public void setProjektmarktplatzId(int projektmarktplatzId) {
 		this.projektmarktplatzId = projektmarktplatzId;
