@@ -100,7 +100,7 @@ public class EigenschaftMapper {
 
 		      // Statement ausfüllen und als Query an die DB schicken
 		      ResultSet rs = stmt.executeQuery("SELECT Eigenschaft_Id, Name, Wert, Partnerprofil_Id FROM eigenschaft "
-		          + "WHERE Partnerprofil_Id =" + partnerprofilId +"ORDER BY Eigenschaft_Id");
+		          + "WHERE Partnerprofil_Id =" + partnerprofilId);
 
 		      /*
 		       * Da id Fremdschlüssel ist und Partnerprofile nur eine Eigenschaft erhalten kann, kann max. nur ein Tupel zurückgegeben
@@ -161,8 +161,10 @@ public class EigenschaftMapper {
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE eigenschaft " + "SET Name=\""
-		          + e.getName() + "\", " + "Wert=\"" + e.getWert() + "Partnerprofil_Id=\"" + e.getPartnerprofilId()+ "\" "
+
+		          + e.getName() + "\", " + "Wert=\"" + e.getWert() + "\", " + "Partnerprofil_Id=\"" + e.getPartnerprofilId()+ "\" "
 		          + "WHERE Eigenschaft_Id=" + e.getId());
+
 
 		    }
 		    catch (SQLException e2) {
@@ -192,7 +194,7 @@ public class EigenschaftMapper {
 		       * Primärschlüsselwert ist.
 		       */
 		      ResultSet rs = stmt.executeQuery("SELECT MAX(Eigenschaft_Id) AS maxid "
-		          + "FROM bewertung ");
+		          + "FROM eigenschaft ");
 
 		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 		      if (rs.next()) {
@@ -207,8 +209,8 @@ public class EigenschaftMapper {
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO eigenschaft (Eigenschaft_Id, Name, Wert, Partnerprofil_Id) "
-		            + "VALUES (" + e.getId() + ",'" + e.getName() + "','" + e.getWert() + "'.'" + 
-		            + e.getPartnerprofilId() + "')");
+		            + "VALUES (" + e.getId() + ",'" + e.getName() + "','" + e.getWert() + "'," + 
+		            + e.getPartnerprofilId() + ")");
 		      }
 		    }
 		    catch (SQLException e2) {

@@ -145,30 +145,15 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		    try {
 		    	 //Leeres SQL-Statement anlegen
 		        Statement stmt = con.createStatement();
-		    	/*
-			       * ZunÃ¤chst schauen wir nach, welches der momentan hÃ¶chste
-			       * PrimÃ¤rschlÃ¼sselwert ist.
-			       */
-		    	
-			      ResultSet rs = stmt.executeQuery("SELECT MAX(Organisationseinheit_Id) AS maxid "
-			          + "FROM organisationseinheit ");
-
-			      // Wenn wir etwas zurÃ¼ckerhalten, kann dies nur einzeilig sein
-			      if (rs.next()) {
-			        /*
-			         * b erhÃ¤lt den bisher maximalen, nun um 1 inkrementierten
-			         * PrimÃ¤rschlÃ¼ssel.
-			         */
-			        u.setId(rs.getInt("maxid") + 1);
-			        	        
+		        
+		       	u.setId(super.insert(u));
+			   	System.out.println(u.getId());       
 		        //Leeres SQL-Statement fÃ¼r die Insert- AusfÃ¼hrung anlegen.
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
-		        stmt.executeUpdate("INSERT INTO unternehmen (Unternehmen_Id, Name) "
-		            + "VALUES (" + u.getId() + ",'" + u.getName() + "')");
-		        super.insert(u);
-		      }
+		        stmt.executeUpdate("INSERT INTO `unternehmen` (`Unternehmen_Id`, `Name`) "
+		            + "VALUES ('" + u.getId() + "','" + u.getName() + "')");
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
