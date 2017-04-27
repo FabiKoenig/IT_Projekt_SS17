@@ -12,12 +12,12 @@ public class Projekt extends BusinessObject{
 	/**
 	   * Startdatum des Projekt.
 	   */
-	private Date startdatum; 
+	private String startdatum; 
 	
 	/**
 	   * Enddatum des Projekt
 	   */
-	private Date enddatum;
+	private String enddatum;
 	
 	/**
 	   * Name des Projekt
@@ -30,40 +30,40 @@ public class Projekt extends BusinessObject{
 	private String beschreibung;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlüssel.
+	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlï¿½ssel.
 	 */
 	private int projektmarktplatzId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einer Person durch einen Fremdschlüssel.
+	 * Realisierung der Beziehung zu einer Person durch einen Fremdschlï¿½ssel.
 	 */
 	private int projektleiterId = 0;
 	
 	 /**
 	   * Auslesen des Startdatum.
 	   */
-	public Date getStartdatum(){
+	public String getStartdatum(){
 		return startdatum;
 	}
 	
 	/**
 	   * Setzen des Startdatum.
 	   */
-	public void setStartdatum(Date startdatum){
+	public void setStartdatum(String startdatum){
 		this.startdatum = startdatum;
 	}
 	
 	 /**
 	   * Auslesen des Enddatum.
 	   */
-	public Date getEnddatum() {
+	public String getEnddatum() {
 		return enddatum;
 	}
 	
 	/**
 	   * Setzen des Enddatum.
 	   */
-	public void setEnddatum(Date enddatum) {
+	public void setEnddatum(String enddatum) {
 		this.enddatum = enddatum;
 	}
 	
@@ -96,28 +96,28 @@ public class Projekt extends BusinessObject{
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel projektmarktplatzId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektmarktplatzId zurï¿½ck.
 	 */
 	public int getProjektmarktplatzId() {
 		return projektmarktplatzId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel projektmarktplatzId.
+	 * @param Setzt den Fremdschlï¿½ssel projektmarktplatzId.
 	 */
 	public void setProjektmarktplatzId(int projektmarktplatzId) {
 		this.projektmarktplatzId = projektmarktplatzId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel projektleiterId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektleiterId zurï¿½ck.
 	 */
 	public int getProjektleiterId() {
 		return projektleiterId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel projektleiterId.
+	 * @param Setzt den Fremdschlï¿½ssel projektleiterId.
 	 */
 	public void setProjektleiterId(int projektleiterId) {
 		this.projektleiterId = projektleiterId;

@@ -10,6 +10,10 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
 	
+	public void setPerson(Person p) throws IllegalArgumentException;
+	
+	public Person getPerson() throws IllegalArgumentException;
+	
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId) throws IllegalArgumentException;
 	
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId) throws IllegalArgumentException;

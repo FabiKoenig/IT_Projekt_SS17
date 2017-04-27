@@ -173,17 +173,13 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        try {
 	          Statement stmt = con.createStatement();
 
-	          /*
-	           * Zunächst schauen wir nach, welches der momentan höchste
-	           * Primärschlüsselwert ist.
-	           */
+	        
+	          t.setId(super.insert(t));
 	          
-	          t.setId(super.g);
-	          
-	           stmt.executeUpdate("INSERT INTO Team (Team_Id, Name, Unternehmen_Id) " 
-	           + "VALUES ('"+t.getId()+ t.getName()+ "','"+"','"+t.getUnternehmenId()+"')");
-	        }									  
-	        catch (SQLException e) {
+	          stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`,`Unternehmen_Id`) "
+	        		  + "VALUES ('" + t.getId() + "','" + t.getName() +"','"+ t.getUnternehmenId()+"')");
+	           
+	        } catch (SQLException e) {
 	          e.printStackTrace();
 	}
 		return t;

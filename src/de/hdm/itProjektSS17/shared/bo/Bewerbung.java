@@ -1,9 +1,11 @@
 package de.hdm.itProjektSS17.shared.bo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Bewerbung extends BusinessObject{
-	
 	
 	/**
 	 * 
@@ -11,9 +13,10 @@ public class Bewerbung extends BusinessObject{
 	private static final long serialVersionUID = 1L;
 
 	/**
-	   * Erstellungsdatum der Bewerbung
+	   * Erstellungsdatum der Bewerbung welches zur Erstellung von jedem Bewerbung-Objekt das akutelle 
+	   * Datum durch den Null-Argument-Konstruktor der Klasse Date setzt
 	   */
-	private  Date erstellungsdatum;
+	private Date erstellungsdatum=new Date();
 	
 	/**
 	   * Bewerbungstext der Bewerbung
@@ -21,9 +24,14 @@ public class Bewerbung extends BusinessObject{
 	private String bewerbungstext;
 	
 	/**
-	 * Realisierung der Beziehung zu einer Ausschreibung durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einer Ausschreibung durch einen Fremdschlï¿½ssel
 	 */
 	private int ausschreibungId = 0;
+	
+	/**
+	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschlï¿½ssel
+	 */
+	private int organisationseinheitId = 0;
 
 	
 	/**
@@ -55,17 +63,31 @@ public class Bewerbung extends BusinessObject{
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel ausschreibungId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel ausschreibungId zurï¿½ck.
 	 */
 	public int getAusschreibungId() {
 		return ausschreibungId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel ausschreibungId.
+	 * @param Setzt den Fremdschlï¿½ssel ausschreibungId.
 	 */
 	public void setAusschreibungId(int ausschreibungId) {
 		this.ausschreibungId = ausschreibungId;
+	}
+
+	/**
+	 * @return Gibt den Fremdschlï¿½ssel organisationseinheitId zurï¿½ck.
+	 */
+	public int getOrganisationseinheitId() {
+		return organisationseinheitId;
+	}
+
+	/**
+	 * @param Setzt den Fremdschlï¿½ssel organisationseinheitId.
+	 */
+	public void setOrganisationseinheitId(int organisationseinheitId) {
+		this.organisationseinheitId = organisationseinheitId;
 	}
 
 	

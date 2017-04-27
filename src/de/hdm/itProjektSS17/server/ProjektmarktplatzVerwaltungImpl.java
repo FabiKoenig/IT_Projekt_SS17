@@ -139,7 +139,7 @@ implements ProjektmarktplatzVerwaltung {
 		this.bewerbungMapper = BewerbungMapper.bewerbungMapper();
 		this.bewertungMapper = BewertungMapper.bewertungMapper();
 		this.eigenschaftMapper = EigenschaftMapper.eigenschaftMapper();
-		this.orgaMapper = OrganisationseinheitMapper.organisationseinheitMapper();
+		//this.orgaMapper = OrganisationseinheitMapper.organisationseinheitMapper();
 		this.partnerprofilMapper = PartnerprofilMapper.partnerprofilMapper();
 		this.personMapper = PersonMapper.personMapper();
 		this.projektMapper = ProjektMapper.projektMapper();
@@ -589,6 +589,18 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Ausschreibung getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPerson(Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Person getPerson() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
