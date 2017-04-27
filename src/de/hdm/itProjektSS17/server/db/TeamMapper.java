@@ -5,11 +5,13 @@ import java.sql.*;
 
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
+import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
+
 
 /**
  * Mapper für Team- Objekte
  */
-public class TeamMapper {
+public class TeamMapper extends OrganisationseinheitMapper{
 
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -89,7 +91,7 @@ public class TeamMapper {
 
 	          // Statement ausfüllen und als Query an die DB schicken
 	          ResultSet rs = stmt.executeQuery("SELECT * FROM Team "
-	              + "WHERE Organisationseinheit_id=" + unternehmenId);
+	              + "WHERE Unternehmen_Id=" + unternehmenId);
 
 	          /*
 	           * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -100,8 +102,7 @@ public class TeamMapper {
 	            // Ergebnis-Tupel in Objekt umwandeln
 	        	Team te=new Team();
 	            te.setId(rs.getInt("Team_Id"));
-	            te.setName(rs.getString("Name"));
-	            te.setO;  // Hier muss getOrganisationseinheit_Id hin
+	            te.setName(rs.getString("Name"));	        
 	            te.setUnternehmenId(rs.getInt("Unternehmen_Id"));
 	            
 	            t.add(te);
@@ -147,8 +148,8 @@ public class TeamMapper {
 	          Statement stmt = con.createStatement();
 
 	          stmt.executeUpdate("UPDATE Team SET Name='"+t.getName()
-	        		  +"', Organisationseinheit_Id="+t.getOr+"', Unternehmen_Id="+t.getUnternehmenId()
-	        		  );						 // Hier muss getOrganisationseinheit_Id hin
+	        		  +"',"+"', Unternehmen_Id="+t.getUnternehmenId()
+	        		  );					
 
 	        }
 	        catch (SQLException e) {
@@ -176,14 +177,18 @@ public class TeamMapper {
 	           * Zunächst schauen wir nach, welches der momentan höchste
 	           * Primärschlüsselwert ist.
 	           */
-
-	           stmt.executeUpdate("INSERT INTO Team (Name, Organisationseinheit_Id, Unternehmen_Id) " 
-	           + "VALUES ('" + t.getName()+ "','" +t.get+"','"+t.getUnternehmenId()+"')");
-	        }									   // Hier muss getOrganisationseinheit_Id hin
+	          
+	          t.setId(super.g);
+	          
+	           stmt.executeUpdate("INSERT INTO Team (Team_Id, Name, Unternehmen_Id) " 
+	           + "VALUES ('"+t.getId()+ t.getName()+ "','"+"','"+t.getUnternehmenId()+"')");
+	        }									  
 	        catch (SQLException e) {
 	          e.printStackTrace();
 	}
 		return t;
 		  
 	  }
+
+
 }

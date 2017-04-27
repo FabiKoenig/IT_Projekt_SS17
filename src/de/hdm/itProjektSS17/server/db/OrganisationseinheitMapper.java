@@ -3,8 +3,6 @@ package de.hdm.itProjektSS17.server.db;
 import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
-import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
-import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 import java.sql.*;
 
 /**
