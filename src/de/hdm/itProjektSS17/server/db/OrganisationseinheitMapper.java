@@ -74,7 +74,7 @@ public class OrganisationseinheitMapper {
 	/**
 	 * 
 	 * @param o
-	 * @return Liefert eine Organisationseinheit entsprechend des uebergebenen Objekts zurueck
+	 * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	 */
 	protected Organisationseinheit findByObject(Organisationseinheit o){
 		return this.findById(o.getId()); 
@@ -102,7 +102,7 @@ public class OrganisationseinheitMapper {
 				o.setStrasse(rs.getString("Strasse"));
 				o.setHausnummer(rs.getString("Hausnummer"));
 				o.setPlz(rs.getInt("PLZ"));
-				o.setProjektmarktplatzId(rs.getInt("Unternehmen_Id"));
+				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
 				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 		result.add(o);
 	}
@@ -209,15 +209,14 @@ public class OrganisationseinheitMapper {
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("UPDATE organisationseinheit SET strasse='"
-		          + o.getStrasse() + "'," + "Hausnummer=" + o.getHausnummer() + "," + "PLZ=" + o.getPlz() + ","
-		    	  + "Ort='" + o.getOrt() +"'"+" WHERE Organisationseinheit_Id="+o.getId());
+			          + o.getStrasse() + "'," + "Hausnummer='" + o.getHausnummer() + "'," + "PLZ=" + o.getPlz() + ","
+			          + "Ort='" + o.getOrt() +"'"+" WHERE Organisationseinheit_Id="+o.getId());
 		      
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
-		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurück
 		    return id;
 	  }
 	

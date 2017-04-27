@@ -158,8 +158,8 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        	Statement stmt = con.createStatement();
 
 	        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		  +"'"+" WHERE Team_Id="+t.getId()
-	        		 );					
+	        		+"'"+" WHERE Team_Id="+t.getId());					
+			
 
 	        }
 	        catch (SQLException e) {
