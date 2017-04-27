@@ -20,9 +20,20 @@ public class OrganisationseinheitMapper {
 	/*Konstruktor der Klasse Organisationseinheit. Durch protected wird verhindert,
 	 *dass durch "new" neue Instanzen der Klasse erzeugt werden können.
 	 */
+	
+	public static OrganisationseinheitMapper  organisationsEinheitsmapper = null;
+	
+	
 	protected OrganisationseinheitMapper(){
 	}
 	
+	 public static OrganisationseinheitMapper organisationsEinheitsmapper() {
+		    if (organisationsEinheitsmapper == null) {
+		    	organisationsEinheitsmapper = new OrganisationseinheitMapper();
+		    }
+
+		    return organisationsEinheitsmapper;
+		  }
 	
 	
 	/*Suche einer Organisationseinheit durch eine eindeutige ID(Primärschlüssel).
@@ -222,11 +233,13 @@ public class OrganisationseinheitMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM organisationseinheit " + "WHERE Organisationseinheit_Id=" + o.getId());
+		      stmt.executeUpdate("DELETE FROM organisationseinheit" + " WHERE Organisationseinheit_Id=" + o.getId());
+		      
+		 
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 	  }
-	  
+
 	}
