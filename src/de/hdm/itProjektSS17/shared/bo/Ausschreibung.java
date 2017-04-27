@@ -14,19 +14,19 @@ public class Ausschreibung extends BusinessObject{
 	private String ausschreibungstext = "";
 	
 	/**
-	 * Realisierung der Beziehung zu einem Projekt durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Projekt durch einen Fremdschlï¿½ssel
 	 */
 	
 	private int projektId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschlï¿½ssel
 	 */
 	
 	private int partnerprofilId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschlï¿½ssel
 	 */
 	
 	private int ausschreibenderId = 0;
@@ -58,42 +58,42 @@ public class Ausschreibung extends BusinessObject{
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel projektId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektId zurï¿½ck.
 	 */
 	public int getProjektId() {
 		return projektId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel projektId.
+	 * @param Setzt den Fremdschlï¿½ssel projektId.
 	 */
 	public void setProjektId(int projektId) {
 		this.projektId = projektId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel partnerprofilId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel partnerprofilId zurï¿½ck.
 	 */
 	public int getPartnerprofilId() {
 		return partnerprofilId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel partnerprofilId.
+	 * @param Setzt den Fremdschlï¿½ssel partnerprofilId.
 	 */
 	public void setPartnerprofilId(int partnerprofilId) {
 		this.partnerprofilId = partnerprofilId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel partnerprofilId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel partnerprofilId zurï¿½ck.
 	 */
 	public int getAusschreibenderId() {
 		return ausschreibenderId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel ausschreibenderId.
+	 * @param Setzt den Fremdschlï¿½ssel ausschreibenderId.
 	 */
 	public void setAusschreibenderId(int ausschreibenderId) {
 		this.ausschreibenderId = ausschreibenderId;

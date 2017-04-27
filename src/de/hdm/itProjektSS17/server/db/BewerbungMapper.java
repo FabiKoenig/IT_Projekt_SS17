@@ -6,12 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 import de.hdm.itProjektSS17.shared.bo.*;
 
 /**
  * Mapper fuer ein Bewerbung-Objekt
  */
 public class BewerbungMapper {
+	
+    //Wird benötigt um das Datumsformat von Date aus java.util.* in das von der Datenbank benötigte Format umzuwandeln.
+    //format wird anschließend in SQL-Statements der update- und insert-Methoden genutzt, um das in erstellungsdatum gespeicherte Date entsprechend an
+    //die Datenbank weiterzuleiten
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -19,7 +26,7 @@ public class BewerbungMapper {
     private static BewerbungMapper bewerbungMapper = null;
 
     /**
-	 * Geschuetzter Konstruktor um zu verhindern, dass Objekte dieser Klasse erstellt nicht au�erhalb
+	 * Geschuetzter Konstruktor um zu verhindern, dass Objekte dieser Klasse erstellt nicht au�erhalb
 	 * der Vererbungshierarchie dieser Klasse erstellt werden.
      */
     protected BewerbungMapper() {
@@ -80,7 +87,7 @@ public class BewerbungMapper {
      * @return Liefert eine Bewerbung entsprechend des uebergebenen Objekts zurueck
      */
     public Bewerbung findByObject(Bewerbung b) {
-        // TODO implement here
+
     	return this.findById(b.getId());
     }
 
@@ -94,7 +101,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("DELETE FROM accounts " + "WHERE id=" + b.getId());
+          stmt.executeUpdate("DELETE FROM bewerbung " + "WHERE Bewerbung_id=" + b.getId());
 
         }
         catch (SQLException e) {
@@ -112,9 +119,9 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("UPDATE Bewerbung SET Bewerbungstext ='"+b.getBewerbungstext()
-        		  +"', Ausschreibung_Id="+b.getAusschreibungId()+"', Erstellungsdatum="+b.getErstellungsdatum()
-        		  +"WHERE CustomerID ="+ b.getId()+"; ");
+          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()
+		  +"', Ausschreibung_Id = '"+b.getAusschreibungId()+"', Erstellungsdatum='"+format.format(b.getErstellungsdatum()) + "', Organisationseinheit_Id='"+b.getOrganisationseinheitId()
+        		  +"' WHERE Bewerbung_Id ="+ b.getId()+"; ");
 
         }
         catch (SQLException e) {
@@ -140,7 +147,7 @@ public class BewerbungMapper {
            * Primärschlüsselwert ist.
            */
           
-          ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+          ResultSet rs = stmt.executeQuery("SELECT MAX(Bewerbung_Id) AS maxid "
                   + "FROM bewerbung ");
 
               // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
@@ -151,23 +158,16 @@ public class BewerbungMapper {
                  */
                 b.setId(rs.getInt("maxid") + 1);
               }
-
+              
+              //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
            stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
-           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + b.getErstellungsdatum() +"','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
+           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
         }
         catch (SQLException e) {
           e.printStackTrace();
         }
 
-        /*
-         * Rückgabe, des evtl. korrigierten Accounts.
-         * 
-         * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-         * Objekte übergeben werden, wäre die Anpassung des Account-Objekts auch
-         * ohne diese explizite Rückgabe au�erhalb dieser Methode sichtbar. Die
-         * explizite Rückgabe von a ist eher ein Stilmittel, um zu signalisieren,
-         * dass sich das Objekt evtl. im Laufe der Methode verändert hat.
-         */
+        //Rückgabe des sich eventuell veränderten Bewerbung Objektes, sofern von der aufrufenden Klasse benötigt.
         return b;
     }
     

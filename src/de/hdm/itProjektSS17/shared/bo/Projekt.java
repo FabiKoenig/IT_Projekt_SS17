@@ -1,8 +1,10 @@
 package de.hdm.itProjektSS17.shared.bo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Projekt extends BusinessObject{
+	
 	
 	/**
 	 * 
@@ -12,12 +14,12 @@ public class Projekt extends BusinessObject{
 	/**
 	   * Startdatum des Projekt.
 	   */
-	private Date startdatum; 
+	private Date startdatum = null; 
 	
 	/**
 	   * Enddatum des Projekt
 	   */
-	private Date enddatum;
+	private Date enddatum = null;
 	
 	/**
 	   * Name des Projekt
@@ -30,12 +32,12 @@ public class Projekt extends BusinessObject{
 	private String beschreibung;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlüssel.
+	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschlï¿½ssel.
 	 */
 	private int projektmarktplatzId = 0;
 	
 	/**
-	 * Realisierung der Beziehung zu einer Person durch einen Fremdschlüssel.
+	 * Realisierung der Beziehung zu einer Person durch einen Fremdschlï¿½ssel.
 	 */
 	private int projektleiterId = 0;
 	
@@ -96,28 +98,28 @@ public class Projekt extends BusinessObject{
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel projektmarktplatzId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektmarktplatzId zurï¿½ck.
 	 */
 	public int getProjektmarktplatzId() {
 		return projektmarktplatzId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel projektmarktplatzId.
+	 * @param Setzt den Fremdschlï¿½ssel projektmarktplatzId.
 	 */
 	public void setProjektmarktplatzId(int projektmarktplatzId) {
 		this.projektmarktplatzId = projektmarktplatzId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlüssel projektleiterId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel projektleiterId zurï¿½ck.
 	 */
 	public int getProjektleiterId() {
 		return projektleiterId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlüssel projektleiterId.
+	 * @param Setzt den Fremdschlï¿½ssel projektleiterId.
 	 */
 	public void setProjektleiterId(int projektleiterId) {
 		this.projektleiterId = projektleiterId;

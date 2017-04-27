@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.text.SimpleDateFormat;
 
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 
@@ -13,6 +13,7 @@ import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
  */
 public class PartnerprofilMapper {
 
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -64,7 +65,7 @@ public class PartnerprofilMapper {
 		        Partnerprofil p = new Partnerprofil();
 		        p.setId(rs.getInt("Partnerprofil_Id"));
 		        p.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
-		        p.setAenderungdatum(rs.getDate("Aenderungsdate"));
+		        p.setAenderungdatum(rs.getDate("Aenderungsdatum"));
 		        return p;
 		      }
 		    }
@@ -122,8 +123,8 @@ public class PartnerprofilMapper {
 		    	//Leeres SQL-Statement anlegen.
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
-		      stmt.executeUpdate("UPDATE partnerprofil " + "SET Erstellungsdatum=\""
-		          + p.getErstellungsdatum() + "\", " + "Aenderungsdatum=\"" + p.getAenderungdatum() + "Bewerbung_Id=\"" + "\" "
+		      stmt.executeUpdate("UPDATE partnerprofil SET Erstellungsdatum='"
+		          + sdf.format(p.getErstellungsdatum()) + "', " + "Aenderungsdatum='" + sdf.format(p.getAenderungdatum()) + "' "
 		          + "WHERE Partnerprofil_Id=" + p.getId());
 
 		    }
@@ -166,7 +167,8 @@ public class PartnerprofilMapper {
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO partnerprofil (Partnerprofil_Id, Erstellungsdatum, Aenderungsdatum) VALUES (" + p.getId() + ","+p.getErstellungsdatum() + "," + p.getAenderungdatum() + ")");
+		       
+		        stmt.executeUpdate("INSERT INTO partnerprofil (Partnerprofil_Id, `Erstellungsdatum`, `Aenderungsdatum`) VALUES (" + p.getId() + ",'"+sdf.format(p.getErstellungsdatum()) + "','" + sdf.format(p.getAenderungdatum()) + "')");
 		      }
 		    }
 		    catch (SQLException e) {

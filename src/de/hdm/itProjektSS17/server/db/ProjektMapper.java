@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 
@@ -14,6 +15,7 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
  */
 public class ProjektMapper {
 
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
 	 */
@@ -80,7 +82,8 @@ public class ProjektMapper {
 	   */
 	  public Projekt findByObject(Projekt p){
 		this.findById(p.getId());
-		  return p;		  
+		  
+		return p;		  
 	  }
 	  
 	  /**
@@ -174,7 +177,7 @@ public class ProjektMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Zielentiät aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
+	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
 	   */
 	  public Projekt update(Projekt p){
 		
@@ -184,10 +187,10 @@ public class ProjektMapper {
 			
 			  Statement stmt = con.createStatement();
 			  
-			  stmt.executeUpdate("UPDATE projekt SET Startdatum=" + p.getStartdatum() + ", "
-			  		+ "Enddatum=" + p.getEnddatum() + ", " + "Name=" + p.getName() + ", "
-					+ "Beschreibung=" + p.getBeschreibung() + ", " + "Projektleiter_Id=" + p.getProjektleiterId()
-					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId());
+			  stmt.executeUpdate("UPDATE projekt SET Startdatum='" + format.format(p.getStartdatum()) + "', "
+			  		+ "Enddatum='" + format.format(p.getEnddatum()) + "', " + "Name='" + p.getName() + "', "
+					+ "Beschreibung='" + p.getBeschreibung() + "', " + "Projektleiter_Id=" + p.getProjektleiterId()
+					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId() + " WHERE Projekt_Id=" + p.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,11 +216,11 @@ public class ProjektMapper {
 			  
 			  if (rs.next()) {
 				
-				  p.setId(rs.getInt("maxid" + 1));
+				  p.setId(rs.getInt("maxid") + 1);
 				  
-				  stmt.executeUpdate("INSERT INTO projekt (Startdatum, Enddatum, Name, Beschreibung, "
-				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getStartdatum() + ", "
-				  		+ p.getEnddatum() + ", " + p.getName() + ", " + p.getBeschreibung() + ", " + 
+				  stmt.executeUpdate("INSERT INTO projekt (Projekt_Id ,`Startdatum`, `Enddatum`, `Name`, `Beschreibung`, "
+				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getId() + ", '" + format.format(p.getStartdatum()) + "', '"
+				  		+ format.format(p.getEnddatum()) + "', '" + p.getName() + "', '" + p.getBeschreibung() + "', " + 
 				  		p.getProjektleiterId() + ", " + p.getProjektmarktplatzId() + ")");
 			}
 			  
