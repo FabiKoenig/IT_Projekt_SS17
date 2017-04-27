@@ -9,7 +9,7 @@ public class Ausschreibung extends BusinessObject{
 
 	private String bezeichnung = "";
 	
-	private String bewerbungsfrist = "";
+	private Date bewerbungsfrist = null;
 	
 	private String ausschreibungstext = "";
 	
@@ -45,11 +45,11 @@ public class Ausschreibung extends BusinessObject{
 		this.bezeichnung = bezeichnung;
 	}
 
-	public String getBewerbungsfrist() {
+	public Date getBewerbungsfrist() {
 		return bewerbungsfrist;
 	}
 
-	public void setBewerbungsfrist(String bewerbungsfrist) {
+	public void setBewerbungsfrist(Date bewerbungsfrist) {
 		this.bewerbungsfrist = bewerbungsfrist;
 	}
 

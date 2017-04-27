@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 
@@ -19,6 +20,7 @@ import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
  */
 public class AusschreibungMapper {
 
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
 	 */
@@ -64,7 +66,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				return a;
@@ -111,7 +113,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				result.add(a);
@@ -149,7 +151,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 				
 				return a;
@@ -190,7 +192,7 @@ public class AusschreibungMapper {
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
 				a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				a.setBewerbungsfrist(rs.getString("Bewerbungsfrist"));
+				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
 
 				result.add(a);
@@ -236,7 +238,7 @@ public class AusschreibungMapper {
 			  Statement stmt = con.createStatement();
 			  
 			  stmt.executeUpdate("UPDATE ausschreibung SET Bezeichnung='" + a.getBezeichnung() + "', " 
-			  		+ "Bewerbungsfrist='" + a.getBewerbungsfrist() + "', " + "Ausschreibungstext='" + 
+			  		+ "Bewerbungsfrist='" + format.format(a.getBewerbungsfrist()) + "', " + "Ausschreibungstext='" + 
 					  a.getAusschreibungstext() + "', " + "Ausschreibender_Id="
 					  + a.getAusschreibenderId() + ", " + "Partnerprofil_Id=" + a.getPartnerprofilId() + 
 					  ", " + "Projekt_Id=" + a.getProjektId() + " WHERE Ausschreibung_Id = " + a.getId());
@@ -270,7 +272,7 @@ public class AusschreibungMapper {
 				  stmt = con.createStatement();
 				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibung_Id, Ausschreibender_Id, `Ausschreibungstext`, "
 				  		+ "`Bewerbungsfrist`, `Bezeichnung`, Partnerprofil_Id, Projekt_Id) VALUES ("
-				  		+ a.getId()+ ", " + a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', '" + a.getBewerbungsfrist()
+				  		+ a.getId()+ ", " + a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', '" + format.format(a.getBewerbungsfrist())
 				  		+ "', '" + a.getBezeichnung() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
 				  
 			}
