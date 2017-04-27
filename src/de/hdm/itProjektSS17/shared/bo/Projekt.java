@@ -1,8 +1,10 @@
 package de.hdm.itProjektSS17.shared.bo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Projekt extends BusinessObject{
+	
 	
 	/**
 	 * 
@@ -12,12 +14,12 @@ public class Projekt extends BusinessObject{
 	/**
 	   * Startdatum des Projekt.
 	   */
-	private String startdatum; 
+	private Date startdatum = null; 
 	
 	/**
 	   * Enddatum des Projekt
 	   */
-	private String enddatum;
+	private Date enddatum = null;
 	
 	/**
 	   * Name des Projekt
@@ -42,28 +44,28 @@ public class Projekt extends BusinessObject{
 	 /**
 	   * Auslesen des Startdatum.
 	   */
-	public String getStartdatum(){
+	public Date getStartdatum(){
 		return startdatum;
 	}
 	
 	/**
 	   * Setzen des Startdatum.
 	   */
-	public void setStartdatum(String startdatum){
+	public void setStartdatum(Date startdatum){
 		this.startdatum = startdatum;
 	}
 	
 	 /**
 	   * Auslesen des Enddatum.
 	   */
-	public String getEnddatum() {
+	public Date getEnddatum() {
 		return enddatum;
 	}
 	
 	/**
 	   * Setzen des Enddatum.
 	   */
-	public void setEnddatum(String enddatum) {
+	public void setEnddatum(Date enddatum) {
 		this.enddatum = enddatum;
 	}
 	
