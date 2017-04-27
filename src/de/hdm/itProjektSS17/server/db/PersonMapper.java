@@ -83,7 +83,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 	/**
 	 * 
 	 * @param p
-	 * @return Liefert eine Person entsprechend des übergebenen Objekts zurueck.
+	 * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	 */
 	public Person findByObject(Person p){
 		

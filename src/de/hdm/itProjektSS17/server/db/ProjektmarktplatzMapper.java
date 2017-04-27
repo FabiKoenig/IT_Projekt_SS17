@@ -20,7 +20,7 @@ public class ProjektmarktplatzMapper{
 	private static ProjektmarktplatzMapper projektmarktplatzMapper = null;
 	
 	/**
-	 * Geschuetzter Konstruktor um zu verhindern, dass Objekte dieser Klasse erstellt nicht au�erhalb
+	 * Geschuetzter Konstruktor um zu verhindern, dass Objekte dieser Klasse erstellt nicht au�erhalb
 	 * der Vererbungshierarchie dieser Klasse erstellt werden.
 	 */
 	protected ProjektmarktplatzMapper(){
@@ -77,7 +77,7 @@ public class ProjektmarktplatzMapper{
 	  /**
 	   * 
 	   * @param p
-	   * @return Liefert ein Projektmarktplatz entsprechend des übergebenen Objekts zurueck.
+	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Projektmarktplatz findByObject(Projektmarktplatz p){
 		  return this.findById(p.getId());	  

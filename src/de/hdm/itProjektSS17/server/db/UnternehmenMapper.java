@@ -78,11 +78,11 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
     /**
      * 
      * @param u
-     * @return Liefert ein Unternehmen entsprechend des Ã¼bergebenen Objekts zurueck.
+     * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
      */
     public Unternehmen findByObject(Unternehmen u){
 		return this.findById(u.getId());
-    	//return u;
+    	
     	
     }
 

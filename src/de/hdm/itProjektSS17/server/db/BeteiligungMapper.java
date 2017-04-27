@@ -88,7 +88,7 @@ public class BeteiligungMapper {
 	  /**
 	   * 
 	   * @param b
-	   * @return Liefert eine Beteiligung entsprechend des uebergebenen Objekts zurueck.
+	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Beteiligung findByObject(Beteiligung b){
 		  

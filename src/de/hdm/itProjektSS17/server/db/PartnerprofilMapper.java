@@ -80,14 +80,12 @@ public class PartnerprofilMapper {
 	  /**
 	   * 
 	   * @param p
-	   * @return Liefert ein Partnerprofil entsprechend des übergebenen Objekts zurueck.
+	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Partnerprofil findByObject(Partnerprofil p){
 		//findById Methode wird aufgerufen
-		  this.findById(p.getId());
+		 return this.findById(p.getId());
 		 
-		return p;
-		  
 	  }
 	  
 	  /**

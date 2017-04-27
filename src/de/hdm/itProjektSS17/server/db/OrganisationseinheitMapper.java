@@ -63,7 +63,7 @@ public class OrganisationseinheitMapper {
 	/**
 	 * 
 	 * @param o
-	 * @return Liefert eine Organisationseinheit entsprechend des uebergebenen Objekts zurueck
+	 * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	 */
 	protected Organisationseinheit findByObject(Organisationseinheit o){
 		return this.findById(o.getId()); 

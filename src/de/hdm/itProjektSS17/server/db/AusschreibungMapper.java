@@ -82,7 +82,7 @@ public class AusschreibungMapper {
 	  /**
 	   * 
 	   * @param a
-	   * @return Liefert eine Ausschreibung entsprechend des übergebenen Objekts zurück.
+	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Ausschreibung findByObject(Ausschreibung a){
 		  return this.findById(a.getId());

@@ -77,15 +77,12 @@ public class BewertungMapper {
 	  /**
 	   * 
 	   * @param b
-	   * @return Liefert eine Bewertung entsprechend des uebergebenen Objekts zurueck.
+	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Bewertung findByObject(Bewertung b){
 		//findById Methode wird aufgerufen
-		  this.findById(b.getId());
-		 /**
-		  * @return b
-		  */
-		  return b;
+		 return this.findById(b.getId());
+		 
 	  }
 	  
 	  /**

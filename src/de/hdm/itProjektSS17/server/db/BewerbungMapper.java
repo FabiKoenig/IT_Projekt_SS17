@@ -84,7 +84,7 @@ public class BewerbungMapper {
     
     /**
      * @param b 
-     * @return Liefert eine Bewerbung entsprechend des uebergebenen Objekts zurueck
+     * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
      */
     public Bewerbung findByObject(Bewerbung b) {
 
