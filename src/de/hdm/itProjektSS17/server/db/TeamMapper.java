@@ -46,19 +46,27 @@ public class TeamMapper extends OrganisationseinheitMapper{
 		  try{
 			  Statement stmt = con.createStatement();
 			  
-			  ResultSet rs = stmt.executeQuery("Select Team_Id, Name, Organisationseinheit_Id, Unternehmen_Id FROM Team"
-			  		+ "Where Team_Id ="+id);
+			  ResultSet rs = stmt.executeQuery("SELECT Team_Id, Name, Unternehmen_Id "
+			  +"FROM team"+ " WHERE Team_Id=" + id);
 			  
 			 if(rs.next()){
 				  Team a = new Team();
 				  a.setId(rs.getInt("Team_Id"));
 				  a.setName(rs.getString("Name"));
 				  a.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+				  a.setStrasse(super.findById(id).getStrasse());
+				  a.setHausnummer(super.findById(id).getHausnummer());
+				  a.setOrt(super.findById(id).getOrt());
+				  a.setPlz(super.findById(id).getPlz());
+				  a.setPartnerprofilId(super.findById(id).getPartnerprofilId());
+				  a.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
+				  
+				  return a;
 			  }
 			  
 		  }catch(SQLException e){
 			  e.printStackTrace();
-			  
+			  return null;
 			  
 		  }
 		  
@@ -72,7 +80,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	   * @return Liefert ein Team entsprechend des übergebenen Objekts zurueck.
 	   */
 	  public Team findByObject(Team t){
-		return t;
+		return this.findById(t.getId());
 		  
 	  }
 	  
@@ -90,7 +98,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	          Statement stmt = con.createStatement();
 
 	          // Statement ausfüllen und als Query an die DB schicken
-	          ResultSet rs = stmt.executeQuery("SELECT * FROM Team "
+	          ResultSet rs = stmt.executeQuery("SELECT * FROM team "
 	              + "WHERE Unternehmen_Id=" + unternehmenId);
 
 	          /*
@@ -128,7 +136,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	          Statement stmt = con.createStatement();
 
 	          stmt.executeUpdate("DELETE FROM Team " + "WHERE Team_Id=" + t.getId() );
-
+	          super.delete(t);
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
@@ -145,9 +153,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 		  Connection con = DBConnection.connection();
 
 	        try {
-	          Statement stmt = con.createStatement();
+	        	t.setId(super.update(t));
+	        	
+	        	Statement stmt = con.createStatement();
 
-	          stmt.executeUpdate("UPDATE Team SET Name='"+t.getName()
+	        	stmt.executeUpdate("UPDATE Team SET Name='"+t.getName()
 	        		  +"',"+"', Unternehmen_Id="+t.getUnternehmenId()
 	        		  );					
 
@@ -167,10 +177,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
 	  public Team insert(Team t){
-		  
+		  //DB-Verbindung holen
 		  Connection con = DBConnection.connection();
 
 	        try {
+	        	//Leeres SQL-Statement anlegen
 	          Statement stmt = con.createStatement();
 
 	        
