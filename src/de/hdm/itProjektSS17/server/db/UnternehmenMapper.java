@@ -120,7 +120,7 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		     
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("UPDATE unternehmen SET Name=\"" + u.getName() + "\" "
+		      stmt.executeUpdate("UPDATE unternehmen SET Name='" + u.getName() + "' "
 		          + "WHERE Unternehmen_Id=" + u.getId());
 		     
 		     
@@ -129,7 +129,6 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		      e.printStackTrace();
 		    }
 		    
-		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurÃ¼ck
 		    return u;
 	  }
     
@@ -150,7 +149,6 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		       	u.setId(super.insert(u));
 			   	//System.out.println(u.getId());       
 		        //Leeres SQL-Statement fÃ¼r die Insert- AusfÃ¼hrung anlegen.
-		       // stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
 		        stmt.executeUpdate("INSERT INTO `unternehmen` (`Unternehmen_Id`, `Name`) "

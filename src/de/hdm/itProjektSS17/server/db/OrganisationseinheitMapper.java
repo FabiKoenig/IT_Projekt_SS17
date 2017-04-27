@@ -197,17 +197,16 @@ public class OrganisationseinheitMapper {
 		    id=o.getId();
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("UPDATE organisationseinheit " + "SET Strasse=\""
-		          + o.getStrasse() + "\", " + "Hausnummer=\"" + o.getHausnummer() + "\"," + "PLZ=\"" + o.getPlz() + "\","
-		    		  + "Ort=\"" + o.getOrt() + "\"," + "Partnerprofil_Id=" + o.getPartnerprofilId() + "," + "Projektmarktplatz_Id=" + o.getProjektmarktplatzId() + ","
-		    		  + "WHERE Organisationseinheit_Id=" + o.getId());
+		      stmt.executeUpdate("UPDATE organisationseinheit SET Strasse='"
+		          + o.getStrasse() + "','" + "Hausnummer=" + o.getHausnummer() + "','" + "PLZ=" + o.getPlz() + "','"
+		    		  + "Ort=" + o.getOrt() + "'," + "Partnerprofil_Id=" + o.getPartnerprofilId() + "," + "Projektmarktplatz_Id=" + o.getProjektmarktplatzId() + ","
+		    		  + " WHERE Organisationseinheit_Id=" + o.getId());
 		      
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
-		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurück
 		    return id;
 	  }
 	
