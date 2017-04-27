@@ -91,7 +91,7 @@ public class OrganisationseinheitMapper {
 				o.setStrasse(rs.getString("Strasse"));
 				o.setHausnummer(rs.getString("Hausnummer"));
 				o.setPlz(rs.getInt("PLZ"));
-				o.setProjektmarktplatzId(rs.getInt("Unternehmen_Id"));
+				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
 				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 		result.add(o);
 	}
