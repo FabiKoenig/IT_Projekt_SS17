@@ -10,7 +10,7 @@ public class DBConnection {
 	/**
 	 * Die URL, mit deren Hilfe die Datenbank angesprochen wird.
 	 */
-	private static String url = "jdbc:mysql://localhost:3306/itprojekt";
+	private static String url = "jdbc:mysql://localhost:3306/itprojekt?serverTimezone=UTC";
 	
 	private static String user = "root";
 	
