@@ -28,7 +28,7 @@ public class OrganisationseinheitMapper {
 	/*Suche einer Organisationseinheit durch eine eindeutige ID(Primärschlüssel).
 	 *Die Organisationseinheit mit der übergebenen ID wird zurückgegeben.
 	 */
-	public Organisationseinheit findById(int id){
+	protected Organisationseinheit findById(int id){
 
 		Connection con = DBConnection.connection();
 		
@@ -65,10 +65,8 @@ public class OrganisationseinheitMapper {
 	 * @param o
 	 * @return Liefert eine Organisationseinheit entsprechend des uebergebenen Objekts zurueck
 	 */
-	public Organisationseinheit findByObject(Organisationseinheit o){
-		this.findById(o.getId());
-		return o;
-		
+	protected Organisationseinheit findByObject(Organisationseinheit o){
+		return this.findById(o.getId()); 
 	}
 	
 	/*Suche von Organisationseinheit-Objekten auf einem bestimmten Projektmarktplatz.
@@ -108,7 +106,7 @@ public class OrganisationseinheitMapper {
 	/*Suceh von einer Organisationseinheit durch ein übergebendes Partnerprofil.
 	 *Ein Organisationseinheit-Objekt wird zurueckgegeben.
 	 */
-	public Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
+	protected Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
 	Connection con = DBConnection.connection();
 		
 		try{
@@ -144,10 +142,10 @@ public class OrganisationseinheitMapper {
 	/*Durch die insert-Methode kann eine neue Organisationseinheit in die Datenbank geschrieben werden.
 	 *Die id des Projekts wird überprüft und im Verlauf der Methode ggf. angepasst.
 	 */
-	public Organisationseinheit insert(Organisationseinheit o){
+	protected int insert(Organisationseinheit o){
 		 
 	    Connection con = DBConnection.connection();
-
+	    int id=0;
 	    try {
 	    		
 	      Statement stmt = con.createStatement();
@@ -156,8 +154,8 @@ public class OrganisationseinheitMapper {
 	       * Zunächst schauen wir nach, welches der momentan höchste
 	       * Primärschlüsselwert ist.
 	       */
-	      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-	          + "FROM person ");
+	      ResultSet rs = stmt.executeQuery("SELECT MAX(Organisationseinheit_Id) AS maxid "
+	          + "FROM organisationseinheit");
 
 	      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 	      if (rs.next()) {
@@ -166,12 +164,12 @@ public class OrganisationseinheitMapper {
 	         * Primärschlüssel.
 	         */
 	        o.setId(rs.getInt("maxid") + 1);
-
+	        id=o.getId();
 	        stmt = con.createStatement();
 
 	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-	        stmt.executeUpdate("INSERT INTO person (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id) "
-	            + "VALUES (" + o.getId() + ",'" + o.getStrasse() + "','"
+	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id) "
+	            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
 	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() + "','"+ o.getProjektmarktplatzId() +"')");
 	      }
 	    }
@@ -179,7 +177,7 @@ public class OrganisationseinheitMapper {
 	      e.printStackTrace();
 	    }
 
-	    return o;
+	    return id;
 	  
   }
 
@@ -190,7 +188,7 @@ public class OrganisationseinheitMapper {
 	 *Return wird das übergebene Objekt.
 	 * 
 	 */
-	public Organisationseinheit update(Organisationseinheit o){
+	protected Organisationseinheit update(Organisationseinheit o){
 		
 		Connection con = DBConnection.connection();
 		    
@@ -218,7 +216,7 @@ public class OrganisationseinheitMapper {
 	/*Durch die delete- Methode kann ein Organisationseinheit Objekt in der Datenbank gelöscht werden.
 	 *Gelöscht wird das übergebene Objekt.
 	 */
-	public void delete(Organisationseinheit o){
+	protected void delete(Organisationseinheit o){
 		 Connection con = DBConnection.connection();
 
 		    try {
