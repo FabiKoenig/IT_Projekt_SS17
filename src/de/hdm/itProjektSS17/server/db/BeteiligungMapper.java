@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
@@ -16,6 +17,8 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
  * Mapper für Beteiligung-Objekte.
  */
 public class BeteiligungMapper {
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -258,7 +261,7 @@ public class BeteiligungMapper {
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE beteiligung " + "SET Umfang=\""
-		          + b.getUmfang() + "\", " + "Startdatum=\"" + b.getStartDatum() +"\", "+ "Enddatum=\"" + b.getEndDatum()+ "\", "
+		          + b.getUmfang() + "\", " + "Startdatum=\"" + sdf.format(b.getStartDatum()) +"\", "+ "Enddatum=\"" + sdf.format(b.getEndDatum())+ "\", "
 		          + "Bewertung_Id=\"" + b.getBewertungId() + "\", "+ "Beteiligter_Id=\"" + b.getBeteiligterId() 
 		          + "\", "+ "Projekt_Id=\"" + b.getProjektId() + "\" " + "WHERE Beteiligung_Id=" + b.getId());
 
@@ -300,16 +303,16 @@ public class BeteiligungMapper {
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, Startdatum, Enddatum, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
+		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
 		            + "VALUES ("
 		        	+ b.getId() 
 		        	+ "," 
 		        	+ b.getUmfang() 
-		        	+ "," 
-		        	+ b.getStartDatum() 
-		        	+ "," 
-		        	+ b.getEndDatum() 
-		        	+ ","
+		        	+ ",'" 
+		        	+ sdf.format(b.getStartDatum())
+		        	+ "','" 
+		        	+ sdf.format(b.getEndDatum())
+		        	+ "',"
 		            + b.getBewertungId() 
 		            + "," 
 		            + b.getBeteiligterId() 
