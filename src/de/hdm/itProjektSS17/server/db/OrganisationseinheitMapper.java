@@ -83,7 +83,7 @@ public class OrganisationseinheitMapper {
 	/*Suche von Organisationseinheit-Objekten auf einem bestimmten Projektmarktplatz.
 	 *Hierzu wird ein Projektmarktplatz übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
 	 */
-	public Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
+	protected Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
 		Connection con = DBConnection.connection();
 		
 		// Vektor, in dem die Personen nach einem bestimmten Team gespeichert werden
@@ -199,27 +199,27 @@ public class OrganisationseinheitMapper {
 	 *Return wird das übergebene Objekt.
 	 * 
 	 */
-	protected Organisationseinheit update(Organisationseinheit o){
+	protected int update(Organisationseinheit o){
 		
 		Connection con = DBConnection.connection();
-		    
+		int id=0;
 
 		    try {
-		    	
+		    id=o.getId();
 		      Statement stmt = con.createStatement();
 
 		      stmt.executeUpdate("UPDATE organisationseinheit " + "SET Strasse=\""
 		          + o.getStrasse() + "\", " + "Hausnummer=\"" + o.getHausnummer() + "\"," + "PLZ=\"" + o.getPlz() + "\","
-		    		  + "Ort=\"" + o.getOrt() + "\"," + "Partnerprofil_Id=\"" + o.getPartnerprofilId() + "\"," + "Projektmarktplatz_Id=\"" + o.getProjektmarktplatzId() + "\","
+		    		  + "Ort=\"" + o.getOrt() + "\"," + "Partnerprofil_Id=" + o.getPartnerprofilId() + "," + "Projektmarktplatz_Id=" + o.getProjektmarktplatzId() + ","
 		    		  + "WHERE Organisationseinheit_Id=" + o.getId());
-
+		      
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
 		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurück
-		    return o;
+		    return id;
 	  }
 	
 	

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
@@ -16,6 +17,8 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
  * Mapper für Beteiligung-Objekte.
  */
 public class BeteiligungMapper {
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -88,7 +91,8 @@ public class BeteiligungMapper {
 	   * @return Liefert eine Beteiligung entsprechend des uebergebenen Objekts zurueck.
 	   */
 	  public Beteiligung findByObject(Beteiligung b){
-		return b;
+		  
+			return this.findById(b.getId());
 	  }
 	  
 	  /**
@@ -257,7 +261,7 @@ public class BeteiligungMapper {
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE beteiligung " + "SET Umfang=\""
-		          + b.getUmfang() + "\", " + "Startdatum=\"" + b.getStartDatum() +"\", "+ "Enddatum=\"" + b.getEndDatum()+ "\", "
+		          + b.getUmfang() + "\", " + "Startdatum=\"" + sdf.format(b.getStartDatum()) +"\", "+ "Enddatum=\"" + sdf.format(b.getEndDatum())+ "\", "
 		          + "Bewertung_Id=\"" + b.getBewertungId() + "\", "+ "Beteiligter_Id=\"" + b.getBeteiligterId() 
 		          + "\", "+ "Projekt_Id=\"" + b.getProjektId() + "\" " + "WHERE Beteiligung_Id=" + b.getId());
 
@@ -275,39 +279,52 @@ public class BeteiligungMapper {
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
 	  public Beteiligung insert(Beteiligung b){
-//		  
-//		    Connection con = DBConnection.connection();
-//
-//		    try {
-//		      Statement stmt = con.createStatement();
-//
-//		      /*
-//		       * Zunächst schauen wir nach, welches der momentan höchste
-//		       * Primärschlüsselwert ist.
-//		       */
-//		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-//		          + "FROM beteiligung ");
-//
-//		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-//		      if (rs.next()) {
-//		        /*
-//		         * c erhält den bisher maximalen, nun um 1 inkrementierten
-//		         * Primärschlüssel.
-//		         */
-//		        b.setId(rs.getInt("maxid") + 1);
-//
-//		        stmt = con.createStatement();
-//
-//		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-//		        stmt.executeUpdate("INSERT INTO beteiligung (id, firstName, lastName) "
-//		            + "VALUES (" + c.getId() + ",'" + c.getFirstName() + "','"
-//		            + c.getLastName() + "')");
-//		      }
-//		    }
-//		    catch (SQLException e) {
-//		      e.printStackTrace();
-//		    }
-//
+		  
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      Statement stmt = con.createStatement();
+
+		      /*
+		       * Zunächst schauen wir nach, welches der momentan höchste
+		       * Primärschlüsselwert ist.
+		       */
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Beteiligung_Id) AS maxid "
+		          + "FROM beteiligung ");
+
+		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		      if (rs.next()) {
+		        /*
+		         * c erhält den bisher maximalen, nun um 1 inkrementierten
+		         * Primärschlüssel.
+		         */
+		        b.setId(rs.getInt("maxid") + 1);
+
+		        stmt = con.createStatement();
+
+		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
+		            + "VALUES ("
+		        	+ b.getId() 
+		        	+ "," 
+		        	+ b.getUmfang() 
+		        	+ ",'" 
+		        	+ sdf.format(b.getStartDatum())
+		        	+ "','" 
+		        	+ sdf.format(b.getEndDatum())
+		        	+ "',"
+		            + b.getBewertungId() 
+		            + "," 
+		            + b.getBeteiligterId() 
+		            + "," 
+		            + b.getProjektId()
+		            + ")");
+		      }
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
 		    return b;
 		  
 	  }

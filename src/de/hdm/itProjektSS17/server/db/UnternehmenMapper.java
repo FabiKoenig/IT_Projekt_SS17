@@ -49,7 +49,7 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Unternehmen_Id, Name"
 					+ " FROM unternehmen " + "WHERE Unternehmen_Id=" + 
-			id + "ORDER BY Name");
+			id + " ORDER BY Name");
 			
 			
 			if(rs.next()){
@@ -81,8 +81,8 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
      * @return Liefert ein Unternehmen entsprechend des Ã¼bergebenen Objekts zurueck.
      */
     public Unternehmen findByObject(Unternehmen u){
-		this.findById(u.getId());
-    	return u;
+		return this.findById(u.getId());
+    	//return u;
     	
     }
 
@@ -116,18 +116,19 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		    
 
 		    try {
-		    	
-		     // OrganisationseinheitMapper.organisationseinheitMapper().update(u);
+		    u.setId(super.update(u));
+		     
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("UPDATE unternehmen " + "\", " + "Name=\"" + u.getName() + "\" "
+		      stmt.executeUpdate("UPDATE unternehmen SET Name=\"" + u.getName() + "\" "
 		          + "WHERE Unternehmen_Id=" + u.getId());
-		      super.delete(u);
+		     
+		     
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
-
+		    
 		    // Um Analogie zu insert(Person p) zu wahren, geben wir p zurÃ¼ck
 		    return u;
 	  }
@@ -147,9 +148,9 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 		        Statement stmt = con.createStatement();
 		        
 		       	u.setId(super.insert(u));
-			   	System.out.println(u.getId());       
+			   	//System.out.println(u.getId());       
 		        //Leeres SQL-Statement fÃ¼r die Insert- AusfÃ¼hrung anlegen.
-		        stmt = con.createStatement();
+		       // stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
 		        stmt.executeUpdate("INSERT INTO `unternehmen` (`Unternehmen_Id`, `Name`) "

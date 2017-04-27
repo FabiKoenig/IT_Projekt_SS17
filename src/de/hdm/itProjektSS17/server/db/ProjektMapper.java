@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 
@@ -14,6 +15,7 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
  */
 public class ProjektMapper {
 
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
 	 */
@@ -56,8 +58,8 @@ public class ProjektMapper {
 				
 				  Projekt p = new Projekt();
 				  p.setId(rs.getInt("Projekt_Id"));
-				  p.setStartdatum(rs.getString("Startdatum"));
-				  p.setEnddatum(rs.getString("Enddatum"));
+				  p.setStartdatum(rs.getDate("Startdatum"));
+				  p.setEnddatum(rs.getDate("Enddatum"));
 				  p.setName(rs.getString("Name"));
 				  p.setBeschreibung(rs.getString("Beschreibung"));
 				  p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -79,9 +81,7 @@ public class ProjektMapper {
 	   * @return Liefert ein Projekt entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Projekt findByObject(Projekt p){
-		this.findById(p.getId());
-		  
-		return p;		  
+		  return this.findById(p.getId());		  
 	  }
 	  
 	  /**
@@ -103,8 +103,8 @@ public class ProjektMapper {
 				Projekt p = new Projekt();
 				
 				p.setId(rs.getInt("Projekt_Id"));
-				p.setStartdatum(rs.getString("Startdatum"));
-				p.setEnddatum(rs.getString("Enddatum"));
+				p.setStartdatum(rs.getDate("Startdatum"));
+				p.setEnddatum(rs.getDate("Enddatum"));
 				p.setName(rs.getString("Name"));
 				p.setBeschreibung(rs.getString("Beschreibung"));
 				p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -138,8 +138,8 @@ public class ProjektMapper {
 				Projekt p = new Projekt();
 				
 				p.setId(rs.getInt("Projekt_Id"));
-				p.setStartdatum(rs.getString("Startdatum"));
-				p.setEnddatum(rs.getString("Enddatum"));
+				p.setStartdatum(rs.getDate("Startdatum"));
+				p.setEnddatum(rs.getDate("Enddatum"));
 				p.setName(rs.getString("Name"));
 				p.setBeschreibung(rs.getString("Beschreibung"));
 				p.setProjektleiterId(rs.getInt("Projektleiter_Id"));
@@ -185,8 +185,8 @@ public class ProjektMapper {
 			
 			  Statement stmt = con.createStatement();
 			  
-			  stmt.executeUpdate("UPDATE projekt SET Startdatum='" + p.getStartdatum() + "', "
-			  		+ "Enddatum='" + p.getEnddatum() + "', " + "Name='" + p.getName() + "', "
+			  stmt.executeUpdate("UPDATE projekt SET Startdatum='" + format.format(p.getStartdatum()) + "', "
+			  		+ "Enddatum='" + format.format(p.getEnddatum()) + "', " + "Name='" + p.getName() + "', "
 					+ "Beschreibung='" + p.getBeschreibung() + "', " + "Projektleiter_Id=" + p.getProjektleiterId()
 					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId() + " WHERE Projekt_Id=" + p.getId());
 			  
@@ -217,8 +217,8 @@ public class ProjektMapper {
 				  p.setId(rs.getInt("maxid") + 1);
 				  
 				  stmt.executeUpdate("INSERT INTO projekt (Projekt_Id ,`Startdatum`, `Enddatum`, `Name`, `Beschreibung`, "
-				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getId() + ", '" + p.getStartdatum() + "', '"
-				  		+ p.getEnddatum() + "', '" + p.getName() + "', '" + p.getBeschreibung() + "', " + 
+				  		+ "Projektleiter_Id, Projektmarktplatz_Id) VALUES (" + p.getId() + ", '" + format.format(p.getStartdatum()) + "', '"
+				  		+ format.format(p.getEnddatum()) + "', '" + p.getName() + "', '" + p.getBeschreibung() + "', " + 
 				  		p.getProjektleiterId() + ", " + p.getProjektmarktplatzId() + ")");
 			}
 			  
