@@ -94,7 +94,7 @@ public class ProjektmarktplatzMapper{
 	        try {
 	          Statement stmt = con.createStatement();
 
-	          stmt.executeUpdate("DELETE FROM projektmarktplatz " + "WHERE id=" + p.getId());
+	          stmt.executeUpdate("DELETE FROM projektmarktplatz " + "WHERE Projektmarktplatz_Id=" + p.getId());
 
 	        }
 	        catch (SQLException e) {
@@ -113,8 +113,8 @@ public class ProjektmarktplatzMapper{
 	        try {
 	          Statement stmt = con.createStatement();
 
-	          stmt.executeUpdate("UPDATE Bewerbung SET Bezeichnung ='"+p.getBezeichnung()
-	        		  +"WHERE CustomerID ="+ p.getId()+"; ");
+	          stmt.executeUpdate("UPDATE projektmarktplatz SET Bezeichnung = '"+p.getBezeichnung()
+	        		  +"' WHERE Projektmarktplatz_Id ="+ p.getId()+";");
 
 	        }
 	        catch (SQLException e) {
@@ -142,7 +142,7 @@ public class ProjektmarktplatzMapper{
 	           * Primärschlüsselwert ist.
 	           */
 	          
-	          ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+	          ResultSet rs = stmt.executeQuery("SELECT MAX(projektmarktplatz_id) AS maxid "
 	                  + "FROM projektmarktplatz ");
 
 	              // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
@@ -154,7 +154,7 @@ public class ProjektmarktplatzMapper{
 	                p.setId(rs.getInt("maxid") + 1);
 	              }
 
-	           stmt.executeUpdate("INSERT INTO accounts (Projektmarktplatz_Id, Bezeichnung) " 
+	           stmt.executeUpdate("INSERT INTO projektmarktplatz (Projektmarktplatz_Id, Bezeichnung) " 
 	           + "VALUES ('" + p.getId() + "','" + p.getBezeichnung()+"')");
 	        }
 	        catch (SQLException e) {
