@@ -1,7 +1,8 @@
 package de.hdm.itProjektSS17.shared.bo;
 
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Projekt extends BusinessObject{
 	

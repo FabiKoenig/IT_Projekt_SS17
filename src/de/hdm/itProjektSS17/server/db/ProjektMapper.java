@@ -22,13 +22,17 @@ public class ProjektMapper {
 	private static ProjektMapper projektMapper = null;
 	
 	/**
-	 * Geschützter Konstruktor
+	 * Geschützter Konstruktor um zu verhindern, dass Objekte der Klasse <code>AusschreibungsMapper</code nicht 
+	 * außerhalb der Vererbungshierarchie dieser Klasse erstellt werden.
 	 */
 	protected ProjektMapper(){
 	}
 	
+
 	/**
-	 * @return projektMapper - Sicherstellung der Singleton-Eigenschaft der Mapperklasse 
+	 * Sicherstellung der Singleton-Eigenschaft der Mapperklasse, dass nur eine Instanz von 
+	 * <code>AusschreibungMapper</code> existiert.
+	 * @return <code>AusschreibungMapper</code>-Objekt
 	 */
 	  public static ProjektMapper projektMapper() {
 		    if (projektMapper == null) {
@@ -39,8 +43,9 @@ public class ProjektMapper {
 		  }
 	  
 	  /**
+	   * Suchen eines Projekts mit vorgegebener eindeutiger Projekt_Id.
 	   * 
-	   * @param id
+	   * @param id Primärschlüssel Projekt_Id der Tabelle projekt
 	   * @return Liefert ein Projekt entsprechend der übergebenen id zurück.
 	   */
 	  public Projekt findById(int id){
@@ -76,18 +81,19 @@ public class ProjektMapper {
 	  }
 	  
 	  /**
-	   * 
+	   * Suchen des Projekts durch das vorgebene Projekt-Objekt.
 	   * @param p
-	   * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
+	   * @return Liefert das Projekt entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Projekt findByObject(Projekt p){
 		  return this.findById(p.getId());		  
 	  }
 	  
 	  /**
+	   * Auslesen aller Projekte eines Projektmarktplatzes.
 	   * 
-	   * @param projektmarktplatzId
-	   * @return Alle Projekte auf dem übergebenen Projektmarktplatz werden zurückgegeben.
+	   * @param projektmarktplatzId Fremdschlüssel Projektmarktplatz_Id der Tabelle projekt
+	   * @return alle Projekte des Projektmarktplatzes
 	   */
 	  public Vector<Projekt> findByForeignProjektmarktplatzId(int projektmarktplatzId){
 		
@@ -120,9 +126,10 @@ public class ProjektMapper {
 	  }
 	  
 	  /**
+	   * Auslesen aller Projekte eines Projektleiters.
 	   * 
-	   * @param projektleiterId
-	   * @return Liefert alle Projekt des übergebenen Projektleiters zurück.
+	   * @param projektleiterId Fremdschlüssel Projektleiter_Id der Tabelle projekt
+	   * @return alle Projekte des Projektleiters
 	   */
 	  public Vector<Projekt> findByForeignProjektleiterId(int projektleiterId){
 		
@@ -154,9 +161,8 @@ public class ProjektMapper {
 	  }
 	  
 	  /**
-	   * 
-	   * @param p
-	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, löschen.
+	   * Löschen des übergebenen Projekts.
+	   * @param p das zu löschende Projekt-Objekt
 	   */
 	  public void delete(Projekt p){
 		  
@@ -173,9 +179,10 @@ public class ProjektMapper {
 	  }
 	  
 	  /**
+	   * Wiederholtes Schreiben eines <code>Projekt</code>-Objekts in die Datenbank.
 	   * 
 	   * @param p
-	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
+	   * @return das als Parameter übergebene, aktualisierte <code>Projekt</code>-Objekt
 	   */
 	  public Projekt update(Projekt p){
 		
@@ -187,8 +194,7 @@ public class ProjektMapper {
 			  
 			  stmt.executeUpdate("UPDATE projekt SET Startdatum='" + format.format(p.getStartdatum()) + "', "
 			  		+ "Enddatum='" + format.format(p.getEnddatum()) + "', " + "Name='" + p.getName() + "', "
-					+ "Beschreibung='" + p.getBeschreibung() + "', " + "Projektleiter_Id=" + p.getProjektleiterId()
-					+ ", " + "Projektmarktplatz_Id=" + p.getProjektmarktplatzId() + " WHERE Projekt_Id=" + p.getId());
+					+ "Beschreibung='" + p.getBeschreibung() + "' WHERE Projekt_Id=" + p.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -200,8 +206,11 @@ public class ProjektMapper {
 	  
 	  /**
 	   * 
-	   * @param p
-	   * @return Übergebenes Objekt als neue Entität in die Datenbank schreiben.
+	   * Einfügen eines <code>Projekt</code>-Objekts in die Datenbank. Dabei wird auch der Primärschlüssel des
+	   * übergebenen Objekts geprüft und ggf. berichtigt.
+	   * @param p das zu speichernde <code>Projekt</code>-Objekt, jedoch mit ggf. korrigiertem Primärschlüssel 
+	   * <code>Projekt_Id</code>.
+	   * @return .
 	   */
 	  public Projekt insert(Projekt p){
 		
