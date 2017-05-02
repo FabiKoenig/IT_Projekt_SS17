@@ -245,9 +245,7 @@ public class AusschreibungMapper {
 			  
 			  stmt.executeUpdate("UPDATE ausschreibung SET Bezeichnung='" + a.getBezeichnung() + "', " 
 			  		+ "Bewerbungsfrist='" + format.format(a.getBewerbungsfrist()) + "', " + "Ausschreibungstext='" + 
-					  a.getAusschreibungstext() + "', " + "Ausschreibender_Id="
-					  + a.getAusschreibenderId() + ", " + "Partnerprofil_Id=" + a.getPartnerprofilId() + 
-					  ", " + "Projekt_Id=" + a.getProjektId() + " WHERE Ausschreibung_Id = " + a.getId());
+					  a.getAusschreibungstext() + "' WHERE Ausschreibung_Id = " + a.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
