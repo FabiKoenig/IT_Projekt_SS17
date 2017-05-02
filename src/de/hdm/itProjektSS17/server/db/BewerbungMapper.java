@@ -120,8 +120,7 @@ public class BewerbungMapper {
           Statement stmt = con.createStatement();
 
           stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()
-		  +"', Ausschreibung_Id = '"+b.getAusschreibungId()+"', Erstellungsdatum='"+format.format(b.getErstellungsdatum()) + "', Organisationseinheit_Id='"+b.getOrganisationseinheitId()
-        		  +"' WHERE Bewerbung_Id ="+ b.getId()+"; ");
+          +"' WHERE Bewerbung_Id ="+ b.getId()+";");
 
         }
         catch (SQLException e) {

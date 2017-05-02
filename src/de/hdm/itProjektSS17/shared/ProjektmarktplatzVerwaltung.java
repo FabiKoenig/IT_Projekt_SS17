@@ -22,7 +22,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
 	
-	public Bewerbung createBewerbung(Date erstellungsdatum, String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
+	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
 	
 	public Projekt createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId, int projektmarktplatzId) throws IllegalArgumentException;
 	
@@ -34,7 +34,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Person createPerson(String vorname, String nachname, String anrede) throws IllegalArgumentException;
 	
-	public Projektmarktplatz createProjektmarktplatz(String bezeichnung, int personId) throws IllegalArgumentException;
+	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
 	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException;
 	

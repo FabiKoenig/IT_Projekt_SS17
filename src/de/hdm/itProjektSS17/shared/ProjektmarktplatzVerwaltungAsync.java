@@ -32,7 +32,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
 			AsyncCallback<Partnerprofil> callback);
 
-	void createBewerbung(Date erstellungsdatum, String bewerbungstext, int orgaId, int ausschreibungId,
+	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
 			AsyncCallback<Bewerbung> callback);
 
 	void createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId,
@@ -46,7 +46,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createPerson(String vorname, String nachname, String anrede, AsyncCallback<Person> callback);
 
-	void createProjektmarktplatz(String bezeichnung, int personId, AsyncCallback<Projektmarktplatz> callback);
+	void createProjektmarktplatz(String bezeichnung, AsyncCallback<Projektmarktplatz> callback);
 
 	void createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
 			AsyncCallback<Beteiligung> callback);

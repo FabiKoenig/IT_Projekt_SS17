@@ -178,10 +178,12 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Bewerbung createBewerbung(Date erstellungsdatum, String bewerbungstext, int orgaId, int ausschreibungId)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId){
+		Bewerbung b = new Bewerbung();
+		b.setBewerbungstext(bewerbungstext);
+		b.setOrganisationseinheitId(orgaId);
+		b.setAusschreibungId(ausschreibungId);
+		return this.bewerbungMapper.insert(b);
 	}
 
 	@Override
@@ -217,9 +219,11 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Projektmarktplatz createProjektmarktplatz(String bezeichnung, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException {
+		Projektmarktplatz p = new Projektmarktplatz();
+		p.setId(1);
+		p.setBezeichnung(bezeichnung);
+		return this.projektmarktplatzMapper.insert(p);
 	}
 
 	@Override
@@ -279,8 +283,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewerbung(Bewerbung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		this.bewerbungMapper.delete(b);		
 	}
 
 	@Override
@@ -315,8 +318,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		this.projektmarktplatzMapper.delete(p);
 	}
 
 	@Override
@@ -375,8 +377,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Projektmarktplatz getProjektmarktplatzById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.projektmarktplatzMapper.findById(id);
 	}
 
 	@Override
@@ -399,8 +400,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Bewerbung getBewerbungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.bewerbungMapper.findById(id);
 	}
 
 	@Override
@@ -517,14 +517,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.bewerbungMapper.update(b);
 	}
 
 	@Override
 	public Projektmarktplatz saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.projektmarktplatzMapper.update(p);
 	}
 
 	@Override
