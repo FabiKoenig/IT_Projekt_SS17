@@ -49,9 +49,9 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		
 		try{
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Person_Id, Anrede, Vorname, Nachname, Organisationseinheit_Id, Unternehmen_Id, Team_Id"
+			ResultSet rs = stmt.executeQuery("SELECT Person_Id, Anrede, Vorname, Nachname, Unternehmen_Id, Team_Id"
 					+ " FROM person " + "WHERE Person_Id=" + 
-			id + "ORDER BY Nachname");
+			id + " ORDER BY Nachname");
 			
 			
 			if(rs.next()){
@@ -83,7 +83,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 	/**
 	 * 
 	 * @param p
-	 * @return Liefert eine Person entsprechend des übergebenen Objekts zurueck.
+	 * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	 */
 	public Person findByObject(Person p){
 		
@@ -106,7 +106,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * "
 					+ " FROM person " + "WHERE Team_Id=" + 
-			teamId + "ORDER BY Nachname");
+			teamId + " ORDER BY Nachname");
 			
 			
 			while (rs.next()){
@@ -212,18 +212,17 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		    
 
 		    try {
-		    	
+		    	 p.setId(super.update(p));
 		     // OrganisationseinheitMapper.organisationseinheitMapper().update(p);
 		    	
 		      Statement stmt = con.createStatement();
-
+		      
 		      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
 		          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
 		          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=\""+ p.getTeamId() + "\" "
 		          + "WHERE Person_Id=" + p.getId());
 		      
-		      super.update(p);
-
+		   
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
@@ -248,21 +247,8 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		     // OrganisationseinheitMapper.organisationseinheitMapper().insert(p);
 		    	
 		      Statement stmt = con.createStatement();
-
-		      /*
-		       * Zunächst schauen wir nach, welches der momentan höchste
-		       * Primärschlüsselwert ist.
-		       */
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(Organisationseinheit_Id) AS maxid "
-		          + "FROM organisationseinheit ");
-
-		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-		      if (rs.next()) {
-		        /*
-		         * c erhält den bisher maximalen, nun um 1 inkrementierten
-		         * Primärschlüssel.
-		         */
-		        p.setId(rs.getInt("maxid") + 1);
+		      p.setId(super.insert(p));
+		      
 
 		        stmt = con.createStatement();
 
@@ -271,8 +257,8 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
 		            + p.getVorname() + "','" + p.getNachname() + "','" + p.getUnternehmenId() + "','" + p.getTeamId() +"')");
 		        
-		        super.insert(p);
-		      }
+		        
+		      
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();

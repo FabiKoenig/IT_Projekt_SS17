@@ -75,12 +75,12 @@ public class EigenschaftMapper {
 	  
 	    /**
 	     * @param e
-	     * @return Liefert eine Eigenschaft entsprechend des uebergebenen Objekts zurueck.
+	     * @return Liefert die ID entsprechend des übergebenen Objekts zurück.
 	     */
 	    public Eigenschaft findByObject(Eigenschaft e) {
 	      
-	    	this.findById(e.getId());
-	    	return e;
+	    	return this.findById(e.getId());
+	  
 	    }
 	    
 	    /**

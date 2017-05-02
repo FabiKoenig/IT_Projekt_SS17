@@ -7,7 +7,7 @@ public class Team extends Organisationseinheit{
 	private String name;
 
 	/**
-	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschlï¿½ssel
 	 */
 	private int unternehmenId = 0;
 	
@@ -20,14 +20,14 @@ public class Team extends Organisationseinheit{
 	}
 	
 	/**
-	 * @return Gibt den Fremdschlüssel unternehmenId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel unternehmenId zurï¿½ck.
 	 */
 	public int getUnternehmenId() {
 		return unternehmenId;
 	}
 	
 	/**
-	 * @param Setzt den Fremdschlüssel unternehmenId.
+	 * @param Setzt den Fremdschlï¿½ssel unternehmenId.
 	 */
 	public void setUnternehmenId(int unternehmenId) {
 		this.unternehmenId = unternehmenId;
