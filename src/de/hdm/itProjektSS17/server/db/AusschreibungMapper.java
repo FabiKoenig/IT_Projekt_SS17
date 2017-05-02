@@ -27,13 +27,16 @@ public class AusschreibungMapper {
 	private static AusschreibungMapper ausschreibungMapper = null;
 	
 	/**
-	 * Geschützter Konstruktor
+	 * Geschützter Konstruktor, um zu verhindern, dass Objekte der Klasse <code>AusschreibungsMapper</code nicht 
+	 * außerhalb der Vererbungshierarchie dieser Klasse erstellt werden.
 	 */
 	protected AusschreibungMapper(){
 	}
 	
 	/**
-	 * @return ausschreibungMapper - Sicherstellung der Singleton-Eigenschaft der Mapperklasse 
+	 * Sicherstellung der Singleton-Eigenschaft der Mapperklasse, dass nur eine Instanz von 
+	 * <code>AusschreibungMapper</code> existiert.
+	 * @return <code>AusschreibungMapper</code>-Objekt
 	 */
 	  public static AusschreibungMapper ausschreibungMapper() {
 		    if (ausschreibungMapper == null) {
@@ -44,8 +47,9 @@ public class AusschreibungMapper {
 		  }
 	
 	  /**
+	   * Suchen einer Ausschreibung mit vorgegebener eindeutiger Ausschreibung_Id.
 	   * 
-	   * @param id
+	   * @param id Primärschlüssel Ausschreibung_Id der Tabelle ausschreibung
 	   * @return Liefert eine Ausschreibung entsprechend der übergebenen id zurück.
 	   */
 	  public Ausschreibung findById(int id){
@@ -80,17 +84,18 @@ public class AusschreibungMapper {
 	  }
 	
 	  /**
-	   * 
+	   * Suchen der Ausschreibung durch das vorgebene Ausschreibung-Objekt.
 	   * @param a
-	   * @return Liefert eine Ausschreibung entsprechend des übergebenen Objekts zurück.
+	   * @return Liefert die Ausschreibung entsprechend des übergebenen Objekts zurück.
 	   */
 	  public Ausschreibung findByObject(Ausschreibung a){
 		  return this.findById(a.getId());
 	  }
 	  /**
+	   * Auslesen aller Ausschreibungen eines Projekts.
 	   * 
-	   * @param projektId
-	   * @return Liefert alle Ausschreibungen zu dem übergebenen Projekt zurück.
+	   * @param projektId Fremdschlüssel Projekt_Id der Tabelle ausschreibung
+	   * @return alle Ausschreiben des Projekts
 	   */
 	  public Vector<Ausschreibung> findByForeignProjektId(int projektId){
 		
@@ -128,8 +133,9 @@ public class AusschreibungMapper {
 	  }
 	  
 	  /**
+	   * Auslesen der Ausschreibung des Partnerprofils.
 	   * 
-	   * @param partnerprofilId
+	   * @param partnerprofilId Fremdschlüssel Partnerprofil_Id der Tabelle ausschreibung 
 	   * @return Liefert die Ausschreibung zu dem übergebenen Partnerprofils zurück.
 	   */
 	  public Ausschreibung findByForeignPartnerprofilId(int partnerprofilId){
@@ -166,8 +172,9 @@ public class AusschreibungMapper {
 	  }
 	  
 	  /**
+	   * Auslesen aller Ausschreibungen eines Ausschreibenden.
 	   * 
-	   * @param organisationseinheitId
+	   * @param organisationseinheitId Fremdschlüssel der Tabelle ausschreibung
 	   * @return Liefert alle Ausschreibungen der übergebenen Organisagtionseinheit zurück. 
 	   */
 	  public Vector<Ausschreibung> findByForeignAusschreibenderId(int organisationseinheitId){
@@ -205,9 +212,8 @@ public class AusschreibungMapper {
 	  }
 	  
 	  /**
-	   * 
-	   * @param a
-	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, löschen.
+	   * Löschen der übergebenen Ausschreibung.
+	   * @param a das zu löschende Ausschreibung-Objekt
 	   */
 	  public void delete(Ausschreibung a){
 		  
@@ -224,9 +230,10 @@ public class AusschreibungMapper {
 	  }
 	  
 	  /**
+	   * Wiederholtes Schreiben eines <code>Ausschreibung</code>-Objekts in die Datenbank.
 	   * 
 	   * @param a
-	   * @return Zielentität aus der Datenbank, gemäß den Informationen des übergebenen Objekts, aktualisieren.
+	   * @return das als Parameter übergebene, aktualisierte <code>Ausschreibung</code>-Objekt
 	   */
 	  public Ausschreibung update(Ausschreibung a){
 		
@@ -251,8 +258,11 @@ public class AusschreibungMapper {
 	  
 	  /**
 	   * 
-	   * @param a
-	   * @return Übergebenes Objekt als neue Entität in die Datenbank schreiben.
+	   * Einfügen eines <code>Ausschreibung</code>-Objekts in die Datenbank. Dabei wird auch der Primärschlüssel des
+	   * übergebenen Objekts geprüft und ggf. berichtigt.
+	   * @param a das zu speichernde <code>Ausschreibung</code>-Objekt, jedoch mit ggf. korrigiertem Primärschlüssel 
+	   * <code>Ausschreibung_Id</code>.
+	   * @return .
 	   */
 	  public Ausschreibung insert(Ausschreibung a){
 		
