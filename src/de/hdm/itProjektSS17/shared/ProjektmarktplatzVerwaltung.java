@@ -30,8 +30,6 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Team createTeam(String name, int personId) throws IllegalArgumentException;
 	
-	public Unternehmen createUnternehmen(String name, int personId) throws IllegalArgumentException;
-	
 	public Person createPerson(String vorname, String nachname, String anrede) throws IllegalArgumentException;
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
@@ -163,6 +161,10 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
 	public Ausschreibung getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
+
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException;
+
+	
 	
 	
 	
