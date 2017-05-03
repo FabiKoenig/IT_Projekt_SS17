@@ -749,67 +749,66 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException {
-		return this.bewerbungMapper.update(b);
+	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException {
+		this.bewerbungMapper.update(b);
 	}
 
 	@Override
-	public Projektmarktplatz saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
-		return this.projektmarktplatzMapper.update(p);
+	public void saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
+		this.projektmarktplatzMapper.update(p);
 	}
 
 	@Override
-	public Team saveTeam(Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveTeam(Team t) throws IllegalArgumentException {
+		this.teamMapper.update(t);
+		
 	}
 
 	@Override
-	public Eigenschaft saveEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveEigenschaft(Eigenschaft e) throws IllegalArgumentException {
+		this.eigenschaftMapper.update(e);
+		
 	}
 
 	@Override
-	public Unternehmen saveUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		this.unternehmenMapper.update(u);
+		
 	}
 
 	@Override
-	public Person savePerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void savePerson(Person p) throws IllegalArgumentException {
+		this.personMapper.update(p);
+		
 	}
 
 	@Override
-	public Beteiligung saveBeteiligung(Beteiligung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveBeteiligung(Beteiligung b) throws IllegalArgumentException {
+		this.beteiligungMapper.update(b);
+		
 	}
 
 	@Override
-	public Bewertung saveBewertung(Bewertung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveBewertung(Bewertung b) throws IllegalArgumentException {
+		this.bewertungMapper.update(b);
+		
 	}
 
 	@Override
-	public Partnerprofil savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
+		this.partnerprofilMapper.update(p);
+		
 	}
 
 	@Override
-	public Projekt saveProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveProjekt(Projekt p) throws IllegalArgumentException {
+		this.projektMapper.update(p);
+		
 	}
 
 	@Override
-	public Ausschreibung saveAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException {
+		this.ausschreibungMapper.update(a);
 	}
 
 	@Override
