@@ -743,9 +743,19 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+		Vector<Ausschreibung> result = new Vector<Ausschreibung>();
+		
+		if (p != null && this.ausschreibungMapper != null) {
+			Vector<Ausschreibung> ausschreibungen = this.ausschreibungMapper.findByForeignProjektId(p.getId());
+			
+			if (ausschreibungen != null) {
+				result.addAll(ausschreibungen);
+			}
+		}
+		
+		return result;
+			}
 
 	@Override
 	public void setPerson(Person p) throws IllegalArgumentException {
