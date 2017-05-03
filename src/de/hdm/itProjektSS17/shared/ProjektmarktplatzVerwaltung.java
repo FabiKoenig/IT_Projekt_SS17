@@ -103,7 +103,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Team getTeamByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	Team getTeamByForeignOrganisationseinheit(Organisationseinheit o);
 	
 	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
@@ -131,7 +131,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o);
 	
 	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
