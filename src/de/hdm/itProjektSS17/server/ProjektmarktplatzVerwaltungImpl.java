@@ -232,10 +232,18 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException {
+	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+			String ort,int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setUnternehmenId(unternehmenId);
+		a.setStrasse(strasse);
+		a.setHausnummer(hausnr);
+		a.setPlz(plz);
+		a.setOrt(ort);
+		a.setPartnerprofilId(partnerprofilId);
+		a.setProjektmarktplatzId(projektmarktplatzId);
+		
 		return this.teamMapper.insert(a);
 	}
 

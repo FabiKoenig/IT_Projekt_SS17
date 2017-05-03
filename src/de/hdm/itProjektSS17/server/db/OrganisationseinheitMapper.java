@@ -180,9 +180,9 @@ public class OrganisationseinheitMapper {
 
 	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id) "
-	            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
-	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() + "','"+ o.getProjektmarktplatzId() +"')");
-	      }
+		            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
+		            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() + "','"+ o.getProjektmarktplatzId() +"')");
+	      	}
 	    }
 	    catch (SQLException e) {
 	      e.printStackTrace();
