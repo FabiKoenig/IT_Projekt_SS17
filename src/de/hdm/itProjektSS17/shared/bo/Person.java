@@ -15,12 +15,12 @@ public class Person extends Organisationseinheit {
 	/**
 	 * Realisierung der Beziehung zu einem Team durch einen Fremdschlüssel
 	 */
-	private int teamId = 0;
+	private Integer teamId = null;
 	
 	/**
 	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschlüssel
 	 */
-	private int unternehmenId = 0;
+	private Integer unternehmenId = null;
 
 
 	public String getAnrede() {
@@ -45,26 +45,26 @@ public class Person extends Organisationseinheit {
 	/**
 	 * @return Gibt den Fremdschlüssel teamId zurück.
 	 */
-	public int getTeamId() {
+	public Integer getTeamId() {
 		return teamId;
 	}
 	/**
 	 * @param Setzt den Fremdschlüssel teamId.
 	 */
-	public void setTeamId(int teamId) {
+	public void setTeamId(Integer teamId) {
 		this.teamId = teamId;
 	}
 	/**
 	 * @return Gibt den Fremdschlüssel unternehmenId zurück.
 	 */
-	public int getUnternehmenId() {
+	public Integer getUnternehmenId() {
 		return unternehmenId;
 	}
 	
 	/**
 	 * @param Setzt den Fremdschlüssel unternehmenId.
 	 */
-	public void setUnternehmenId(int unternehmenId) {
+	public void setUnternehmenId(Integer unternehmenId) {
 		this.unternehmenId = unternehmenId;
 	}
 	

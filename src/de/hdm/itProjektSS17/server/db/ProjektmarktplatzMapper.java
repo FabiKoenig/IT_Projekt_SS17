@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
+import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
@@ -173,4 +175,6 @@ public class ProjektmarktplatzMapper{
 	        return p;
 		  
 	  }
+	  
+
 }
