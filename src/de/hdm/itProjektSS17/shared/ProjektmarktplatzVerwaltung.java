@@ -170,7 +170,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
 
-	Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
 			int partnerprofilId, int projektmarktplatzId);
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
