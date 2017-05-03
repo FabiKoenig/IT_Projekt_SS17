@@ -590,27 +590,23 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException {	
+		return this.ausschreibungMapper.findById(id);
 	}
 
 	@Override
 	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.unternehmenMapper.findById(id);
 	}
 
 	@Override
 	public Team getTeamById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.teamMapper.findById(id);
 	}
 
 	@Override
 	public Person getPersonById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.personMapper.findById(id);
 	}
 
 	@Override
@@ -620,20 +616,17 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Projekt getProjektById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.projektMapper.findById(id);
 	}
 
 	@Override
 	public Beteiligung getBeteiligungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.beteiligungMapper.findById(id);
 	}
 
 	@Override
 	public Bewertung getBewertungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.bewertungMapper.findById(id);
 	}
 
 	@Override
@@ -643,14 +636,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Partnerprofil getPartnerprofilById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.partnerprofilMapper.findById(id);
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.eigenschaftMapper.findById(id);
 	}
 
 	@Override
