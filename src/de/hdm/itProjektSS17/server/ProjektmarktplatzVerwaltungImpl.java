@@ -213,9 +213,26 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Person createPerson(String vorname, String nachname, String anrede) throws IllegalArgumentException {
+	public Person createPerson(String vorname, String nachname, String anrede, 
+			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Person p = new Person();
+		p.setId(1);
+		p.setVorname(vorname);
+		p.setNachname(nachname);
+		p.setAnrede(anrede);
+		p.setStrasse(strasse);
+		p.setHausnummer(hausnr);
+		p.setOrt(ort);
+		p.setPlz(plz);
+		p.setPartnerprofilId(partnerprofilId);
+		p.setProjektmarktplatzId(projektmarktplatzId);
+		p.setTeamId(teamId);
+		p.setUnternehmenId(unternehmenId);
+		
+	
+		return this.personMapper.insert(p);
 	}
 
 	@Override
@@ -231,6 +248,7 @@ implements ProjektmarktplatzVerwaltung {
 			throws IllegalArgumentException {
 		
 		Beteiligung b = new Beteiligung();
+		b.setId(1);
 		b.setUmfang(umfang);
 		b.setStartDatum(startdatum);
 		b.setEndDatum(enddatum);
