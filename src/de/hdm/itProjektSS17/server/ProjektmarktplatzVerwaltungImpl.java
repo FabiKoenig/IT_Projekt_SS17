@@ -210,7 +210,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**Erstellt ein Partnerprofil für eine Organisationseinheit*/
 	@Override
-	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum,
+	/**public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
@@ -224,20 +224,22 @@ implements ProjektmarktplatzVerwaltung {
 			Person pp = personMapper.findById(orgaId);
 			Team t = teamMapper.findById(orgaId);
 			Unternehmen u = unternehmenMapper.findById(orgaId);
+
 		
 		if(orgaId == pp.getId()){
 			pp.setPartnerprofilId(po.getId());
-			personMapper.update(personMapper.findById(orgaId));
+			
+			//personMapper.update(personMapper.findById(orgaId));
 			}
 		
 		if(orgaId == t.getId()){
 			t.setPartnerprofilId(po.getId());
-			teamMapper.update(teamMapper.findById(orgaId));
+			//teamMapper.update(teamMapper.findById(orgaId));
 			}
 		
 		if(orgaId == u.getId()){
 			u.setPartnerprofilId(po.getId());
-			unternehmenMapper.update(unternehmenMapper.findById(orgaId));
+			//unternehmenMapper.update(unternehmenMapper.findById(orgaId));
 			}
 		}
 		catch(Exception e){
@@ -246,11 +248,30 @@ implements ProjektmarktplatzVerwaltung {
 		
 		return null;
 	}
+	**/
 	
-	
+	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
+			int orgaId) throws IllegalArgumentException {
+		Partnerprofil p = new Partnerprofil();
+		p.setId(1);
+		p.setErstellungsdatum(erstellungsdatum);
+		p.setAenderungdatum(aenderungsdatum);
+		
+		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+		//die korrekte ID vergeben.
+		Partnerprofil pa = partnerprofilMapper.insert(p);
+		
+		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
+		//korrekte PartnerprofilId an die Ausschreibung übergeben.
+		Person pe = personMapper.findById(orgaId);
+		pe.setPartnerprofilId(pa.getId());
+		PersonMapper.personMapper().update(pe);
+				return null;
+		
+	}
 	
 
-	@Override
+	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
 		Bewerbung b = new Bewerbung();
 		b.setBewerbungstext(bewerbungstext);
@@ -444,8 +465,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		this.bewertungMapper.delete(b);
 	}
 
 	@Override
@@ -765,14 +785,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Bewertung saveBewertung(Bewertung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.bewertungMapper.update(b);
 	}
 
 	@Override
 	public Partnerprofil savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.partnerprofilMapper.update(p);
 	}
 
 	@Override
