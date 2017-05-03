@@ -104,7 +104,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Team getTeamByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	Team getTeamByForeignOrganisationseinheit(Organisationseinheit o);
 	
 	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
@@ -131,6 +131,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
 	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
+	
+	Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o);
 	
 	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
@@ -166,10 +168,12 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException;
+	Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
+			int partnerprofilId, int projektmarktplatzId);
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 
+	
 	
 	
 	

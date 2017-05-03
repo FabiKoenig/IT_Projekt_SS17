@@ -148,8 +148,6 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getProjektmarktplatzById(int id, AsyncCallback<Projektmarktplatz> callback);
 
-	void getTeamByForeignUnternehmen(Unternehmen u, AsyncCallback<Team> callback);
-
 	void getTeamById(int id, AsyncCallback<Team> callback);
 
 	void getUnternehmenById(int id, AsyncCallback<Unternehmen> callback);
@@ -181,5 +179,9 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void setPerson(Person p, AsyncCallback<Void> callback);
 
 	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
+
+	void getTeamByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Team> callback);
+
+	void getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Unternehmen> callback);
 
 }
