@@ -237,9 +237,26 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Person createPerson(String vorname, String nachname, String anrede) throws IllegalArgumentException {
+	public Person createPerson(String vorname, String nachname, String anrede, 
+			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Person p = new Person();
+		p.setId(1);
+		p.setVorname(vorname);
+		p.setNachname(nachname);
+		p.setAnrede(anrede);
+		p.setStrasse(strasse);
+		p.setHausnummer(hausnr);
+		p.setOrt(ort);
+		p.setPlz(plz);
+		p.setPartnerprofilId(partnerprofilId);
+		p.setProjektmarktplatzId(projektmarktplatzId);
+		p.setTeamId(teamId);
+		p.setUnternehmenId(unternehmenId);
+		
+	
+		return this.personMapper.insert(p);
 	}
 
 	@Override
@@ -253,8 +270,17 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Beteiligung b = new Beteiligung();
+		b.setId(1);
+		b.setUmfang(umfang);
+		b.setStartDatum(startdatum);
+		b.setEndDatum(enddatum);
+		b.setBeteiligterId(orgaId);
+		b.setProjektId(projektId);
+		
+		
+		return this.beteiligungMapper.insert(b);
 	}
 
 	@Override
@@ -336,7 +362,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deletePerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
 		
 	}
 
@@ -347,7 +374,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.beteiligungMapper.delete(b);
 		
 	}
 
@@ -623,6 +650,13 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Person getPerson() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
