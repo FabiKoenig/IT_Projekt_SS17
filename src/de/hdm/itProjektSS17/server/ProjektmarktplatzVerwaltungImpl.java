@@ -1,6 +1,9 @@
 package de.hdm.itProjektSS17.server;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -158,9 +161,18 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext,
-			int projektId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+			int projektId, int ausschreibenderId) throws IllegalArgumentException {
+		
+		Ausschreibung a = new Ausschreibung();
+		a.setBezeichnung(bezeichnung);
+		a.setBewerbungsfrist(bewerbungsfrist);
+		a.setAusschreibungstext(ausschreibungstext);
+		a.setProjektId(projektId);
+		a.setAusschreibenderId(ausschreibenderId);
+		a.setId(1);
+		
+		
+		return this.ausschreibungMapper.insert(a); 
 	}
 
 	@Override
@@ -187,8 +199,17 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Projekt createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId,
 			int projektmarktplatzId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Projekt p = new Projekt();
+		p.setBeschreibung(beschreibung);
+		p.setEnddatum(enddatum);
+		p.setId(1);
+		p.setName(name);
+		p.setProjektleiterId(personId);
+		p.setProjektmarktplatzId(projektmarktplatzId);
+		p.setStartdatum(startdatum);
+		
+		return this.projektMapper.insert(p);
 	}
 
 	@Override
@@ -255,8 +276,20 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
+		Partnerprofil p = this.getPartnerProfilByForeignAusschreibung(a);
+		
+		if (p != null) {
+			this.deletePartnerprofil_Ausschreibung(p);
+		}
+		
+		this.ausschreibungMapper.delete(a);
+		
+	}
+
+	private Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -285,8 +318,17 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
+		Vector<Ausschreibung> ausschreibungen = this.getAusschreibungByForeignProjekt(p);
+		
+		
+		if (ausschreibungen != null) {			
+			for (Ausschreibung ausschreibung : ausschreibungen) {
+				this.deleteAusschreibung(ausschreibung);
+			}
+		}
+		
+		this.projektMapper.delete(p);
 	}
 
 	@Override
@@ -588,7 +630,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
+	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}

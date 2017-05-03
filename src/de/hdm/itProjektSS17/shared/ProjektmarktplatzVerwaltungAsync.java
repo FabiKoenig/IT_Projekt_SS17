@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.shared;
 
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -24,7 +25,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createEigenschaft(String name, String wert, int partnerprofilId, AsyncCallback<Eigenschaft> callback);
 
 	void createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId,
-			AsyncCallback<Ausschreibung> callback);
+			int ausschreibenderId, AsyncCallback<Ausschreibung> callback);
 
 	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId,
 			AsyncCallback<Partnerprofil> callback);
@@ -97,7 +98,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 
-	void getAusschreibungByForeignProjekt(Projekt p, AsyncCallback<Ausschreibung> callback);
+	void getAusschreibungByForeignProjekt(Projekt p, AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getAusschreibungById(int id, AsyncCallback<Ausschreibung> callback);
 

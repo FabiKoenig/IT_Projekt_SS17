@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.shared;
 
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -16,7 +17,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId) throws IllegalArgumentException;
 	
-	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId) throws IllegalArgumentException;
+	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId, int ausschreibenderId) throws IllegalArgumentException;
 	
 	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId) throws IllegalArgumentException;
 	
@@ -162,7 +163,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	 */
 	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
-	public Ausschreibung getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
+	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 	
 	
 	
