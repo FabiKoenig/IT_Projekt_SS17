@@ -165,6 +165,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Ausschreibung getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 	
+	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	
 	
 	
 	

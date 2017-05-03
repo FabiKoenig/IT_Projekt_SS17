@@ -178,4 +178,6 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void setPerson(Person p, AsyncCallback<Void> callback);
 
+	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
+
 }
