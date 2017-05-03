@@ -28,7 +28,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Bewertung createBewertung(Date erstellungsdatum, double wert, int bewerbungId) throws IllegalArgumentException;
 	
-	public Team createTeam(String name, int personId) throws IllegalArgumentException;
+	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException;
 	
 	public Unternehmen createUnternehmen(String name, int personId) throws IllegalArgumentException;
 	

@@ -201,9 +201,11 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Team createTeam(String name, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException {
+		Team a = new Team();
+		a.setName(name);
+		a.setUnternehmenId(unternehmenId);
+		return this.teamMapper.insert(a);
 	}
 
 	@Override
@@ -300,7 +302,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteTeam(Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.teamMapper.delete(t);
+		
 		
 	}
 
