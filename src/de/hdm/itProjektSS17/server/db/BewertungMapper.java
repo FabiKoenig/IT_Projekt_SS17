@@ -60,7 +60,7 @@ public class BewertungMapper {
 		        // Ergebnis-Tupel in Objekt umwandeln
 		        Bewertung b = new Bewertung();
 		        b.setId(rs.getInt("Bewertung_Id"));
-		        b.setStellungsnahme(rs.getString("Stellungnahme"));
+		        b.setStellungnahme(rs.getString("Stellungnahme"));
 		        b.setWert(rs.getDouble("Wert"));
 		        b.setBewerbungId(rs.getInt("Bewerbung_Id"));
 		        return b;
@@ -110,7 +110,7 @@ public class BewertungMapper {
 		        // Ergebnis-Tupel in Objekt umwandeln
 		        Bewertung b = new Bewertung();
 		        b.setId(rs.getInt("Bewertung_Id"));
-		        b.setStellungsnahme(rs.getString("Stellungnahme"));
+		        b.setStellungnahme(rs.getString("Stellungnahme"));
 		        b.setWert(rs.getDouble("Wert"));
 		        b.setBewerbungId(rs.getInt("Bewerbung_Id"));
 		        return b;
@@ -161,7 +161,7 @@ public class BewertungMapper {
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE bewertung " + "SET Stellungnahme=\""
 
-		          + b.getStellungsnahme() + "\", " + "Wert=\"" + b.getWert() + "\", " + "Bewerbung_Id=\"" + b.getBewerbungId()+ "\" "
+		          + b.getStellungnahme() + "\", " + "Wert=\"" + b.getWert() + "\", " + "Bewerbung_Id=\"" + b.getBewerbungId()+ "\" "
 		          + "WHERE Bewertung_Id=" + b.getId());
 
 		    }
@@ -207,7 +207,7 @@ public class BewertungMapper {
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO bewertung (Bewertung_Id, `Stellungnahme`, Wert, Bewerbung_Id) "
-		            + "VALUES (" + b.getId() + ", '" + b.getStellungsnahme() + "', " + b.getWert() + ", " 
+		            + "VALUES (" + b.getId() + ", '" + b.getStellungnahme() + "', " + b.getWert() + ", " 
 		            + b.getBewerbungId() + ")");
 		      }
 		    }
