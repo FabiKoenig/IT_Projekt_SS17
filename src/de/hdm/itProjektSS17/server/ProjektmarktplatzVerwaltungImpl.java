@@ -152,8 +152,19 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		Eigenschaft e = new Eigenschaft();
+		e.setName(name);
+		e.setWert(wert);
+		e.setPartnerprofilId(partnerprofilId);
+		
+		/*
+	     * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
+	     */
+	     e.setId(1);
+		
+	     // Objekt in der DB speichern.
+	     return this.eigenschaftMapper.insert(e);
 	}
 
 	@Override
@@ -205,9 +216,22 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Unternehmen createUnternehmen(String name, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
+		Unternehmen u = new Unternehmen();
+		u.setName(name);
+		u.setHausnummer(hausnummer);
+		u.setOrt(ort);
+		u.setPlz(plz);
+		u.setStrasse(strasse);
+		u.setPartnerprofilId(partnerprofilId);
+		u.setProjektmarktplatzId(projektmarktplatzId);
+		/*
+	     * Setzen einer vorlÃ¤ufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
+	     */
+	     u.setId(1);
+		 // Objekt in der DB speichern.
+	return this.unternehmenMapper.insert(u);
 	}
 
 	@Override
@@ -261,7 +285,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
