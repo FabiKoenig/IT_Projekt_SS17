@@ -171,7 +171,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext,
-			int projektId, int ausschreibenderId) throws IllegalArgumentException {
+			int projektId, int ausschreibenderId, int partnerprofilId) throws IllegalArgumentException {
 		
 		Ausschreibung a = new Ausschreibung();
 		a.setBezeichnung(bezeichnung);
@@ -180,7 +180,7 @@ implements ProjektmarktplatzVerwaltung {
 		a.setProjektId(projektId);
 		a.setAusschreibenderId(ausschreibenderId);
 		a.setId(1);
-		
+		a.setPartnerprofilId(partnerprofilId);
 		
 		return this.ausschreibungMapper.insert(a); 
 	}
