@@ -23,7 +23,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
 	
-	public Bewerbung createBewerbung(Date erstellungsdatum, String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
+	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
 	
 	public Projekt createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId, int projektmarktplatzId) throws IllegalArgumentException;
 	
@@ -31,11 +31,10 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Team createTeam(String name, int personId) throws IllegalArgumentException;
 	
-	public Unternehmen createUnternehmen(String name, int personId) throws IllegalArgumentException;
+	public Person createPerson(String vorname, String nachname, String anrede, 
+			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException;
 	
-	public Person createPerson(String vorname, String nachname, String anrede) throws IllegalArgumentException;
-	
-	public Projektmarktplatz createProjektmarktplatz(String bezeichnung, int personId) throws IllegalArgumentException;
+	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
 	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException;
 	
@@ -163,8 +162,14 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	 */
 	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
+
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
-	
+
+
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException;
+
+	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+
 	
 	
 	

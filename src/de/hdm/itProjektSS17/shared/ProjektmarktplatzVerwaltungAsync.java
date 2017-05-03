@@ -33,7 +33,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
 			AsyncCallback<Partnerprofil> callback);
 
-	void createBewerbung(Date erstellungsdatum, String bewerbungstext, int orgaId, int ausschreibungId,
+	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
 			AsyncCallback<Bewerbung> callback);
 
 	void createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId,
@@ -43,11 +43,14 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createTeam(String name, int personId, AsyncCallback<Team> callback);
 
-	void createUnternehmen(String name, int personId, AsyncCallback<Unternehmen> callback);
+	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId,
+			int projektmarktplatzId, AsyncCallback<Unternehmen> callback);
 
-	void createPerson(String vorname, String nachname, String anrede, AsyncCallback<Person> callback);
+	void createPerson(String vorname, String nachname, String anrede, String strasse, String hausnr, int plz,
+			String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId,
+			AsyncCallback<Person> callback);
 
-	void createProjektmarktplatz(String bezeichnung, int personId, AsyncCallback<Projektmarktplatz> callback);
+	void createProjektmarktplatz(String bezeichnung, AsyncCallback<Projektmarktplatz> callback);
 
 	void createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
 			AsyncCallback<Beteiligung> callback);
@@ -176,5 +179,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getPerson(AsyncCallback<Person> callback);
 
 	void setPerson(Person p, AsyncCallback<Void> callback);
+
+	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
 
 }
