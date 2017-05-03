@@ -154,13 +154,14 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId)
 			throws IllegalArgumentException {
+		/* Setzen der Übegebenen Attribute*/
 		Eigenschaft e = new Eigenschaft();
 		e.setName(name);
 		e.setWert(wert);
 		e.setPartnerprofilId(partnerprofilId);
 		
 		/*
-	     * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Setzen einer vorläufigen EigenschaftId Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 	     */
 	     e.setId(1);
@@ -239,6 +240,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
+		/* Setzen der Übergebenen Attribute*/
+		
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
@@ -248,7 +251,7 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPartnerprofilId(partnerprofilId);
 		u.setProjektmarktplatzId(projektmarktplatzId);
 		/*
-	     * Setzen einer vorlÃ¤ufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Setzen einer vorläufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 	     */
 	     u.setId(1);
@@ -347,8 +350,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		
-		
+		/* Aufruf der MapperKlasse und löschung der übergebenen Eigenschaft*/
+		 this.eigenschaftMapper.delete(e);
 	}
 
 	@Override
