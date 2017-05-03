@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.shared;
 
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -109,7 +110,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
-	public Beteiligung getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
 	public Beteiligung getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 	
