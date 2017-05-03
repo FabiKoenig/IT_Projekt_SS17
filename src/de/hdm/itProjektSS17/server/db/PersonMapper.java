@@ -217,10 +217,9 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		    	
 		      Statement stmt = con.createStatement();
 		      
-		      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
-		          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
-		          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=\""+ p.getTeamId() + "\" "
-		          + "WHERE Person_Id=" + p.getId());
+		      stmt.executeUpdate("UPDATE person SET Vorname='"
+		          + p.getVorname() + "', " + "Nachname='" + p.getNachname() + "', " + "Anrede= '"+ p.getAnrede() +
+		          "' WHERE Person_Id=" + p.getId());
 		      
 		   
 		    }
