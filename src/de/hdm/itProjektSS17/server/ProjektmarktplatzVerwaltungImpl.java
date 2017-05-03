@@ -814,9 +814,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
 		
-		
-		
-		
 		return null;
 	}
 
