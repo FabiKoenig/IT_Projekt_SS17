@@ -817,6 +817,7 @@ implements ProjektmarktplatzVerwaltung {
 
 		Vector<Ausschreibung> result = new Vector<Ausschreibung>();
 		
+
 		if (p != null && this.ausschreibungMapper != null) {
 			Vector<Ausschreibung> ausschreibungen = this.ausschreibungMapper.findByForeignProjektId(p.getId());
 			
@@ -827,7 +828,6 @@ implements ProjektmarktplatzVerwaltung {
 		
 		return result;
 			}
-
 
 
 
