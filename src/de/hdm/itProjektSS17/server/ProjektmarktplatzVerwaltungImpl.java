@@ -2,7 +2,6 @@ package de.hdm.itProjektSS17.server;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -411,13 +410,18 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deleteUnternehmen(Unternehmen u) throws IllegalArgumentException {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
-		Beteiligung b = this.getBeteiligungByForeignOrganisationseinheit(u);
+
+		Vector<Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(u);
+
 		if (p != null){
 			this.partnerprofilMapper.delete(p);
 		}
 		if (b != null)
 		{
-			this.beteiligungMapper.delete(b);
+			for (Beteiligung beteiligung: b)
+			{
+				this.beteiligungMapper.delete(beteiligung);
+			}
 		}
 		// Account aus der DB entfernen
 	    this.unternehmenMapper.delete(u);
@@ -426,16 +430,41 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deletePerson(Person p) throws IllegalArgumentException {
 		
-		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
-		Beteiligung be = this.getBeteiligungByForeignOrganisationseinheit(p);
 		
+		/*
+		 * Auslesen des zu einer Person zugehörigen Partnerprofils, der Beteiligungen einer Person an Projekten, der Zugehörigkeit
+		 * einer Person an einem Team und/ oder einem Unternehmen.
+		 */
+		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
+		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
+		Team te = this.getTeamByForeignOrganisationseinheit(p);
+		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
+		
+		
+		/*
+		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
+		 * Wenn eines besteht wird dieses gelöscht.
+		 */
 		if (pp != null){
 			this.partnerprofilMapper.delete(pp);
 		}
+		/*
+		 * Es wird geprüft, ob die zu löschende Person an Projekten beteiligt ist. 
+		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
+		 */
 		if (be != null){
-			this.beteiligungMapper.delete(be);
+			for (Beteiligung beteiligung: be){
+				this.beteiligungMapper.delete(beteiligung);
+			}	
+		}
+		if (te != null){
+			this.deleteMitgliedschaft(te, p);
+		}
+		if (un != null){
+			this.deleteArbeitsverhaeltnis(un, p);
 		}
 		
+		this.personMapper.delete(p);
 		
 		
 	}
@@ -567,7 +596,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Beteiligung getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
+	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
