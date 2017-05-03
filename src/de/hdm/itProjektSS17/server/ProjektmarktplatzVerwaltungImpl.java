@@ -38,6 +38,8 @@ public class ProjektmarktplatzVerwaltungImpl extends RemoteServiceServlet
 implements ProjektmarktplatzVerwaltung {
 
 
+	
+	private Person person = null;
 	/**
 	 * Referenz auf den ProjektmarktplatzMapper, der Projektmarktplatz-Objekte
 	 * mit der Datenbank abgleicht.
@@ -258,10 +260,14 @@ implements ProjektmarktplatzVerwaltung {
 	return this.unternehmenMapper.insert(u);
 	}
 
+	
+	
+	/**
+	 * Anlegen eines Person-Objekts.
+	 */
 	@Override
 	public Person createPerson(String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 		Person p = new Person();
 		p.setId(1);
@@ -290,7 +296,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId)
+	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId)
 			throws IllegalArgumentException {
 		
 		Beteiligung b = new Beteiligung();
@@ -300,6 +306,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setEndDatum(enddatum);
 		b.setBeteiligterId(orgaId);
 		b.setProjektId(projektId);
+		b.setBewertungId(bewertungId);
 		
 		
 		return this.beteiligungMapper.insert(b);
@@ -440,7 +447,7 @@ implements ProjektmarktplatzVerwaltung {
 		 */
 		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
 		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
-		Team te = this.getTeamByForeignOrganisationseinheit(p);
+		Vector<Team> te = this.getTeamByForeignPerson(p);
 		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
 		
 		
@@ -461,7 +468,9 @@ implements ProjektmarktplatzVerwaltung {
 			}	
 		}
 		if (te != null){
-			this.deleteMitgliedschaft(te, p);
+				for(Team team: te){
+					this.deleteMitgliedschaft(team, p);
+			}
 		}
 		if (un != null){
 			this.deleteArbeitsverhaeltnis(un, p);
@@ -742,17 +751,7 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
-	@Override
-	public void setPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public Person getPerson() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
@@ -762,15 +761,29 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Team getTeamByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
+		
+
+		
 		return null;
 	}
 
+	
+	/**
+	 * Auslesen des Unternehmens für ein übergebenes Organisationseinheit-Objekt.
+	 * 
+	 * @return ein Unternehmen-Objekt, das entweder einer Person oder einem Team zugeordnet ist. 
+	 */
 	@Override
 	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
 		
+		/*
+		 * Es wird überprüft, ob der erste Operand (das übergebene Objekt) zuweisungskompatibel zu einer Klasse ist,
+		 * die im zweiten Operand angegeben wird.
+		 * In unserem Fall wird das übergebene Objekt mit der Klasse Person und Team verglichen.
+		 * In beiden Fällen wird über die Unternehmen_Id das zugehörige Unternehmen-Objekt zurückgegeben.
+		 */
 			if (o instanceof Person){
 				return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
 			}
@@ -779,6 +792,25 @@ implements ProjektmarktplatzVerwaltung {
 			}
 
 			return null;
+	}
+	
+	
+	/**
+	 * Setzen der Bank, für die dieser Projektmarktplatz tätig ist.
+	 */
+	
+	@Override
+	public void setPerson(Person p) throws IllegalArgumentException {
+		this.person = p;
+		
+	}
+	/**
+	 * Auslesen der Person, für die dieser Projektmarktplatz tätig ist.
+	 */
+
+	@Override
+	public Person getPerson() throws IllegalArgumentException {
+		return this.person;
 	}
 
 }
