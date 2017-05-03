@@ -394,11 +394,20 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteTeam(Team t) throws IllegalArgumentException {
+		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(t);
+		Beteiligung b = this.getBeteiligungByForeignOrganisationseinheit(t);
+	
+		
+		if(p!=null){
+			this.partnerprofilMapper.delete(p);
+		}
+		if (b != null){
+			this.beteiligungMapper.delete(b);
+		}
 		this.teamMapper.delete(t);
-		
-		
-	}
-
+		}
+	
+	
 	@Override
 	public void deleteUnternehmen(Unternehmen u) throws IllegalArgumentException {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
