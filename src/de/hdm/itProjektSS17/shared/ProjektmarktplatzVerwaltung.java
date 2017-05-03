@@ -37,7 +37,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
-	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException;
+	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId) throws IllegalArgumentException;
 	
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException;
 	
@@ -105,7 +105,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	Team getTeamByForeignOrganisationseinheit(Organisationseinheit o);
+	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o);
 	
 	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
@@ -135,27 +135,27 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o);
 	
-	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException;
+	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
-	public Projektmarktplatz saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
+	public void saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Team saveTeam(Team t) throws IllegalArgumentException;
+	public void saveTeam(Team t) throws IllegalArgumentException;
 	
-	public Eigenschaft saveEigenschaft(Eigenschaft e) throws IllegalArgumentException;
+	public void saveEigenschaft(Eigenschaft e) throws IllegalArgumentException;
 	
-	public Unternehmen saveUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	public void saveUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
-	public Person savePerson(Person p) throws IllegalArgumentException;
+	public void savePerson(Person p) throws IllegalArgumentException;
 	
-	public Beteiligung saveBeteiligung(Beteiligung b) throws IllegalArgumentException;
+	public void saveBeteiligung(Beteiligung b) throws IllegalArgumentException;
 	
-	public Bewertung saveBewertung(Bewertung b) throws IllegalArgumentException;
+	public void saveBewertung(Bewertung b) throws IllegalArgumentException;
 	
-	public Partnerprofil savePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
+	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Projekt saveProjekt(Projekt p) throws IllegalArgumentException;
+	public void saveProjekt(Projekt p) throws IllegalArgumentException;
 	
-	public Ausschreibung saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
+	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
 	
 	/**
@@ -170,7 +170,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
 
-	Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
 			int partnerprofilId, int projektmarktplatzId);
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;

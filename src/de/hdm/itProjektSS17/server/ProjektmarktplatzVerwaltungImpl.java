@@ -38,6 +38,8 @@ public class ProjektmarktplatzVerwaltungImpl extends RemoteServiceServlet
 implements ProjektmarktplatzVerwaltung {
 
 
+	
+	private Person person = null;
 	/**
 	 * Referenz auf den ProjektmarktplatzMapper, der Projektmarktplatz-Objekte
 	 * mit der Datenbank abgleicht.
@@ -154,13 +156,14 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId)
 			throws IllegalArgumentException {
+		/* Setzen der Übegebenen Attribute*/
 		Eigenschaft e = new Eigenschaft();
 		e.setName(name);
 		e.setWert(wert);
 		e.setPartnerprofilId(partnerprofilId);
 		
 		/*
-	     * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Setzen einer vorläufigen EigenschaftId Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 	     */
 	     e.setId(1);
@@ -319,6 +322,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
+		/* Setzen der Übergebenen Attribute*/
+		
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
@@ -328,7 +333,7 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPartnerprofilId(partnerprofilId);
 		u.setProjektmarktplatzId(projektmarktplatzId);
 		/*
-	     * Setzen einer vorlÃ¤ufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Setzen einer vorläufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 	     */
 	     u.setId(1);
@@ -336,10 +341,14 @@ implements ProjektmarktplatzVerwaltung {
 	return this.unternehmenMapper.insert(u);
 	}
 
+	
+	
+	/**
+	 * Anlegen eines Person-Objekts.
+	 */
 	@Override
 	public Person createPerson(String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 		Person p = new Person();
 		p.setId(1);
@@ -368,7 +377,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId)
+	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId)
 			throws IllegalArgumentException {
 		
 		Beteiligung b = new Beteiligung();
@@ -378,6 +387,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setEndDatum(enddatum);
 		b.setBeteiligterId(orgaId);
 		b.setProjektId(projektId);
+		b.setBewertungId(bewertungId);
 		
 		
 		return this.beteiligungMapper.insert(b);
@@ -421,14 +431,19 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	private Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
-		// TODO Auto-generated method stub
+		
+		
+		if (a  != null && this.partnerprofilMapper != null) {
+			Partnerprofil p = this.partnerprofilMapper.findById(a.getId());
+			return p;
+		}
 		return null;
 	}
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		
-		
+		/* Aufruf der MapperKlasse und löschung der übergebenen Eigenschaft*/
+		 this.eigenschaftMapper.delete(e);
 	}
 
 	@Override
@@ -517,7 +532,7 @@ implements ProjektmarktplatzVerwaltung {
 		 */
 		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
 		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
-		Team te = this.getTeamByForeignOrganisationseinheit(p);
+		Vector<Team> te = this.getTeamByForeignPerson(p);
 		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
 		
 		
@@ -537,13 +552,26 @@ implements ProjektmarktplatzVerwaltung {
 				this.beteiligungMapper.delete(beteiligung);
 			}	
 		}
+		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
+		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
+		 */
 		if (te != null){
-			this.deleteMitgliedschaft(te, p);
+				for(Team team: te){
+					this.deleteMitgliedschaft(team, p);
+			}
 		}
+		/**
+		 * Es wird geprüft, ob die zu löschende Person in einem Unternehmen beschäftigt ist.
+		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
+		 */
 		if (un != null){
 			this.deleteArbeitsverhaeltnis(un, p);
 		}
 		
+		/**
+		 * Die übergebene Person-Objekt wird gelöscht.
+		 */
 		this.personMapper.delete(p);
 		
 		
@@ -585,27 +613,23 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException {	
+		return this.ausschreibungMapper.findById(id);
 	}
 
 	@Override
 	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.unternehmenMapper.findById(id);
 	}
 
 	@Override
 	public Team getTeamById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.teamMapper.findById(id);
 	}
 
 	@Override
 	public Person getPersonById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.personMapper.findById(id);
 	}
 
 	@Override
@@ -615,20 +639,17 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Projekt getProjektById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.projektMapper.findById(id);
 	}
 
 	@Override
 	public Beteiligung getBeteiligungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.beteiligungMapper.findById(id);
 	}
 
 	@Override
 	public Bewertung getBewertungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.bewertungMapper.findById(id);
 	}
 
 	@Override
@@ -638,14 +659,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Partnerprofil getPartnerprofilById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.partnerprofilMapper.findById(id);
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.eigenschaftMapper.findById(id);
 	}
 
 	@Override
@@ -744,65 +763,65 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException {
-		return this.bewerbungMapper.update(b);
+	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException {
+		this.bewerbungMapper.update(b);
 	}
 
 	@Override
-	public Projektmarktplatz saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
-		return this.projektmarktplatzMapper.update(p);
+	public void saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
+		this.projektmarktplatzMapper.update(p);
 	}
 
 	@Override
-	public Team saveTeam(Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveTeam(Team t) throws IllegalArgumentException {
+		this.teamMapper.update(t);
+		
 	}
 
 	@Override
-	public Eigenschaft saveEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveEigenschaft(Eigenschaft e) throws IllegalArgumentException {
+		this.eigenschaftMapper.update(e);
+		
 	}
 
 	@Override
-	public Unternehmen saveUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		this.unternehmenMapper.update(u);
+		
 	}
 
 	@Override
-	public Person savePerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void savePerson(Person p) throws IllegalArgumentException {
+		this.personMapper.update(p);
+		
 	}
 
 	@Override
-	public Beteiligung saveBeteiligung(Beteiligung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveBeteiligung(Beteiligung b) throws IllegalArgumentException {
+		this.beteiligungMapper.update(b);
+		
 	}
 
 	@Override
-	public Bewertung saveBewertung(Bewertung b) throws IllegalArgumentException {
-		return this.bewertungMapper.update(b);
+	public void saveBewertung(Bewertung b) throws IllegalArgumentException {
+		this.bewertungMapper.update(b);
 	}
 
 	@Override
-	public Partnerprofil savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		return this.partnerprofilMapper.update(p);
+	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
+		this.partnerprofilMapper.update(p);
+
 	}
 
 	@Override
-	public Projekt saveProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveProjekt(Projekt p) throws IllegalArgumentException {
+		this.projektMapper.update(p);
+		
 	}
 
 	@Override
-	public Ausschreibung saveAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException {
+		this.ausschreibungMapper.update(a);
 	}
 
 	@Override
@@ -817,17 +836,7 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
-	@Override
-	public void setPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public Person getPerson() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
@@ -837,15 +846,29 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Team getTeamByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
+		
+
+		
 		return null;
 	}
 
+	
+	/**
+	 * Auslesen des Unternehmens für ein übergebenes Organisationseinheit-Objekt.
+	 * 
+	 * @return ein Unternehmen-Objekt, das entweder einer Person oder einem Team zugeordnet ist. 
+	 */
 	@Override
 	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
 		
+		/*
+		 * Es wird überprüft, ob der erste Operand (das übergebene Objekt) zuweisungskompatibel zu einer Klasse ist,
+		 * die im zweiten Operand angegeben wird.
+		 * In unserem Fall wird das übergebene Objekt mit der Klasse Person und Team verglichen.
+		 * In beiden Fällen wird über die Unternehmen_Id das zugehörige Unternehmen-Objekt zurückgegeben.
+		 */
 			if (o instanceof Person){
 				return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
 			}
@@ -854,6 +877,25 @@ implements ProjektmarktplatzVerwaltung {
 			}
 
 			return null;
+	}
+	
+	
+	/**
+	 * Setzen der Bank, für die dieser Projektmarktplatz tätig ist.
+	 */
+	
+	@Override
+	public void setPerson(Person p) throws IllegalArgumentException {
+		this.person = p;
+		
+	}
+	/**
+	 * Auslesen der Person, für die dieser Projektmarktplatz tätig ist.
+	 */
+
+	@Override
+	public Person getPerson() throws IllegalArgumentException {
+		return this.person;
 	}
 
 }
