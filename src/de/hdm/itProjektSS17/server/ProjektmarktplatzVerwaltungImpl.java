@@ -400,7 +400,12 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	private Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
-		// TODO Auto-generated method stub
+		
+		
+		if (a  != null && this.partnerprofilMapper != null) {
+			Partnerprofil p = this.partnerprofilMapper.findById(a.getId());
+			return p;
+		}
 		return null;
 	}
 
