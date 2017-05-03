@@ -822,7 +822,15 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		if (o instanceof Person){
+			return this.partnerprofilMapper.findById(this.personMapper.findById(o.getId()).getPartnerprofilId());
+		} else if(o instanceof Unternehmen){
+			return this.partnerprofilMapper.findById(this.unternehmenMapper.findById(o.getId()).getPartnerprofilId());
+		} else if (o instanceof Team){
+			return this.partnerprofilMapper.findById(this.teamMapper.findById(o.getId()).getPartnerprofilId());
+		}
+		
 		return null;
 	}
 
