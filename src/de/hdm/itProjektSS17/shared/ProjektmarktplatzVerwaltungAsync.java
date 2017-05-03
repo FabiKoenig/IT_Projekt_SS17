@@ -154,27 +154,27 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getUnternehmenById(int id, AsyncCallback<Unternehmen> callback);
 
-	void saveAusschreibung(Ausschreibung a, AsyncCallback<Ausschreibung> callback);
+	void saveAusschreibung(Ausschreibung a, AsyncCallback<Void> callback);
 
-	void saveBeteiligung(Beteiligung b, AsyncCallback<Beteiligung> callback);
+	void saveBeteiligung(Beteiligung b, AsyncCallback<Void> callback);
 
-	void saveBewerbung(Bewerbung b, AsyncCallback<Bewerbung> callback);
+	void saveBewerbung(Bewerbung b, AsyncCallback<Void> callback);
 
-	void saveBewertung(Bewertung b, AsyncCallback<Bewertung> callback);
+	void saveBewertung(Bewertung b, AsyncCallback<Void> callback);
 
-	void saveEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+	void saveEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
-	void savePartnerprofil(Partnerprofil p, AsyncCallback<Partnerprofil> callback);
+	void savePartnerprofil(Partnerprofil p, AsyncCallback<Void> callback);
 
-	void savePerson(Person p, AsyncCallback<Person> callback);
+	void savePerson(Person p, AsyncCallback<Void> callback);
 
-	void saveProjekt(Projekt p, AsyncCallback<Projekt> callback);
+	void saveProjekt(Projekt p, AsyncCallback<Void> callback);
 
-	void saveProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Projektmarktplatz> callback);
+	void saveProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Void> callback);
 
-	void saveTeam(Team t, AsyncCallback<Team> callback);
+	void saveTeam(Team t, AsyncCallback<Void> callback);
 
-	void saveUnternehmen(Unternehmen u, AsyncCallback<Unternehmen> callback);
+	void saveUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
 	void getPerson(AsyncCallback<Person> callback);
 
