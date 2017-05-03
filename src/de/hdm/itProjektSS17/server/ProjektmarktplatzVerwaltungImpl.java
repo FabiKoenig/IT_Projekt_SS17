@@ -364,6 +364,16 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePerson(Person p) throws IllegalArgumentException {
 		
 		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
+		Beteiligung be = this.getBeteiligungByForeignOrganisationseinheit(p);
+		
+		if (pp != null){
+			this.partnerprofilMapper.delete(pp);
+		}
+		if (be != null){
+			this.beteiligungMapper.delete(be);
+		}
+		
+		
 		
 	}
 
@@ -480,11 +490,6 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
-	@Override
-	public Team getTeamByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException {
@@ -656,6 +661,19 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Team getTeamByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
