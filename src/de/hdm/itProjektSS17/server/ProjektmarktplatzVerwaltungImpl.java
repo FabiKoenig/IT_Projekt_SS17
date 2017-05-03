@@ -813,12 +813,24 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		
+		
+		
 		return null;
 	}
 
 
-
+	/**
+	 * Es wird überprüft, ob der erste Operand (das übergebene Objekt) zuweisungskompatibel zu einer Klasse ist,
+	 * die im zweiten Operand angegeben wird.
+	 * 
+	 * In unserem Fall wird das übergebene Objekt mit der Klasse Person, Team und Unternehmen verglichen.
+	 * Wenn der erste Operand zuweisungskompatibel mit dem zweiten Operand ist, wird aus dem Organisationseinheit-Objekt
+	 * die Partnerprofil-Id ausgelesen, mit welcher das zugehörige Partnerprofil ausgelesen und zurückgegeben werden kann.
+	 * 
+	 * @return das Partnerprofil-Objekt, das dem übergebenen Organisationseinheit-Objekt zugeordnet ist.
+	 */
 	@Override
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
