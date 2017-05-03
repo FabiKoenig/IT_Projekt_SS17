@@ -828,8 +828,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Team getTeamByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+			return null;
 	}
 
 	@Override
