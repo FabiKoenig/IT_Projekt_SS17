@@ -356,8 +356,17 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
+		Beteiligung b = this.getBeteiligungByForeignOrganisationseinheit(u);
+		if (p != null){
+			this.partnerprofilMapper.delete(p);
+		}
+		if (b != null)
+		{
+			this.beteiligungMapper.delete(b);
+		}
+		// Account aus der DB entfernen
+	    this.unternehmenMapper.delete(u);
 	}
 
 	@Override
