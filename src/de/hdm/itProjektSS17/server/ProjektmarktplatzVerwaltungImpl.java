@@ -163,22 +163,73 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
+	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
 	@Override
 	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum,
 			int ausschreibungId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Partnerprofil p = new Partnerprofil();
+		p.setId(1);
+		p.setErstellungsdatum(erstellungsdatum);
+		p.setAenderungdatum(aenderungsdatum);
+		
+		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+		//die korrekte ID vergeben.
+		Partnerprofil pa = partnerprofilMapper.insert(p);
+		
+		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
+		//korrekte PartnerprofilId an die Ausschreibung übergeben.
+		ausschreibungMapper.findById(ausschreibungId).setPartnerprofilId(pa.getId());
 		return null;
 	}
-
+	
+	
+	
+	
+	/**Erstellt ein Partnerprofil für eine Organisationseinheit*/
 	@Override
 	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Partnerprofil p = new Partnerprofil();
+		p.setId(1);
+		p.setErstellungsdatum(erstellungsdatum);
+		p.setAenderungdatum(aenderungsdatum);
+		
+		Partnerprofil po = partnerprofilMapper.insert(p);
+		
+		try{
+			Person pp = personMapper.findById(orgaId);
+			Team t = teamMapper.findById(orgaId);
+			Unternehmen u = unternehmenMapper.findById(orgaId);
+		
+		if(orgaId == pp.getId()){
+			pp.setPartnerprofilId(po.getId());
+			personMapper.update(personMapper.findById(orgaId));
+			}
+		
+		if(orgaId == t.getId()){
+			t.setPartnerprofilId(po.getId());
+			teamMapper.update(teamMapper.findById(orgaId));
+			}
+		
+		if(orgaId == u.getId()){
+			u.setPartnerprofilId(po.getId());
+			unternehmenMapper.update(unternehmenMapper.findById(orgaId));
+			}
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+		
 		return null;
 	}
+	
+	
+	
 
 	@Override
-	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId){
+	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
 		Bewerbung b = new Bewerbung();
 		b.setBewerbungstext(bewerbungstext);
 		b.setOrganisationseinheitId(orgaId);
@@ -194,12 +245,18 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Bewertung createBewertung(Date erstellungsdatum, double wert, int bewerbungId)
+	public Bewertung createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		Bewertung b = new Bewertung();
+		b.setId(1);
+		b.setErstellungsdatum(erstellungsdatum);
+		b.setStellungnahme(stellungnahme);
+		b.setWert(wert);
+		b.setBewerbungId(bewerbungId);
+		return this.bewertungMapper.insert(b);
 	}
 
+	
 	@Override
 	public Team createTeam(String name, int personId) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -602,5 +659,6 @@ implements ProjektmarktplatzVerwaltung {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

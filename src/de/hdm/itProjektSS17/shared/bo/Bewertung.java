@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.shared.bo;
 
+import java.util.Date;
+
 public class Bewertung extends BusinessObject{
 
 	/**
@@ -7,21 +9,33 @@ public class Bewertung extends BusinessObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String stellungsnahme = "";
+	private String stellungnahme = "";
 	
 	private double wert = 0.0;
+	
+	private Date erstellungsdatum = new Date();
+
+	
+
+	public Date getErstellungsdatum() {
+		return erstellungsdatum;
+	}
+
+	public void setErstellungsdatum(Date erstellungsdatum) {
+		this.erstellungsdatum = erstellungsdatum;
+	}
 
 	/**
 	 * Realisierung der Beziehung zu einer Bewerbung durch einen Fremdschl�ssel
 	 */
 	private int bewerbungId = 0;
 	
-	public String getStellungsnahme() {
-		return stellungsnahme;
+	public String getStellungnahme() {
+		return stellungnahme;
 	}
 
-	public void setStellungsnahme(String stellungsnahme) {
-		this.stellungsnahme = stellungsnahme;
+	public void setStellungnahme(String stellungnahme) {
+		this.stellungnahme = stellungnahme;
 	}
 
 	public double getWert() {

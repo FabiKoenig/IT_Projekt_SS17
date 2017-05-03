@@ -38,7 +38,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId,
 			int projektmarktplatzId, AsyncCallback<Projekt> callback);
 
-	void createBewertung(Date erstellungsdatum, double wert, int bewerbungId, AsyncCallback<Bewertung> callback);
+	void createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId,
+			AsyncCallback<Bewertung> callback);
 
 	void createTeam(String name, int personId, AsyncCallback<Team> callback);
 
