@@ -115,7 +115,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getBeteiligungById(int id, AsyncCallback<Beteiligung> callback);
 
-	void getBewerbungByForeignAusschreibung(Ausschreibung a, AsyncCallback<Bewerbung> callback);
+	void getBewerbungByForeignAusschreibung(Ausschreibung a, AsyncCallback<Vector<Bewerbung>> callback);
 
 	void getBewerbungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Bewerbung> callback);
 

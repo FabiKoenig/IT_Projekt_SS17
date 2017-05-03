@@ -400,6 +400,13 @@ implements ProjektmarktplatzVerwaltung {
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
 		
 		Partnerprofil p = this.getPartnerProfilByForeignAusschreibung(a);
+		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
+		
+		if (bewerbungen != null) {
+			for (Bewerbung bewerbung : bewerbungen) {
+				this.deleteBewerbung(bewerbung);
+			}
+		}
 		
 		if (p != null) {
 			this.deletePartnerprofil_Ausschreibung(p);
@@ -409,14 +416,15 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 
-	private Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
+	public Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
 		
-		
-		if (a  != null && this.partnerprofilMapper != null) {
-			Partnerprofil p = this.partnerprofilMapper.findById(a.getId());
-			return p;
+		if (a != null && this.partnerprofilMapper != null) {
+			return this.partnerprofilMapper.findById(a.getPartnerprofilId());
+			
 		}
-		return null;
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -433,12 +441,19 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.partnerprofilMapper.delete(p);
 		
 	}
 
 	@Override
 	public void deleteBewerbung(Bewerbung b) throws IllegalArgumentException {
+		
+		Bewertung be = this.getBewertungByForeignBewerbung(b);
+		
+		if (be != null) {
+			this.deleteBewertung(be);
+		}
+		
 		this.bewerbungMapper.delete(b);		
 	}
 
@@ -459,8 +474,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	
+		this.bewertungMapper.delete(b);
 	}
 
 	@Override
@@ -714,7 +729,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		if (b != null && this.bewertungMapper != null) {
+			Bewertung be = this.bewertungMapper.findById(b.getId());
+			return be;
+		}
+	
 		return null;
 	}
 
@@ -725,9 +745,19 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Bewerbung getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
+		
+		Vector<Bewerbung> result = new Vector<Bewerbung>();
+		
+		if (a != null && this.bewerbungMapper != null) {
+			Vector<Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
+			
+			if (bewerbungen != null) {
+				result.addAll(bewerbungen);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
