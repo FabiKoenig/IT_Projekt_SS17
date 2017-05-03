@@ -37,7 +37,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
-	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException;
+	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId) throws IllegalArgumentException;
 	
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException;
 	
@@ -105,7 +105,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	Team getTeamByForeignOrganisationseinheit(Organisationseinheit o);
+	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o);
 	
 	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
