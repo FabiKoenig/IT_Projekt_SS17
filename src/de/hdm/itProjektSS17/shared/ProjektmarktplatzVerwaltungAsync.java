@@ -25,7 +25,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createEigenschaft(String name, String wert, int partnerprofilId, AsyncCallback<Eigenschaft> callback);
 
 	void createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId,
-			int ausschreibenderId, AsyncCallback<Ausschreibung> callback);
+			int ausschreibenderId, int partnerprofilId, AsyncCallback<Ausschreibung> callback);
 
 	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId,
 			AsyncCallback<Partnerprofil> callback);
