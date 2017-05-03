@@ -229,8 +229,16 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Beteiligung b = new Beteiligung();
+		b.setUmfang(umfang);
+		b.setStartDatum(startdatum);
+		b.setEndDatum(enddatum);
+		b.setBeteiligterId(orgaId);
+		b.setProjektId(projektId);
+		
+		
+		return this.beteiligungMapper.insert(b);
 	}
 
 	@Override
