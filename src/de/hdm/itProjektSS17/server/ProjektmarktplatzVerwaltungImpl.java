@@ -701,8 +701,15 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+			if (o instanceof Person){
+				return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
+			}
+			else if (o instanceof Team){
+				return this.unternehmenMapper.findById(this.teamMapper.findById(o.getId()).getUnternehmenId());	
+			}
+
+			return null;
 	}
 
 }
