@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.shared;
 
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -24,7 +25,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createEigenschaft(String name, String wert, int partnerprofilId, AsyncCallback<Eigenschaft> callback);
 
 	void createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId,
-			AsyncCallback<Ausschreibung> callback);
+			int ausschreibenderId, AsyncCallback<Ausschreibung> callback);
 
 	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId,
 			AsyncCallback<Partnerprofil> callback);
@@ -42,9 +43,12 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createTeam(String name, int personId, AsyncCallback<Team> callback);
 
-	void createUnternehmen(String name, int personId, AsyncCallback<Unternehmen> callback);
+	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId,
+			int projektmarktplatzId, AsyncCallback<Unternehmen> callback);
 
-	void createPerson(String vorname, String nachname, String anrede, AsyncCallback<Person> callback);
+	void createPerson(String vorname, String nachname, String anrede, String strasse, String hausnr, int plz,
+			String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId,
+			AsyncCallback<Person> callback);
 
 	void createProjektmarktplatz(String bezeichnung, AsyncCallback<Projektmarktplatz> callback);
 
@@ -97,7 +101,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 
-	void getAusschreibungByForeignProjekt(Projekt p, AsyncCallback<Ausschreibung> callback);
+	void getAusschreibungByForeignProjekt(Projekt p, AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getAusschreibungById(int id, AsyncCallback<Ausschreibung> callback);
 
@@ -144,8 +148,6 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getProjektmarktplatzById(int id, AsyncCallback<Projektmarktplatz> callback);
 
-	void getTeamByForeignUnternehmen(Unternehmen u, AsyncCallback<Team> callback);
-
 	void getTeamById(int id, AsyncCallback<Team> callback);
 
 	void getUnternehmenById(int id, AsyncCallback<Unternehmen> callback);
@@ -175,5 +177,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getPerson(AsyncCallback<Person> callback);
 
 	void setPerson(Person p, AsyncCallback<Void> callback);
+
+	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
+
+	void getTeamByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Team> callback);
+
+	void getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Unternehmen> callback);
 
 }
