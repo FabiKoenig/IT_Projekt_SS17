@@ -467,15 +467,26 @@ implements ProjektmarktplatzVerwaltung {
 				this.beteiligungMapper.delete(beteiligung);
 			}	
 		}
+		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
+		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
+		 */
 		if (te != null){
 				for(Team team: te){
 					this.deleteMitgliedschaft(team, p);
 			}
 		}
+		/**
+		 * Es wird geprüft, ob die zu löschende Person in einem Unternehmen beschäftigt ist.
+		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
+		 */
 		if (un != null){
 			this.deleteArbeitsverhaeltnis(un, p);
 		}
 		
+		/**
+		 * Die übergebene Person-Objekt wird gelöscht.
+		 */
 		this.personMapper.delete(p);
 		
 		
