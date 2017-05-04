@@ -459,10 +459,29 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deletePartnerprofil_Organisationseinheit(Partnerprofil p) throws IllegalArgumentException {
+	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
+		this.partnerprofilMapper.delete(p);
 	}
 
+	
+	@Override
+	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
+		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
+		this.partnerprofilMapper.delete(p);
+	}
+	
+	
+	
+	@Override
+	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
+	
+	}
+	
 	@Override
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
@@ -470,6 +489,7 @@ implements ProjektmarktplatzVerwaltung {
 		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
 		
 		if (a != null) {
+
 			this.deleteAusschreibung(a);
 		}
 		
@@ -722,9 +742,30 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p){
+		
+			Vector<Person> pe = personMapper.findAllPerson();
+			Vector<Team> t = teamMapper.findAllTeam();
+			Vector<Unternehmen> u = unternehmenMapper.findAllUnternehmen();
+			
+			
+				
+			for (Person per : pe) {
+				if (per.getId() == personMapper.findById(per.getPartnerprofilId()).getId()) {
+					return per;
+				}
+			}
+			for (Team te : t) {
+				if (te.getId() == personMapper.findById(te.getPartnerprofilId()).getId()) {
+					return te;
+				}
+			}
+			for (Unternehmen un : u) {
+				if (un.getId() == personMapper.findById(un.getPartnerprofilId()).getId()) {
+					return un;
+				}
+			}
+	
 		return null;
 	}
 
@@ -744,6 +785,7 @@ implements ProjektmarktplatzVerwaltung {
 			throws IllegalArgumentException {
 		//TODO
 		return null;
+
 	}
 
 	@Override
