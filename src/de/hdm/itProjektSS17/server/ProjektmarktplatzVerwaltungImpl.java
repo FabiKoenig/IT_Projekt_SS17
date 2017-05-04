@@ -406,19 +406,30 @@ implements ProjektmarktplatzVerwaltung {
 	public void createArbeitsverhaeltnis(int unternehmenId, int personId) throws IllegalArgumentException {
 		//this.personMapper.findById(personId).setUnternehmenId(unternehmenId);
 		//this.personMapper.update(personMapper.findById(personId).setUnternehmenId(unternehmenId));
-		personMapper.findById(personId).setUnternehmenId(unternehmenId);
-		this.personMapper.update(personMapper.findById(personId));
+		Person p = this.personMapper.findById(personId);
+		p.setUnternehmenId(unternehmenId);
+		
+		//personMapper.findById(personId).setUnternehmenId(unternehmenId);
+		
+		
+		this.personMapper.update(p);
 	}
 
 	@Override
 	public void createZugehoerigkeit(int unternehmenId, int teamId) throws IllegalArgumentException {
-		this.teamMapper.findById(teamId).setUnternehmenId(unternehmenId);
 		
+		Team t = this.teamMapper.findById(teamId);
+		t.setUnternehmenId(unternehmenId);
+		
+		this.teamMapper.update(t);	
 	}
 
 	@Override
 	public void createMitgliedschaft(int teamId, int personId) throws IllegalArgumentException {
-		this.personMapper.findById(personId).setTeamId(teamId);		
+		Person p = this.personMapper.findById(personId);
+		p.setTeamId(teamId);
+		
+		this.personMapper.update(p);
 	}
 
 	@Override
