@@ -262,13 +262,13 @@ implements ProjektmarktplatzVerwaltung {
 		
 		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
 		//die korrekte ID vergeben.
-		Partnerprofil pa = partnerprofilMapper.insert(p);
+		p = partnerprofilMapper.insert(p);
 		
 		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
 		//korrekte PartnerprofilId an die Ausschreibung übergeben.
 		Person pe = personMapper.findById(orgaId);
-		pe.setPartnerprofilId(pa.getId());
-		PersonMapper.personMapper().update(pe);
+		pe.setPartnerprofilId(p.getId());
+		personMapper.update(pe);
 				return null;
 		
 	}
