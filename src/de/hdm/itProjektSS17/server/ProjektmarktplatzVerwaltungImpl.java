@@ -113,7 +113,7 @@ implements ProjektmarktplatzVerwaltung {
 	private EigenschaftMapper eigenschaftMapper = null;
 	
 	/**
-	 * Referenz auf den TeilnahmeMapper, der Teilnahmen zwischen Personen und Projektmarktplätzen realisiert
+	 * Referenz auf den TeilnahmeMapper, der Teilnahmen zwischen Personen und Projektmarktplï¿½tzen realisiert
 	 */
 	private TeilnahmeMapper teilnahmeMapper = null;
 	/**
@@ -426,7 +426,7 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
 		
-		Partnerprofil p = this.getPartnerProfilByForeignAusschreibung(a);
+
 		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
 		
 		if (bewerbungen != null) {
@@ -435,9 +435,7 @@ implements ProjektmarktplatzVerwaltung {
 			}
 		}
 		
-		if (p != null) {
-			this.deletePartnerprofil_Ausschreibung(p);
-		}
+
 		
 		this.ausschreibungMapper.delete(a);
 		
@@ -469,6 +467,12 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
 		
+		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
+		
+		if (a != null) {
+			this.deleteAusschreibung(a);
+		}
+		
 		if(e != null){
 			for(Eigenschaft eigenschaft : e){
 				this.eigenschaftMapper.delete(eigenschaft);
@@ -495,9 +499,11 @@ implements ProjektmarktplatzVerwaltung {
 		Vector<Ausschreibung> ausschreibungen = this.getAusschreibungByForeignProjekt(p);
 		
 		
-		if (ausschreibungen != null) {			
-			for (Ausschreibung ausschreibung : ausschreibungen) {
-				this.deleteAusschreibung(ausschreibung);
+		for (Ausschreibung ausschreibung : ausschreibungen) {
+			if (ausschreibung.getPartnerprofilId() == this.getPartnerProfilByForeignAusschreibung(ausschreibung).getId()) {
+				
+				Partnerprofil pp = this.getPartnerProfilByForeignAusschreibung(ausschreibung);
+				this.deletePartnerprofil_Ausschreibung(pp);
 			}
 		}
 		
@@ -604,7 +610,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	/**
-	 * Löschen des übergebenen Projektmarktplatzes
+	 * Lï¿½schen des ï¿½bergebenen Projektmarktplatzes
 	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
@@ -773,7 +779,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	/**
-	 * Liefert einen Vector mit Bewerbungen anhand des übergebenen Organisationseinheit-Objekts.
+	 * Liefert einen Vector mit Bewerbungen anhand des ï¿½bergebenen Organisationseinheit-Objekts.
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
@@ -781,7 +787,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	/**
-	 * Liefert einen Vector mit Bewerbungen anhand des übergebenen Ausschreibung-Objekts.
+	 * Liefert einen Vector mit Bewerbungen anhand des ï¿½bergebenen Ausschreibung-Objekts.
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
@@ -806,8 +812,9 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.ausschreibungMapper.findByForeignPartnerprofilId(p.getId());
+		
 	}
 
 	@Override
