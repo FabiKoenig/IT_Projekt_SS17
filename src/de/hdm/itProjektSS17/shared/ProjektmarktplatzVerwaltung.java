@@ -33,7 +33,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException;
 	
 	public Person createPerson(String vorname, String nachname, String anrede, 
-			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException;
+			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
@@ -125,7 +125,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
-	public Bewerbung getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
@@ -157,21 +157,11 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
-	
-	/**
-	 * TODO (ARRAY??)
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
 	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
-
-
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
-
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
-			int partnerprofilId, int projektmarktplatzId);
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException;
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 

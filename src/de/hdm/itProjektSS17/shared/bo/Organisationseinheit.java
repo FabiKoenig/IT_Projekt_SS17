@@ -20,11 +20,6 @@ public class Organisationseinheit extends BusinessObject {
 	 */
 	private int partnerprofilId = 0;
 	
-	/**
-	 * Realisierung der Beziehung zu einem Projektmarktplatz durch einen Fremdschl�ssel
-	 */
-	private int projektmarktplatzId=0;
-	
 	
 	
 	
@@ -65,18 +60,6 @@ public class Organisationseinheit extends BusinessObject {
 	 */
 	public void setPartnerprofilId(int partnerprofilId) {
 		this.partnerprofilId = partnerprofilId;
-	}
-	/**
-	 * @return Gibt den Fremdschl�ssel projektmartktplatz Id zur�ck.
-	 */
-	public int getProjektmarktplatzId() {
-		return projektmarktplatzId;
-	}
-	/**
-	 * @param Setzt den Fremdschl�ssel projektmarktplatzId.
-	 */
-	public void setProjektmarktplatzId(int projektmarktplatzId) {
-		this.projektmarktplatzId = projektmarktplatzId;
 	}
 	
 	
