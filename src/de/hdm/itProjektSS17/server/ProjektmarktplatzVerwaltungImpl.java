@@ -27,7 +27,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
  * ProjektmarktplatzVerwaltung.In der Klasse ist neben ReportGeneratorImpl sämtliche
  * Applikationslogik vorhanden.
  * 
- * TODO
+ * 
  * 
  * @author Fabian Koenig
  *
@@ -350,8 +350,7 @@ implements ProjektmarktplatzVerwaltung {
 	public Person createPerson(String vorname, String nachname, String anrede, 
 
 		String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+				
 		Person p = new Person();
 		p.setId(1);
 		p.setVorname(vorname);
@@ -399,7 +398,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.teilnahmeMapper.insert(this.getPersonById(orgaId), this.getProjektmarktplatzById(projmarktplatzId));
 		
 	}
 
