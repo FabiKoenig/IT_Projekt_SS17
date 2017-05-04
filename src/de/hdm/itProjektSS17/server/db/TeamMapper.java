@@ -59,7 +59,6 @@ public class TeamMapper extends OrganisationseinheitMapper{
 				  a.setOrt(super.findById(id).getOrt());
 				  a.setPlz(super.findById(id).getPlz());
 				  a.setPartnerprofilId(super.findById(id).getPartnerprofilId());
-				  a.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
 				  
 				  return a;
 			  }

@@ -60,7 +60,6 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 				u.setHausnummer(super.findById(id).getHausnummer());
 				u.setOrt(super.findById(id).getOrt());
 				u.setPlz(super.findById(id).getPlz());
-				u.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
 				u.setPartnerprofilId(super.findById(id).getPartnerprofilId());
 						
 				return u;
