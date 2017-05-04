@@ -448,14 +448,20 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deletePartnerprofil_Organisationseinheit(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
+		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
+		
+		if(e != null){
+			for(Eigenschaft eigenschaft : e){
+				this.eigenschaftMapper.delete(eigenschaft);
+			}
+		this.partnerprofilMapper.delete(p);
+		}
 	}
 
 	@Override
@@ -757,10 +763,20 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Eigenschaft> getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
+		
+		Vector <Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		if(p != null && this.eigenschaftMapper != null ){
+			Vector<Eigenschaft> eigenschaft = this.eigenschaftMapper.findByForeignPartnerprofilId(p.getId());
+			
+			if(eigenschaft != null){
+				result.addAll(eigenschaft);
+			}
+		}
+		return result;
 	}
+	
 
 	@Override
 	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException {

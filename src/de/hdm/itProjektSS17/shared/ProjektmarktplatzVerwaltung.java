@@ -131,7 +131,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
+	public Vector<Eigenschaft> getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
 	Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o);
 	
