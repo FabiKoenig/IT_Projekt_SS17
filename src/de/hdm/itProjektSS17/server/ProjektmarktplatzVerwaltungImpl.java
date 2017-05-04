@@ -637,7 +637,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -744,7 +744,7 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		//todo
+		//TODO
 		return null;
 	}
 
@@ -772,9 +772,9 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Projekt getProjektByForeignPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException {
+		return this.projektMapper.findByForeignProjektleiterId(p.getId());
+		
 	}
 
 	@Override
