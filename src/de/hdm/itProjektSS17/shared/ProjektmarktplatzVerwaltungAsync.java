@@ -135,7 +135,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerprofilById(int id, AsyncCallback<Partnerprofil> callback);
 
-	void getPersonByForeignTeam(Team t, AsyncCallback<Person> callback);
+	void getPersonByForeignTeam(Team t, AsyncCallback<Vector<Person>> callback);
 
 	void getPersonByForeignUnternehmen(Unternehmen u, AsyncCallback<Person> callback);
 

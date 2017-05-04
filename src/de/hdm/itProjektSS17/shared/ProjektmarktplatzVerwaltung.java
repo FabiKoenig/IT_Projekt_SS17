@@ -107,7 +107,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o);
 	
-	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
+	public Vector<Person> getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
 	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
