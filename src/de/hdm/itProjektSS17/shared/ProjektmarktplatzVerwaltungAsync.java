@@ -32,6 +32,12 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
 			AsyncCallback<Partnerprofil> callback);
+	
+	void createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+			AsyncCallback<Partnerprofil> callback);
+	
+	void createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+			AsyncCallback<Partnerprofil> callback);
 
 	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
 			AsyncCallback<Bewerbung> callback);
@@ -79,7 +85,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deletePartnerprofil_Ausschreibung(Partnerprofil p, AsyncCallback<Void> callback);
 
-	void deletePartnerprofil_Organisationseinheit(Partnerprofil p, AsyncCallback<Void> callback);
+	void deletePartnerprofil_Person(Partnerprofil p, AsyncCallback<Void> callback);
+	
+	void deletePartnerprofil_Team(Partnerprofil p, AsyncCallback<Void> callback);
+
+	void deletePartnerprofil_Unternehmen(Partnerprofil p, AsyncCallback<Void> callback);
 
 	void deletePerson(Person p, AsyncCallback<Void> callback);
 

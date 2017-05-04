@@ -78,7 +78,7 @@ public class OrganisationseinheitMapper {
 		return this.findById(o.getId()); 
 	}
 	
-	/*Suceh von einer Organisationseinheit durch ein übergebendes Partnerprofil.
+	/*Suche von einer Organisationseinheit durch ein übergebendes Partnerprofil.
 	 *Ein Organisationseinheit-Objekt wird zurueckgegeben.
 	 */
 	protected Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
@@ -100,7 +100,7 @@ public class OrganisationseinheitMapper {
 				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 		return o;
 			
-	}
+			}
 	}
 		catch (SQLException e) {
 		e.printStackTrace();
