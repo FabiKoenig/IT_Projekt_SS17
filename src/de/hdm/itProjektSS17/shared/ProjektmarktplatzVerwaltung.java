@@ -119,7 +119,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Projekt getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
+	public Vector<Projekt> getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
 	public Projekt getProjektByForeignPerson(Person p) throws IllegalArgumentException;
 	
