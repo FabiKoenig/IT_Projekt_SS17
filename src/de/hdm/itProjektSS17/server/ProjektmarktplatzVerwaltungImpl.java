@@ -954,8 +954,10 @@ implements ProjektmarktplatzVerwaltung {
 		} else if (o instanceof Team){
 			return this.partnerprofilMapper.findById(this.teamMapper.findById(o.getId()).getPartnerprofilId());
 		}
+		else{
+			return null;
+		}
 		
-		return null;
 	}
 
 	@Override
