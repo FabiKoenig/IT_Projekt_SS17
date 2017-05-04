@@ -173,7 +173,7 @@ public class OrganisationseinheitMapper {
 
 		      stmt.executeUpdate("UPDATE organisationseinheit SET strasse='"
 			          + o.getStrasse() + "'," + "Hausnummer='" + o.getHausnummer() + "'," + "PLZ=" + o.getPlz() + ","
-			          + "Ort='" + o.getOrt() +"'"+" WHERE Organisationseinheit_Id="+o.getId());
+			          + "Ort='" + o.getOrt() +"'," + "Partnerprofil_Id=" + o.getPartnerprofilId() + " WHERE Organisationseinheit_Id="+o.getId());
 
 		      
 		    }
