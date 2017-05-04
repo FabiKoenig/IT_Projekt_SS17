@@ -110,7 +110,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o,
 			AsyncCallback<Vector<Beteiligung>> callback);
 
-	void getBeteiligungByForeignProjekt(Projekt p, AsyncCallback<Beteiligung> callback);
+	void getBeteiligungByForeignProjekt(Projekt p, AsyncCallback<Vector<Beteiligung>> callback);
 
 	void getBeteiligungById(int id, AsyncCallback<Beteiligung> callback);
 

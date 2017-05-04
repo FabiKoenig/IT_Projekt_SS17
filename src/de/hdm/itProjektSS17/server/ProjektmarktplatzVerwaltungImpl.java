@@ -749,21 +749,19 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Beteiligung getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Beteiligung> getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException {
+		return this.beteiligungMapper.findByForeignProjektId(p.getId());
 	}
 
 	@Override
 	public Beteiligung getBeteiligungByForeignBewertung(Bewertung b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.beteiligungMapper.findByForeignBewertung(b.getId());
 	}
 
 	@Override
 	public Organisationseinheit getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//TODO
 		return null;
 	}
 
