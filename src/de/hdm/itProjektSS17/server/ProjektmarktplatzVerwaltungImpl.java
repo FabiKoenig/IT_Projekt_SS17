@@ -27,7 +27,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
  * ProjektmarktplatzVerwaltung.In der Klasse ist neben ReportGeneratorImpl sämtliche
  * Applikationslogik vorhanden.
  * 
- * TODO
+ * 
  * 
  * @author Fabian Koenig
  *
@@ -350,8 +350,7 @@ implements ProjektmarktplatzVerwaltung {
 	public Person createPerson(String vorname, String nachname, String anrede, 
 
 		String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+				
 		Person p = new Person();
 		p.setId(1);
 		p.setVorname(vorname);
@@ -399,26 +398,25 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.teilnahmeMapper.insert(this.getPersonById(orgaId), this.getProjektmarktplatzById(projmarktplatzId));
 		
 	}
 
 	@Override
 	public void createArbeitsverhaeltnis(int unternehmenId, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.personMapper.findById(personId).setUnternehmenId(unternehmenId);
 		
 	}
 
 	@Override
 	public void createZugehoerigkeit(int unternehmenId, int teamId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.teamMapper.findById(teamId).setUnternehmenId(unternehmenId);
 		
 	}
 
 	@Override
 	public void createMitgliedschaft(int teamId, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		this.personMapper.findById(personId).setTeamId(teamId);		
 	}
 
 	@Override
@@ -656,8 +654,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException {
+		this.teilnahmeMapper.delete(po, p);
 		
 	}
 
@@ -749,21 +747,19 @@ implements ProjektmarktplatzVerwaltung {
 
 
 	@Override
-	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Person> getPersonByForeignTeam(Team t) throws IllegalArgumentException {
+		return this.personMapper.findByForeignTeamId(t.getId());
 	}
 
 	@Override
-	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		return this.personMapper.findByForeignUnternehmenId(u.getId());
 	}
 
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		//todo
+		//TODO
 		return null;
 
 	}
@@ -787,14 +783,12 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Vector<Projekt> getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
-		
 		return this.projektMapper.findByForeignProjektmarktplatzId(p.getId());
 	}
 
 	@Override
-	public Projekt getProjektByForeignPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException {
+		return this.projektMapper.findByForeignProjektleiterId(p.getId());		
 	}
 
 	@Override
@@ -821,30 +815,12 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		//Michis Version
-		/*
-		
-		Vector<Bewerbung> result = new Vector<Bewerbung>();
-		
-		if (a != null && this.bewerbungMapper != null) {
-			Vector<Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
-			
-			if (bewerbungen != null) {
-				result.addAll(bewerbungen);
-			}
-		}
-		
-		return result;
-	*/
 		return this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
-
 	}
 
 	@Override
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		
 		return this.ausschreibungMapper.findByForeignPartnerprofilId(p.getId());
-		
 	}
 
 	@Override

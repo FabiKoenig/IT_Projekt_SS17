@@ -79,7 +79,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException;
 	
-	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException;
+	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException;
 	
 	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException;
 	
@@ -115,9 +115,9 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o);
 	
-	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
+	public Vector<Person> getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
-	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
@@ -129,7 +129,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Projekt> getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Projekt getProjektByForeignPerson(Person p) throws IllegalArgumentException;
+	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException;
 	
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException;
 	

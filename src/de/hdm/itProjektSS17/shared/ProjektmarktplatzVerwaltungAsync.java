@@ -99,7 +99,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteTeam(Team t, AsyncCallback<Void> callback);
 
-	void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p, AsyncCallback<Void> callback);
+	void deleteTeilnahme(Person po, Projektmarktplatz p, AsyncCallback<Void> callback);
 
 	void deleteUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
@@ -145,13 +145,13 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerprofilById(int id, AsyncCallback<Partnerprofil> callback);
 
-	void getPersonByForeignTeam(Team t, AsyncCallback<Person> callback);
+	void getPersonByForeignTeam(Team t, AsyncCallback<Vector<Person>> callback);
 
-	void getPersonByForeignUnternehmen(Unternehmen u, AsyncCallback<Person> callback);
+	void getPersonByForeignUnternehmen(Unternehmen u, AsyncCallback<Vector<Person>> callback);
 
 	void getPersonById(int id, AsyncCallback<Person> callback);
 
-	void getProjektByForeignPerson(Person p, AsyncCallback<Projekt> callback);
+	void getProjektByForeignPerson(Person p, AsyncCallback<Vector<Projekt>> callback);
 
 	void getProjektByForeignProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Vector<Projekt>> callback);
 
