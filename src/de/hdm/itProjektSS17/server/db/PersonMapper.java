@@ -209,7 +209,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 
 		    try {
 		    	 p.setId(super.update(p));
-		     // OrganisationseinheitMapper.organisationseinheitMapper().update(p);
+		     super.organisationsEinheitsmapper().update(p);
 		    	
 		      Statement stmt = con.createStatement();
 		      
@@ -264,7 +264,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 
 		        stmt = con.createStatement();
 		        
-		        //Prüfung ob im den übergebenen Fremdschlüsseln Team_Id und Unternehmen_Id ein NULL-Wert vorhanden ist.
+		        //Prï¿½fung ob im den ï¿½bergebenen Fremdschlï¿½sseln Team_Id und Unternehmen_Id ein NULL-Wert vorhanden ist.
 		        //Entsprechend muss das Statement angepast werden, um von der Datenbank akzeptiert zu werden.
 		        if(p.getTeamId()==null && p.getUnternehmenId()==null){
 			        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname) "

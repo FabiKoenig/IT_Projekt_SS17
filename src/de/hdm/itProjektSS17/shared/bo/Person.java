@@ -13,12 +13,12 @@ public class Person extends Organisationseinheit {
 	
 
 	/**
-	 * Realisierung der Beziehung zu einem Team durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Team durch einen Fremdschlï¿½ssel
 	 */
 	private Integer teamId = null;
 	
 	/**
-	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschlüssel
+	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschlï¿½ssel
 	 */
 	private Integer unternehmenId = null;
 
@@ -43,29 +43,37 @@ public class Person extends Organisationseinheit {
 	}
 	
 	/**
-	 * @return Gibt den Fremdschlüssel teamId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel teamId zurï¿½ck.
 	 */
 	public Integer getTeamId() {
 		return teamId;
 	}
 	/**
-	 * @param Setzt den Fremdschlüssel teamId.
+	 * @param Setzt den Fremdschlï¿½ssel teamId.
 	 */
 	public void setTeamId(Integer teamId) {
-		this.teamId = teamId;
+		if(teamId==0){
+			this.teamId=null;
+		}else{
+			this.teamId = teamId;	
+		}
 	}
 	/**
-	 * @return Gibt den Fremdschlüssel unternehmenId zurück.
+	 * @return Gibt den Fremdschlï¿½ssel unternehmenId zurï¿½ck.
 	 */
 	public Integer getUnternehmenId() {
 		return unternehmenId;
 	}
 	
 	/**
-	 * @param Setzt den Fremdschlüssel unternehmenId.
+	 * @param Setzt den Fremdschlï¿½ssel unternehmenId.
 	 */
 	public void setUnternehmenId(Integer unternehmenId) {
-		this.unternehmenId = unternehmenId;
+		if(unternehmenId==0){
+			this.unternehmenId=null;
+		}else{
+			this.unternehmenId = unternehmenId;
+		}
 	}
 	
 }
