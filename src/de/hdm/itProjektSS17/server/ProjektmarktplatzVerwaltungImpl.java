@@ -404,8 +404,10 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void createArbeitsverhaeltnis(int unternehmenId, int personId) throws IllegalArgumentException {
-		this.personMapper.findById(personId).setUnternehmenId(unternehmenId);
-		
+		//this.personMapper.findById(personId).setUnternehmenId(unternehmenId);
+		//this.personMapper.update(personMapper.findById(personId).setUnternehmenId(unternehmenId));
+		personMapper.findById(personId).setUnternehmenId(unternehmenId);
+		this.personMapper.update(personMapper.findById(personId));
 	}
 
 	@Override
