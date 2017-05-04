@@ -404,20 +404,19 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void createArbeitsverhaeltnis(int unternehmenId, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.personMapper.findById(personId).setUnternehmenId(unternehmenId);
 		
 	}
 
 	@Override
 	public void createZugehoerigkeit(int unternehmenId, int teamId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.teamMapper.findById(teamId).setUnternehmenId(unternehmenId);
 		
 	}
 
 	@Override
 	public void createMitgliedschaft(int teamId, int personId) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		this.personMapper.findById(personId).setTeamId(teamId);		
 	}
 
 	@Override
