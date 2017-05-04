@@ -152,7 +152,9 @@ implements ProjektmarktplatzVerwaltung {
 		this.unternehmenMapper = UnternehmenMapper.unternehmenMapper();
 		
 	}
-
+	/**
+	 * Anlegen eines Eigenschaft-Objekts.
+	 */
 	@Override
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId)
 			throws IllegalArgumentException {
@@ -298,7 +300,9 @@ implements ProjektmarktplatzVerwaltung {
 		a.setUnternehmenId(unternehmenId);
 		return this.teamMapper.insert(a);
 	}
-
+	/**
+	 * Anlegen eines Unternehmen-Objekts.
+	 */
 	@Override
 	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
 		/* Setzen der Übergebenen Attribute*/
@@ -320,7 +324,6 @@ implements ProjektmarktplatzVerwaltung {
 	return this.unternehmenMapper.insert(u);
 	}
 
-	
 	
 	/**
 	 * Anlegen eines Person-Objekts.
@@ -418,7 +421,9 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		return null;
 	}
-
+	/**
+	 * Löschen eines Eigenschafts-Objekts.
+	 */
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
 		/* Aufruf der MapperKlasse und löschung der übergebenen Eigenschaft*/
@@ -481,16 +486,28 @@ implements ProjektmarktplatzVerwaltung {
 		this.teamMapper.delete(t);
 		}
 	
-	
+	/**
+	 * Löschen eines Unternehmen-Objekts.
+	 */
 	@Override
 	public void deleteUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		/*
+		 * Auslesen des zu einem Unternehmen zugehörigen Partnerprofils und der Beteiligungen eines Unternehmens an Projekte.
+		 */
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
 
 		Vector<Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(u);
-
+		/*
+		 * Es wird geprüft, ob ein Partnerprofil zu dem zu löschenden Unternehmen besteht.
+		 * Wenn eines besteht wird dieses gelöscht.
+		 */
 		if (p != null){
 			this.partnerprofilMapper.delete(p);
 		}
+		/*
+		 * Es wird geprüft, ob das zu löschende Unternehmen an Projekten beteiligt ist. 
+		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
+		 */
 		if (b != null)
 		{
 			for (Beteiligung beteiligung: b)
