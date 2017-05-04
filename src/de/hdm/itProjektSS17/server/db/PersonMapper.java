@@ -176,6 +176,42 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		
 	}
 	
+	public Vector<Person> findAllPerson(){
+		Connection con = DBConnection.connection();
+		
+		Vector<Person> result = new Vector<Person>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ " FROM person ORDER BY Person_Id");
+			
+			
+			while (rs.next()){
+				Person p = new Person();
+				p.setId(rs.getInt("Person_Id"));
+				p.setAnrede(rs.getString("Anrede"));
+				p.setVorname(rs.getString("Vorname"));
+				p.setNachname(rs.getString("Nachname"));
+				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+				p.setTeamId(rs.getInt("Team_Id"));
+				p.setStrasse(super.findByObject(p).getStrasse());
+				p.setHausnummer(super.findByObject(p).getHausnummer());
+				p.setPlz(super.findByObject(p).getPlz());
+				p.setOrt(super.findByObject(p).getOrt());
+				p.setPartnerprofilId(super.findByObject(p).getPartnerprofilId());
+				
+				
+				result.add(p);
+				} 
+			}  
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	  /**
 	   * 
 	   * @param p

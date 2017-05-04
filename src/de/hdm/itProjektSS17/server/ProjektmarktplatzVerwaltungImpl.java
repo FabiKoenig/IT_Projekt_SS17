@@ -456,13 +456,37 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deletePartnerprofil_Organisationseinheit(Partnerprofil p) throws IllegalArgumentException {
+	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
+		this.partnerprofilMapper.delete(p);
 	}
 
+	
+	@Override
+	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
+		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
+		this.partnerprofilMapper.delete(p);
+	}
+	
+	
+	
+	@Override
+	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
+	
+	}
+	
 	@Override
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
+		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
+		
+		if(a != null){
+			this.deleteAusschreibung(a);
+		}
 		
 		if(e != null){
 			for(Eigenschaft eigenschaft : e){
@@ -699,9 +723,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p){
+			
 		return null;
 	}
 
@@ -721,8 +744,8 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+				return null;
 	}
 
 	@Override

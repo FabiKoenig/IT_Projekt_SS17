@@ -18,7 +18,7 @@ public class Organisationseinheit extends BusinessObject {
 	/**
 	 * Realisierung der Beziehung zu einem Partnerprofil durch einen Fremdschl�ssel
 	 */
-	private int partnerprofilId = 0;
+	private Integer partnerprofilId = 0;
 	
 	
 	
@@ -52,13 +52,13 @@ public class Organisationseinheit extends BusinessObject {
 	/**
 	 * @return Gibt den Fremdschl�ssel partnerprofilId zur�ck.
 	 */
-	public int getPartnerprofilId() {
+	public Integer getPartnerprofilId() {
 		return partnerprofilId;
 	}
 	/**
 	 * @param Setzt den Fremdschl�ssel partnerprofilId.
 	 */
-	public void setPartnerprofilId(int partnerprofilId) {
+	public void setPartnerprofilId(Integer partnerprofilId) {
 		this.partnerprofilId = partnerprofilId;
 	}
 	
