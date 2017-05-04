@@ -71,7 +71,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException;
 	
-	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException;
+	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException;
 	
 	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException;
 	

@@ -635,8 +635,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException {
-		
+	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException {
+		this.teilnahmeMapper.delete(po, p);
 		
 	}
 

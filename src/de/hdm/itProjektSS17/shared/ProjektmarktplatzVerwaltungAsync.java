@@ -89,7 +89,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteTeam(Team t, AsyncCallback<Void> callback);
 
-	void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p, AsyncCallback<Void> callback);
+	void deleteTeilnahme(Person po, Projektmarktplatz p, AsyncCallback<Void> callback);
 
 	void deleteUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
