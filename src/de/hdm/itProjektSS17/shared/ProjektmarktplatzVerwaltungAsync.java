@@ -30,7 +30,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId,
 			AsyncCallback<Partnerprofil> callback);
 
-	void createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+	void createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
 			AsyncCallback<Partnerprofil> callback);
 
 	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
@@ -125,7 +125,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getBewertungById(int id, AsyncCallback<Bewertung> callback);
 
-	void getEigenschaftByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Eigenschaft> callback);
+	void getEigenschaftByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Vector<Eigenschaft>> callback);
 
 	void getEigenschaftById(int id, AsyncCallback<Eigenschaft> callback);
 
@@ -185,5 +185,6 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getTeamByForeignPerson(Organisationseinheit o, AsyncCallback<Vector<Team>> callback);
 
 	void getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Unternehmen> callback);
+
 
 }

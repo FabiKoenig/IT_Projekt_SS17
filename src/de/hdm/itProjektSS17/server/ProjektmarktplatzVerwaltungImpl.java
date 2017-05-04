@@ -213,7 +213,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**Erstellt ein Partnerprofil für eine Organisationseinheit*/
 	@Override
-	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum,
+	/**public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
@@ -227,20 +227,22 @@ implements ProjektmarktplatzVerwaltung {
 			Person pp = personMapper.findById(orgaId);
 			Team t = teamMapper.findById(orgaId);
 			Unternehmen u = unternehmenMapper.findById(orgaId);
+
 		
 		if(orgaId == pp.getId()){
 			pp.setPartnerprofilId(po.getId());
-			personMapper.update(personMapper.findById(orgaId));
+			
+			//personMapper.update(personMapper.findById(orgaId));
 			}
 		
 		if(orgaId == t.getId()){
 			t.setPartnerprofilId(po.getId());
-			teamMapper.update(teamMapper.findById(orgaId));
+			//teamMapper.update(teamMapper.findById(orgaId));
 			}
 		
 		if(orgaId == u.getId()){
 			u.setPartnerprofilId(po.getId());
-			unternehmenMapper.update(unternehmenMapper.findById(orgaId));
+			//unternehmenMapper.update(unternehmenMapper.findById(orgaId));
 			}
 		}
 		catch(Exception e){
@@ -249,11 +251,30 @@ implements ProjektmarktplatzVerwaltung {
 		
 		return null;
 	}
+	**/
 	
-	
+	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
+			int orgaId) throws IllegalArgumentException {
+		Partnerprofil p = new Partnerprofil();
+		p.setId(1);
+		p.setErstellungsdatum(erstellungsdatum);
+		p.setAenderungdatum(aenderungsdatum);
+		
+		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+		//die korrekte ID vergeben.
+		Partnerprofil pa = partnerprofilMapper.insert(p);
+		
+		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
+		//korrekte PartnerprofilId an die Ausschreibung übergeben.
+		Person pe = personMapper.findById(orgaId);
+		pe.setPartnerprofilId(pa.getId());
+		PersonMapper.personMapper().update(pe);
+				return null;
+		
+	}
 	
 
-	@Override
+	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
 		Bewerbung b = new Bewerbung();
 		b.setBewerbungstext(bewerbungstext);
@@ -435,14 +456,19 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deletePartnerprofil_Organisationseinheit(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
-		this.partnerprofilMapper.delete(p);
+		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
 		
+		if(e != null){
+			for(Eigenschaft eigenschaft : e){
+				this.eigenschaftMapper.delete(eigenschaft);
+			}
+		this.partnerprofilMapper.delete(p);
+		}
 	}
 
 	@Override
@@ -474,7 +500,6 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
-	
 		this.bewertungMapper.delete(b);
 	}
 
@@ -767,10 +792,20 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Eigenschaft> getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
+		
+		Vector <Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		if(p != null && this.eigenschaftMapper != null ){
+			Vector<Eigenschaft> eigenschaft = this.eigenschaftMapper.findByForeignPartnerprofilId(p.getId());
+			
+			if(eigenschaft != null){
+				result.addAll(eigenschaft);
+			}
+		}
+		return result;
 	}
+	
 
 	@Override
 	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException {
@@ -815,13 +850,12 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void saveBewertung(Bewertung b) throws IllegalArgumentException {
 		this.bewertungMapper.update(b);
-		
 	}
 
 	@Override
 	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
 		this.partnerprofilMapper.update(p);
-		
+
 	}
 
 	@Override
