@@ -735,9 +735,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		return this.personMapper.findByForeignUnternehmenId(u.getId());
 	}
 
 	@Override
