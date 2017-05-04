@@ -741,7 +741,29 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p){
+		
+			Vector<Person> pe = personMapper.findAllPerson();
+			Vector<Team> t = teamMapper.findAllTeam();
+			Vector<Unternehmen> u = unternehmenMapper.findAllUnternehmen();
 			
+			
+				
+			for (Person per : pe) {
+				if (per.getId() == personMapper.findById(per.getPartnerprofilId()).getId()) {
+					return per;
+				}
+			}
+			for (Team te : t) {
+				if (te.getId() == personMapper.findById(te.getPartnerprofilId()).getId()) {
+					return te;
+				}
+			}
+			for (Unternehmen un : u) {
+				if (un.getId() == personMapper.findById(un.getPartnerprofilId()).getId()) {
+					return un;
+				}
+			}
+	
 		return null;
 	}
 
