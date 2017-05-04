@@ -112,7 +112,10 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	private EigenschaftMapper eigenschaftMapper = null;
 	
-	
+	/**
+	 * Referenz auf den TeilnahmeMapper, der Teilnahmen zwischen Personen und Projektmarktplätzen realisiert
+	 */
+	private TeilnahmeMapper teilnahmeMapper = null;
 	/**
 	 * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
 	 * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu
@@ -150,6 +153,7 @@ implements ProjektmarktplatzVerwaltung {
 		this.projektmarktplatzMapper = ProjektmarktplatzMapper.projektmarktplatzMapper();
 		this.teamMapper = TeamMapper.teamMapper();
 		this.unternehmenMapper = UnternehmenMapper.unternehmenMapper();
+		this.teilnahmeMapper = TeilnahmeMapper.teilnahmeMapper();
 		
 	}
 
@@ -321,9 +325,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException {
-		/* Setzen der Ãœbergebenen Attribute*/
-		
+
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException {
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
@@ -331,7 +334,6 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPlz(plz);
 		u.setStrasse(strasse);
 		u.setPartnerprofilId(partnerprofilId);
-		u.setProjektmarktplatzId(projektmarktplatzId);
 		/*
 	     * Setzen einer vorlÃ¤ufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
@@ -348,7 +350,9 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public Person createPerson(String vorname, String nachname, String anrede, 
-			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException {
+
+		String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
 		
 		Person p = new Person();
 		p.setId(1);
@@ -360,20 +364,22 @@ implements ProjektmarktplatzVerwaltung {
 		p.setOrt(ort);
 		p.setPlz(plz);
 		p.setPartnerprofilId(partnerprofilId);
-		p.setProjektmarktplatzId(projektmarktplatzId);
 		p.setTeamId(teamId);
 		p.setUnternehmenId(unternehmenId);
-		
-	
 		return this.personMapper.insert(p);
 	}
 
+	/**Anlegen eines Projektmarktplatzes und zuweisen der ersten Person zu diesem Marktplatz.
+	 * Die zugewiesene, erste Person ist automatisch immer diejenige, die den Marktplatz erstellt hat.
+	 */
 	@Override
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException {
-		Projektmarktplatz p = new Projektmarktplatz();
-		p.setId(1);
-		p.setBezeichnung(bezeichnung);
-		return this.projektmarktplatzMapper.insert(p);
+		/*Anlegen des Projektmarktplatzes*/
+		Projektmarktplatz pr = new Projektmarktplatz();
+		pr.setId(1);
+		pr.setBezeichnung(bezeichnung);
+		
+		return pr;
 	}
 
 	@Override
@@ -597,6 +603,9 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 
+	/**
+	 * Löschen des übergebenen Projektmarktplatzes
+	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
 		this.projektmarktplatzMapper.delete(p);
@@ -763,14 +772,21 @@ implements ProjektmarktplatzVerwaltung {
 		return null;
 	}
 
+	/**
+	 * Liefert einen Vector mit Bewerbungen anhand des übergebenen Organisationseinheit-Objekts.
+	 */
 	@Override
-	public Bewerbung getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
+		return this.bewerbungMapper.findByForeignOrganisationseinheitId(o.getId());
 	}
 
+	/**
+	 * Liefert einen Vector mit Bewerbungen anhand des übergebenen Ausschreibung-Objekts.
+	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
+		//Michis Version
+		/*
 		
 		Vector<Bewerbung> result = new Vector<Bewerbung>();
 		
@@ -783,6 +799,9 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		
 		return result;
+	*/
+		return this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
+
 	}
 
 	@Override
