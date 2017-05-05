@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.server;
 
+import java.util.Date;
+
 import de.hdm.itProjektSS17.server.db.PartnerprofilMapper;
 import de.hdm.itProjektSS17.server.db.PersonMapper;
 import de.hdm.itProjektSS17.server.db.TeamMapper;
@@ -9,14 +11,14 @@ public class test {
 
 	public static void main(String[] args) {
 		
+	Date d = new Date();
+	ProjektmarktplatzVerwaltungImpl pimpl = new ProjektmarktplatzVerwaltungImpl();
+	pimpl.init();
 	
-	//ProjektmarktplatzVerwaltungImpl pimpl = new ProjektmarktplatzVerwaltungImpl();
-	//pimpl.init();
-	
-	//pimpl.deletePartnerprofil_Person(PartnerprofilMapper.partnerprofilMapper().findById(12));
+	pimpl.createPartnerprofil_Person(d, d, 101);
 		
 		//System.out.println(TeamMapper.teamMapper().findAllTeam());
 		//System.out.println(PersonMapper.personMapper().findAllPerson());
-		System.out.println(UnternehmenMapper.unternehmenMapper().findAllUnternehmen());
+		
 	}
 }
