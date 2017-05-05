@@ -9,7 +9,6 @@ import java.util.Vector;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
-import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 /**
@@ -45,7 +44,7 @@ public class OrganisationseinheitMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id"
+			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id"
 					+ " FROM organisationseinheit " + "WHERE Organisationseinheit_Id=" + id);
 			
 			
@@ -57,7 +56,6 @@ public class OrganisationseinheitMapper {
 				o.setPlz(rs.getInt("PLZ"));
 				o.setOrt(rs.getString("Ort"));
 				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
 				
 		return o;
 			
@@ -80,41 +78,7 @@ public class OrganisationseinheitMapper {
 		return this.findById(o.getId()); 
 	}
 	
-	/*Suche von Organisationseinheit-Objekten auf einem bestimmten Projektmarktplatz.
-	 *Hierzu wird ein Projektmarktplatz übergeben und Organisationseinheit-Objekt(e) zurückgegeben.
-	 */
-	protected Vector<Organisationseinheit> findByForeignProjektmarktplatzId(int projektmarktplatzId){
-		Connection con = DBConnection.connection();
-		
-		// Vektor, in dem die Personen nach einem bestimmten Team gespeichert werden
-		Vector<Organisationseinheit> result = new Vector<Organisationseinheit>();
-		
-		try{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * "
-					+ " FROM organisationseinheit " + "WHERE Projektmarktplatz_Id=" + 
-			projektmarktplatzId);
-			
-			
-			while (rs.next()){
-				Organisationseinheit o = new Organisationseinheit();
-				o.setId(rs.getInt("Organisationseinheit_Id"));
-				o.setStrasse(rs.getString("Strasse"));
-				o.setHausnummer(rs.getString("Hausnummer"));
-				o.setPlz(rs.getInt("PLZ"));
-				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
-				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-		result.add(o);
-	}
-	}
-		catch (SQLException e) {
-		e.printStackTrace();
-		}
-		return result;
-	}
-	
-	
-	/*Suceh von einer Organisationseinheit durch ein übergebendes Partnerprofil.
+	/*Suche von einer Organisationseinheit durch ein übergebendes Partnerprofil.
 	 *Ein Organisationseinheit-Objekt wird zurueckgegeben.
 	 */
 	protected Organisationseinheit findByForeignPartnerprofilId(int partnerprofilId){
@@ -122,7 +86,7 @@ public class OrganisationseinheitMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id"
+			ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id"
 					+ " FROM organisationseinheit " + "WHERE Partnerprofil_Id=" + partnerprofilId);
 			
 			
@@ -134,11 +98,9 @@ public class OrganisationseinheitMapper {
 				o.setPlz(rs.getInt("PLZ"));
 				o.setOrt(rs.getString("Ort"));
 				o.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-				o.setProjektmarktplatzId(rs.getInt("Projektmarktplatz_Id"));
-				
 		return o;
 			
-	}
+			}
 	}
 		catch (SQLException e) {
 		e.printStackTrace();
@@ -179,10 +141,12 @@ public class OrganisationseinheitMapper {
 	        stmt = con.createStatement();
 
 	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id, Projektmarktplatz_Id) "
-		            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
-		            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() + "','"+ o.getProjektmarktplatzId() +"')");
-	      	}
+
+	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id ) "
+	            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
+	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() +"')");
+	      }
+
 	    }
 	    catch (SQLException e) {
 	      e.printStackTrace();
@@ -211,7 +175,7 @@ public class OrganisationseinheitMapper {
 
 		      stmt.executeUpdate("UPDATE organisationseinheit SET strasse='"
 			          + o.getStrasse() + "'," + "Hausnummer='" + o.getHausnummer() + "'," + "PLZ=" + o.getPlz() + ","
-			          + "Ort='" + o.getOrt() +"'"+" WHERE Organisationseinheit_Id="+o.getId());
+			          + "Ort='" + o.getOrt() +"'," + "Partnerprofil_Id=" + o.getPartnerprofilId() + " WHERE Organisationseinheit_Id="+o.getId());
 
 		      
 		    }

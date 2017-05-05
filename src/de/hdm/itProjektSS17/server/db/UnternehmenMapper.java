@@ -8,6 +8,7 @@ import java.util.*;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 /**
@@ -60,7 +61,6 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 				u.setHausnummer(super.findById(id).getHausnummer());
 				u.setOrt(super.findById(id).getOrt());
 				u.setPlz(super.findById(id).getPlz());
-				u.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
 				u.setPartnerprofilId(super.findById(id).getPartnerprofilId());
 						
 				return u;
@@ -85,6 +85,38 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
     	
     	
     }
+    
+    public Vector<Unternehmen> findAllUnternehmen(){
+    	Connection con = DBConnection.connection();
+		
+		Vector<Unternehmen> result = new Vector<Unternehmen>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ " FROM unternehmen ORDER BY Unternehmen_Id");
+			
+			
+			while (rs.next()){
+				Unternehmen u = new Unternehmen();
+				u.setId(rs.getInt("Unternehmen_Id"));
+				u.setName(rs.getString("Name"));
+				u.setStrasse(super.findByObject(u).getStrasse());
+				u.setHausnummer(super.findByObject(u).getHausnummer());
+				u.setPlz(super.findByObject(u).getPlz());
+				u.setOrt(super.findByObject(u).getOrt());
+				u.setPartnerprofilId(super.findByObject(u).getPartnerprofilId());
+				
+				result.add(u);
+				} 
+			}  
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 
     /**
      * @param u 

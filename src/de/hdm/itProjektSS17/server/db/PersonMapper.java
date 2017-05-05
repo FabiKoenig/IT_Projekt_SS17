@@ -67,8 +67,6 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setPlz(super.findById(id).getPlz());
 				p.setOrt(super.findById(id).getOrt());
 				p.setPartnerprofilId(super.findById(id).getPartnerprofilId());
-				p.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
-					
 				return p;
 				} 
 			}   
@@ -121,8 +119,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setHausnummer(super.findById(teamId).getHausnummer());
 				p.setPlz(super.findById(teamId).getPlz());
 				p.setOrt(super.findById(teamId).getOrt());
-				p.setPartnerprofilId(super.findById(teamId).getPartnerprofilId());
-				p.setProjektmarktplatzId(super.findById(teamId).getProjektmarktplatzId());		
+				p.setPartnerprofilId(super.findById(teamId).getPartnerprofilId());	
 
 			
 				result.add(p);
@@ -166,7 +163,6 @@ public class PersonMapper extends OrganisationseinheitMapper{
 				p.setPlz(super.findById(unternehmenId).getPlz());
 				p.setOrt(super.findById(unternehmenId).getOrt());
 				p.setPartnerprofilId(super.findById(unternehmenId).getPartnerprofilId());
-				p.setProjektmarktplatzId(super.findById(unternehmenId).getProjektmarktplatzId());
 				
 
 				result.add(p);
@@ -178,6 +174,42 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		
 		return result;
 		
+	}
+	
+	public Vector<Person> findAllPerson(){
+		Connection con = DBConnection.connection();
+		
+		Vector<Person> result = new Vector<Person>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ " FROM person ORDER BY Person_Id");
+			
+			
+			while (rs.next()){
+				Person p = new Person();
+				p.setId(rs.getInt("Person_Id"));
+				p.setAnrede(rs.getString("Anrede"));
+				p.setVorname(rs.getString("Vorname"));
+				p.setNachname(rs.getString("Nachname"));
+				p.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+				p.setTeamId(rs.getInt("Team_Id"));
+				p.setStrasse(super.findByObject(p).getStrasse());
+				p.setHausnummer(super.findByObject(p).getHausnummer());
+				p.setPlz(super.findByObject(p).getPlz());
+				p.setOrt(super.findByObject(p).getOrt());
+				p.setPartnerprofilId(super.findByObject(p).getPartnerprofilId());
+				
+				
+				result.add(p);
+				} 
+			}  
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	  /**
@@ -213,13 +245,30 @@ public class PersonMapper extends OrganisationseinheitMapper{
 
 		    try {
 		    	 p.setId(super.update(p));
-		     // OrganisationseinheitMapper.organisationseinheitMapper().update(p);
+		     super.organisationsEinheitsmapper().update(p);
 		    	
 		      Statement stmt = con.createStatement();
 		      
-		      stmt.executeUpdate("UPDATE person SET Vorname='"
-		          + p.getVorname() + "', " + "Nachname='" + p.getNachname() + "', " + "Anrede= '"+ p.getAnrede() +
-		          "' WHERE Person_Id=" + p.getId());
+		        if(p.getTeamId()==null && p.getUnternehmenId()==null){
+				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
+					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
+					          "\", " + "Unternehmen_Id=NULL, Team_Id=NULL" + " WHERE Person_Id=" + p.getId());
+		        }else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
+				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
+					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
+					          "\", " + "Unternehmen_Id=NULL, Team_Id=\""+ p.getTeamId() + "\" "
+					          + "WHERE Person_Id=" + p.getId());
+		        }else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
+					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
+					          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id= NULL, WHERE Person_Id=" + p.getId());
+		        }else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
+			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
+					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
+					          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=\""+ p.getTeamId() + "\" "
+					          + "WHERE Person_Id=" + p.getId());
+		        } 
 		      
 		   
 		    }
@@ -250,13 +299,27 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		      
 
 		        stmt = con.createStatement();
-
-		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname, Unternehmen_Id, Team_Id) "
-		            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
-		            + p.getVorname() + "','" + p.getNachname() + "','" + p.getUnternehmenId() + "','" + p.getTeamId() +"')");
 		        
-		        
+		        //Pr�fung ob im den �bergebenen Fremdschl�sseln Team_Id und Unternehmen_Id ein NULL-Wert vorhanden ist.
+		        //Entsprechend muss das Statement angepast werden, um von der Datenbank akzeptiert zu werden.
+		        if(p.getTeamId()==null && p.getUnternehmenId()==null){
+			        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname) "
+				            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
+				            + p.getVorname() + "','" + p.getNachname() +"')");
+		        }else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
+			        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname, Team_Id) "
+				            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
+				            + p.getVorname() + "','" + p.getNachname() + "','" + p.getTeamId() +"')");
+		        }else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+			        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname, Unternehmen_Id) "
+				            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
+				            + p.getVorname() + "','" + p.getNachname() + "','" + p.getUnternehmenId() +"')");
+		        }else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
+			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+			        stmt.executeUpdate("INSERT INTO person (Person_Id, Anrede, Vorname, Nachname, Unternehmen_Id, Team_Id) "
+			            + "VALUES (" + p.getId() + ",'" + p.getAnrede() + "','"
+			            + p.getVorname() + "','" + p.getNachname() + "','" + p.getUnternehmenId() + "','" + p.getTeamId() +"')");
+		        }        
 		      
 		    }
 		    catch (SQLException e) {
@@ -266,4 +329,5 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		    return p;
 		  
 	  }
+
 }

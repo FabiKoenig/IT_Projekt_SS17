@@ -30,7 +30,13 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId,
 			AsyncCallback<Partnerprofil> callback);
 
-	void createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+	void createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+			AsyncCallback<Partnerprofil> callback);
+	
+	void createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+			AsyncCallback<Partnerprofil> callback);
+	
+	void createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
 			AsyncCallback<Partnerprofil> callback);
 
 	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
@@ -43,18 +49,17 @@ public interface ProjektmarktplatzVerwaltungAsync {
 			AsyncCallback<Bewertung> callback);
 
 	void createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, String ort,
-			int partnerprofilId, int projektmarktplatzId, AsyncCallback<Team> callback);
+			int partnerprofilId, AsyncCallback<Team> callback);
 
-	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId,
-			int projektmarktplatzId, AsyncCallback<Unternehmen> callback);
+	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, AsyncCallback<Unternehmen> callback);
 
 	void createPerson(String vorname, String nachname, String anrede, String strasse, String hausnr, int plz,
-			String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId,
+			String ort, int partnerprofilId, Integer teamId, Integer unternehmenId,
 			AsyncCallback<Person> callback);
 
 	void createProjektmarktplatz(String bezeichnung, AsyncCallback<Projektmarktplatz> callback);
 
-	void createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
+	void createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId,
 			AsyncCallback<Beteiligung> callback);
 
 	void createTeilnahme(int orgaId, int projmarktplatzId, AsyncCallback<Void> callback);
@@ -81,7 +86,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deletePartnerprofil_Ausschreibung(Partnerprofil p, AsyncCallback<Void> callback);
 
-	void deletePartnerprofil_Organisationseinheit(Partnerprofil p, AsyncCallback<Void> callback);
+	void deletePartnerprofil_Person(Partnerprofil p, AsyncCallback<Void> callback);
+	
+	void deletePartnerprofil_Team(Partnerprofil p, AsyncCallback<Void> callback);
+
+	void deletePartnerprofil_Unternehmen(Partnerprofil p, AsyncCallback<Void> callback);
 
 	void deletePerson(Person p, AsyncCallback<Void> callback);
 
@@ -91,7 +100,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteTeam(Team t, AsyncCallback<Void> callback);
 
-	void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p, AsyncCallback<Void> callback);
+	void deleteTeilnahme(Person po, Projektmarktplatz p, AsyncCallback<Void> callback);
 
 	void deleteUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
@@ -112,13 +121,13 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o,
 			AsyncCallback<Vector<Beteiligung>> callback);
 
-	void getBeteiligungByForeignProjekt(Projekt p, AsyncCallback<Beteiligung> callback);
+	void getBeteiligungByForeignProjekt(Projekt p, AsyncCallback<Vector<Beteiligung>> callback);
 
 	void getBeteiligungById(int id, AsyncCallback<Beteiligung> callback);
 
-	void getBewerbungByForeignAusschreibung(Ausschreibung a, AsyncCallback<Bewerbung> callback);
+	void getBewerbungByForeignAusschreibung(Ausschreibung a, AsyncCallback<Vector<Bewerbung>> callback);
 
-	void getBewerbungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Bewerbung> callback);
+    void getBewerbungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Vector<Bewerbung>> callback);
 
 	void getBewerbungById(int id, AsyncCallback<Bewerbung> callback);
 
@@ -126,7 +135,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getBewertungById(int id, AsyncCallback<Bewertung> callback);
 
-	void getEigenschaftByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Eigenschaft> callback);
+	void getEigenschaftByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Vector<Eigenschaft>> callback);
 
 	void getEigenschaftById(int id, AsyncCallback<Eigenschaft> callback);
 
@@ -137,15 +146,15 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerprofilById(int id, AsyncCallback<Partnerprofil> callback);
 
-	void getPersonByForeignTeam(Team t, AsyncCallback<Person> callback);
+	void getPersonByForeignTeam(Team t, AsyncCallback<Vector<Person>> callback);
 
-	void getPersonByForeignUnternehmen(Unternehmen u, AsyncCallback<Person> callback);
+	void getPersonByForeignUnternehmen(Unternehmen u, AsyncCallback<Vector<Person>> callback);
 
 	void getPersonById(int id, AsyncCallback<Person> callback);
 
-	void getProjektByForeignPerson(Person p, AsyncCallback<Projekt> callback);
+	void getProjektByForeignPerson(Person p, AsyncCallback<Vector<Projekt>> callback);
 
-	void getProjektByForeignProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Projekt> callback);
+	void getProjektByForeignProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Vector<Projekt>> callback);
 
 	void getProjektById(int id, AsyncCallback<Projekt> callback);
 
@@ -155,27 +164,27 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getUnternehmenById(int id, AsyncCallback<Unternehmen> callback);
 
-	void saveAusschreibung(Ausschreibung a, AsyncCallback<Ausschreibung> callback);
+	void saveAusschreibung(Ausschreibung a, AsyncCallback<Void> callback);
 
-	void saveBeteiligung(Beteiligung b, AsyncCallback<Beteiligung> callback);
+	void saveBeteiligung(Beteiligung b, AsyncCallback<Void> callback);
 
-	void saveBewerbung(Bewerbung b, AsyncCallback<Bewerbung> callback);
+	void saveBewerbung(Bewerbung b, AsyncCallback<Void> callback);
 
-	void saveBewertung(Bewertung b, AsyncCallback<Bewertung> callback);
+	void saveBewertung(Bewertung b, AsyncCallback<Void> callback);
 
-	void saveEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+	void saveEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
-	void savePartnerprofil(Partnerprofil p, AsyncCallback<Partnerprofil> callback);
+	void savePartnerprofil(Partnerprofil p, AsyncCallback<Void> callback);
 
-	void savePerson(Person p, AsyncCallback<Person> callback);
+	void savePerson(Person p, AsyncCallback<Void> callback);
 
-	void saveProjekt(Projekt p, AsyncCallback<Projekt> callback);
+	void saveProjekt(Projekt p, AsyncCallback<Void> callback);
 
-	void saveProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Projektmarktplatz> callback);
+	void saveProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Void> callback);
 
-	void saveTeam(Team t, AsyncCallback<Team> callback);
+	void saveTeam(Team t, AsyncCallback<Void> callback);
 
-	void saveUnternehmen(Unternehmen u, AsyncCallback<Unternehmen> callback);
+	void saveUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
 	void getPerson(AsyncCallback<Person> callback);
 
@@ -183,8 +192,9 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
 
-	void getTeamByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Team> callback);
+	void getTeamByForeignPerson(Organisationseinheit o, AsyncCallback<Vector<Team>> callback);
 
 	void getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Unternehmen> callback);
+
 
 }

@@ -59,7 +59,6 @@ public class TeamMapper extends OrganisationseinheitMapper{
 				  a.setOrt(super.findById(id).getOrt());
 				  a.setPlz(super.findById(id).getPlz());
 				  a.setPartnerprofilId(super.findById(id).getPartnerprofilId());
-				  a.setProjektmarktplatzId(super.findById(id).getProjektmarktplatzId());
 				  
 				  return a;
 			  }
@@ -124,6 +123,37 @@ public class TeamMapper extends OrganisationseinheitMapper{
 		  
 	  }
 	  
+	  public Vector<Team> findAllTeam(){
+			Connection con = DBConnection.connection();
+			
+			Vector<Team> result = new Vector<Team>();
+			
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * "
+						+ " FROM team ORDER BY Team_Id");
+				
+				
+				while (rs.next()){
+					Team t = new Team();
+					t.setId(rs.getInt("Team_Id"));
+					t.setName(rs.getString("Name"));
+					t.setUnternehmenId(rs.getInt("Unternehmen_Id"));
+					t.setStrasse(super.findByObject(t).getStrasse());
+					t.setHausnummer(super.findByObject(t).getHausnummer());
+					t.setPlz(super.findByObject(t).getPlz());
+					t.setOrt(super.findByObject(t).getOrt());
+					t.setPartnerprofilId(super.findByObject(t).getPartnerprofilId());
+				
+					result.add(t);
+					} 
+				}  
+			catch (SQLException e) {
+			e.printStackTrace();
+			}
+			
+			return result;
+		}
 	  /**
 	   * 
 	   * @param t
@@ -158,7 +188,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        	Statement stmt = con.createStatement();
 
 	        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+" WHERE Team_Id="+t.getId());					
+	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());					
 			
 
 	        }

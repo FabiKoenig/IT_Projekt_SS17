@@ -21,8 +21,12 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId) throws IllegalArgumentException;
 	
-	public Partnerprofil createPartnerprofil_Organisationseinheit(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
+	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
 	
+	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
+
+	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
+
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
 	
 	public Projekt createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId, int projektmarktplatzId) throws IllegalArgumentException;
@@ -31,14 +35,14 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 			throws IllegalArgumentException;
 	
 	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId, int projektmarktplatzId) throws IllegalArgumentException;
+			String ort,int partnerprofilId) throws IllegalArgumentException;
 	
 	public Person createPerson(String vorname, String nachname, String anrede, 
-			String strasse, String hausnr, int plz, String ort, int partnerprofilId, int projektmarktplatzId, int teamId, int unternehmenId) throws IllegalArgumentException;
+			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;
 	
-	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException;
+	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId) throws IllegalArgumentException;
 	
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException;
 	
@@ -52,7 +56,11 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
 	
-	public void deletePartnerprofil_Organisationseinheit(Partnerprofil p) throws IllegalArgumentException;
+	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException;
+	
+	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException;
+
+	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException;
 	
 	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException;
 	
@@ -72,7 +80,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException;
 	
-	public void deleteTeilnahme(Organisationseinheit o, Projektmarktplatz p) throws IllegalArgumentException;
+	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException;
 	
 	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException;
 	
@@ -106,78 +114,66 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	Team getTeamByForeignOrganisationseinheit(Organisationseinheit o);
+	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o);
 	
-	public Person getPersonByForeignTeam(Team t) throws IllegalArgumentException;
+	public Vector<Person> getPersonByForeignTeam(Team t) throws IllegalArgumentException;
 	
-	public Person getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
-	public Beteiligung getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException;
+	public Vector<Beteiligung> getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 	
 	public Beteiligung getBeteiligungByForeignBewertung(Bewertung b) throws IllegalArgumentException;
 	
 	public Organisationseinheit getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Projekt getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
+	public Vector<Projekt> getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Projekt getProjektByForeignPerson(Person p) throws IllegalArgumentException;
+	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException;
 	
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
-	public Bewerbung getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
-	public Bewerbung getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException;
+	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Eigenschaft getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
+	public Vector<Eigenschaft> getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
 	Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o);
 	
-	public Bewerbung saveBewerbung(Bewerbung b) throws IllegalArgumentException;
+	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
-	public Projektmarktplatz saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
+	public void saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public Team saveTeam(Team t) throws IllegalArgumentException;
+	public void saveTeam(Team t) throws IllegalArgumentException;
 	
-	public Eigenschaft saveEigenschaft(Eigenschaft e) throws IllegalArgumentException;
+	public void saveEigenschaft(Eigenschaft e) throws IllegalArgumentException;
 	
-	public Unternehmen saveUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	public void saveUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
-	public Person savePerson(Person p) throws IllegalArgumentException;
+	public void savePerson(Person p) throws IllegalArgumentException;
 	
-	public Beteiligung saveBeteiligung(Beteiligung b) throws IllegalArgumentException;
+	public void saveBeteiligung(Beteiligung b) throws IllegalArgumentException;
 	
-	public Bewertung saveBewertung(Bewertung b) throws IllegalArgumentException;
+	public void saveBewertung(Bewertung b) throws IllegalArgumentException;
 	
-	public Partnerprofil savePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
+	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
-	public Projekt saveProjekt(Projekt p) throws IllegalArgumentException;
+	public void saveProjekt(Projekt p) throws IllegalArgumentException;
 	
-	public Ausschreibung saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
+	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
-	
-	/**
-	 * TODO (ARRAY??)
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
 	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
-
-
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
-
-	Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse,
-			int partnerprofilId, int projektmarktplatzId);
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException;
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 
-	
-	
 	
 	
 }
