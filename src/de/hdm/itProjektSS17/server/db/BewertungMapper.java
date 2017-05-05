@@ -200,7 +200,7 @@ public class BewertungMapper {
 		         */
 		        b.setId(rs.getInt("maxid") + 1);
 		        
-		        System.out.println(b.getId());
+		       
 		        
 		        //Leeres SQL-Statement für die Insert- Ausführung anlegen.
 		        stmt = con.createStatement();
