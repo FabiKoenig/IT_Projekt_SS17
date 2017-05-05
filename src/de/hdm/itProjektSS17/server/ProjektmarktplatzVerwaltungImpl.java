@@ -276,6 +276,11 @@ implements ProjektmarktplatzVerwaltung {
 	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
+		Vector<Unternehmen> unt = unternehmenMapper.findAllUnternehmen();
+		
+		for (Unternehmen ue : unt) {
+			if (ue.getId() == orgaId) {
+		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
 		p.setErstellungsdatum(erstellungsdatum);
@@ -290,6 +295,9 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPartnerprofilId(p.getId());
 		unternehmenMapper.update(u);
 				return null;
+	}
+		}
+		return null;
 	}
 	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
