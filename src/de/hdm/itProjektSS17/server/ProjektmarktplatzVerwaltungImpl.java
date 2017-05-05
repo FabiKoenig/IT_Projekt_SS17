@@ -246,6 +246,11 @@ implements ProjektmarktplatzVerwaltung {
 	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
+		Vector<Team> tea = teamMapper.findAllTeam();
+		
+		for (Team te : tea) {
+			if (te.getId() == orgaId) {
+		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
 		p.setErstellungsdatum(erstellungsdatum);
@@ -260,6 +265,10 @@ implements ProjektmarktplatzVerwaltung {
 		t.setPartnerprofilId(p.getId());
 		teamMapper.update(t);
 				return null;
+			}
+		}
+		return null;
+	
 	}
 	
 	
@@ -321,10 +330,18 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	@Override
-	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException {
+	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+			String ort,int partnerprofilId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setUnternehmenId(unternehmenId);
+		a.setStrasse(strasse);
+		a.setHausnummer(hausnr);
+		a.setPlz(plz);
+		a.setOrt(ort);
+		a.setPartnerprofilId(partnerprofilId);
+		
+		
 		return this.teamMapper.insert(a);
 	}
 	/**
@@ -762,10 +779,9 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
+	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
 	}
 
 	@Override
@@ -810,9 +826,7 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		//TODO
-		return null;
-
+			return this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
 	}
 
 	@Override
@@ -1019,6 +1033,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * 
 	 * @return ein Unternehmen-Objekt, das entweder einer Person oder einem Team zugeordnet ist. 
 	 */
+
 	@Override
 	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {

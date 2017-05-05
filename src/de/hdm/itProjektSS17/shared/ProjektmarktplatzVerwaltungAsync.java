@@ -48,7 +48,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId,
 			AsyncCallback<Bewertung> callback);
 
-	void createTeam(String name, int personId, AsyncCallback<Team> callback);
+	void createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, String ort,
+			int partnerprofilId, AsyncCallback<Team> callback);
 
 	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, AsyncCallback<Unternehmen> callback);
 
@@ -107,7 +108,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAllOrganisationseinheiten(AsyncCallback<Organisationseinheit> callback);
 
-	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Ausschreibung> callback);
+	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o,
+			AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 
