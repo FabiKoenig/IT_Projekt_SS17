@@ -108,7 +108,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAllOrganisationseinheiten(AsyncCallback<Organisationseinheit> callback);
 
-	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Ausschreibung> callback);
+	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o,
+			AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 

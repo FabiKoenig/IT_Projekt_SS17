@@ -754,10 +754,9 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
+	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
 	}
 
 	@Override
@@ -802,9 +801,7 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		//TODO
-		return null;
-
+			return this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
 	}
 
 	@Override
