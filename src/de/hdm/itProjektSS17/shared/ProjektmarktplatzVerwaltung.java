@@ -110,7 +110,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException;
 	
-	public Vector <Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
