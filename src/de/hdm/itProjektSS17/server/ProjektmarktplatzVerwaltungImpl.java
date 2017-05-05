@@ -472,6 +472,10 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
 		this.partnerprofilMapper.delete(p);
 	}
 
@@ -490,7 +494,12 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
-	
+		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
+		this.partnerprofilMapper.delete(p);
 	}
 	
 	@Override
