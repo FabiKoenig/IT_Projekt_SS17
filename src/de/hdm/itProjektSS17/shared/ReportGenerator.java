@@ -4,12 +4,12 @@ import com.google.gwt.user.client.rpc.RemoteService;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
-import de.hdm.thies.bankProjektSS17.shared.report.AlleAusschreibungenReport;
-import de.hdm.thies.bankProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
-import de.hdm.thies.bankProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
-import de.hdm.thies.bankProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenReport;
-import de.hdm.thies.bankProjektSS17.shared.report.FanInFanOutReport;
-import de.hdm.thies.bankProjektSS17.shared.report.ProjektverflechtungenReport;
+import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenReport;
+import de.hdm.itProjektSS17.shared.report.FanInFanOutReport;
+import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
+import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 
 public interface ReportGenerator extends RemoteService{
 
