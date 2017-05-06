@@ -641,7 +641,7 @@ implements ProjektmarktplatzVerwaltung {
 		 */
 		if (te != null){
 				for(Team team: te){
-					this.deleteMitgliedschaft(team, p);
+					this.deleteMitgliedschaft(p);
 			}
 		}
 		/**
@@ -649,7 +649,7 @@ implements ProjektmarktplatzVerwaltung {
 		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
 		 */
 		if (un != null){
-			this.deleteArbeitsverhaeltnis(un, p);
+			this.deleteArbeitsverhaeltnis(p);
 		}
 		
 		/**
@@ -681,20 +681,22 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException {
+		p.setUnternehmenId(null);
+		this.personMapper.update(p);
 		
 	}
 
 	@Override
-	public void deleteZugehoerigkeit(Unternehmen u, Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException {
+		t.setUnternehmenId(null);
+		this.teamMapper.update(t);
 	}
 
 	@Override
-	public void deleteMitgliedschaft(Team t, Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException {
+		p.setTeamId(null);
+		this.personMapper.update(p);
 		
 	}
 

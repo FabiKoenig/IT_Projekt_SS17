@@ -9,7 +9,7 @@ public class Team extends Organisationseinheit{
 	/**
 	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschl�ssel
 	 */
-	private int unternehmenId = 0;
+	private Integer unternehmenId = null;
 	
 	public String getName() {
 		return name;
@@ -22,15 +22,19 @@ public class Team extends Organisationseinheit{
 	/**
 	 * @return Gibt den Fremdschl�ssel unternehmenId zur�ck.
 	 */
-	public int getUnternehmenId() {
+	public Integer getUnternehmenId() {
 		return unternehmenId;
 	}
 	
 	/**
 	 * @param Setzt den Fremdschl�ssel unternehmenId.
 	 */
-	public void setUnternehmenId(int unternehmenId) {
-		this.unternehmenId = unternehmenId;
+	public void setUnternehmenId(Integer unternehmenId) {
+		if(unternehmenId==0){
+			this.unternehmenId=null;
+		}else{
+			this.unternehmenId = unternehmenId;
+		}
 	}
 
 }

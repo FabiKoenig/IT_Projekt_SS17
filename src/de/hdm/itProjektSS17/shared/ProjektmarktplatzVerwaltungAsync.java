@@ -70,7 +70,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createZugehoerigkeit(int unternehmenId, int teamId, AsyncCallback<Void> callback);
 
-	void deleteArbeitsverhaeltnis(Unternehmen u, Person p, AsyncCallback<Void> callback);
+	void deleteArbeitsverhaeltnis(Person p, AsyncCallback<Void> callback);
 
 	void deleteAusschreibung(Ausschreibung a, AsyncCallback<Void> callback);
 
@@ -82,7 +82,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
-	void deleteMitgliedschaft(Team t, Person p, AsyncCallback<Void> callback);
+	void deleteMitgliedschaft(Person p, AsyncCallback<Void> callback);
 
 	void deletePartnerprofil_Ausschreibung(Partnerprofil p, AsyncCallback<Void> callback);
 
@@ -104,7 +104,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
-	void deleteZugehoerigkeit(Unternehmen u, Team t, AsyncCallback<Void> callback);
+	void deleteZugehoerigkeit(Team t, AsyncCallback<Void> callback);
 
 	void getAllOrganisationseinheiten(AsyncCallback<Organisationseinheit> callback);
 
