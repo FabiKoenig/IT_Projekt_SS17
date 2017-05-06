@@ -21,8 +21,7 @@ public interface ReportGeneratorAsync {
 	void createAlleAusschreibungenAufEigeneAusschreibungenReport(Organisationseinheit o,
 			AsyncCallback<AlleBewerbungenAufEigeneAusschreibungenReport> callback);
 
-	void createAlleAusschreibungenReport(
-			AsyncCallback<de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport> callback);
+	void createAlleAusschreibungenReport(AsyncCallback<AlleAusschreibungenReport> callback);
 
 	void createAlleBewerbungenMitAusschreibungenReport(Organisationseinheit o,
 			AsyncCallback<AlleBewerbungenMitAusschreibungenReport> callback);
