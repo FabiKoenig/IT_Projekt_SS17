@@ -34,7 +34,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	public Bewertung createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId)
 			throws IllegalArgumentException;
 	
-	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException;
+	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+			String ort,int partnerprofilId) throws IllegalArgumentException;
 	
 	public Person createPerson(String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;
@@ -81,11 +82,11 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException;
 	
-	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException;
+	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException;
 	
-	public void deleteZugehoerigkeit(Unternehmen u, Team t) throws IllegalArgumentException;
+	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException;
 	
-	public void deleteMitgliedschaft(Team t, Person p) throws IllegalArgumentException;
+	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException;
 	
 	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException;
 	
@@ -109,7 +110,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException;
 	
-	public Ausschreibung getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	

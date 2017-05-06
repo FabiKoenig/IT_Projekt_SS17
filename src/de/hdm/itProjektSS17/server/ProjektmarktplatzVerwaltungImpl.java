@@ -314,10 +314,18 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	@Override
-	public Team createTeam(String name, int unternehmenId) throws IllegalArgumentException {
+	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+			String ort,int partnerprofilId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setUnternehmenId(unternehmenId);
+		a.setStrasse(strasse);
+		a.setHausnummer(hausnr);
+		a.setPlz(plz);
+		a.setOrt(ort);
+		a.setPartnerprofilId(partnerprofilId);
+		
+		
 		return this.teamMapper.insert(a);
 	}
 	/**
@@ -633,7 +641,7 @@ implements ProjektmarktplatzVerwaltung {
 		 */
 		if (te != null){
 				for(Team team: te){
-					this.deleteMitgliedschaft(team, p);
+					this.deleteMitgliedschaft(p);
 			}
 		}
 		/**
@@ -641,7 +649,7 @@ implements ProjektmarktplatzVerwaltung {
 		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
 		 */
 		if (un != null){
-			this.deleteArbeitsverhaeltnis(un, p);
+			this.deleteArbeitsverhaeltnis(p);
 		}
 		
 		/**
@@ -673,20 +681,22 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deleteArbeitsverhaeltnis(Unternehmen u, Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException {
+		p.setUnternehmenId(null);
+		this.personMapper.update(p);
 		
 	}
 
 	@Override
-	public void deleteZugehoerigkeit(Unternehmen u, Team t) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException {
+		t.setUnternehmenId(null);
+		this.teamMapper.update(t);
 	}
 
 	@Override
-	public void deleteMitgliedschaft(Team t, Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException {
+		p.setTeamId(null);
+		this.personMapper.update(p);
 		
 	}
 
@@ -746,10 +756,9 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Ausschreibung getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
+	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
 	}
 
 	@Override
@@ -794,9 +803,7 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		//TODO
-		return null;
-
+			return this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
 	}
 
 	@Override
@@ -1003,6 +1010,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * 
 	 * @return ein Unternehmen-Objekt, das entweder einer Person oder einem Team zugeordnet ist. 
 	 */
+
 	@Override
 	public Unternehmen getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {

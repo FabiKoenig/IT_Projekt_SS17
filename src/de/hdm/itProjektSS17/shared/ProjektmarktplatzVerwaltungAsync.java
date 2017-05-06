@@ -48,7 +48,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId,
 			AsyncCallback<Bewertung> callback);
 
-	void createTeam(String name, int personId, AsyncCallback<Team> callback);
+	void createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, String ort,
+			int partnerprofilId, AsyncCallback<Team> callback);
 
 	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, AsyncCallback<Unternehmen> callback);
 
@@ -69,7 +70,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createZugehoerigkeit(int unternehmenId, int teamId, AsyncCallback<Void> callback);
 
-	void deleteArbeitsverhaeltnis(Unternehmen u, Person p, AsyncCallback<Void> callback);
+	void deleteArbeitsverhaeltnis(Person p, AsyncCallback<Void> callback);
 
 	void deleteAusschreibung(Ausschreibung a, AsyncCallback<Void> callback);
 
@@ -81,7 +82,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
-	void deleteMitgliedschaft(Team t, Person p, AsyncCallback<Void> callback);
+	void deleteMitgliedschaft(Person p, AsyncCallback<Void> callback);
 
 	void deletePartnerprofil_Ausschreibung(Partnerprofil p, AsyncCallback<Void> callback);
 
@@ -103,11 +104,12 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteUnternehmen(Unternehmen u, AsyncCallback<Void> callback);
 
-	void deleteZugehoerigkeit(Unternehmen u, Team t, AsyncCallback<Void> callback);
+	void deleteZugehoerigkeit(Team t, AsyncCallback<Void> callback);
 
 	void getAllOrganisationseinheiten(AsyncCallback<Organisationseinheit> callback);
 
-	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Ausschreibung> callback);
+	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o,
+			AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 

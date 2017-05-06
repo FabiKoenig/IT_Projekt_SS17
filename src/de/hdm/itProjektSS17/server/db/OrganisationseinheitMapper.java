@@ -141,10 +141,12 @@ public class OrganisationseinheitMapper {
 	        stmt = con.createStatement();
 
 	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+
 	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id ) "
 	            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
 	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() +"')");
 	      }
+
 	    }
 	    catch (SQLException e) {
 	      e.printStackTrace();
