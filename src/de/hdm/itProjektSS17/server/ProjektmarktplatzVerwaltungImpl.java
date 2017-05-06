@@ -682,20 +682,20 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException {
-		p.setUnternehmenId(null);
+		p.setUnternehmenId(0);
 		this.personMapper.update(p);
 		
 	}
 
 	@Override
 	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException {
-		t.setUnternehmenId(null);
+		t.setUnternehmenId(0);
 		this.teamMapper.update(t);
 	}
 
 	@Override
 	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException {
-		p.setTeamId(null);
+		p.setTeamId(0);
 		this.personMapper.update(p);
 		
 	}
