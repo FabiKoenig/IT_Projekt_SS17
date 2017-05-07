@@ -977,9 +977,19 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Organisationseinheit> getAllOrganisationseinheiten() throws IllegalArgumentException {
+		
+		Vector<Organisationseinheit> organisationseinheiten = new Vector<Organisationseinheit>();
+		
+		Vector<Person> p = personMapper.findAllPerson();
+		Vector<Team> t = teamMapper.findAllTeam();
+		Vector<Unternehmen> u = unternehmenMapper.findAllUnternehmen();
+		
+		organisationseinheiten.addAll(p);
+		organisationseinheiten.addAll(t);
+		organisationseinheiten.addAll(u);
+		
+		return organisationseinheiten;
 	}
 
 	@Override
