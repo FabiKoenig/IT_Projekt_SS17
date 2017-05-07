@@ -166,7 +166,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException;
 	
-	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException;
+	public Vector<Organisationseinheit> getAllOrganisationseinheiten() throws IllegalArgumentException;
 	
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 

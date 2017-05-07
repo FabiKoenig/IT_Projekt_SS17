@@ -106,7 +106,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteZugehoerigkeit(Team t, AsyncCallback<Void> callback);
 
-	void getAllOrganisationseinheiten(AsyncCallback<Organisationseinheit> callback);
+	void getAllOrganisationseinheiten(AsyncCallback<Vector<Organisationseinheit>> callback);
 
 	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o,
 			AsyncCallback<Vector<Ausschreibung>> callback);
