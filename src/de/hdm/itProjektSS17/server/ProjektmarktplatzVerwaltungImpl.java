@@ -218,6 +218,12 @@ implements ProjektmarktplatzVerwaltung {
 	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
+		Vector<Person> pers = personMapper.findAllPerson();
+			
+		for (Person per : pers) {
+			if (per.getId() == orgaId) {
+			
+		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
 		p.setErstellungsdatum(erstellungsdatum);
@@ -231,13 +237,19 @@ implements ProjektmarktplatzVerwaltung {
 		Person pe = personMapper.findById(orgaId);
 		pe.setPartnerprofilId(p.getId());
 		personMapper.update(pe);
-				return null;
+				
+			}
+		}
+		return null;
 	}
-	
-	
 	
 	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
+		
+		Vector<Team> tea = teamMapper.findAllTeam();
+		
+		for (Team te : tea) {
+			if (te.getId() == orgaId) {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -253,12 +265,21 @@ implements ProjektmarktplatzVerwaltung {
 		t.setPartnerprofilId(p.getId());
 		teamMapper.update(t);
 				return null;
+			}
+		}
+		return null;
+	
 	}
 	
 	
 	
 	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
+		
+		Vector<Unternehmen> unt = unternehmenMapper.findAllUnternehmen();
+		
+		for (Unternehmen ue : unt) {
+			if (ue.getId() == orgaId) {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -274,6 +295,9 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPartnerprofilId(p.getId());
 		unternehmenMapper.update(u);
 				return null;
+	}
+		}
+		return null;
 	}
 	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
@@ -480,6 +504,10 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
 		this.partnerprofilMapper.delete(p);
 	}
 
@@ -498,7 +526,12 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
-	
+		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
+		this.partnerprofilMapper.delete(p);
 	}
 	
 	@Override
