@@ -591,7 +591,6 @@ implements ProjektmarktplatzVerwaltung {
 	public void deleteTeam(Team t) throws IllegalArgumentException {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(t);
 		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(t);
-	
 		
 		if(p!=null){
 			this.partnerprofilMapper.delete(p);
@@ -698,9 +697,25 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
+		
+		Vector <Projekt> projekte = this.getProjektByForeignProjektmarktplatz(p);
+		Vector <Person> personen = this.getRelatedPersonen(p);
+		
+		for (Projekt pro : projekte) {
+			this.deleteProjekt(pro);
+		}
+		for (Person pers : personen) {
+			this.deleteTeilnahme(pers, p);
+		}
 		this.projektmarktplatzMapper.delete(p);
 	}
+	
 
+	public Vector<Person> getRelatedPersonen(Projektmarktplatz p){
+		return this.teilnahmeMapper.findRelatedPersonen(p);
+	}
+	
+	
 	@Override
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException {
 		this.beteiligungMapper.delete(b);
@@ -1042,8 +1057,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
 		
-
-		
 		return null;
 	}
 
@@ -1074,9 +1087,8 @@ implements ProjektmarktplatzVerwaltung {
 			return null;
 	}
 	
-	
 	/**
-	 * Setzen der Bank, für die dieser Projektmarktplatz tätig ist.
+	 * Setzen der Person, für die dieser Projektmarktplatz tätig ist.
 	 */
 	
 	@Override
