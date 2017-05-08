@@ -11,6 +11,7 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
@@ -281,6 +282,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setBewerbungstext(bewerbungstext);
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
+		b.setStatus(Bewerbungsstatus.laufend);
 		return this.bewerbungMapper.insert(b);
 	}
 

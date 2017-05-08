@@ -34,6 +34,19 @@ public class Bewerbung extends BusinessObject{
 	private int organisationseinheitId = 0;
 
 	
+	public enum Bewerbungsstatus { laufend, angenommen, abgelehnt };
+	
+	private Bewerbungsstatus status = null;
+	
+	
+	public void setStatus(Bewerbungsstatus status) {
+		this.status = status;
+	}
+	
+	public Bewerbungsstatus getStatus() {
+		return status;
+	}
+	
 	/**
 	   * Auslesen des Erstellungsdatum
 	   */

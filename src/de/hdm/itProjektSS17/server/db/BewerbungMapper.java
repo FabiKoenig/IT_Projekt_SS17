@@ -159,8 +159,8 @@ public class BewerbungMapper {
               }
               
               //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
-           stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
-           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
+           stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id, Bewerbungsstatus) " 
+           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"', '" + b.getStatus() + "')");
         }
         catch (SQLException e) {
           e.printStackTrace();
