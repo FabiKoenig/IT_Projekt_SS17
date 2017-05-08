@@ -219,6 +219,12 @@ implements ProjektmarktplatzVerwaltung {
 	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
 		
+		Vector<Person> pers = personMapper.findAllPerson();
+			
+		for (Person per : pers) {
+			if (per.getId() == orgaId) {
+			
+		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
 		p.setErstellungsdatum(erstellungsdatum);
@@ -232,13 +238,19 @@ implements ProjektmarktplatzVerwaltung {
 		Person pe = personMapper.findById(orgaId);
 		pe.setPartnerprofilId(p.getId());
 		personMapper.update(pe);
-				return null;
+				
+			}
+		}
+		return null;
 	}
-	
-	
 	
 	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
+		
+		Vector<Team> tea = teamMapper.findAllTeam();
+		
+		for (Team te : tea) {
+			if (te.getId() == orgaId) {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -254,12 +266,21 @@ implements ProjektmarktplatzVerwaltung {
 		t.setPartnerprofilId(p.getId());
 		teamMapper.update(t);
 				return null;
+			}
+		}
+		return null;
+	
 	}
 	
 	
 	
 	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum,
 			int orgaId) throws IllegalArgumentException {
+		
+		Vector<Unternehmen> unt = unternehmenMapper.findAllUnternehmen();
+		
+		for (Unternehmen ue : unt) {
+			if (ue.getId() == orgaId) {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -275,6 +296,9 @@ implements ProjektmarktplatzVerwaltung {
 		u.setPartnerprofilId(p.getId());
 		unternehmenMapper.update(u);
 				return null;
+	}
+		}
+		return null;
 	}
 	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
@@ -482,6 +506,10 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
 		this.partnerprofilMapper.delete(p);
 	}
 
@@ -500,7 +528,12 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
-	
+		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		o.setPartnerprofilId(null);
+		
+		this.partnerprofilMapper.delete(p);
 	}
 	
 	@Override
@@ -560,7 +593,6 @@ implements ProjektmarktplatzVerwaltung {
 	public void deleteTeam(Team t) throws IllegalArgumentException {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(t);
 		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(t);
-	
 		
 		if(p!=null){
 			this.partnerprofilMapper.delete(p);
@@ -667,9 +699,25 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
+		
+		Vector <Projekt> projekte = this.getProjektByForeignProjektmarktplatz(p);
+		Vector <Person> personen = this.getRelatedPersonen(p);
+		
+		for (Projekt pro : projekte) {
+			this.deleteProjekt(pro);
+		}
+		for (Person pers : personen) {
+			this.deleteTeilnahme(pers, p);
+		}
 		this.projektmarktplatzMapper.delete(p);
 	}
+	
 
+	public Vector<Person> getRelatedPersonen(Projektmarktplatz p){
+		return this.teilnahmeMapper.findRelatedPersonen(p);
+	}
+	
+	
 	@Override
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException {
 		this.beteiligungMapper.delete(b);
@@ -684,20 +732,20 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException {
-		p.setUnternehmenId(null);
+		p.setUnternehmenId(0);
 		this.personMapper.update(p);
 		
 	}
 
 	@Override
 	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException {
-		t.setUnternehmenId(null);
+		t.setUnternehmenId(0);
 		this.teamMapper.update(t);
 	}
 
 	@Override
 	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException {
-		p.setTeamId(null);
+		p.setTeamId(0);
 		this.personMapper.update(p);
 		
 	}
@@ -946,9 +994,19 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getAllOrganisationseinheiten() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Organisationseinheit> getAllOrganisationseinheiten() throws IllegalArgumentException {
+		
+		Vector<Organisationseinheit> organisationseinheiten = new Vector<Organisationseinheit>();
+		
+		Vector<Person> p = personMapper.findAllPerson();
+		Vector<Team> t = teamMapper.findAllTeam();
+		Vector<Unternehmen> u = unternehmenMapper.findAllUnternehmen();
+		
+		organisationseinheiten.addAll(p);
+		organisationseinheiten.addAll(t);
+		organisationseinheiten.addAll(u);
+		
+		return organisationseinheiten;
 	}
 
 	@Override
@@ -1001,8 +1059,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
 		
-
-		
 		return null;
 	}
 
@@ -1033,9 +1089,8 @@ implements ProjektmarktplatzVerwaltung {
 			return null;
 	}
 	
-	
 	/**
-	 * Setzen der Bank, für die dieser Projektmarktplatz tätig ist.
+	 * Setzen der Person, für die dieser Projektmarktplatz tätig ist.
 	 */
 	
 	@Override
