@@ -220,13 +220,17 @@ public class BeteiligungMapper {
 		        
 		        result.add(b);
 		      }
+		      if(result.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return result;
+	          }
 		    }
 		    catch (SQLException e2) {
 		      e2.printStackTrace();
+		      return null;
 		    } 
-		  
-		return result;
-		  
+
 	  }
 	  
 	  /**
