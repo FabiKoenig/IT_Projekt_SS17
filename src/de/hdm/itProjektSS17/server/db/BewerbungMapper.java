@@ -121,7 +121,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()
+          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()+"'"+ ",Bewerbungsstatus='"+ b.getStatus()
           +"' WHERE Bewerbung_Id ="+ b.getId()+";");
 
         }

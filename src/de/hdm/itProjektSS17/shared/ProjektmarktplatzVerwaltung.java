@@ -33,9 +33,10 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Bewertung createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId)
 			throws IllegalArgumentException;
-	
-	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId) throws IllegalArgumentException;
+
+	public Team createTeam(String name, String strasse, String hausnr, int plz, 
+			String ort, int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException;
+
 	
 	public Person createPerson(String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;
@@ -170,7 +171,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException;
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse) throws IllegalArgumentException;
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	

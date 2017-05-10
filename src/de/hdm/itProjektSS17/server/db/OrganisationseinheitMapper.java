@@ -142,9 +142,9 @@ public class OrganisationseinheitMapper {
 
 	        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 
-	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id ) "
+	        stmt.executeUpdate("INSERT INTO organisationseinheit (Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort) "
 	            + "VALUES ('" + o.getId() + "','" + o.getStrasse() + "','"
-	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() + "','" + o.getPartnerprofilId() +"')");
+	            + o.getHausnummer() + "','" + o.getPlz() + "','" + o.getOrt() +"')");
 	      }
 
 	    }
