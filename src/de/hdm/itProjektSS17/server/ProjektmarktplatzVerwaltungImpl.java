@@ -196,8 +196,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
 	@Override
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum,
-			int ausschreibungId) throws IllegalArgumentException {
+	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -208,9 +207,6 @@ implements ProjektmarktplatzVerwaltung {
 		//die korrekte ID vergeben.
 		Partnerprofil pa = partnerprofilMapper.insert(p);
 		
-		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
-		//korrekte PartnerprofilId an die Ausschreibung übergeben.
-		ausschreibungMapper.findById(ausschreibungId).setPartnerprofilId(pa.getId());
 		return null;
 	}
 	
@@ -305,6 +301,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setBewerbungstext(bewerbungstext);
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
+		
 		return this.bewerbungMapper.insert(b);
 	}
 

@@ -12,6 +12,8 @@ public class Bewerbung extends BusinessObject{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	/**
 	   * Erstellungsdatum der Bewerbung welches zur Erstellung von jedem Bewerbung-Objekt das akutelle 
 	   * Datum durch den Null-Argument-Konstruktor der Klasse Date setzt
@@ -32,7 +34,9 @@ public class Bewerbung extends BusinessObject{
 	 * Realisierung der Beziehung zu einer Organisationseinheit durch einen Fremdschl�ssel
 	 */
 	private int organisationseinheitId = 0;
-
+	
+	
+	
 	
 	/**
 	   * Auslesen des Erstellungsdatum
