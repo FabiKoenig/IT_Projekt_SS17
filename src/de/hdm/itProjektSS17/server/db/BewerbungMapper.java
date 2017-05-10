@@ -9,6 +9,7 @@ import java.util.*;
 import com.ibm.icu.text.SimpleDateFormat;
 
 import de.hdm.itProjektSS17.shared.bo.*;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 /**
  * Mapper fuer ein Bewerbung-Objekt
@@ -71,6 +72,7 @@ public class BewerbungMapper {
             b.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             b.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             b.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            b.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
             return b;
           }
         }
@@ -199,6 +201,8 @@ public class BewerbungMapper {
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            bObj.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+
             b.add(bObj);
           }
           return b;
@@ -238,6 +242,8 @@ public class BewerbungMapper {
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            bObj.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+
             b.add(bObj);
           }
           return b;
