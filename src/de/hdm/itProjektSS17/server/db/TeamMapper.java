@@ -114,7 +114,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	            
 	            t.add(te);
 	          }
-	          return t;
+	          if(t.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return t;
+	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
