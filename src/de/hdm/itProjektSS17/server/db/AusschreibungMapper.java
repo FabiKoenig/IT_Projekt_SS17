@@ -110,7 +110,7 @@ public class AusschreibungMapper {
 			
 			  Statement stmt = con.createStatement();
 			  ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Projekt_Id=" + projektId + " ORDER BY Bezeichnung");
 			  
 			  while (rs.next()) {
@@ -123,7 +123,7 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
-				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 				
 				result.add(a);
 			}
@@ -152,7 +152,7 @@ public class AusschreibungMapper {
 		  try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Partnerprofil_Id=" + partnerprofilId);
 			
 			if (rs.next()) {
@@ -165,7 +165,7 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
-				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 				
 				return a;
 			}
@@ -195,7 +195,7 @@ public class AusschreibungMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Ausschreibender_Id=" + organisationseinheitId + " ORDER BY Bezeichnung");
 			
 			while (rs.next()) {
@@ -208,7 +208,7 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
-				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 
 				result.add(a);
 			}
