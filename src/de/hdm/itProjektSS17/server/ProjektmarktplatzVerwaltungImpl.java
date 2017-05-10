@@ -340,11 +340,10 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	@Override
-	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+	public Team createTeam(String name, String strasse, String hausnr, int plz, 
 			String ort,int partnerprofilId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
-		a.setUnternehmenId(unternehmenId);
 		a.setStrasse(strasse);
 		a.setHausnummer(hausnr);
 		a.setPlz(plz);
@@ -359,14 +358,13 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException {
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse) throws IllegalArgumentException {
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
 		u.setOrt(ort);
 		u.setPlz(plz);
 		u.setStrasse(strasse);
-		u.setPartnerprofilId(partnerprofilId);
 		/*
 	     * Setzen einer vorläufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
@@ -410,7 +408,7 @@ implements ProjektmarktplatzVerwaltung {
 		pr.setId(1);
 		pr.setBezeichnung(bezeichnung);
 		
-		return pr;
+		return this.projektmarktplatzMapper.insert(pr);
 	}
 
 	@Override
