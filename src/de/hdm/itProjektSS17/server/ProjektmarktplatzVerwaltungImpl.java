@@ -505,8 +505,10 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-		
-		o.setPartnerprofilId(null);
+	
+		Person per = this.getPersonById(o.getId());
+		per.setPartnerprofilId(null);
+		this.savePerson(per);
 		
 		this.partnerprofilMapper.delete(p);
 	}
