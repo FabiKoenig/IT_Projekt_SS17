@@ -9,6 +9,7 @@ import java.util.*;
 import com.ibm.icu.text.SimpleDateFormat;
 
 import de.hdm.itProjektSS17.shared.bo.*;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 /**
  * Mapper fuer ein Bewerbung-Objekt
@@ -71,6 +72,7 @@ public class BewerbungMapper {
             b.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             b.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             b.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            b.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
             return b;
           }
         }
@@ -119,7 +121,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()
+          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()+"'"+ ",Bewerbungsstatus='"+ b.getStatus()
           +"' WHERE Bewerbung_Id ="+ b.getId()+";");
 
         }
@@ -159,8 +161,8 @@ public class BewerbungMapper {
               }
               
               //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
-           stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id) " 
-           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"')");
+           stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id, Bewerbungsstatus) " 
+           + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"', '" + b.getStatus() + "')");
         }
         catch (SQLException e) {
           e.printStackTrace();
@@ -199,6 +201,8 @@ public class BewerbungMapper {
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            bObj.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+
             b.add(bObj);
           }
           return b;
@@ -238,6 +242,8 @@ public class BewerbungMapper {
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
             bObj.setErstellungsdatum(rs.getDate("Erstellungsdatum"));
             bObj.setOrganisationseinheitId(rs.getInt("Organisationseinheit_Id"));
+            bObj.setStatus(Bewerbungsstatus.valueOf(rs.getString("Bewerbungsstatus")));
+
             b.add(bObj);
           }
           return b;

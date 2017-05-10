@@ -11,6 +11,7 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
@@ -301,7 +302,8 @@ implements ProjektmarktplatzVerwaltung {
 		b.setBewerbungstext(bewerbungstext);
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
-		
+		b.setStatus(Bewerbungsstatus.laufend);
+
 		return this.bewerbungMapper.insert(b);
 	}
 
@@ -335,11 +337,10 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	@Override
-	public Team createTeam(String name, int unternehmenId, String strasse, String hausnr, int plz, 
+	public Team createTeam(String name, String strasse, String hausnr, int plz, 
 			String ort,int partnerprofilId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
-		a.setUnternehmenId(unternehmenId);
 		a.setStrasse(strasse);
 		a.setHausnummer(hausnr);
 		a.setPlz(plz);
@@ -354,14 +355,13 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException {
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse) throws IllegalArgumentException {
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
 		u.setOrt(ort);
 		u.setPlz(plz);
 		u.setStrasse(strasse);
-		u.setPartnerprofilId(partnerprofilId);
 		/*
 	     * Setzen einer vorläufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
@@ -405,7 +405,7 @@ implements ProjektmarktplatzVerwaltung {
 		pr.setId(1);
 		pr.setBezeichnung(bezeichnung);
 		
-		return pr;
+		return this.projektmarktplatzMapper.insert(pr);
 	}
 
 	@Override
@@ -588,7 +588,6 @@ implements ProjektmarktplatzVerwaltung {
 	public void deleteTeam(Team t) throws IllegalArgumentException {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(t);
 		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(t);
-	
 		
 		if(p!=null){
 			this.partnerprofilMapper.delete(p);
@@ -695,9 +694,25 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
+		
+		Vector <Projekt> projekte = this.getProjektByForeignProjektmarktplatz(p);
+		Vector <Person> personen = this.getRelatedPersonen(p);
+		
+		for (Projekt pro : projekte) {
+			this.deleteProjekt(pro);
+		}
+		for (Person pers : personen) {
+			this.deleteTeilnahme(pers, p);
+		}
 		this.projektmarktplatzMapper.delete(p);
 	}
+	
 
+	public Vector<Person> getRelatedPersonen(Projektmarktplatz p){
+		return this.teilnahmeMapper.findRelatedPersonen(p);
+	}
+	
+	
 	@Override
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException {
 		this.beteiligungMapper.delete(b);
@@ -847,10 +862,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p)
-			throws IllegalArgumentException {
-		//TODO
-		return null;
+	public Vector<Person> getPersonenByForeingProjektmarktplatz(Projektmarktplatz p){
+		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
 	}
 
 	@Override
@@ -1039,8 +1052,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
 		
-
-		
 		return null;
 	}
 
@@ -1071,9 +1082,8 @@ implements ProjektmarktplatzVerwaltung {
 			return null;
 	}
 	
-	
 	/**
-	 * Setzen der Bank, für die dieser Projektmarktplatz tätig ist.
+	 * Setzen der Person, für die dieser Projektmarktplatz tätig ist.
 	 */
 	
 	@Override
