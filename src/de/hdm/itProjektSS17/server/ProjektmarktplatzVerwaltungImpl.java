@@ -359,14 +359,13 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId) throws IllegalArgumentException {
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse) throws IllegalArgumentException {
 		Unternehmen u = new Unternehmen();
 		u.setName(name);
 		u.setHausnummer(hausnummer);
 		u.setOrt(ort);
 		u.setPlz(plz);
 		u.setStrasse(strasse);
-		u.setPartnerprofilId(partnerprofilId);
 		/*
 	     * Setzen einer vorläufigen OrganisationsId. Der insert-Aufruf liefert dann ein
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
