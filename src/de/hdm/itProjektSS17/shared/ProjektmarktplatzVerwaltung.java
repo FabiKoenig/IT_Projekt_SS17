@@ -35,7 +35,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 			throws IllegalArgumentException;
 	
 	public Team createTeam(String name, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId) throws IllegalArgumentException;
+			String ort,int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException;
 	
 	public Person createPerson(String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;

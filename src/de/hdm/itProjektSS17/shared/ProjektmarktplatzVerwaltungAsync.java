@@ -49,7 +49,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 			AsyncCallback<Bewertung> callback);
 
 	void createTeam(String name, String strasse, String hausnr, int plz, String ort,
-			int partnerprofilId, AsyncCallback<Team> callback);
+			int partnerprofilId, Integer unternehmenId, AsyncCallback<Team> callback);
 
 	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, int partnerprofilId, AsyncCallback<Unternehmen> callback);
 
