@@ -19,7 +19,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId, int ausschreibenderId, int partnerprofilId) throws IllegalArgumentException;
 	
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum, int ausschreibungId) throws IllegalArgumentException;
+	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException;
 	
 	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
 	

@@ -197,8 +197,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
 	@Override
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum,
-			int ausschreibungId) throws IllegalArgumentException {
+	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -209,9 +208,6 @@ implements ProjektmarktplatzVerwaltung {
 		//die korrekte ID vergeben.
 		Partnerprofil pa = partnerprofilMapper.insert(p);
 		
-		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
-		//korrekte PartnerprofilId an die Ausschreibung übergeben.
-		ausschreibungMapper.findById(ausschreibungId).setPartnerprofilId(pa.getId());
 		return null;
 	}
 	
@@ -307,6 +303,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
 		b.setStatus(Bewerbungsstatus.laufend);
+
 		return this.bewerbungMapper.insert(b);
 	}
 
@@ -505,10 +502,11 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-	
+
 		Person per = this.getPersonById(o.getId());
 		per.setPartnerprofilId(null);
 		this.savePerson(per);
+
 		
 		this.partnerprofilMapper.delete(p);
 	}
@@ -518,6 +516,8 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
 		
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		Person per = this.getPersonById(o.getId());
 		
 		o.setPartnerprofilId(null);
 		
@@ -640,29 +640,97 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deletePerson(Person p) throws IllegalArgumentException {
-		Partnerprofil pa = this.getPartnerprofilByForeignOrganisationseinheit(p);
-		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(p);
-		Vector <Projektmarktplatz> pr = this.getProjektmarktplaetzeByForeignPerson(p);
+public void deletePerson(Person p) throws IllegalArgumentException {
 		
-		if (b != null){
-			for (Beteiligung beteiligung: b)
-			{
-				this.beteiligungMapper.delete(beteiligung);
-			}		
-		}
-		if (pr != null){
-			for (Projektmarktplatz projektmarktplatz: pr)
-			{
-				this.teilnahmeMapper.delete(p, projektmarktplatz);
-			}		
+		
+		/*
+		 * Auslesen des zu einer Person zugehörigen Partnerprofils, der Beteiligungen einer Person an Projekten, der Zugehörigkeit
+		 * einer Person an einem Team und/ oder einem Unternehmen.
+		 */
+		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
+		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
+		Vector<Team> te = this.getTeamByForeignPerson(p);
+		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
+		Vector<Projektmarktplatz> pm = this.getProjektmarktplaetzeByPerson(p);
+		Vector<Bewerbung> bew = this.getBewerbungByForeignOrganisationseinheit(p);
+		Vector<Projekt> proj = this.getProjektByForeignPerson(p);
+		
+		
+	
+		/**
+		 * Es wird geprüft, ob die zu löschende Person in einem Unternehmen beschäftigt ist.
+		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
+		 */
+		if (un != null){
+			this.deleteArbeitsverhaeltnis(p);
 		}
 		
+		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
+		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
+		 */
+		if (te != null){
+				for(Team team: te){
+					this.deleteMitgliedschaft(p);
+			}
+		}
+		
+		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in einem Projektmarktplatz ist.
+		 * Falls ja, werden die Mitgliedschaften an Projektmarktplätzen gelöscht.
+		 */
+		if(pm != null){
+			for(Projektmarktplatz projm : pm){
+				this.deleteTeilnahme(p, projm);
+			}
+		}
+		
+		
+		/*
+		 * Es wird geprüft, ob die zu löschende Person an Projekten beteiligt ist. 
+		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
+		 */
+		if (be != null){
+			for (Beteiligung beteiligung: be){
+				this.deleteBeteiligung(beteiligung);
+			}	
+		}	
+		
+		/**
+		 * Die übergebene Person-Objekt wird gelöscht.
+		 */
 		this.personMapper.delete(p);
 		
-		if(pa!=null){
-			this.partnerprofilMapper.delete(pa);
+		/*
+		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
+		 * Wenn eines besteht wird dieses gelöscht.
+		 */
+		if (pp != null){
+			this.deletePartnerprofil_Person(pp);;
 		}
+		
+		if(bew != null){
+			for(Bewerbung bewerbung : bew){
+				this.deleteBewerbung(bewerbung);
+			}
+		}
+		
+		if(proj != null){
+			for(Projekt projekt : proj){
+				this.deleteProjekt(projekt);
+			}
+		}
+	
+	}
+	
+	private Vector<Team> getTeamByForeignPerson(Person p) {
+		// TODO
+		
+		return null;
+	}
+
+	public Vector<Projektmarktplatz> getProjektmarktplaetzeByPerson(Person p) throws IllegalArgumentException {
+		return this.teilnahmeMapper.findRelatedProjektMarktplaetze(p);
 	}
 
 	/**
