@@ -142,8 +142,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Organisationseinheit> callback);
 
-	void getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p,
-			AsyncCallback<Organisationseinheit> callback);
+	void getPersonenByForeingProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Vector<Person>> callback);
 
 	void getPartnerprofilById(int id, AsyncCallback<Partnerprofil> callback);
 

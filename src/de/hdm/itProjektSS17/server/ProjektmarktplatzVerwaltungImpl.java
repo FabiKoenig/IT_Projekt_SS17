@@ -867,10 +867,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Organisationseinheit getOrganisationseinheitByForeingProjektmarktplatz(Projektmarktplatz p)
-			throws IllegalArgumentException {
-		//TODO
-		return null;
+	public Vector<Person> getPersonenByForeingProjektmarktplatz(Projektmarktplatz p){
+		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
 	}
 
 	@Override
