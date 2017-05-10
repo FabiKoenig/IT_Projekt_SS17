@@ -59,7 +59,8 @@ public class Organisationseinheit extends BusinessObject {
 	 * @param Setzt den Fremdschl�ssel partnerprofilId.
 	 */
 	public void setPartnerprofilId(Integer partnerprofilId) {
-		this.partnerprofilId = partnerprofilId;
+	
+			this.partnerprofilId = partnerprofilId;
 	}
 	
 	
