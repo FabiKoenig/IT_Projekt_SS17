@@ -104,7 +104,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	           * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 	           * werden. Prüfe, ob ein Ergebnis vorliegt.
 	           */
-	          Vector <Team> t = new Vector();
+	          Vector <Team> t = new Vector<Team>();
 	          while (rs.next()) {
 	            // Ergebnis-Tupel in Objekt umwandeln
 	        	Team te=new Team();
@@ -191,12 +191,12 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        	
 		        if(t.getUnternehmenId()==null){
 				      stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+ ", Unternehmen_Id=+ NULL WHERE Team_Id="+t.getId());
+	        		+"'"+ " Unternehmen_Id= NULL WHERE Team_Id="+t.getId());
 		        
 		        }else if(t.getUnternehmenId()!=null){
 			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
+	        		+"'"+ " Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
 		        } 
 	        	
 	        }
@@ -226,13 +226,13 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	          t.setId(super.insert(t));
 	          
 	          if(t.getUnternehmenId()==null){
-			        stmt.executeUpdate("INSERT INTO team (`Team_Id`, `Name`) "
-				            + "VALUES ('" + t.getId() + "','" + t.getName()+"')");
+			        stmt.executeUpdate("INSERT INTO team(Team_Id, Name) "
+				            + "VALUES (" + t.getId() + ",'" + t.getName() +"')");
 	          }
 	          else if(t.getUnternehmenId()!=null){
 			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			        stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`,`Unternehmen_Id`) "
-			        		  + "VALUES ('" + t.getId() + "','" + t.getName() +"','"+ t.getUnternehmenId()+"')");
+			        stmt.executeUpdate("INSERT INTO team(Team_Id, Name, Unternehmen_Id) "
+			        		  + "VALUES (" + t.getId() + ",'" + t.getName() +"','"+ t.getUnternehmenId()+"')");
 		        }        
 	          
 	        } catch (SQLException e) {
