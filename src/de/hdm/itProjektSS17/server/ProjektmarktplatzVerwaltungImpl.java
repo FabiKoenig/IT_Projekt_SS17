@@ -586,6 +586,13 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
+		
+		Beteiligung be = this.getBeteiligungByForeignBewertung(b);
+		
+		if (be != null) {
+			this.deleteBeteiligung(be);
+		}
+		
 		this.bewertungMapper.delete(b);
 	}
 
