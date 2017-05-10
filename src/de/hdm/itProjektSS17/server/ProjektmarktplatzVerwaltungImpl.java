@@ -409,7 +409,7 @@ implements ProjektmarktplatzVerwaltung {
 		pr.setId(1);
 		pr.setBezeichnung(bezeichnung);
 		
-		return pr;
+		return this.projektmarktplatzMapper.insert(pr);
 	}
 
 	@Override
