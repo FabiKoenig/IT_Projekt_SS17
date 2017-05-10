@@ -341,7 +341,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public Team createTeam(String name, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId) throws IllegalArgumentException {
+			String ort,int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setStrasse(strasse);
@@ -349,7 +349,7 @@ implements ProjektmarktplatzVerwaltung {
 		a.setPlz(plz);
 		a.setOrt(ort);
 		a.setPartnerprofilId(partnerprofilId);
-		
+		a.setUnternehmenId(unternehmenId);
 		
 		return this.teamMapper.insert(a);
 	}
@@ -466,12 +466,10 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		
 
 		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
 		
 		if (bewerbungen != null) {
-			System.out.println("test");
 			for (Bewerbung bewerbung : bewerbungen) {
 				this.deleteBewerbung(bewerbung);
 			}
@@ -642,57 +640,28 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deletePerson(Person p) throws IllegalArgumentException {
+		Partnerprofil pa = this.getPartnerprofilByForeignOrganisationseinheit(p);
+		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(p);
+		Vector <Projektmarktplatz> pr = this.getProjektmarktplaetzeByForeignPerson(p);
 		
-		
-		/*
-		 * Auslesen des zu einer Person zugehörigen Partnerprofils, der Beteiligungen einer Person an Projekten, der Zugehörigkeit
-		 * einer Person an einem Team und/ oder einem Unternehmen.
-		 */
-		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
-		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
-		Vector<Team> te = this.getTeamByForeignPerson(p);
-		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
-		
-		
-		/*
-		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
-		 * Wenn eines besteht wird dieses gelöscht.
-		 */
-		if (pp != null){
-			this.partnerprofilMapper.delete(pp);
-		}
-		/*
-		 * Es wird geprüft, ob die zu löschende Person an Projekten beteiligt ist. 
-		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
-		 */
-		if (be != null){
-			for (Beteiligung beteiligung: be){
+		if (b != null){
+			for (Beteiligung beteiligung: b)
+			{
 				this.beteiligungMapper.delete(beteiligung);
-			}	
+			}		
 		}
-		/**
-		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
-		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
-		 */
-		if (te != null){
-				for(Team team: te){
-					this.deleteMitgliedschaft(p);
-			}
-		}
-		/**
-		 * Es wird geprüft, ob die zu löschende Person in einem Unternehmen beschäftigt ist.
-		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
-		 */
-		if (un != null){
-			this.deleteArbeitsverhaeltnis(p);
+		if (pr != null){
+			for (Projektmarktplatz projektmarktplatz: pr)
+			{
+				this.teilnahmeMapper.delete(p, projektmarktplatz);
+			}		
 		}
 		
-		/**
-		 * Die übergebene Person-Objekt wird gelöscht.
-		 */
 		this.personMapper.delete(p);
 		
-		
+		if(pa!=null){
+			this.partnerprofilMapper.delete(pa);
+		}
 	}
 
 	/**
@@ -774,6 +743,12 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Projektmarktplatz getProjektmarktplatzById(int id) throws IllegalArgumentException {
 		return this.projektmarktplatzMapper.findById(id);
+	}
+	
+	@Override
+	public Vector<Projektmarktplatz> getProjektmarktplaetzeByForeignPerson(Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -868,7 +843,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Vector<Person> getPersonenByForeingProjektmarktplatz(Projektmarktplatz p){
+	public Vector<Person> getPersonenByForeignProjektmarktplatz(Projektmarktplatz p){
 		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
 	}
 
@@ -1054,13 +1029,6 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		
 	}
-
-	@Override
-	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
-		
-		return null;
-	}
-
 	
 	/**
 	 * Auslesen des Unternehmens für ein übergebenes Organisationseinheit-Objekt.

@@ -49,7 +49,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 			AsyncCallback<Bewertung> callback);
 
 	void createTeam(String name, String strasse, String hausnr, int plz, String ort,
-			int partnerprofilId, AsyncCallback<Team> callback);
+			int partnerprofilId, Integer unternehmenId, AsyncCallback<Team> callback);
 
 	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, AsyncCallback<Unternehmen> callback);
 
@@ -142,7 +142,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Organisationseinheit> callback);
 
-	void getPersonenByForeingProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Vector<Person>> callback);
+	void getPersonenByForeignProjektmarktplatz(Projektmarktplatz p, AsyncCallback<Vector<Person>> callback);
 
 	void getPartnerprofilById(int id, AsyncCallback<Partnerprofil> callback);
 
@@ -192,9 +192,9 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Partnerprofil> callback);
 
-	void getTeamByForeignPerson(Organisationseinheit o, AsyncCallback<Vector<Team>> callback);
-
 	void getUnternehmenByForeignOrganisationseinheit(Organisationseinheit o, AsyncCallback<Unternehmen> callback);
+
+	void getProjektmarktplaetzeByForeignPerson(Person p, AsyncCallback<Vector<Projektmarktplatz>> callback);
 
 
 }
