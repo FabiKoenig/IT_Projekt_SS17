@@ -260,9 +260,9 @@ public class BeteiligungMapper {
 		    	//Leeres SQL-Statement anlegen.
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
-		      stmt.executeUpdate("UPDATE beteiligung " + "SET Umfang=\""
-		          + b.getUmfang() + "\", " + "Startdatum=\"" + sdf.format(b.getStartDatum()) +"\", "+ "Enddatum=\"" 
-		          + sdf.format(b.getEndDatum())+ "\", " + "\" " + "WHERE Beteiligung_Id=" + b.getId());
+		      stmt.executeUpdate("UPDATE beteiligung " + "SET Umfang="
+		          + b.getUmfang() + ", " + "Startdatum='" + sdf.format(b.getStartDatum()) +"', "+ "Enddatum='" 
+		          + sdf.format(b.getEndDatum())+ "' WHERE Beteiligung_Id=" + b.getId());
 
 		    }
 		    catch (SQLException e) {
