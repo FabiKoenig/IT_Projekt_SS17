@@ -114,7 +114,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	            
 	            t.add(te);
 	          }
-	          return t;
+	          if(t.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return t;
+	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
@@ -147,12 +151,16 @@ public class TeamMapper extends OrganisationseinheitMapper{
 				
 					result.add(t);
 					} 
+				if(result.isEmpty()==true){
+		        	  return null;
+		          }else{
+		              return result;
+		          }
 				}  
 			catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 			}
-			
-			return result;
 		}
 	  /**
 	   * 

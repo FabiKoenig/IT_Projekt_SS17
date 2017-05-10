@@ -127,14 +127,16 @@ public class AusschreibungMapper {
 				
 				result.add(a);
 			}
-			  
+			   if(result.isEmpty()==true){
+		        	  return null;
+		          }else{
+		              return result;
+		          }
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+			return null;
 		}
-		  
-		  return result;
 	  }
 	  
 	  /**
@@ -210,12 +212,17 @@ public class AusschreibungMapper {
 
 				result.add(a);
 			}
+			if(result.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return result;
+	          }
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		  
-		  return result;
+		
 	  }
 	  
 	  /**
@@ -285,7 +292,7 @@ public class AusschreibungMapper {
 				  a.setId(rs.getInt("maxid") + 1);
 			  }  
 			  
-              //Setzen des Standard-Wertes für den Status der Ausschreibung
+              //Setzen des Standard-Wertes fï¿½r den Status der Ausschreibung
 			  
               a.setStatus(Ausschreibungsstatus.laufend);
               

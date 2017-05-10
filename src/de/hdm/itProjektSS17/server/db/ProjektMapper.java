@@ -118,11 +118,15 @@ public class ProjektMapper {
 				
 				result.add(p);
 			}
+			if(result.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return result;
+	          }
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		  
-		  return result;
 	  }
 	  
 	  /**
@@ -154,10 +158,15 @@ public class ProjektMapper {
 				
 				result.add(p);
 			}
+			if(result.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return result;
+	          }
 		  }	catch (SQLException e) {
 			  e.printStackTrace();
+			  return null;
 		}
-		  return result;
 	  }
 	  
 	  /**

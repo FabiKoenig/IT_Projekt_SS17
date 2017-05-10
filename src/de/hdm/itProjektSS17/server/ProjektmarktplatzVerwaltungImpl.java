@@ -471,7 +471,6 @@ implements ProjektmarktplatzVerwaltung {
 		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
 		
 		if (bewerbungen != null) {
-			System.out.println("Test");
 			for (Bewerbung bewerbung : bewerbungen) {
 				this.deleteBewerbung(bewerbung);
 			}

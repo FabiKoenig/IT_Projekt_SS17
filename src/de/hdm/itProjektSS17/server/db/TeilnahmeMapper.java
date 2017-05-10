@@ -11,7 +11,7 @@ import java.util.Vector;
 import de.hdm.itProjektSS17.shared.bo.*;
 
 /**
- * Mapper für Teilnahme-Objekte um die Teilnahme von Personen auf Marktplätzen darzustellen.
+ * Mapper fï¿½r Teilnahme-Objekte um die Teilnahme von Personen auf Marktplï¿½tzen darzustellen.
  */
 public class TeilnahmeMapper{
 
@@ -106,7 +106,11 @@ public class TeilnahmeMapper{
 	          for (Integer ids : idsOfProjektmarktplaetze) {
 	        	  pr.add(ProjektmarktplatzMapper.projektmarktplatzMapper().findById(ids));
 			}
-	          return pr;
+	          if(pr.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return pr;
+	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
@@ -135,7 +139,11 @@ public class TeilnahmeMapper{
 	          for (Integer ids : idsOfPersonen) {
 	        	  pe.add(PersonMapper.personMapper().findById(ids));
 			}
-	          return pe;
+	          if(pe.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return pe;
+	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
