@@ -504,7 +504,7 @@ implements ProjektmarktplatzVerwaltung {
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
 
 		Person per = this.getPersonById(o.getId());
-		per.setPartnerprofilId(null);
+		per.setPartnerprofilId(0);
 		this.savePerson(per);
 
 		
@@ -703,18 +703,9 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 			}	
 		}	
 		
-		/**
-		 * Die übergebene Person-Objekt wird gelöscht.
-		 */
-		this.personMapper.delete(p);
+	
 		
-		/*
-		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
-		 * Wenn eines besteht wird dieses gelöscht.
-		 */
-		if (pp != null){
-			this.deletePartnerprofil_Person(pp);;
-		}
+	
 		
 		if(bew != null){
 			for(Bewerbung bewerbung : bew){
@@ -727,6 +718,20 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 				this.deleteProjekt(projekt);
 			}
 		}
+		
+		/**
+		 * Die übergebene Person-Objekt wird gelöscht.
+		 */
+		this.personMapper.delete(p);
+		
+		
+		/*
+		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
+		 * Wenn eines besteht wird dieses gelöscht.
+		 */
+		if (pp != null){
+			this.deletePartnerprofil_Person(pp);;
+		}
 	
 	}
 	
@@ -737,7 +742,22 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	}
 
 	public Vector<Projektmarktplatz> getProjektmarktplaetzeByPerson(Person p) throws IllegalArgumentException {
-		return this.teilnahmeMapper.findRelatedProjektMarktplaetze(p);
+		
+		Vector<Projektmarktplatz> result = new Vector<>();
+		
+		if (p != null && this.projektmarktplatzMapper != null) {
+			Vector<Projektmarktplatz> projektmarktplaetze = this.teilnahmeMapper.findRelatedProjektMarktplaetze(p); 
+			
+			if (projektmarktplaetze != null) {
+				result.addAll(projektmarktplaetze);
+			}
+			
+		}
+		return result;
+		
+		
+		
+		
 	}
 
 	/**
@@ -905,7 +925,17 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-			return this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
+		Vector<Beteiligung> result = new Vector<>();
+		
+		if (o != null && this.beteiligungMapper != null) {
+			Vector<Beteiligung> beteiligungen = this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
+			
+			if (beteiligungen != null) {
+				result.addAll(beteiligungen);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -930,7 +960,22 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 
 	@Override
 	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException {
-		return this.projektMapper.findByForeignProjektleiterId(p.getId());		
+		
+		Vector<Projekt> result = new Vector<>();
+		
+		if (p != null && this.projektMapper != null) {
+			
+			Vector<Projekt> projekte = this.projektMapper.findByForeignProjektleiterId(p.getId());
+			
+			if (projekte != null) {
+				result.addAll(projekte);
+			}
+		}
+		
+		return result;
+		
+		
+				
 	}
 
 	@Override
@@ -949,7 +994,20 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		return this.bewerbungMapper.findByForeignOrganisationseinheitId(o.getId());
+		
+		Vector<Bewerbung> result = new Vector<>();
+		
+		if (o != null && this.bewerbungMapper != null) {
+			Vector<Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignOrganisationseinheitId(o.getId());
+			
+			if (bewerbungen != null) {
+				result.addAll(bewerbungen);
+			}
+		}
+		
+		return result;
+		
+		
 	}
 
 	/**
@@ -1123,10 +1181,16 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 		 * In beiden Fällen wird über die Unternehmen_Id das zugehörige Unternehmen-Objekt zurückgegeben.
 		 */
 			if (o instanceof Person){
-				return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
+				if (((Person) o).getUnternehmenId() != null) {
+					
+					return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
+				}
 			}
 			else if (o instanceof Team){
-				return this.unternehmenMapper.findById(this.teamMapper.findById(o.getId()).getUnternehmenId());	
+				if (((Team) o).getUnternehmenId() != null) {
+					
+					return this.unternehmenMapper.findById(this.teamMapper.findById(o.getId()).getUnternehmenId());	
+				}
 			}
 
 			return null;
