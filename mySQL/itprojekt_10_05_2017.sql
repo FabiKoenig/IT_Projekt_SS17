@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 26. Apr 2017 um 14:15
+-- Erstellungszeit: 10. Mai 2017 um 16:59
 -- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 7.1.1
+-- PHP-Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,6 +31,7 @@ CREATE TABLE `ausschreibung` (
   `Bezeichnung` varchar(30) NOT NULL,
   `Bewerbungsfrist` date NOT NULL,
   `Ausschreibungstext` text NOT NULL,
+  `Ausschreibungsstatus` varchar(30) NOT NULL,
   `Ausschreibender_Id` int(11) NOT NULL,
   `Partnerprofil_Id` int(11) NOT NULL,
   `Projekt_Id` int(11) NOT NULL
@@ -40,8 +41,9 @@ CREATE TABLE `ausschreibung` (
 -- Daten für Tabelle `ausschreibung`
 --
 
-INSERT INTO `ausschreibung` (`Ausschreibung_Id`, `Bezeichnung`, `Bewerbungsfrist`, `Ausschreibungstext`, `Ausschreibender_Id`, `Partnerprofil_Id`, `Projekt_Id`) VALUES
-(1, 'Hallo', '2017-04-28', 'abc', 2, 2, 1);
+INSERT INTO `ausschreibung` (`Ausschreibung_Id`, `Bezeichnung`, `Bewerbungsfrist`, `Ausschreibungstext`, `Ausschreibungsstatus`, `Ausschreibender_Id`, `Partnerprofil_Id`, `Projekt_Id`) VALUES
+(1, 'Ausschreibung für Projekt A', '2017-05-10', 'Testtext', 'laufend', 6, 7, 1),
+(2, 'Ausschreibung für Projekt A', '2017-05-10', 'Testtext', 'besetzt', 5, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -59,6 +61,13 @@ CREATE TABLE `beteiligung` (
   `Projekt_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `beteiligung`
+--
+
+INSERT INTO `beteiligung` (`Beteiligung_Id`, `Umfang`, `Startdatum`, `Enddatum`, `Bewertung_Id`, `Beteiligter_Id`, `Projekt_Id`) VALUES
+(1, 35, '2017-05-10', '2017-05-11', 1, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -68,17 +77,18 @@ CREATE TABLE `beteiligung` (
 CREATE TABLE `bewerbung` (
   `Bewerbung_Id` int(11) NOT NULL,
   `Bewerbungstext` text NOT NULL,
+  `Erstellungsdatum` date NOT NULL,
   `Organisationseinheit_Id` int(11) NOT NULL,
   `Ausschreibung_Id` int(11) NOT NULL,
-  `Erstellungsdatum` date NOT NULL
+  `Bewerbungsstatus` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `bewerbung`
 --
 
-INSERT INTO `bewerbung` (`Bewerbung_Id`, `Bewerbungstext`, `Organisationseinheit_Id`, `Ausschreibung_Id`, `Erstellungsdatum`) VALUES
-(1, 'abccccc', 1, 1, '2017-04-28');
+INSERT INTO `bewerbung` (`Bewerbung_Id`, `Bewerbungstext`, `Erstellungsdatum`, `Organisationseinheit_Id`, `Ausschreibung_Id`, `Bewerbungsstatus`) VALUES
+(1, 'Testtext', '2017-05-10', 3, 2, 'angenommen');
 
 -- --------------------------------------------------------
 
@@ -92,6 +102,13 @@ CREATE TABLE `bewertung` (
   `Wert` double NOT NULL,
   `Bewerbung_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `bewertung`
+--
+
+INSERT INTO `bewertung` (`Bewertung_Id`, `Stellungnahme`, `Wert`, `Bewerbung_Id`) VALUES
+(1, 'Die Bewerbung war in Ordnung', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -118,17 +135,20 @@ CREATE TABLE `organisationseinheit` (
   `Hausnummer` varchar(5) DEFAULT NULL,
   `PLZ` int(11) DEFAULT NULL,
   `Ort` varchar(30) DEFAULT NULL,
-  `Partnerprofil_Id` int(11) NOT NULL,
-  `Projektmarktplatz_Id` int(11) NOT NULL
+  `Partnerprofil_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `organisationseinheit`
 --
 
-INSERT INTO `organisationseinheit` (`Organisationseinheit_Id`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `Partnerprofil_Id`, `Projektmarktplatz_Id`) VALUES
-(1, 'Musterstraße', '1', 12345, 'Musterstadt', 1, 1),
-(2, 'Musterstraße', '2', 12345, 'Musterstadt', 2, 1);
+INSERT INTO `organisationseinheit` (`Organisationseinheit_Id`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `Partnerprofil_Id`) VALUES
+(1, 'Musterstraße', '1', 12345, 'Musterstadt', 1),
+(2, 'Musterstraße', '1', 12345, 'Musterstadt', 2),
+(3, 'Musterstraße', '1', 12345, 'Musterstadt', 3),
+(4, 'Teststraße', '1', 54321, 'Teststadt', 4),
+(5, 'Teststraße', '1', 54321, 'Teststadt', 5),
+(6, 'Teststraße', '1', 54321, 'Teststadt', 6);
 
 -- --------------------------------------------------------
 
@@ -147,9 +167,13 @@ CREATE TABLE `partnerprofil` (
 --
 
 INSERT INTO `partnerprofil` (`Partnerprofil_Id`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
-(1, '2017-04-24', '0000-00-00'),
-(2, '2017-04-24', '0000-00-00'),
-(3, '2017-04-24', '0000-00-00');
+(1, '2017-05-10', NULL),
+(2, '2017-05-10', NULL),
+(3, '2017-05-10', NULL),
+(4, '2017-05-10', NULL),
+(5, '2017-05-10', NULL),
+(6, '2017-05-10', NULL),
+(7, '2017-05-10', NULL);
 
 -- --------------------------------------------------------
 
@@ -162,7 +186,7 @@ CREATE TABLE `person` (
   `Anrede` varchar(5) NOT NULL,
   `Vorname` varchar(30) NOT NULL,
   `Nachname` varchar(30) NOT NULL,
-  `Unternhemen_Id` int(11) DEFAULT NULL,
+  `Unternehmen_Id` int(11) DEFAULT NULL,
   `Team_Id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -170,8 +194,9 @@ CREATE TABLE `person` (
 -- Daten für Tabelle `person`
 --
 
-INSERT INTO `person` (`Person_Id`, `Anrede`, `Vorname`, `Nachname`, `Unternhemen_Id`, `Team_Id`) VALUES
-(1, 'Herr', 'Tim', 'Güll', 1, 1);
+INSERT INTO `person` (`Person_Id`, `Anrede`, `Vorname`, `Nachname`, `Unternehmen_Id`, `Team_Id`) VALUES
+(3, 'Herr', 'Max', 'Projektteilnehmer', 1, 2),
+(6, 'Frau', 'Melanie', 'Projektleiterin', 4, 5);
 
 -- --------------------------------------------------------
 
@@ -194,7 +219,7 @@ CREATE TABLE `projekt` (
 --
 
 INSERT INTO `projekt` (`Projekt_Id`, `Startdatum`, `Enddatum`, `Name`, `Beschreibung`, `Projektleiter_Id`, `Projektmarktplatz_Id`) VALUES
-(1, '2017-04-23', '2017-04-27', 'ITProjekt', 'ItProjekt 4. Semester', 1, 1);
+(1, '2017-05-10', '2017-05-11', 'Projekt A', 'Testprojekt', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +237,8 @@ CREATE TABLE `projektmarktplatz` (
 --
 
 INSERT INTO `projektmarktplatz` (`Projektmarktplatz_Id`, `Bezeichnung`) VALUES
-(1, 'Marktplatz_A');
+(1, 'Projektmarktplatz A'),
+(2, 'Projektmarktplatz B');
 
 -- --------------------------------------------------------
 
@@ -223,8 +249,35 @@ INSERT INTO `projektmarktplatz` (`Projektmarktplatz_Id`, `Bezeichnung`) VALUES
 CREATE TABLE `team` (
   `Team_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `Unternhemen_Id` int(11) NOT NULL
+  `Unternhemen_Id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `team`
+--
+
+INSERT INTO `team` (`Team_Id`, `Name`, `Unternhemen_Id`) VALUES
+(2, 'Team A', 1),
+(5, 'Team B', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `teilnahme`
+--
+
+CREATE TABLE `teilnahme` (
+  `Person_Id` int(11) NOT NULL,
+  `Projektmarktplatz_Id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `teilnahme`
+--
+
+INSERT INTO `teilnahme` (`Person_Id`, `Projektmarktplatz_Id`) VALUES
+(3, 1),
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -236,6 +289,14 @@ CREATE TABLE `unternhemen` (
   `Unternehmen_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `unternhemen`
+--
+
+INSERT INTO `unternhemen` (`Unternehmen_Id`, `Name`) VALUES
+(1, 'Unternehmen A'),
+(4, 'Unternehmen B');
 
 --
 -- Indizes der exportierten Tabellen
@@ -286,8 +347,7 @@ ALTER TABLE `eigenschaft`
 --
 ALTER TABLE `organisationseinheit`
   ADD PRIMARY KEY (`Organisationseinheit_Id`),
-  ADD KEY `Partnerprofil_Id` (`Partnerprofil_Id`),
-  ADD KEY `Projektmarktplatz_Id` (`Projektmarktplatz_Id`);
+  ADD KEY `Partnerprofil_Id` (`Partnerprofil_Id`);
 
 --
 -- Indizes für die Tabelle `partnerprofil`
@@ -301,7 +361,7 @@ ALTER TABLE `partnerprofil`
 ALTER TABLE `person`
   ADD PRIMARY KEY (`Person_Id`),
   ADD KEY `Organisationseinheit_Id` (`Person_Id`),
-  ADD KEY `Unternhemen_Id` (`Unternhemen_Id`),
+  ADD KEY `Unternhemen_Id` (`Unternehmen_Id`),
   ADD KEY `Team_Id` (`Team_Id`);
 
 --
@@ -325,6 +385,13 @@ ALTER TABLE `team`
   ADD PRIMARY KEY (`Team_Id`),
   ADD KEY `Organisationseinheit_Id` (`Team_Id`),
   ADD KEY `Unternhemen_Id` (`Unternhemen_Id`);
+
+--
+-- Indizes für die Tabelle `teilnahme`
+--
+ALTER TABLE `teilnahme`
+  ADD PRIMARY KEY (`Person_Id`,`Projektmarktplatz_Id`),
+  ADD KEY `Primärschlüssel_von_Projektmarktplatz` (`Projektmarktplatz_Id`);
 
 --
 -- Indizes für die Tabelle `unternhemen`
@@ -376,15 +443,14 @@ ALTER TABLE `eigenschaft`
 -- Constraints der Tabelle `organisationseinheit`
 --
 ALTER TABLE `organisationseinheit`
-  ADD CONSTRAINT `organisationseinheit_ibfk_1` FOREIGN KEY (`Partnerprofil_Id`) REFERENCES `partnerprofil` (`Partnerprofil_Id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `organisationseinheit_ibfk_2` FOREIGN KEY (`Projektmarktplatz_Id`) REFERENCES `projektmarktplatz` (`Projektmarktplatz_Id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `organisationseinheit_ibfk_1` FOREIGN KEY (`Partnerprofil_Id`) REFERENCES `partnerprofil` (`Partnerprofil_Id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `person`
 --
 ALTER TABLE `person`
   ADD CONSTRAINT `person_ibfk_1` FOREIGN KEY (`Person_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `person_ibfk_2` FOREIGN KEY (`Unternhemen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `person_ibfk_2` FOREIGN KEY (`Unternehmen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `person_ibfk_3` FOREIGN KEY (`Team_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
 
 --
@@ -400,6 +466,13 @@ ALTER TABLE `projekt`
 ALTER TABLE `team`
   ADD CONSTRAINT `team_ibfk_1` FOREIGN KEY (`Team_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `team_ibfk_2` FOREIGN KEY (`Unternhemen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `teilnahme`
+--
+ALTER TABLE `teilnahme`
+  ADD CONSTRAINT `Primärschlüssel_von_Person` FOREIGN KEY (`Person_Id`) REFERENCES `person` (`Person_Id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Primärschlüssel_von_Projektmarktplatz` FOREIGN KEY (`Projektmarktplatz_Id`) REFERENCES `projektmarktplatz` (`Projektmarktplatz_Id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `unternhemen`

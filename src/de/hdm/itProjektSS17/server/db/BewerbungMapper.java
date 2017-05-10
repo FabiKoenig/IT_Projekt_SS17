@@ -121,7 +121,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()
+          stmt.executeUpdate("UPDATE bewerbung SET Bewerbungstext = '"+b.getBewerbungstext()+"'"+ ",Bewerbungsstatus='"+ b.getStatus()
           +"' WHERE Bewerbung_Id ="+ b.getId()+";");
 
         }
@@ -160,6 +160,8 @@ public class BewerbungMapper {
                 b.setId(rs.getInt("maxid") + 1);
               }
               
+              //Setzen des Standard-Wertes f�r den Status der Bewerbung
+              b.setStatus(Bewerbungsstatus.laufend);
               //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
            stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id, Bewerbungsstatus) " 
            + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"', '" + b.getStatus() + "')");
@@ -195,7 +197,9 @@ public class BewerbungMapper {
           Vector <Bewerbung> b = new Vector();
           while (rs.next()) {
             // Ergebnis-Tupel in Objekt umwandeln
+
         	Bewerbung bObj=new Bewerbung();
+
             bObj.setId(rs.getInt("Bewerbung_Id"));
             bObj.setBewerbungstext(rs.getString("Bewerbungstext"));
             bObj.setAusschreibungId(rs.getInt("Ausschreibung_Id"));
@@ -205,7 +209,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          return b;
+          if(b.isEmpty()==true){
+        	  return null;
+          }else{
+              return b;
+          }
         }
         catch (SQLException e) {
           e.printStackTrace();
@@ -246,7 +254,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          return b;
+          if(b.isEmpty()==true){
+        	  return null;
+          }else{
+              return b;
+          }
         }
         catch (SQLException e) {
           e.printStackTrace();

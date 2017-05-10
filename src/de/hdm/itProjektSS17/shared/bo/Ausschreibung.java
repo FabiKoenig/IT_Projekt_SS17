@@ -13,6 +13,9 @@ public class Ausschreibung extends BusinessObject{
 	
 	private String ausschreibungstext = "";
 	
+	public enum Ausschreibungsstatus {besetzt, abgebrochen, laufend };
+	
+	private Ausschreibungsstatus status = null;
 	/**
 	 * Realisierung der Beziehung zu einem Projekt durch einen Fremdschlï¿½ssel
 	 */
@@ -98,6 +101,22 @@ public class Ausschreibung extends BusinessObject{
 	public void setAusschreibenderId(int ausschreibenderId) {
 		this.ausschreibenderId = ausschreibenderId;
 	}
+
+	/**
+	 * @return Gibt den Ausschreibungsstatus als enum Ausschreibungsstatus zurück
+	 */
+	public Ausschreibungsstatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param Setzt den Ausschreibungsstatus anhand eines enum Ausschreibungsstatus
+	 */
+	public void setStatus(Ausschreibungsstatus status) {
+		this.status = status;
+	}
+	
+	
 
 
 	

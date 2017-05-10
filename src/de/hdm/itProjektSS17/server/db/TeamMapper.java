@@ -184,13 +184,21 @@ public class TeamMapper extends OrganisationseinheitMapper{
 
 	        try {
 	        	t.setId(super.update(t));
+	        	super.organisationsEinheitsmapper().update(t);
 	        	
 	        	Statement stmt = con.createStatement();
 
-	        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());					
-			
-
+	        	
+		        if(t.getUnternehmenId()==null){
+				      stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
+	        		+"'"+ ", Unternehmen_Id=+ NULL WHERE Team_Id="+t.getId());
+		        
+		        }else if(t.getUnternehmenId()!=null){
+			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
+	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
+		        } 
+	        	
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
@@ -217,6 +225,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        
 	          t.setId(super.insert(t));
 	          
+
 	          if (t.getUnternehmenId() == null) {
 	        	  stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`) "
 		        		  + "VALUES ('" + t.getId() + "','" + t.getName()+"')");
@@ -227,6 +236,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        			  + "VALUES ('" + t.getId() + "','" + t.getName() +"','" + t.getUnternehmenId()+"')");
 			}
  
+
 	        } catch (SQLException e) {
 	          e.printStackTrace();
 	}
