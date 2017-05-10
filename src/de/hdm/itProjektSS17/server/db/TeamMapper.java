@@ -217,8 +217,15 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        
 	          t.setId(super.insert(t));
 	          
-	          stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`,`Unternehmen_Id`) "
-	        		  + "VALUES ('" + t.getId() + "','" + t.getName() +"','"+ t.getUnternehmenId()+"')");
+	          if (t.getUnternehmenId() == null) {
+	        	  stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`) "
+		        		  + "VALUES ('" + t.getId() + "','" + t.getName()+"')");
+			}
+	          else {
+				
+	        	  stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`,`Unternehmen_Id`) "
+	        			  + "VALUES ('" + t.getId() + "','" + t.getName() +"','" + t.getUnternehmenId()+"')");
+			}
  
 	        } catch (SQLException e) {
 	          e.printStackTrace();

@@ -341,7 +341,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public Team createTeam(String name, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId) throws IllegalArgumentException {
+			String ort,int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setStrasse(strasse);
@@ -349,6 +349,7 @@ implements ProjektmarktplatzVerwaltung {
 		a.setPlz(plz);
 		a.setOrt(ort);
 		a.setPartnerprofilId(partnerprofilId);
+		a.setUnternehmenId(unternehmenId);
 		
 		
 		return this.teamMapper.insert(a);
