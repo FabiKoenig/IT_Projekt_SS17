@@ -188,12 +188,12 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        	
 		        if(t.getUnternehmenId()==null){
 				      stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+ " Unternehmen_Id= NULL WHERE Team_Id="+t.getId());
+	        		+"'"+ ", Unternehmen_Id= NULL WHERE Team_Id="+t.getId());
 		        
 		        }else if(t.getUnternehmenId()!=null){
 			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
-	        		+"'"+ " Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
+	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
 		        } 
 	        	
 	        }
