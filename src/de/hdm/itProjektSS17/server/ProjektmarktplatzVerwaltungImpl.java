@@ -300,7 +300,6 @@ implements ProjektmarktplatzVerwaltung {
 		b.setBewerbungstext(bewerbungstext);
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
-		b.setStatus(Bewerbungsstatus.laufend);
 
 		return this.bewerbungMapper.insert(b);
 	}

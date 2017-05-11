@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 
@@ -13,7 +14,7 @@ import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
  */
 public class PartnerprofilMapper {
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
 	 * Speicherung der einzigen Instanz dieser Mapperklasse.
@@ -120,9 +121,10 @@ public class PartnerprofilMapper {
 		    try {
 		    	//Leeres SQL-Statement anlegen.
 		      Statement stmt = con.createStatement();
+		      
 		      //Statement mit Update-Befehl fÃ¼llen.
-		      stmt.executeUpdate("UPDATE partnerprofil SET Erstellungsdatum='"
-		          + sdf.format(p.getErstellungsdatum()) + "', " + "Aenderungsdatum='" + sdf.format(p.getAenderungdatum()) + "' "
+		      //Es wird nur das Aenderungsdatum aktualisiert
+		      stmt.executeUpdate("UPDATE partnerprofil SET Aenderungsdatum='" + format.format(new Date()) + "' "
 		          + "WHERE Partnerprofil_Id=" + p.getId());
 
 		    }
@@ -138,7 +140,12 @@ public class PartnerprofilMapper {
 	   * @param p
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
-	  public Partnerprofil insert(Partnerprofil p){
+	  
+	  //Die Methode benötigt kein übergebenes Partnerprofil, da die Attribute eines neuen Partnerprofils ohnehin
+	  //automatisch gesetzt werden.
+	  public Partnerprofil insert(){
+		//Anlegen eines neuen Partnerprofil-Objekts.
+		  Partnerprofil p = new Partnerprofil();
 		//DB-Verbindung holen
 		  Connection con = DBConnection.connection();
 
@@ -165,8 +172,7 @@ public class PartnerprofilMapper {
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
-		       
-		        stmt.executeUpdate("INSERT INTO partnerprofil (Partnerprofil_Id, `Erstellungsdatum`, `Aenderungsdatum`) VALUES (" + p.getId() + ",'"+sdf.format(p.getErstellungsdatum()) + "','" + sdf.format(p.getAenderungdatum()) + "')");
+		        stmt.executeUpdate("INSERT INTO partnerprofil (Partnerprofil_Id, `Erstellungsdatum`) VALUES (" + p.getId() + ",'"+format.format(p.getErstellungsdatum()) + "')");
 		      }
 		    }
 		    catch (SQLException e) {

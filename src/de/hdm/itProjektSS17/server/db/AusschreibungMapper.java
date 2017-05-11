@@ -291,10 +291,6 @@ public class AusschreibungMapper {
 				
 				  a.setId(rs.getInt("maxid") + 1);
 			  }  
-			  
-              //Setzen des Standard-Wertes f�r den Status der Ausschreibung
-			  
-              a.setStatus(Ausschreibungsstatus.laufend);
               
 				  stmt = con.createStatement();
 				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibung_Id, Ausschreibender_Id, `Ausschreibungstext`, "

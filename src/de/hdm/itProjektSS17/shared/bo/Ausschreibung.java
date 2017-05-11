@@ -15,7 +15,7 @@ public class Ausschreibung extends BusinessObject{
 	
 	public enum Ausschreibungsstatus {besetzt, abgebrochen, laufend };
 	
-	private Ausschreibungsstatus status = null;
+	private Ausschreibungsstatus status = Ausschreibungsstatus.laufend;
 	/**
 	 * Realisierung der Beziehung zu einem Projekt durch einen Fremdschl�ssel
 	 */
