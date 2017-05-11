@@ -471,6 +471,7 @@ implements ProjektmarktplatzVerwaltung {
 		
 		if (bewerbungen != null) {
 			for (Bewerbung bewerbung : bewerbungen) {
+
 				this.deleteBewerbung(bewerbung);
 			}
 		}
@@ -984,7 +985,7 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException {
 		
 		if (b != null && this.bewertungMapper != null) {
-			Bewertung be = this.bewertungMapper.findById(b.getId());
+			Bewertung be = this.bewertungMapper.findByForeignBewerbungId(b.getId());
 			return be;
 		}
 	
@@ -1017,7 +1018,18 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		return this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
+		
+		Vector <Bewerbung> result = new Vector <Bewerbung>();
+		if(a!=null && this.bewerbungMapper != null)
+		{
+			Vector <Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignAusschreibungId(a.getId());
+			
+			if(bewerbungen != null){
+				result.addAll(bewerbungen);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override

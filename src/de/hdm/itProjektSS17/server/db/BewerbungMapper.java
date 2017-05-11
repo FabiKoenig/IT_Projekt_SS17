@@ -160,7 +160,7 @@ public class BewerbungMapper {
                 b.setId(rs.getInt("maxid") + 1);
               }
               
-              //Setzen des Standard-Wertes f�r den Status der Bewerbung
+              //Setzen des Standard-Wertes f�r den Status der Bewerbung
               b.setStatus(Bewerbungsstatus.laufend);
               //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
            stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id, Bewerbungsstatus) " 
@@ -188,7 +188,7 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE Organisationseinheit_id=" + ausschreibungId);
+              + "WHERE Ausschreibung_Id=" + ausschreibungId);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
