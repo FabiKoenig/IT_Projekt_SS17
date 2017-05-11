@@ -421,23 +421,6 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
 		
-		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
-		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-	
-		if(o != null){
-		if (o instanceof Person){
-			this.deletePerson((Person)o);
-		} else if(o instanceof Unternehmen){
-			this.deleteTeam((Team) o);
-		} else if (o instanceof Team){
-			this.deleteUnternehmen((Unternehmen)o);
-		}
-		}
-		if (a != null) {
-
-			this.deleteAusschreibung(a);
-		}
-		
 		if(e != null){
 			for(Eigenschaft eigenschaft : e){
 				this.eigenschaftMapper.delete(eigenschaft);
