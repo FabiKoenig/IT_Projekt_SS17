@@ -179,6 +179,7 @@ public class BewerbungMapper {
     public Vector<Bewerbung> findByForeignAusschreibungId(int ausschreibungId){
         // DB-Verbindung holen
         Connection con = DBConnection.connection();
+        Vector <Bewerbung> b = new Vector();
 
         try {
           // Leeres SQL-Statement (JDBC) anlegen
@@ -192,7 +193,6 @@ public class BewerbungMapper {
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
            * werden. Prüfe, ob ein Ergebnis vorliegt.
            */
-          Vector <Bewerbung> b = new Vector();
           while (rs.next()) {
             // Ergebnis-Tupel in Objekt umwandeln
 
@@ -207,16 +207,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          if(b.isEmpty()==true){
-        	  return null;
-          }else{
-              return b;
-          }
         }
         catch (SQLException e) {
           e.printStackTrace();
-          return null;
         }
+        return b;
     }
     
     /**
@@ -226,6 +221,7 @@ public class BewerbungMapper {
     public Vector<Bewerbung> findByForeignOrganisationseinheitId(int organisationseinheitId){
         // DB-Verbindung holen
         Connection con = DBConnection.connection();
+        Vector <Bewerbung> b = new Vector();
 
         try {
           // Leeres SQL-Statement (JDBC) anlegen
@@ -239,7 +235,6 @@ public class BewerbungMapper {
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
            * werden. Prüfe, ob ein Ergebnis vorliegt.
            */
-          Vector <Bewerbung> b = new Vector();
           while (rs.next()) {
             // Ergebnis-Tupel in Objekt umwandeln
         	Bewerbung bObj=new Bewerbung();
@@ -252,15 +247,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          if(b.isEmpty()==true){
-        	  return null;
-          }else{
-              return b;
-          }
+         
         }
         catch (SQLException e) {
           e.printStackTrace();
-          return null;
         }
+        return b;
     }
 }

@@ -91,6 +91,7 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	  public Vector<Team> findByForeignUnternehmenId(int unternehmenId){
 		// DB-Verbindung holen
 	        Connection con = DBConnection.connection();
+	         Vector <Team> t = new Vector<Team>();
 
 	        try {
 	          // Leeres SQL-Statement (JDBC) anlegen
@@ -104,7 +105,6 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	           * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 	           * werden. Prüfe, ob ein Ergebnis vorliegt.
 	           */
-	          Vector <Team> t = new Vector<Team>();
 	          while (rs.next()) {
 	            // Ergebnis-Tupel in Objekt umwandeln
 	        	Team te=new Team();
@@ -114,17 +114,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	            
 	            t.add(te);
 	          }
-	          if(t.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return t;
-	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
-	          return null;
 	}
-		  
+		  return t;
 	  }
 	  
 	  public Vector<Team> findAllTeam(){
@@ -151,16 +145,11 @@ public class TeamMapper extends OrganisationseinheitMapper{
 				
 					result.add(t);
 					} 
-				if(result.isEmpty()==true){
-		        	  return null;
-		          }else{
-		              return result;
-		          }
 				}  
 			catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 			}
+			return result;
 		}
 	  /**
 	   * 

@@ -27,16 +27,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId,
 			int ausschreibenderId, int partnerprofilId, AsyncCallback<Ausschreibung> callback);
 
-	void createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum,
-			AsyncCallback<Partnerprofil> callback);
-
-	void createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
-			AsyncCallback<Partnerprofil> callback);
-	
-	void createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
-			AsyncCallback<Partnerprofil> callback);
-	
-	void createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId,
+	void createPartnerprofil(Date erstellungsdatum, Date aenderungsdatum,
 			AsyncCallback<Partnerprofil> callback);
 
 	void createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId,
@@ -53,7 +44,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 			int partnerprofilId, Integer unternehmenId, AsyncCallback<Team> callback);
 
 
-	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, AsyncCallback<Unternehmen> callback);
+	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, Integer partnerprofilId, AsyncCallback<Unternehmen> callback);
 
 	void createPerson(String vorname, String nachname, String anrede, String strasse, String hausnr, int plz,
 			String ort, int partnerprofilId, Integer teamId, Integer unternehmenId,
@@ -86,13 +77,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteMitgliedschaft(Person p, AsyncCallback<Void> callback);
 
-	void deletePartnerprofil_Ausschreibung(Partnerprofil p, AsyncCallback<Void> callback);
-
-	void deletePartnerprofil_Person(Partnerprofil p, AsyncCallback<Void> callback);
-	
-	void deletePartnerprofil_Team(Partnerprofil p, AsyncCallback<Void> callback);
-
-	void deletePartnerprofil_Unternehmen(Partnerprofil p, AsyncCallback<Void> callback);
+	void deletePartnerprofil(Partnerprofil p, AsyncCallback<Void> callback);
 
 	void deletePerson(Person p, AsyncCallback<Void> callback);
 

@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.server.db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,11 +14,14 @@ import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
+
 /*
  * Mapper für Beteiligung-Objekte.
  */
 public class BeteiligungMapper {
-
+	
+	
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
@@ -129,17 +133,11 @@ public class BeteiligungMapper {
 		        
 		        result.add(b);
 		      }
-		      if(result.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return result;
-	          }
 		    }
 		    catch (SQLException e2) {
 		      e2.printStackTrace();
-		      return null;
 		    } 
-		  
+		  return result;
 	  }
 	  
 	  /**
@@ -220,17 +218,11 @@ public class BeteiligungMapper {
 		        
 		        result.add(b);
 		      }
-		      if(result.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return result;
-	          }
 		    }
 		    catch (SQLException e2) {
 		      e2.printStackTrace();
-		      return null;
 		    } 
-
+		    	return result;
 	  }
 	  
 	  /**
@@ -263,14 +255,16 @@ public class BeteiligungMapper {
 	  public Beteiligung update(Beteiligung b){
 		  //DB-Verbindung holen
 		   Connection con = DBConnection.connection();
-
+		   	
 		    try {
 		    	//Leeres SQL-Statement anlegen.
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
 		      stmt.executeUpdate("UPDATE beteiligung " + "SET Umfang="
+
 		          + b.getUmfang() + ", " + "Startdatum='" + sdf.format(b.getStartDatum()) +"', "+ "Enddatum='" 
 		          + sdf.format(b.getEndDatum())+ "' WHERE Beteiligung_Id=" + b.getId());
+
 
 		    }
 		    catch (SQLException e) {
@@ -279,7 +273,7 @@ public class BeteiligungMapper {
 		return b;
 		  
 	  }
-	  
+	  		
 	  /**
 	   * 
 	   * @param b
