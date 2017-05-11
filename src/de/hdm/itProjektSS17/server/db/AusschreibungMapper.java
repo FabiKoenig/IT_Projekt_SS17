@@ -127,16 +127,11 @@ public class AusschreibungMapper {
 				
 				result.add(a);
 			}
-			   if(result.isEmpty()==true){
-		        	  return null;
-		          }else{
-		              return result;
-		          }
-			  
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		  return result;
 	  }
 	  
 	  /**
@@ -212,16 +207,10 @@ public class AusschreibungMapper {
 
 				result.add(a);
 			}
-			if(result.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return result;
-	          }
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		  return result;
 		
 	  }
 	  

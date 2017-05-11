@@ -115,16 +115,12 @@ public class EigenschaftMapper {
 			       e.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 			       eObj.addElement(e);
 		      }
-		      if(eObj.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return eObj;
-	          }
+		   
 		    }
 		    catch (SQLException e2) {
 		      e2.printStackTrace();
-		      return null;
 		    }  
+		    return eObj;
 	    }
 	  
 	  /**
