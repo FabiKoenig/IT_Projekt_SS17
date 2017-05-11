@@ -195,9 +195,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.ausschreibungMapper.insert(a); 
 	}
 
-	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
-	@Override
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
+	public Partnerprofil createPartnerprofil(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -209,91 +207,105 @@ implements ProjektmarktplatzVerwaltung {
 		return partnerprofilMapper.insert(p);
 	}
 	
-	
-	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
-			int orgaId) throws IllegalArgumentException {
-		
-		Vector<Person> pers = personMapper.findAllPerson();
-			
-		for (Person per : pers) {
-			if (per.getId() == orgaId) {
-			
-		
-		Partnerprofil p = new Partnerprofil();
-		p.setId(1);
-		p.setErstellungsdatum(erstellungsdatum);
-		p.setAenderungdatum(aenderungsdatum);
-		
-		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
-		//die korrekte ID vergeben.
-		p = partnerprofilMapper.insert(p);
-		
-		
-		Person pe = personMapper.findById(orgaId);
-		pe.setPartnerprofilId(p.getId());
-		personMapper.update(pe);
-				
-			}
-		}
-		return null;
-	}
-	
-	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum,
-			int orgaId) throws IllegalArgumentException {
-		
-		Vector<Team> tea = teamMapper.findAllTeam();
-		
-		for (Team te : tea) {
-			if (te.getId() == orgaId) {
-		
-		Partnerprofil p = new Partnerprofil();
-		p.setId(1);
-		p.setErstellungsdatum(erstellungsdatum);
-		p.setAenderungdatum(aenderungsdatum);
-		
-		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
-		//die korrekte ID vergeben.
-		p = partnerprofilMapper.insert(p);
-		
-		
-		Team t = teamMapper.findById(orgaId);
-		t.setPartnerprofilId(p.getId());
-		teamMapper.update(t);
-				return null;
-			}
-		}
-		return null;
-	
-	}
-	
-	
-	
-	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum,
-			int orgaId) throws IllegalArgumentException {
-		
-		Vector<Unternehmen> unt = unternehmenMapper.findAllUnternehmen();
-		
-		for (Unternehmen ue : unt) {
-			if (ue.getId() == orgaId) {
-		
-		Partnerprofil p = new Partnerprofil();
-		p.setId(1);
-		p.setErstellungsdatum(erstellungsdatum);
-		p.setAenderungdatum(aenderungsdatum);
-		
-		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
-		//die korrekte ID vergeben.
-		p = partnerprofilMapper.insert(p);
-		
-		
-		Unternehmen u = unternehmenMapper.findById(orgaId);
-		u.setPartnerprofilId(p.getId());
-		unternehmenMapper.update(u);
-				return null;
-	}
-		}
-		return null;
-	}
+//	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
+//	@Override
+//	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
+//		
+//		Partnerprofil p = new Partnerprofil();
+//		p.setId(1);
+//		p.setErstellungsdatum(erstellungsdatum);
+//		p.setAenderungdatum(aenderungsdatum);
+//		
+//		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+//		//die korrekte ID vergeben.
+//		return partnerprofilMapper.insert(p);
+//	}
+//	
+//	
+//	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum,
+//			int orgaId) throws IllegalArgumentException {
+//		
+//		Vector<Person> pers = personMapper.findAllPerson();
+//			
+//		for (Person per : pers) {
+//			if (per.getId() == orgaId) {
+//			
+//		
+//		Partnerprofil p = new Partnerprofil();
+//		p.setId(1);
+//		p.setErstellungsdatum(erstellungsdatum);
+//		p.setAenderungdatum(aenderungsdatum);
+//		
+//		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+//		//die korrekte ID vergeben.
+//		p = partnerprofilMapper.insert(p);
+//		
+//		
+//		Person pe = personMapper.findById(orgaId);
+//		pe.setPartnerprofilId(p.getId());
+//		personMapper.update(pe);
+//				
+//			}
+//		}
+//		return null;
+//	}
+//	
+//	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum,
+//			int orgaId) throws IllegalArgumentException {
+//		
+//		Vector<Team> tea = teamMapper.findAllTeam();
+//		
+//		for (Team te : tea) {
+//			if (te.getId() == orgaId) {
+//		
+//		Partnerprofil p = new Partnerprofil();
+//		p.setId(1);
+//		p.setErstellungsdatum(erstellungsdatum);
+//		p.setAenderungdatum(aenderungsdatum);
+//		
+//		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+//		//die korrekte ID vergeben.
+//		p = partnerprofilMapper.insert(p);
+//		
+//		
+//		Team t = teamMapper.findById(orgaId);
+//		t.setPartnerprofilId(p.getId());
+//		teamMapper.update(t);
+//				return null;
+//			}
+//		}
+//		return null;
+//	
+//	}
+//	
+//	
+//	
+//	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum,
+//			int orgaId) throws IllegalArgumentException {
+//		
+//		Vector<Unternehmen> unt = unternehmenMapper.findAllUnternehmen();
+//		
+//		for (Unternehmen ue : unt) {
+//			if (ue.getId() == orgaId) {
+//		
+//		Partnerprofil p = new Partnerprofil();
+//		p.setId(1);
+//		p.setErstellungsdatum(erstellungsdatum);
+//		p.setAenderungdatum(aenderungsdatum);
+//		
+//		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+//		//die korrekte ID vergeben.
+//		p = partnerprofilMapper.insert(p);
+//		
+//		
+//		Unternehmen u = unternehmenMapper.findById(orgaId);
+//		u.setPartnerprofilId(p.getId());
+//		unternehmenMapper.update(u);
+//				return null;
+//	}
+//		}
+//		return null;
+//	}
 	
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
 		Bewerbung b = new Bewerbung();
@@ -499,51 +511,79 @@ implements ProjektmarktplatzVerwaltung {
 		 this.eigenschaftMapper.delete(e);
 	}
 
-	@Override
-	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
-		
-//		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-//
-//	//	Person per = this.getPersonById(o.getId());
-//		o.setPartnerprofilId(0);
-//		this.savePerson((Person) o);
+//	@Override
+//	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 //		
-
-		
-		this.partnerprofilMapper.delete(p);
-	}
-
+////		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+////
+////	//	Person per = this.getPersonById(o.getId());
+////		o.setPartnerprofilId(0);
+////		this.savePerson((Person) o);
+////		
+//
+//		
+//		this.partnerprofilMapper.delete(p);
+//	}
+//
+//	
+//	@Override
+//	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
+//		
+//		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+//		
+//		Person per = this.getPersonById(o.getId());
+//		
+//		o.setPartnerprofilId(null);
+//		
+//		this.partnerprofilMapper.delete(p);
+//	}
+//	
+//	
+//	
+//	@Override
+//	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
+//		
+//		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+//		
+//		o.setPartnerprofilId(0);
+//		
+//		this.partnerprofilMapper.delete(p);
+//	}
+//	
+//	@Override
+//	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
+//		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
+//		
+//		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
+//		
+//		if (a != null) {
+//
+//			this.deleteAusschreibung(a);
+//		}
+//		
+//		if(e != null){
+//			for(Eigenschaft eigenschaft : e){
+//				this.eigenschaftMapper.delete(eigenschaft);
+//			}
+//		this.partnerprofilMapper.delete(p);
+//		}
+//	}
 	
-	@Override
-	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
-		
-		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-		
-		Person per = this.getPersonById(o.getId());
-		
-		o.setPartnerprofilId(null);
-		
-		this.partnerprofilMapper.delete(p);
-	}
-	
-	
-	
-	@Override
-	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
-		
-		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-		
-		o.setPartnerprofilId(null);
-		
-		this.partnerprofilMapper.delete(p);
-	}
-	
-	@Override
-	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
+	public void deletePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
 		
 		Ausschreibung a = this.getAusschreibungByForeignPartnerprofil(p);
-		
+		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+	
+		if(o != null){
+		if (o instanceof Person){
+			this.deletePerson((Person)o);
+		} else if(o instanceof Unternehmen){
+			this.deleteTeam((Team) o);
+		} else if (o instanceof Team){
+			this.deleteUnternehmen((Unternehmen)o);
+		}
+		}
 		if (a != null) {
 
 			this.deleteAusschreibung(a);
@@ -1237,6 +1277,58 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	@Override
 	public Person getPerson() throws IllegalArgumentException {
 		return this.person;
+	}
+
+	@Override
+	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
