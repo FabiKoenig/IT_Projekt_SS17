@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.itProjektSS17.server.db.*;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung.Ausschreibungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
@@ -191,6 +192,7 @@ implements ProjektmarktplatzVerwaltung {
 		a.setAusschreibenderId(ausschreibenderId);
 		a.setId(1);
 		a.setPartnerprofilId(partnerprofilId);
+		a.setStatus(Ausschreibungsstatus.laufend);
 		
 		return this.ausschreibungMapper.insert(a); 
 	}
@@ -343,11 +345,14 @@ implements ProjektmarktplatzVerwaltung {
 		a.setHausnummer(hausnr);
 		a.setPlz(plz);
 		a.setOrt(ort);
+
 		a.setPartnerprofilId(partnerprofilId);
 		a.setUnternehmenId(unternehmenId);
-
 		
 		a.setId(1); 
+
+
+
 		
 		return this.teamMapper.insert(a);
 	}
