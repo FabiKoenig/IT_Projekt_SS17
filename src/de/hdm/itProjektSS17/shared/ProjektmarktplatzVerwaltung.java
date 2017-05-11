@@ -19,13 +19,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId, int ausschreibenderId, int partnerprofilId) throws IllegalArgumentException;
 	
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException;
-	
-	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
-	
-	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
-
-	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
+	public Partnerprofil createPartnerprofil(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException;
 
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
 	
@@ -57,13 +51,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
 	
-	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException;
-	
-	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException;
-
-	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException;
-	
-	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException;
+	public void deletePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
 	public void deleteBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
