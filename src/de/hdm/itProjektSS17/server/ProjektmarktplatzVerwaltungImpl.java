@@ -568,36 +568,56 @@ implements ProjektmarktplatzVerwaltung {
 		/*
 		 * Auslesen des zu einem Unternehmen zugehörigen Partnerprofils und der Beteiligungen eines Unternehmens an Projekte.
 		 */
+		
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
 
 		Vector<Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(u);
 		Vector<Bewerbung> bw = this.getBewerbungByForeignOrganisationseinheit(u);
+		Vector<Team> a = this.getTeamByForeignUnternehmen(u);
+		
 		/*
 		 * Es wird geprüft, ob ein Partnerprofil zu dem zu löschenden Unternehmen besteht.
 		 * Wenn eines besteht wird dieses gelöscht.
 		 */
+		// Account aus der DB entfernen
+		
+	
+		if (a != null){
+			for (Team team: a)
+				{
+			this.deleteZugehoerigkeit(team);
+					}
+		}
+				
+		if (b != null){
+			for (Beteiligung beteiligung: b)
+				{
+			this.deleteBeteiligung(beteiligung);
+					}
+		}		
+		
+		if (bw != null){
+			for(Bewerbung bewerbung: bw){
+				this.deleteBewerbung(bewerbung);
+			}
+		}
+		
+	
+		
+		this.unternehmenMapper.delete(u);
+		
 		if (p != null){
 			this.deletePartnerprofil(p);
 		}
 		
-		if (bw != null){
-			for(Bewerbung bewerbung: bw){
-				this.deleteBewerbung(bewerbung);;
-			}
-		}
+	
+		
 		/*
 		 * Es wird geprüft, ob das zu löschende Unternehmen an Projekten beteiligt ist. 
 		 * Falls ja, werden die Beteiligungen an den sProjekten gelöscht. 
 		 */
-		if (b != null)
-		{
-			for (Beteiligung beteiligung: b)
-			{
-				this.deleteBeteiligung(beteiligung);
-			}
-		}
-		// Account aus der DB entfernen
-	    this.unternehmenMapper.delete(u);
+		
+		
 	}
 
 	
@@ -1369,5 +1389,24 @@ implements ProjektmarktplatzVerwaltung {
 	public Person getPerson() throws IllegalArgumentException {
 		return this.person;
 	}
+
+	@Override
+	public Vector<Team> getTeamByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
+		
+		Vector<Team> result = new Vector<>();
+		
+		if (u != null && this.teamMapper != null) {
+			Vector<Team> teams = this.teamMapper.findByForeignUnternehmenId(u.getId());
+			
+			if (teams != null) {
+				result.addAll(teams);
+			}
+		}
+		
+		return result;
+		
+		
+	}
+	
 
 }
