@@ -206,9 +206,7 @@ implements ProjektmarktplatzVerwaltung {
 		
 		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
 		//die korrekte ID vergeben.
-		Partnerprofil pa = partnerprofilMapper.insert(p);
-		
-		return null;
+		return partnerprofilMapper.insert(p);
 	}
 	
 	
@@ -501,11 +499,12 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
-		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-
-		Person per = this.getPersonById(o.getId());
-		per.setPartnerprofilId(0);
-		this.savePerson(per);
+//		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+//
+//	//	Person per = this.getPersonById(o.getId());
+//		o.setPartnerprofilId(0);
+//		this.savePerson((Person) o);
+//		
 
 		
 		this.partnerprofilMapper.delete(p);
@@ -656,7 +655,7 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 		 */
 		Partnerprofil pp = this.getPartnerprofilByForeignOrganisationseinheit(p);
 		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
-		Vector<Team> te = this.getTeamByForeignPerson(p);
+		Team te = this.getTeamByForeignPerson(p);
 		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
 		Vector<Projektmarktplatz> pm = this.getProjektmarktplaetzeByPerson(p);
 		Vector<Bewerbung> bew = this.getBewerbungByForeignOrganisationseinheit(p);
@@ -677,9 +676,9 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
 		 */
 		if (te != null){
-				for(Team team: te){
+				
 					this.deleteMitgliedschaft(p);
-			}
+			
 		}
 		
 		/**
@@ -720,10 +719,9 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 		}
 		
 		/**
-		 * Die übergebene Person-Objekt wird gelöscht.
-		 */
-		this.personMapper.delete(p);
-		
+		  * Die übergebene Person-Objekt wird gelöscht.
+		  */
+		 this.personMapper.delete(p);
 		
 		/*
 		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
@@ -735,8 +733,12 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 	
 	}
 	
-	private Vector<Team> getTeamByForeignPerson(Person p) {
-		// TODO
+	private Team getTeamByForeignPerson(Person p) {
+		
+		if (p.getTeamId() != null && this.teamMapper != null) {
+			
+			return this.teamMapper.findById(p.getTeamId());
+		}
 		
 		return null;
 	}
@@ -891,19 +893,21 @@ public void deletePerson(Person p) throws IllegalArgumentException {
 			Vector<Unternehmen> u = unternehmenMapper.findAllUnternehmen();
 			
 			
-				
+			
+			
+			
 			for (Person per : pe) {
-				if (per.getId() == personMapper.findById(per.getPartnerprofilId()).getId()) {
+				if (p.getId() == personMapper.findById(per.getId()).getPartnerprofilId()) {
 					return per;
 				}
 			}
 			for (Team te : t) {
-				if (te.getId() == personMapper.findById(te.getPartnerprofilId()).getId()) {
+				if (p.getId() == teamMapper.findById(te.getPartnerprofilId()).getId()) {
 					return te;
 				}
 			}
 			for (Unternehmen un : u) {
-				if (un.getId() == personMapper.findById(un.getPartnerprofilId()).getId()) {
+				if (un.getId() == unternehmenMapper.findById(un.getPartnerprofilId()).getId()) {
 					return un;
 				}
 			}
