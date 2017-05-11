@@ -215,7 +215,7 @@ implements ProjektmarktplatzVerwaltung {
 		
 		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
 		//die korrekte ID vergeben.
-		return partnerprofilMapper.insert(p);
+		return partnerprofilMapper.insert();
 	}
 	
 	
