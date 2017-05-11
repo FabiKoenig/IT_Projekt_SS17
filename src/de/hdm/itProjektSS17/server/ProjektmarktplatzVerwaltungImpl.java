@@ -626,22 +626,29 @@ implements ProjektmarktplatzVerwaltung {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(u);
 
 		Vector<Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(u);
+		Vector<Bewerbung> bw = this.getBewerbungByForeignOrganisationseinheit(u);
 		/*
 		 * Es wird geprüft, ob ein Partnerprofil zu dem zu löschenden Unternehmen besteht.
 		 * Wenn eines besteht wird dieses gelöscht.
 		 */
 		if (p != null){
-			this.partnerprofilMapper.delete(p);
+			this.deletePartnerprofil_Unternehmen(p);
+		}
+		
+		if (bw != null){
+			for(Bewerbung bewerbung: bw){
+				this.deleteBewerbung(bewerbung);;
+			}
 		}
 		/*
 		 * Es wird geprüft, ob das zu löschende Unternehmen an Projekten beteiligt ist. 
-		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
+		 * Falls ja, werden die Beteiligungen an den sProjekten gelöscht. 
 		 */
 		if (b != null)
 		{
 			for (Beteiligung beteiligung: b)
 			{
-				this.beteiligungMapper.delete(beteiligung);
+				this.deleteBeteiligung(beteiligung);
 			}
 		}
 		// Account aus der DB entfernen
