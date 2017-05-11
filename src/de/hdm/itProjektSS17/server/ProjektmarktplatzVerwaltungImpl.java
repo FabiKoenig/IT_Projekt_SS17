@@ -134,9 +134,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 	
 	/**
-	 * TODO
+	 * Initialisiert alle Mapper in der Klasse.
 	 */
-	
 	public void init() throws IllegalArgumentException {
 		
 		/**
@@ -158,6 +157,8 @@ implements ProjektmarktplatzVerwaltung {
 		this.teilnahmeMapper = TeilnahmeMapper.teilnahmeMapper();
 		
 	}
+	
+	
 	/**
 	 * Anlegen eines Eigenschaft-Objekts.
 	 */
@@ -180,6 +181,7 @@ implements ProjektmarktplatzVerwaltung {
 	     return this.eigenschaftMapper.insert(e);
 	}
 
+	
 	/**
 	 * Anlegen einer neuer Ausschreibung.
 	 */
@@ -200,6 +202,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.ausschreibungMapper.insert(a); 
 	}
 
+	
 	/**
 	 * Erstellung eines neuen Partnerprofils
 	 */
@@ -215,6 +218,7 @@ implements ProjektmarktplatzVerwaltung {
 		return partnerprofilMapper.insert(p);
 	}
 	
+	
 	/**
 	 * Anlegen eines neuen Bewerbung-Objekts.
 	 */
@@ -228,6 +232,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.bewerbungMapper.insert(b);
 	}
 
+	
 	/**
 	 * Anlegen eines neuen Projekt-Objekts.
 	 */
@@ -247,6 +252,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.projektMapper.insert(p);
 	}
 
+	
 	/**
 	 * Anlegen einer neuen Bewertung.
 	 */
@@ -262,6 +268,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.bewertungMapper.insert(b);
 	}
 
+	
 	/**
 	 * Erstellen eines neuen Team-Objekts.
 	 */
@@ -282,7 +289,6 @@ implements ProjektmarktplatzVerwaltung {
 		
 		return this.teamMapper.insert(a);
 	}
-	
 	
 	
 	/**
@@ -331,6 +337,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.personMapper.insert(p);
 	}
 
+	
 	/**Anlegen eines Projektmarktplatzes und zuweisen der ersten Person zu diesem Marktplatz.
 	 * Die zugewiesene, erste Person ist automatisch immer diejenige, die den Marktplatz erstellt hat.
 	 */
@@ -344,6 +351,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.projektmarktplatzMapper.insert(pr);
 	}
 
+	
 	/**
 	 * Erstellung einer neuen Beteiligung.
 	 */
@@ -364,6 +372,7 @@ implements ProjektmarktplatzVerwaltung {
 		return this.beteiligungMapper.insert(b);
 	}
 
+	
 	/**
 	 * Anlegen eines neuen Teilnahme-Objekts.
 	 */
@@ -373,6 +382,7 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 
+	
 	/**
 	 * Erstellen eines neuen Arbeitsverhältnisses zwischen einer Person und einem Unternehmen.
 	 */
