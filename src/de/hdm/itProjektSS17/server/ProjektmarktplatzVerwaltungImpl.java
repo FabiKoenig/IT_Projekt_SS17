@@ -348,7 +348,7 @@ implements ProjektmarktplatzVerwaltung {
 		a.setHausnummer(hausnr);
 		a.setPlz(plz);
 		a.setOrt(ort);
-		a.setPartnerprofilId(partnerprofilId);
+		//a.setPartnerprofilId(partnerprofilId);
 		
 		
 		return this.teamMapper.insert(a);
