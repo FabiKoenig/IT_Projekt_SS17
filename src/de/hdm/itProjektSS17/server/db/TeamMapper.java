@@ -233,7 +233,6 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        
 	          t.setId(super.insert(t));
 	          
-<<<<<<< HEAD
 
 	          if (t.getUnternehmenId() == null) {
 	        	  stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`) "
@@ -244,21 +243,8 @@ public class TeamMapper extends OrganisationseinheitMapper{
 	        	  stmt.executeUpdate("INSERT INTO `team`(`Team_Id`, `Name`,`Unternehmen_Id`) "
 	        			  + "VALUES ('" + t.getId() + "','" + t.getName() +"','" + t.getUnternehmenId()+"')");
 			}
- 
-
-=======
-	          if(t.getUnternehmenId()==null){
-			        stmt.executeUpdate("INSERT INTO team(Team_Id, Name) "
-				            + "VALUES (" + t.getId() + ",'" + t.getName() +"')");
-	          }
-	          else if(t.getUnternehmenId()!=null){
-			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			        stmt.executeUpdate("INSERT INTO team(Team_Id, Name, Unternehmen_Id) "
-			        		  + "VALUES (" + t.getId() + ",'" + t.getName() +"','"+ t.getUnternehmenId()+"')");
-		        }        
-	          
->>>>>>> refs/heads/Tom
-	        } catch (SQLException e) {
+	        }
+ 		catch (SQLException e) {
 	          e.printStackTrace();
 	}
 		return t;
