@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.itProjektSS17.server.db.*;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung.Ausschreibungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
@@ -191,14 +192,14 @@ implements ProjektmarktplatzVerwaltung {
 		a.setAusschreibenderId(ausschreibenderId);
 		a.setId(1);
 		a.setPartnerprofilId(partnerprofilId);
+		a.setStatus(Ausschreibungsstatus.laufend);
 		
 		return this.ausschreibungMapper.insert(a); 
 	}
 
 	/**Erstellt ein Partnerprofil für eine Ausschreibung*/
 	@Override
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum,
-			int ausschreibungId) throws IllegalArgumentException {
+	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
@@ -209,9 +210,6 @@ implements ProjektmarktplatzVerwaltung {
 		//die korrekte ID vergeben.
 		Partnerprofil pa = partnerprofilMapper.insert(p);
 		
-		//AusschreibungMapper aufrufen um die passende Ausschreibung zu finden. Anschließend wird dann die 
-		//korrekte PartnerprofilId an die Ausschreibung übergeben.
-		ausschreibungMapper.findById(ausschreibungId).setPartnerprofilId(pa.getId());
 		return null;
 	}
 	
@@ -307,6 +305,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setOrganisationseinheitId(orgaId);
 		b.setAusschreibungId(ausschreibungId);
 		b.setStatus(Bewerbungsstatus.laufend);
+
 		return this.bewerbungMapper.insert(b);
 	}
 
@@ -341,15 +340,18 @@ implements ProjektmarktplatzVerwaltung {
 	
 	@Override
 	public Team createTeam(String name, String strasse, String hausnr, int plz, 
-			String ort,int partnerprofilId) throws IllegalArgumentException {
+			String ort,int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException {
 		Team a = new Team();
 		a.setName(name);
 		a.setStrasse(strasse);
 		a.setHausnummer(hausnr);
 		a.setPlz(plz);
 		a.setOrt(ort);
-		//a.setPartnerprofilId(partnerprofilId);
-		
+
+		a.setPartnerprofilId(partnerprofilId);
+		a.setUnternehmenId(unternehmenId);
+
+
 		
 		return this.teamMapper.insert(a);
 	}
@@ -466,7 +468,6 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
-		
 
 		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
 		
@@ -505,8 +506,11 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException {
 		
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
-		
-		o.setPartnerprofilId(null);
+
+		Person per = this.getPersonById(o.getId());
+		per.setPartnerprofilId(0);
+		this.savePerson(per);
+
 		
 		this.partnerprofilMapper.delete(p);
 	}
@@ -516,6 +520,8 @@ implements ProjektmarktplatzVerwaltung {
 	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException {
 		
 		Organisationseinheit o = this.getOrganisationseinheitByForeignPartnerprofil(p);
+		
+		Person per = this.getPersonById(o.getId());
 		
 		o.setPartnerprofilId(null);
 		
@@ -584,6 +590,13 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
+		
+		Beteiligung be = this.getBeteiligungByForeignBewertung(b);
+		
+		if (be != null) {
+			this.deleteBeteiligung(be);
+		}
+		
 		this.bewertungMapper.delete(b);
 	}
 
@@ -638,7 +651,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public void deletePerson(Person p) throws IllegalArgumentException {
+public void deletePerson(Person p) throws IllegalArgumentException {
 		
 		
 		/*
@@ -649,33 +662,12 @@ implements ProjektmarktplatzVerwaltung {
 		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
 		Vector<Team> te = this.getTeamByForeignPerson(p);
 		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
+		Vector<Projektmarktplatz> pm = this.getProjektmarktplaetzeByPerson(p);
+		Vector<Bewerbung> bew = this.getBewerbungByForeignOrganisationseinheit(p);
+		Vector<Projekt> proj = this.getProjektByForeignPerson(p);
 		
 		
-		/*
-		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
-		 * Wenn eines besteht wird dieses gelöscht.
-		 */
-		if (pp != null){
-			this.partnerprofilMapper.delete(pp);
-		}
-		/*
-		 * Es wird geprüft, ob die zu löschende Person an Projekten beteiligt ist. 
-		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
-		 */
-		if (be != null){
-			for (Beteiligung beteiligung: be){
-				this.beteiligungMapper.delete(beteiligung);
-			}	
-		}
-		/**
-		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
-		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
-		 */
-		if (te != null){
-				for(Team team: te){
-					this.deleteMitgliedschaft(p);
-			}
-		}
+	
 		/**
 		 * Es wird geprüft, ob die zu löschende Person in einem Unternehmen beschäftigt ist.
 		 * Falls ja, wird das Arbeitsverhältnis zwischen Person und Unternehmen gelöscht. 
@@ -685,9 +677,89 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		
 		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in Teams ist.
+		 * Falls ja, werden die Mitgliedschaften an Teams gelöscht.
+		 */
+		if (te != null){
+				for(Team team: te){
+					this.deleteMitgliedschaft(p);
+			}
+		}
+		
+		/**
+		 * Es wird geprüft, ob die zu löschende Person Mitglied in einem Projektmarktplatz ist.
+		 * Falls ja, werden die Mitgliedschaften an Projektmarktplätzen gelöscht.
+		 */
+		if(pm != null){
+			for(Projektmarktplatz projm : pm){
+				this.deleteTeilnahme(p, projm);
+			}
+		}
+		
+		
+		/*
+		 * Es wird geprüft, ob die zu löschende Person an Projekten beteiligt ist. 
+		 * Falls ja, werden die Beteiligungen an den Projekten gelöscht. 
+		 */
+		if (be != null){
+			for (Beteiligung beteiligung: be){
+				this.deleteBeteiligung(beteiligung);
+			}	
+		}	
+		
+	
+		
+	
+		
+		if(bew != null){
+			for(Bewerbung bewerbung : bew){
+				this.deleteBewerbung(bewerbung);
+			}
+		}
+		
+		if(proj != null){
+			for(Projekt projekt : proj){
+				this.deleteProjekt(projekt);
+			}
+		}
+		
+		/**
 		 * Die übergebene Person-Objekt wird gelöscht.
 		 */
 		this.personMapper.delete(p);
+		
+		
+		/*
+		 * Es wird geprüft, ob ein Partnerprofil zu der zu löschenden Person besteht.
+		 * Wenn eines besteht wird dieses gelöscht.
+		 */
+		if (pp != null){
+			this.deletePartnerprofil_Person(pp);;
+		}
+	
+	}
+	
+	private Vector<Team> getTeamByForeignPerson(Person p) {
+		// TODO
+		
+		return null;
+	}
+
+	public Vector<Projektmarktplatz> getProjektmarktplaetzeByPerson(Person p) throws IllegalArgumentException {
+		
+		Vector<Projektmarktplatz> result = new Vector<>();
+		
+		if (p != null && this.projektmarktplatzMapper != null) {
+			Vector<Projektmarktplatz> projektmarktplaetze = this.teilnahmeMapper.findRelatedProjektMarktplaetze(p); 
+			
+			if (projektmarktplaetze != null) {
+				result.addAll(projektmarktplaetze);
+			}
+			
+		}
+		return result;
+		
+		
 		
 		
 	}
@@ -772,6 +844,12 @@ implements ProjektmarktplatzVerwaltung {
 	public Projektmarktplatz getProjektmarktplatzById(int id) throws IllegalArgumentException {
 		return this.projektmarktplatzMapper.findById(id);
 	}
+	
+	@Override
+	public Vector<Projektmarktplatz> getProjektmarktplaetzeByForeignPerson(Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Projekt getProjektById(int id) throws IllegalArgumentException {
@@ -851,7 +929,17 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-			return this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
+		Vector<Beteiligung> result = new Vector<>();
+		
+		if (o != null && this.beteiligungMapper != null) {
+			Vector<Beteiligung> beteiligungen = this.beteiligungMapper.findByForeignBeteiligterID(o.getId());
+			
+			if (beteiligungen != null) {
+				result.addAll(beteiligungen);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -865,7 +953,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
-	public Vector<Person> getPersonenByForeingProjektmarktplatz(Projektmarktplatz p){
+	public Vector<Person> getPersonenByForeignProjektmarktplatz(Projektmarktplatz p){
 		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
 	}
 
@@ -876,7 +964,22 @@ implements ProjektmarktplatzVerwaltung {
 
 	@Override
 	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException {
-		return this.projektMapper.findByForeignProjektleiterId(p.getId());		
+		
+		Vector<Projekt> result = new Vector<>();
+		
+		if (p != null && this.projektMapper != null) {
+			
+			Vector<Projekt> projekte = this.projektMapper.findByForeignProjektleiterId(p.getId());
+			
+			if (projekte != null) {
+				result.addAll(projekte);
+			}
+		}
+		
+		return result;
+		
+		
+				
 	}
 
 	@Override
@@ -895,7 +998,20 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
-		return this.bewerbungMapper.findByForeignOrganisationseinheitId(o.getId());
+		
+		Vector<Bewerbung> result = new Vector<>();
+		
+		if (o != null && this.bewerbungMapper != null) {
+			Vector<Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignOrganisationseinheitId(o.getId());
+			
+			if (bewerbungen != null) {
+				result.addAll(bewerbungen);
+			}
+		}
+		
+		return result;
+		
+		
 	}
 
 	/**
@@ -1051,13 +1167,6 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		
 	}
-
-	@Override
-	public Vector<Team> getTeamByForeignPerson(Organisationseinheit o) throws IllegalArgumentException {
-		
-		return null;
-	}
-
 	
 	/**
 	 * Auslesen des Unternehmens für ein übergebenes Organisationseinheit-Objekt.
@@ -1076,10 +1185,16 @@ implements ProjektmarktplatzVerwaltung {
 		 * In beiden Fällen wird über die Unternehmen_Id das zugehörige Unternehmen-Objekt zurückgegeben.
 		 */
 			if (o instanceof Person){
-				return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
+				if (((Person) o).getUnternehmenId() != null) {
+					
+					return this.unternehmenMapper.findById(this.personMapper.findById(o.getId()).getUnternehmenId());
+				}
 			}
 			else if (o instanceof Team){
-				return this.unternehmenMapper.findById(this.teamMapper.findById(o.getId()).getUnternehmenId());	
+				if (((Team) o).getUnternehmenId() != null) {
+					
+					return this.unternehmenMapper.findById(this.teamMapper.findById(o.getId()).getUnternehmenId());	
+				}
 			}
 
 			return null;

@@ -10,6 +10,8 @@ import java.util.Vector;
 
 
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung.Ausschreibungsstatus;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 
 /**
@@ -57,14 +59,15 @@ public class AusschreibungMapper {
 		  Connection con =  DBConnection.connection();
 		  
 		  try {
+
 			  Statement stmt = con.createStatement();
 			  
-			  ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
-			  		+ "WHERE Ausschreibung_Id=" + id);
-			  
+			  ResultSet rs = stmt.executeQuery("SELECT * FROM `ausschreibung` WHERE Ausschreibung_Id=" + id);
+
 			  if (rs.next()) {
+
 				Ausschreibung a = new Ausschreibung();
+
 				a.setId(rs.getInt("Ausschreibung_Id"));
 				a.setBezeichnung(rs.getString("Bezeichnung"));
 				a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
@@ -72,6 +75,7 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 				
 				return a;
 			}
@@ -79,7 +83,7 @@ public class AusschreibungMapper {
 			e.printStackTrace();
 			return null;
 		}
-		  
+
 		  return null;
 	  }
 	
@@ -106,7 +110,7 @@ public class AusschreibungMapper {
 			
 			  Statement stmt = con.createStatement();
 			  ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Projekt_Id=" + projektId + " ORDER BY Bezeichnung");
 			  
 			  while (rs.next()) {
@@ -119,17 +123,20 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 				
 				result.add(a);
 			}
-			  
+			   if(result.isEmpty()==true){
+		        	  return null;
+		          }else{
+		              return result;
+		          }
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+			return null;
 		}
-		  
-		  return result;
 	  }
 	  
 	  /**
@@ -145,7 +152,7 @@ public class AusschreibungMapper {
 		  try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Partnerprofil_Id=" + partnerprofilId);
 			
 			if (rs.next()) {
@@ -158,6 +165,7 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 				
 				return a;
 			}
@@ -187,7 +195,7 @@ public class AusschreibungMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt.executeQuery("SELECT Ausschreibung_Id, Ausschreibender_Id, Bezeichnung, "
-			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist FROM ausschreibung "
+			  		+ "Ausschreibungstext, Partnerprofil_Id, Projekt_Id, Bewerbungsfrist, Ausschreibungsstatus FROM ausschreibung "
 			  		+ "WHERE Ausschreibender_Id=" + organisationseinheitId + " ORDER BY Bezeichnung");
 			
 			while (rs.next()) {
@@ -200,15 +208,21 @@ public class AusschreibungMapper {
 				a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
 				a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
 				a.setProjektId(rs.getInt("Projekt_Id"));
+				a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
 
 				result.add(a);
 			}
+			if(result.isEmpty()==true){
+	        	  return null;
+	          }else{
+	              return result;
+	          }
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		  
-		  return result;
+		
 	  }
 	  
 	  /**
@@ -245,7 +259,8 @@ public class AusschreibungMapper {
 			  
 			  stmt.executeUpdate("UPDATE ausschreibung SET Bezeichnung='" + a.getBezeichnung() + "', " 
 			  		+ "Bewerbungsfrist='" + format.format(a.getBewerbungsfrist()) + "', " + "Ausschreibungstext='" + 
-					  a.getAusschreibungstext() + "' WHERE Ausschreibung_Id = " + a.getId());
+					  a.getAusschreibungstext() + "', Ausschreibungsstatus='" + 
+							  a.getStatus() +"' WHERE Ausschreibung_Id = " + a.getId());
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -275,14 +290,18 @@ public class AusschreibungMapper {
 			  if (rs.next()) {
 				
 				  a.setId(rs.getInt("maxid") + 1);
-				  
+			  }  
+			  
+              //Setzen des Standard-Wertes f�r den Status der Ausschreibung
+			  
+              a.setStatus(Ausschreibungsstatus.laufend);
+              
 				  stmt = con.createStatement();
 				  stmt.executeUpdate("INSERT INTO ausschreibung (Ausschreibung_Id, Ausschreibender_Id, `Ausschreibungstext`, "
-				  		+ "`Bewerbungsfrist`, `Bezeichnung`, Partnerprofil_Id, Projekt_Id) VALUES ("
+				  		+ "`Bewerbungsfrist`, `Bezeichnung`, Ausschreibungsstatus, Partnerprofil_Id, Projekt_Id) VALUES ("
 				  		+ a.getId()+ ", " + a.getAusschreibenderId() + ", '" + a.getAusschreibungstext() + "', '" + format.format(a.getBewerbungsfrist())
-				  		+ "', '" + a.getBezeichnung() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
+				  		+ "', '" + a.getBezeichnung() + "', '" + a.getStatus() + "', " + a.getPartnerprofilId() + ", " + a.getProjektId() + ")");
 				  
-			}
 			  
 		} catch (SQLException e) {
 			e.printStackTrace();
