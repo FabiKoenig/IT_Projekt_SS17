@@ -103,7 +103,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("DELETE FROM bewerbung " + "WHERE Bewerbung_id=" + b.getId());
+          stmt.executeUpdate("DELETE FROM bewerbung " + "WHERE Bewerbung_Id=" + b.getId());
 
         }
         catch (SQLException e) {
@@ -229,7 +229,7 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE Organisationseinheit_id=" + organisationseinheitId);
+              + "WHERE Organisationseinheit_Id=" + organisationseinheitId);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
