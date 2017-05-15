@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-  <application></application>
+  <application>Projektmarktplatz</application>
   <version>1</version>
 
   <!--
     Allows App Engine to send multiple requests to one instance in parallel:
   -->
-  <threadsafe>true</threadsafe>
+  <threadsafe>false</threadsafe>
 
   <!-- Configure serving/caching of GWT files -->
   <static-files>
@@ -38,5 +38,4 @@
     stale session data. For details, see
     https://cloud.google.com/appengine/docs/java/config/appconfig#Java_appengine_web_xml_Enabling_sessions
   -->
-
 </appengine-web-app>

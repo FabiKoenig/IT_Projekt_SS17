@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itProjektSS17.shared.bo.*;
 
+@RemoteServiceRelativePath("Verwaltung")
 public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
