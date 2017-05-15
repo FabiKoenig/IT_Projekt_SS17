@@ -193,7 +193,9 @@ public class TeamMapper extends OrganisationseinheitMapper{
 		        }else if(t.getUnternehmenId()!=null){
 			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        	stmt.executeUpdate("UPDATE team SET Name='"+t.getName()
+
 	        		+"'"+ ", Unternehmen_Id=" + t.getUnternehmenId() + " WHERE Team_Id="+t.getId());
+
 		        } 
 	        	
 	        }
