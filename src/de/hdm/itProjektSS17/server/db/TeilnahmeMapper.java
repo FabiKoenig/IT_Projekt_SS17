@@ -88,6 +88,7 @@ public class TeilnahmeMapper{
 	  public Vector<Projektmarktplatz> findRelatedProjektMarktplaetze(Person pe){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
+	        Vector <Projektmarktplatz> pr = new Vector<>();
 
 	        try {
 	          // Leeres SQL-Statement (JDBC) anlegen
@@ -95,32 +96,27 @@ public class TeilnahmeMapper{
 
 	          // Statement ausfüllen und als Query an die DB schicken
 	          ResultSet rs = stmt.executeQuery("SELECT * FROM `teilnahme` WHERE Person_Id="+pe.getId());
-	          Vector <Integer> idsOfProjektmarktplaetze = new Vector();
+	          Vector <Integer> idsOfProjektmarktplaetze = new Vector<>();
 	     
 	          
 	          while(rs.next()){
 	        	  idsOfProjektmarktplaetze.add(rs.getInt("Projektmarktplatz_Id"));
 	          }
-	          
-	          Vector <Projektmarktplatz> pr = new Vector();
+	           
 	          for (Integer ids : idsOfProjektmarktplaetze) {
 	        	  pr.add(ProjektmarktplatzMapper.projektmarktplatzMapper().findById(ids));
 			}
-	          if(pr.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return pr;
-	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
-	          return null;
 	        }
+	        return pr;
 	  }
 	  
 	  public Vector<Person> findRelatedPersonen(Projektmarktplatz pr){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
+	         Vector <Person> pe = new Vector<>();
 
 	        try {
 	          // Leeres SQL-Statement (JDBC) anlegen
@@ -128,27 +124,21 @@ public class TeilnahmeMapper{
 
 	          // Statement ausfüllen und als Query an die DB schicken
 	          ResultSet rs = stmt.executeQuery("SELECT * FROM `teilnahme` WHERE Projektmarktplatz_Id="+pr.getId());
-	          Vector <Integer> idsOfPersonen = new Vector();
+	          Vector <Integer> idsOfPersonen = new Vector<>();
 	     
 	          
 	          while(rs.next()){
 	        	  idsOfPersonen.add(rs.getInt("Person_Id"));
 	          }
 	          
-	          Vector <Person> pe = new Vector();
 	          for (Integer ids : idsOfPersonen) {
 	        	  pe.add(PersonMapper.personMapper().findById(ids));
 			}
-	          if(pe.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return pe;
-	          }
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
-	          return null;
 	        }
+	        return pe;
 	  }
 
 }

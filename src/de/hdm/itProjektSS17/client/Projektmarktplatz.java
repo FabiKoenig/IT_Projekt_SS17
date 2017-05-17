@@ -30,6 +30,29 @@ public class Projektmarktplatz implements EntryPoint {
 	public void onModuleLoad() {
 		
 		ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
+		
+	    VerticalPanel navPanel = new VerticalPanel();
+
+	    RootPanel.get("Navigator").add(navPanel);
+		
+	    final Button findCustomerButton = new Button("Finde Kunde");
+
+	    findCustomerButton.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findCustomerButton);
+	    
+	    
+	    findCustomerButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
 	

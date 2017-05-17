@@ -15,7 +15,7 @@ public class Partnerprofil extends BusinessObject {
 	/**
 	   * Datum der Erstellung des Partnerprofils
 	   */
-	private Date erstellungsdatum = null;
+	private Date erstellungsdatum = new Date();
 	/**
 	   * Datum der Änderung des Partnerprofils
 	   */

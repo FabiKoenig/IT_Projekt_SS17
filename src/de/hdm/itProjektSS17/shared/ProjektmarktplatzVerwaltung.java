@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itProjektSS17.shared.bo.*;
 
+@RemoteServiceRelativePath("Verwaltung")
 public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
@@ -19,13 +21,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId, int ausschreibenderId, int partnerprofilId) throws IllegalArgumentException;
 	
-	public Partnerprofil createPartnerprofil_Ausschreibung(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException;
-	
-	public Partnerprofil createPartnerprofil_Person(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
-	
-	public Partnerprofil createPartnerprofil_Team(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
-
-	public Partnerprofil createPartnerprofil_Unternehmen(Date erstellungsdatum, Date aenderungsdatum, int orgaId) throws IllegalArgumentException;
+	public Partnerprofil createPartnerprofil(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException;
 
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException;
 	
@@ -57,13 +53,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
 	
-	public void deletePartnerprofil_Person(Partnerprofil p) throws IllegalArgumentException;
-	
-	public void deletePartnerprofil_Team(Partnerprofil p) throws IllegalArgumentException;
-
-	public void deletePartnerprofil_Unternehmen(Partnerprofil p) throws IllegalArgumentException;
-	
-	public void deletePartnerprofil_Ausschreibung(Partnerprofil p) throws IllegalArgumentException;
+	public void deletePartnerprofil(Partnerprofil p) throws IllegalArgumentException;
 	
 	public void deleteBewerbung(Bewerbung b) throws IllegalArgumentException;
 	
@@ -121,6 +111,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
 	
+	public Vector<Team> getTeamByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException;
+	
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
 	public Vector<Beteiligung> getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException;
@@ -171,7 +163,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException;
 
-	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse) throws IllegalArgumentException;
+	public Unternehmen createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, Integer partnerprofilId) throws IllegalArgumentException;
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	

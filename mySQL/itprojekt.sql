@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Mai 2017 um 16:59
--- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 5.6.30
+-- Erstellungszeit: 11. Mai 2017 um 10:15
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 7.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -249,14 +249,14 @@ INSERT INTO `projektmarktplatz` (`Projektmarktplatz_Id`, `Bezeichnung`) VALUES
 CREATE TABLE `team` (
   `Team_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `Unternhemen_Id` int(11) DEFAULT NULL
+  `Unternehmen_Id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `team`
 --
 
-INSERT INTO `team` (`Team_Id`, `Name`, `Unternhemen_Id`) VALUES
+INSERT INTO `team` (`Team_Id`, `Name`, `Unternehmen_Id`) VALUES
 (2, 'Team A', 1),
 (5, 'Team B', 4);
 
@@ -282,21 +282,21 @@ INSERT INTO `teilnahme` (`Person_Id`, `Projektmarktplatz_Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `unternhemen`
+-- Tabellenstruktur für Tabelle `unternehmen`
 --
 
-CREATE TABLE `unternhemen` (
+CREATE TABLE `unternehmen` (
   `Unternehmen_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Daten für Tabelle `unternhemen`
+-- Daten für Tabelle `unternehmen`
 --
 
-INSERT INTO `unternhemen` (`Unternehmen_Id`, `Name`) VALUES
-(1, 'Unternehmen A'),
-(4, 'Unternehmen B');
+INSERT INTO `unternehmen` (`Unternehmen_Id`, `Name`) VALUES
+(1, 'Unternehmen_A'),
+(4, 'Unternehmen_B');
 
 --
 -- Indizes der exportierten Tabellen
@@ -384,7 +384,7 @@ ALTER TABLE `projektmarktplatz`
 ALTER TABLE `team`
   ADD PRIMARY KEY (`Team_Id`),
   ADD KEY `Organisationseinheit_Id` (`Team_Id`),
-  ADD KEY `Unternhemen_Id` (`Unternhemen_Id`);
+  ADD KEY `Unternhemen_Id` (`Unternehmen_Id`);
 
 --
 -- Indizes für die Tabelle `teilnahme`
@@ -394,11 +394,11 @@ ALTER TABLE `teilnahme`
   ADD KEY `Primärschlüssel_von_Projektmarktplatz` (`Projektmarktplatz_Id`);
 
 --
--- Indizes für die Tabelle `unternhemen`
+-- Indizes für die Tabelle `unternehmen`
 --
-ALTER TABLE `unternhemen`
+ALTER TABLE `unternehmen`
   ADD PRIMARY KEY (`Unternehmen_Id`),
-  ADD KEY `Organisationseinheit_Id` (`Unternehmen_Id`);
+  ADD KEY `Unternehmen_Id` (`Unternehmen_Id`);
 
 --
 -- Constraints der exportierten Tabellen
@@ -465,7 +465,7 @@ ALTER TABLE `projekt`
 --
 ALTER TABLE `team`
   ADD CONSTRAINT `team_ibfk_1` FOREIGN KEY (`Team_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `team_ibfk_2` FOREIGN KEY (`Unternhemen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `team_ibfk_2` FOREIGN KEY (`Unternehmen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `teilnahme`
@@ -475,10 +475,10 @@ ALTER TABLE `teilnahme`
   ADD CONSTRAINT `Primärschlüssel_von_Projektmarktplatz` FOREIGN KEY (`Projektmarktplatz_Id`) REFERENCES `projektmarktplatz` (`Projektmarktplatz_Id`) ON UPDATE CASCADE;
 
 --
--- Constraints der Tabelle `unternhemen`
+-- Constraints der Tabelle `unternehmen`
 --
-ALTER TABLE `unternhemen`
-  ADD CONSTRAINT `unternhemen_ibfk_1` FOREIGN KEY (`Unternehmen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
+ALTER TABLE `unternehmen`
+  ADD CONSTRAINT `unternehmen_ibfk_1` FOREIGN KEY (`Unternehmen_Id`) REFERENCES `organisationseinheit` (`Organisationseinheit_Id`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

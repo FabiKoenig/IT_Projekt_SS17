@@ -108,17 +108,12 @@ public class UnternehmenMapper extends OrganisationseinheitMapper{
 				u.setPartnerprofilId(super.findByObject(u).getPartnerprofilId());
 				
 				result.add(u);
-				} 
-			if(result.isEmpty()==true){
-	        	  return null;
-	          }else{
-	              return result;
-	          }
+				}
 			}  
 		catch (SQLException e) {
 		e.printStackTrace();
-		return null;
 		}
+		return result;
 	
 	}
 

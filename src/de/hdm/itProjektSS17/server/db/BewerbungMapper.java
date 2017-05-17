@@ -103,7 +103,7 @@ public class BewerbungMapper {
         try {
           Statement stmt = con.createStatement();
 
-          stmt.executeUpdate("DELETE FROM bewerbung " + "WHERE Bewerbung_id=" + b.getId());
+          stmt.executeUpdate("DELETE FROM bewerbung " + "WHERE Bewerbung_Id=" + b.getId());
 
         }
         catch (SQLException e) {
@@ -160,8 +160,6 @@ public class BewerbungMapper {
                 b.setId(rs.getInt("maxid") + 1);
               }
               
-              //Setzen des Standard-Wertes f�r den Status der Bewerbung
-              b.setStatus(Bewerbungsstatus.laufend);
               //SQL-Statement INSERT-Statement zum Einfügen eines neuen Records entsprechend dem übergebenen Bewerbung-Objekt mit Umwandlung des Datums in das für die Datenbank passende Format.
            stmt.executeUpdate("INSERT INTO bewerbung (Bewerbung_Id, Bewerbungstext, Erstellungsdatum, Organisationseinheit_Id, Ausschreibung_Id, Bewerbungsstatus) " 
            + "VALUES ('" + b.getId() + "','" + b.getBewerbungstext() + "','" + format.format(b.getErstellungsdatum()) + "','" + b.getOrganisationseinheitId() +"','"+b.getAusschreibungId()+"', '" + b.getStatus() + "')");
@@ -181,6 +179,7 @@ public class BewerbungMapper {
     public Vector<Bewerbung> findByForeignAusschreibungId(int ausschreibungId){
         // DB-Verbindung holen
         Connection con = DBConnection.connection();
+        Vector <Bewerbung> b = new Vector();
 
         try {
           // Leeres SQL-Statement (JDBC) anlegen
@@ -188,13 +187,12 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE Organisationseinheit_id=" + ausschreibungId);
+              + "WHERE Ausschreibung_Id=" + ausschreibungId);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
            * werden. Prüfe, ob ein Ergebnis vorliegt.
            */
-          Vector <Bewerbung> b = new Vector();
           while (rs.next()) {
             // Ergebnis-Tupel in Objekt umwandeln
 
@@ -209,16 +207,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          if(b.isEmpty()==true){
-        	  return null;
-          }else{
-              return b;
-          }
         }
         catch (SQLException e) {
           e.printStackTrace();
-          return null;
         }
+        return b;
     }
     
     /**
@@ -228,6 +221,7 @@ public class BewerbungMapper {
     public Vector<Bewerbung> findByForeignOrganisationseinheitId(int organisationseinheitId){
         // DB-Verbindung holen
         Connection con = DBConnection.connection();
+        Vector <Bewerbung> b = new Vector();
 
         try {
           // Leeres SQL-Statement (JDBC) anlegen
@@ -235,13 +229,12 @@ public class BewerbungMapper {
 
           // Statement ausfüllen und als Query an die DB schicken
           ResultSet rs = stmt.executeQuery("SELECT * FROM bewerbung "
-              + "WHERE Organisationseinheit_id=" + organisationseinheitId);
+              + "WHERE Organisationseinheit_Id=" + organisationseinheitId);
 
           /*
            * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
            * werden. Prüfe, ob ein Ergebnis vorliegt.
            */
-          Vector <Bewerbung> b = new Vector();
           while (rs.next()) {
             // Ergebnis-Tupel in Objekt umwandeln
         	Bewerbung bObj=new Bewerbung();
@@ -254,15 +247,11 @@ public class BewerbungMapper {
 
             b.add(bObj);
           }
-          if(b.isEmpty()==true){
-        	  return null;
-          }else{
-              return b;
-          }
+         
         }
         catch (SQLException e) {
           e.printStackTrace();
-          return null;
         }
+        return b;
     }
 }
