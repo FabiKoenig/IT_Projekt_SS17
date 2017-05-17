@@ -14,7 +14,7 @@ public class Row implements Serializable{
 	
 	
 	/**
-	 * Hinzufügen einer Spalte.
+	 * Hinzufügen einer Spalte. 
 	 * @param c
 	 */
 	
@@ -24,6 +24,7 @@ public class Row implements Serializable{
 	
 	/**
 	 * Löschen einer Spalte.
+	 * 
 	 * @param c
 	 */
 	public void removeColumn(Column c){
