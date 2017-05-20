@@ -1,4 +1,4 @@
-package de.hdm.itProjektSS17.server.client.gui;
+package de.hdm.itProjektSS17.client.gui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
