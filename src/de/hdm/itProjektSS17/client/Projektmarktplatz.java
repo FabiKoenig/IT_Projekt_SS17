@@ -29,20 +29,39 @@ public class Projektmarktplatz implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
-		ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
+		//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 		
 	    VerticalPanel navPanel = new VerticalPanel();
 
 	    RootPanel.get("Navigator").add(navPanel);
 		
-	    final Button findCustomerButton = new Button("Finde Kunde");
-
-	    findCustomerButton.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findCustomerButton);
 	    
+	    //TopPanel für Logut
+	    VerticalPanel topPanel = new VerticalPanel();
+	    RootPanel.get("Header").add(topPanel);
+	    //Erstellen Projektmarktzplatz Button
+	    final Button Logut = new Button("Logout");
+
+	    Logut.setStylePrimaryName("projektmarktplatz-logout");
+
+	    navPanel.add(Logut);
+	   
+	    Logut.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				///Session beenden
+			}
+		});
 	    
-	    findCustomerButton.addClickHandler(new ClickHandler() {
+	    //Erstellen Projektmarktzplatz Button
+	    final Button findCustomerButtonProjektmarktplatz = new Button("Projektmarktplatz");
+
+	    findCustomerButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findCustomerButtonProjektmarktplatz);
+	   
+	    findCustomerButtonProjektmarktplatz.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -53,6 +72,112 @@ public class Projektmarktplatz implements EntryPoint {
 				
 			}
 		});
+	    
+	    // Erstellen Startseite Button
+	    final Button findNavButtonStartseite = new Button("Startseite");
+
+	    findNavButtonStartseite.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonStartseite);
+	    
+	    findNavButtonStartseite.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    
+	    
+	    // Erstellen Stellenausschreibung Button
+	    final Button findNavButtonStellenausschreibung = new Button("Stellenausschreibung");
+
+	    findNavButtonStellenausschreibung.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonStellenausschreibung);
+	    
+	    findNavButtonStellenausschreibung.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    // Erstellen Stellenausschreibung Button
+	    final Button findNavButtonMeineBewerbung = new Button("Meine Bewerbung");
+
+	    findNavButtonMeineBewerbung.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonMeineBewerbung);
+	    
+	    findNavButtonMeineBewerbung.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    
+	    // Erstellen Meine Projekte Button
+	    final Button findNavButtonMeineProjekte = new Button("Meine Projekte");
+
+	    findNavButtonMeineProjekte.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonMeineProjekte);
+	    
+	    findNavButtonMeineProjekte.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    // Erstellen Organisationseinheit Button
+	    final Button findNavButtonOrganisationseinheit= new Button("Organisationseinheit");
+
+	    findNavButtonOrganisationseinheit.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonOrganisationseinheit);
+	    
+	    findNavButtonMeineProjekte.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    
+	    
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
 	

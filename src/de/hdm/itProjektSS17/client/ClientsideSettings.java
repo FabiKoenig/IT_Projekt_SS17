@@ -55,7 +55,7 @@ public class ClientsideSettings extends CommonSettings{
 	 * 
 	 * @return eindeutige Instanz des Typs <code>ProjektmarktplatzVerwaltungAsync</code>
 	 */
-	public static ProjektmarktplatzVerwaltungAsync getBankVerwaltung(){
+	public static ProjektmarktplatzVerwaltungAsync getProjektmarktplatzVerwaltung(){
 		//Falls bis jetzt noch keine PMV Instanz bestand
 		if (projektmarktplatzVerwaltung == null){
 			projektmarktplatzVerwaltung = GWT.create(ProjektmarktplatzVerwaltung.class);

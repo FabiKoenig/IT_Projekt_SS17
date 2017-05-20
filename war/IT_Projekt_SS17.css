@@ -1,23 +1,13 @@
-body {
-    text-align: center;  /* Zentrierung im Internet Explorer */
-  }
 
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 20px;
-  text-align: center;
-}
 
 .projektmarktplatz-headline {
 	font-size: 12pt;
 	font-weight: bold;
-	color: #777777;
+	color: DF013A;
 	margin: 0px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	text-align: left;
+	text-align: center;
 }
 
 .projektmarktplatz-simpletext {
@@ -52,47 +42,62 @@ h1 {
 	font-size: 100%;
 	font-weight: bold;
 }
-
-div#TopLevelFrame {
-	max-width: 600px;
-	min-width: 300px;
 	
-	background: #FFFF99;
- }
- 
-
-div#Header {
-	margin: 5px; 	
-	background: #CCCCFF
+.projektmarktplatz-logout{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	
 }
 
-div#Navigator {
-	max-height: 300px;
-	overflow:scroll;
-	padding: 1em 1em;
+div#TopLevelFrame {
+	max-width: 1280px;
+	min-width: 1200px;
 	
-	background: #FFFF99;
+
+ }
+
+
+div#Navigator {
+	max-height: 6000px;
+	overflow:scroll;
+	border-width: 3px;
+	
+
 }
 
 div#Details {
 	padding: 4em 1em;
 	
-	background: #FFFF99;
+
 }
 
 div#Trailer {
 	clear: both;
 	padding: 10px 0;
-	margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
+	margin-bottom: 0 auto;      /* standardkonforme horizontale Zentrierung */
 	border-top: 1px dashed silver;
-	font-size: 80%;
+	font-size: 100%;
 	text-align: center;
 	
-	background: #FFCCCC;
+	background: #DF013A;
+}
+
+div#Header{
+	font-size: 12pt;
+	font-weight: bold;
+	color: DF013A;
+	margin: 0px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	text-align: center;
+	background: #DF013A
+	
+	
 }
 
 /**
-	Ab hier: Alte Deklarationen. Können ggf. gelöscht werden.
+	Ab hier: Alte Deklarationen. Kï¿½nnen ggf. gelï¿½scht werden.
 */
 .sendButton {
   display: block;
@@ -116,3 +121,6 @@ div#Trailer {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+
+
