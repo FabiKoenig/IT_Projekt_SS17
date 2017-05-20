@@ -11,14 +11,14 @@ public class GetPersonalInformation extends Showcase{
 
 	@Override
 	protected String getHeadlineText() {
-		return "Persönliche Informationen";
+		return "Persï¿½nliche Informationen";
 	}
 
 	@Override
 	protected void run() {
-		this.append("Persönliche Informationen Ihres Profils:");
+		this.append("Persï¿½nliche Informationen Ihres Profils:");
 		
-		ProjektmarktplatzVerwaltungAsync pimpl = ClientsideSettings.getBankVerwaltung();
+		ProjektmarktplatzVerwaltungAsync pimpl = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 		pimpl.getPersonById(3, new ProfilInformationenCallback(this));
 	}
