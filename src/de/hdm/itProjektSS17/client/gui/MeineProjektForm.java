@@ -4,9 +4,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
@@ -24,13 +27,6 @@ public class MeineProjektForm extends Showcase{
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
-		Label lbl_valueProjektname = new Label();
-		Label lbl_valueBeschreibung = new Label();
-		Label lbl_valueStartdatum = new Label();
-		Label lbl_valueEnddatum = new Label();
-		Label lbl_valueProjektleiter = new Label();
-		Label lbl_valueProjektmarktplatz = new Label();
-		
 		
 		
 		HorizontalPanel panel_projekte = new HorizontalPanel();
@@ -44,32 +40,24 @@ public class MeineProjektForm extends Showcase{
 	//	btn_beteiligungen.addClickHandler();
 		panel_projekte.add(btn_beteiligungen);
 		
-		Grid projektGrid = new Grid(7 , 7);
-		this.add(projektGrid);
+		FlexTable ft_projekteAnzeigen = new FlexTable();
+		FlexCellFormatter cellFormatter = ft_projekteAnzeigen.getFlexCellFormatter();
+		ft_projekteAnzeigen.setWidth("32em");
+		ft_projekteAnzeigen.setCellSpacing(5);
+		ft_projekteAnzeigen.setCellPadding(3);
+		cellFormatter.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
 		
-		Label lbl_projektName = new Label("Projektname");
-		projektGrid.setWidget(1, 0, lbl_projektName);
-		projektGrid.setWidget(1, 1, lbl_valueProjektname);
+		ft_projekteAnzeigen.setText(0, 0, "Projektname");
+		ft_projekteAnzeigen.setText(0, 1, "Beschreibung");
+		ft_projekteAnzeigen.setText(0, 2, "Startdatum");
+		ft_projekteAnzeigen.setText(0, 3, "Enddaum");
+		ft_projekteAnzeigen.setText(0, 4, "Projektleiter");
+		ft_projekteAnzeigen.setText(0, 5, "Projektmarktplatz");
 		
-		Label lbl_beschreibung = new Label("Beschriebung");
-		projektGrid.setWidget(1, 1, lbl_beschreibung);
-		projektGrid.setWidget(2, 1, lbl_valueBeschreibung);
+		this.add(ft_projekteAnzeigen); 
 		
-		Label lbl_startdatum = new Label("Startdatum");
-		projektGrid.setWidget(1, 2, lbl_startdatum);
-		projektGrid.setWidget(3, 1, lbl_valueStartdatum);
 		
-		Label lbl_enddatum = new Label("Enddatum");
-		projektGrid.setWidget(1, 3, lbl_enddatum);
-		projektGrid.setWidget(4, 1, lbl_valueEnddatum);
 		
-		Label lbl_projektleiter = new Label("Projektleiter");
-		projektGrid.setWidget(1, 4, lbl_projektleiter);
-		projektGrid.setWidget(5, 1, lbl_valueProjektleiter);
-		
-		Label lbl_projektmarktplatz = new Label("Projektmarktplatz");
-		projektGrid.setWidget(1, 5, lbl_projektmarktplatz);
-		projektGrid.setWidget(6, 1, lbl_valueProjektmarktplatz);
 		
 		Button btn_projektAnlegen = new Button("Projekt anlegen");
 		btn_projektAnlegen.addClickHandler(new ClickHandler() {
