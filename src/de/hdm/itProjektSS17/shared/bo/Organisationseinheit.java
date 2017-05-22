@@ -7,7 +7,7 @@ public class Organisationseinheit extends BusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String straße;
+	private String strasse;
 	
 	private String hausnummer;
 	
@@ -26,10 +26,10 @@ public class Organisationseinheit extends BusinessObject {
 	
 	
 	public String getStrasse() {
-		return straße;
+		return strasse;
 	}
-	public void setStrasse(String straße) {
-		this.straße = straße;
+	public void setStrasse(String strasse) {
+		this.strasse = strasse;
 	}
 	public String getHausnummer() {
 		return hausnummer;

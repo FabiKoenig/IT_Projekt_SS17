@@ -35,6 +35,8 @@ public class GetPersonalInformation extends Showcase{
 		@Override
 		public void onFailure(Throwable caught) {
 			this.showcase.append("Informationen konnten nicht geladen werden");
+			this.showcase.append(caught.toString());
+			//aktuell
 		}
 
 		@Override
