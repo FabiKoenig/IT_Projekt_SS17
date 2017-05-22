@@ -3,6 +3,7 @@ package de.hdm.itProjektSS17.client;
 
 import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
+import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
@@ -171,7 +172,7 @@ public class Projektmarktplatz implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Showcase showcase = new GetPersonalInformation();
+				Showcase showcase = new OrganisationseinheitverwaltenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				
