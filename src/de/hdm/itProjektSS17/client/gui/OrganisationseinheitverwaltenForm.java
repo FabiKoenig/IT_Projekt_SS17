@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -31,10 +32,13 @@ public class OrganisationseinheitverwaltenForm extends Showcase {
 		HorizontalPanel panel_orgaverwalten = new HorizontalPanel();
 		this.add(panel_orgaverwalten);
 		
+		VerticalPanel panel_orgaverwaltenV = new VerticalPanel();
+		this.add(panel_orgaverwaltenV);
 		
 		Button btn_unternehmenerstellen = new Button("Unternehmen erstellen");
+		panel_orgaverwalten.add(btn_unternehmenerstellen);
+		
 		btn_unternehmenerstellen.addClickHandler(new ClickHandler() {
-			
 			@Override
 			public void onClick(ClickEvent event) {
 				
@@ -45,13 +49,13 @@ public class OrganisationseinheitverwaltenForm extends Showcase {
 				due.show();
 				
 			}
-		});
-		this.add(btn_unternehmenerstellen);
-		
+		});		
 		
 		
 		
 		Button btn_teamerstellen = new Button("Team erstellen");
+		panel_orgaverwalten.add(btn_teamerstellen);
+		
 		btn_teamerstellen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -64,6 +68,31 @@ public class OrganisationseinheitverwaltenForm extends Showcase {
 				dte.show();
 			}
 		});
-		this.add(btn_teamerstellen);
+		
+		
+		Button btn_unternehmenaustreten = new Button("Unternehmen austreten");
+		panel_orgaverwaltenV.add(btn_unternehmenaustreten);
+		
+		btn_unternehmenaustreten.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Button btn_teamaustreten = new Button("Team austreten");
+		panel_orgaverwaltenV.add(btn_teamaustreten);
+		
+		btn_teamaustreten.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+		
+			}
+		});
 	}
+
 }
