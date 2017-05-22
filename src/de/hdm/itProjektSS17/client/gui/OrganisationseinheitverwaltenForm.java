@@ -47,5 +47,23 @@ public class OrganisationseinheitverwaltenForm extends Showcase {
 			}
 		});
 		this.add(btn_unternehmenerstellen);
+		
+		
+		
+		
+		Button btn_teamerstellen = new Button("Team erstellen");
+		btn_teamerstellen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				DialogBoxTeamErstellen dte = new DialogBoxTeamErstellen();
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dte.setPopupPosition(left, top);
+				dte.show();
+			}
+		});
+		this.add(btn_teamerstellen);
 	}
 }
