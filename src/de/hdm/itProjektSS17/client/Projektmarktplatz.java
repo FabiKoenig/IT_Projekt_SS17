@@ -2,6 +2,7 @@ package de.hdm.itProjektSS17.client;
 
 
 import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
+import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
@@ -59,13 +60,13 @@ public class Projektmarktplatz implements EntryPoint {
 		});
 	    
 	    //Erstellen Projektmarktzplatz Button
-	    final Button findCustomerButtonProjektmarktplatz = new Button("Projektmarktplatz");
+	    final Button findNavButtonProjektmarktplatz = new Button("Projektmarktplatz");
 
-	    findCustomerButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
+	    findNavButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
 
-	    navPanel.add(findCustomerButtonProjektmarktplatz);
+	    navPanel.add(findNavButtonProjektmarktplatz);
 	   
-	    findCustomerButtonProjektmarktplatz.addClickHandler(new ClickHandler() {
+	    findNavButtonProjektmarktplatz.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -131,7 +132,7 @@ public class Projektmarktplatz implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Showcase showcase = new GetPersonalInformation();
+				Showcase showcase = new MeineBewerbungenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				
