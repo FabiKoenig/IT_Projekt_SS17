@@ -33,4 +33,5 @@ public class MeineBewerbungenForm extends VerticalPanel{
 	private FlexTable eigeneBewerbungenAnzeigenPanel = new FlexTable();
 	
 	
+	
 }

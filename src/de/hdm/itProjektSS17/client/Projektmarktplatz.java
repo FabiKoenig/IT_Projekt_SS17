@@ -1,5 +1,6 @@
 package de.hdm.itProjektSS17.client;
 
+import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
@@ -169,6 +170,26 @@ public class Projektmarktplatz implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				
 				Showcase showcase = new GetPersonalInformation();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				
+			}
+		});
+	    
+	    
+	    // Erstellen Person Button
+	    final Button findNavButtonProfil= new Button("Profil");
+
+	    findNavButtonProfil.setStylePrimaryName("projektmarktplatz-menubutton");
+
+	    navPanel.add(findNavButtonProfil);
+	    
+	    findNavButtonProfil.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Showcase showcase = new PersonProfilAnzeigenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				
