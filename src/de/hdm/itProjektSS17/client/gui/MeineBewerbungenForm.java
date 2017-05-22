@@ -49,10 +49,12 @@ public class MeineBewerbungenForm extends Showcase{
 
 	    // Put some text at the table's extremes.  This forces the table to be
 	    // 3 by 3.
-	    p.setText(0, 0, "Projekt");
-	    p.setText(0, 1, "Umfang");
-	    p.setText(0, 2, "Löschen");
-	    p.setText(0, 3, "Bearbeiten");
+	    p.setText(0, 0, "Ausschreibung");
+	    p.setText(0, 1, "Organisationseinheit");
+	    p.setText(0, 2, "Bewerbungstext");
+	    p.setText(0, 3, "Erstellt am:");
+	    p.setText(0, 4, "Löschen");
+	    p.setText(0, 5, "Bearbeiten");
 	    panel_bewerbung.add(p);
 	    // Add a button to remove this stock from the table.
 	  Button removeBewerbungButton = new Button("x");
@@ -63,7 +65,22 @@ public class MeineBewerbungenForm extends Showcase{
 	        p.removeRow(removedIndex + 1);*/
 	      }
 	    });
-	    p.setWidget(1, 2, removeBewerbungButton);
+	    p.setWidget(1, 4, removeBewerbungButton);
+	
+	 Button editBewerbungButton = new Button("Bearbeiten");
+	    editBewerbungButton.addClickHandler(new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	       /* int removedIndex =Bewerbung.indexOf(symbol);
+	        Bewerbung.deleteBewerbung(removedIndex);
+	        p.removeRow(removedIndex + 1);*/
+	    	 DialogBoxEditBewerbung dpa = new DialogBoxEditBewerbung();
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dpa.setPopupPosition(left, top);
+				dpa.show();
+	      }
+	    });
+	    p.setWidget(1, 5, editBewerbungButton);
 	}
 	
 	   /* Button btn_bewerbungAnlegen = new Button();
