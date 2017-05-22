@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.ibm.icu.text.SimpleDateFormat;
+
 
 import de.hdm.itProjektSS17.shared.bo.*;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
