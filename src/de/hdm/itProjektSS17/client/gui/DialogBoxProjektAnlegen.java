@@ -2,6 +2,8 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Date;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Button;
@@ -35,8 +37,24 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	
 	
 	Button btn_ok = new Button("OK");
-	//btn_ok.addClickHandler(new OkClickHandler());
+	btn_ok.addClickHandler(new ClickHandler() {
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			hide();
+			
+		}
+	});
 	
+	Button btn_abbrechen = new Button("Abbrechen");
+	btn_abbrechen.addClickHandler(new ClickHandler() {
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			hide();
+			
+		}
+	});
 	
 	HorizontalPanel hp1 = new HorizontalPanel();
 	Label lbl_projektname = new Label("Projektname: ");
@@ -75,10 +93,18 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	vp.add(hp4);
 	
 	//datepicker.setValue(new Date(), true);
-		
+	
+	HorizontalPanel hp5 = new HorizontalPanel();
+	Label lbl_projektmarktplatz = new Label("Projektmarktplatz: ");
 	ListBox projektmarktplatz = new ListBox();
+	hp5.add(lbl_projektmarktplatz);
+	hp5.add(projektmarktplatz);
+	vp.add(hp5);
 	
-	
+	HorizontalPanel hp6 = new HorizontalPanel();
+	hp6.add(btn_abbrechen);
+	hp6.add(btn_ok);
+	vp.add(hp6);
 	setWidget(vp);
 	
 	}
