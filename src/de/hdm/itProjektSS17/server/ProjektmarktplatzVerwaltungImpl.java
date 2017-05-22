@@ -1408,5 +1408,19 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 	
+	public Person getPersonByIdTest(int id){
+		Person p = new Person();
+		p.setAnrede("Herr");
+		p.setId(1);
+		p.setNachname("Koenig");
+		p.setVorname("Fabian");
+		p.setStrasse("Kernerstrasse");
+		p.setHausnummer("33a");
+		p.setOrt("Stuttgart");
+		p.setPlz(1234);
+		
+		return p;
+	}
+	
 
 }

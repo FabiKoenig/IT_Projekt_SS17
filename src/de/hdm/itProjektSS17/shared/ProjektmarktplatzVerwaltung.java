@@ -167,7 +167,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
-
+	public Person getPersonByIdTest(int id) throws IllegalArgumentException;
 	
 	
 }

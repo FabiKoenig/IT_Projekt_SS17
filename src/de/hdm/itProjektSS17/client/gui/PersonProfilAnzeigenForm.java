@@ -41,7 +41,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Mein Profil";
 	}
 
 	@Override
