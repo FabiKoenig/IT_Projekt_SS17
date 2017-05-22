@@ -50,7 +50,7 @@ public class MeineProjektForm extends Showcase{
 		ft_projekteAnzeigen.setText(0, 0, "Projektname");
 		ft_projekteAnzeigen.setText(0, 1, "Beschreibung");
 		ft_projekteAnzeigen.setText(0, 2, "Startdatum");
-		ft_projekteAnzeigen.setText(0, 3, "Enddaum");
+		ft_projekteAnzeigen.setText(0, 3, "Enddatum");
 		ft_projekteAnzeigen.setText(0, 4, "Projektleiter");
 		ft_projekteAnzeigen.setText(0, 5, "Projektmarktplatz");
 		
