@@ -1,5 +1,8 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -17,6 +20,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
+	
+	//Erstellen der Buttons
+	Button bearbeitenButton = new Button("Bearbeiten");
 	
 	
 	//Erstellen der Text- bzw. ListBoxen
@@ -79,8 +85,23 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		/**
 		 * Anfügen der FlexTable und des Buttons  an das Panel
 		 */
+	
+		vpanel.add(ftable);
+		vpanel.add(bearbeitenButton);
+		this.add(vpanel);
 		
-		this.add(ftable);
+		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		bearbeitenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				DialogBoxPersonProfilBearbeiten dbppb = new DialogBoxPersonProfilBearbeiten();
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dbppb.setPopupPosition(left, top);
+				dbppb.show();
+				
+			}
+		});
+		
 	
 	}
 	
@@ -99,7 +120,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			anredeBox.setText(result.getAnrede());
 			strasseBox.setText(result.getStrasse());
 			hausnrBox.setText(result.getHausnummer());
-			plzBox.setValue(null);
+			plzBox.setText(Integer.toString(result.getPlz()));
 			ortBox.setText(result.getOrt());
 			
 			
