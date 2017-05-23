@@ -60,6 +60,16 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			e.printStackTrace();
 		}
 		
+		//Setzen der Boxen auf ReadOnly
+		anredeBox.setReadOnly(true);
+		vnameBox.setReadOnly(true);
+		nnameBox.setReadOnly(true);
+		strasseBox.setReadOnly(true);
+		hausnrBox.setReadOnly(true);
+		plzBox.setReadOnly(true);
+		ortBox.setReadOnly(true);
+		
+	
 		ftable.setWidget(0, 1, anredeBox);
 		ftable.setWidget(0, 0, anredeLabel);
 

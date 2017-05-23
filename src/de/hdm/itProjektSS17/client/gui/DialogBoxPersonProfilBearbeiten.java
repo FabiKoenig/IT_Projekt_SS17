@@ -11,10 +11,12 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
+import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.bo.Person;
 
 public class DialogBoxPersonProfilBearbeiten extends DialogBox{
@@ -38,7 +40,6 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 	Label plzLabel = new Label("Postleitzahl");
 	Label ortLabel = new Label("Ort");
 	
-	
 	public DialogBoxPersonProfilBearbeiten(){
 		
 		
@@ -50,6 +51,10 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 		//Anlegen der Buttons
 		Button abbrechenButton = new Button("Abbrechen");
 		Button speichernButton = new Button("Speichern");
+		
+		//Hinzufügen der Inhalte der ListBox
+		anredeBox.addItem("Herr");
+		anredeBox.addItem("Frau");
 		
 		//Hinzufügen der Labels und Boxen zur FlexTable
 		ftable.setWidget(0, 1, anredeBox);
@@ -82,12 +87,11 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 		
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				try {
+				
 					ClientsideSettings.getProjektmarktplatzVerwaltung().
 					getPersonById(3, new ProfilBearbeitenCallback());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					hide();
+			
 			}
 		});
 		
@@ -119,7 +123,11 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 			result.setStrasse(strasseBox.getText());
 			result.setVorname(vnameBox.getText());
 			
-		ClientsideSettings.getProjektmarktplatzVerwaltung().savePerson(result, new PersonSpeichernCallback());
+			ClientsideSettings.getProjektmarktplatzVerwaltung().savePerson(result, new PersonSpeichernCallback());
+		
+			Showcase showcase = new PersonProfilAnzeigenForm();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(showcase);
 			
 		}
 		
@@ -133,7 +141,7 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 		}
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("Das Profil wurde erfolgreich gespeichert.");
+			Window.alert("Das Profil wurde erfolgreich geändert.");
 			
 		}
 		
