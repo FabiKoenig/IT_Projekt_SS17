@@ -6,10 +6,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
@@ -20,6 +22,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
+	private HorizontalPanel hPanel = new HorizontalPanel();
 	
 	//Erstellen der Buttons
 	Button bearbeitenButton = new Button("Bearbeiten");
@@ -55,7 +58,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 		try {
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getPersonById(8, new ProfilAnzeigenCallback());
+			.getPersonById(3, new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,10 +98,13 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		/**
 		 * Anfügen der FlexTable und des Buttons  an das Panel
 		 */
-	
+		vpanel.setSpacing(8);
 		vpanel.add(ftable);
 		vpanel.add(bearbeitenButton);
-		this.add(vpanel);
+		hPanel.add(vpanel);
+		hPanel.add(new PartnerprofilEigenschaftenForm());
+		this.add(hPanel);
+		
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {
@@ -108,11 +114,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				int top = Window.getClientHeight() / 8;
 				dbppb.setPopupPosition(left, top);
 				dbppb.show();
-				
+	
 			}
 		});
-		
-	
 	}
 	
 	private class ProfilAnzeigenCallback implements AsyncCallback<Person> {
@@ -135,7 +139,5 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			
 			
 		}
-		
 	}
-
 }
