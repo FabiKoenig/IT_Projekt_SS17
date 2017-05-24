@@ -55,7 +55,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 		try {
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getPersonById(3, new ProfilAnzeigenCallback());
+			.getPersonById(8, new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

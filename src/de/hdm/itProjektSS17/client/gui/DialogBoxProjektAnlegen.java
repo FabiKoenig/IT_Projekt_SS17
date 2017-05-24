@@ -1,27 +1,22 @@
 package de.hdm.itProjektSS17.client.gui;
 
-import java.util.Date;
+
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
@@ -37,38 +32,33 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	FlexTable ft_projektErstellen = new FlexTable();
-	VerticalPanel vp = new VerticalPanel();
 	Button btn_ok = new Button("OK");
 	Button btn_abbrechen = new Button("Abbrechen");
-	HorizontalPanel hp1 = new HorizontalPanel();
 	Label lbl_projektname = new Label("Projektname: ");
 	TextBox txt_projektname = new TextBox();
-	HorizontalPanel hp2 = new HorizontalPanel();
 	Label lbl_beschreibung = new Label("Beschreibung: ");
 	TextArea txta_beschreibung = new TextArea();
-	HorizontalPanel hp3 = new HorizontalPanel();
 	Label lbl_startdatum = new Label("Startdatum: ");
 	DateBox db_startdatum = new DateBox();
-	HorizontalPanel hp4 = new HorizontalPanel();
 	Label lbl_enddatum = new Label("Enddatum: ");
 	DateBox db_enddatum = new DateBox();
 	DatePicker datepicker = new DatePicker();
-	HorizontalPanel hp5 = new HorizontalPanel();
 	Label lbl_projektmarktplatz = new Label("Projektmarktplatz: ");
 	ListBox lb_projektmarktplatz = new ListBox();
-	HorizontalPanel hp6 = new HorizontalPanel();
+	HorizontalPanel hp = new HorizontalPanel();
 	
 	public DialogBoxProjektAnlegen() {
-		
 
+	
 	this.setText("Projekt anlegen...");
 	this.setAnimationEnabled(false);
 	this.setGlassEnabled(true);
 	
 
-	vp.setPixelSize(400, 600);
-	vp.setSpacing(10);
-	vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+	hp.add(btn_ok);
+	hp.add(btn_abbrechen);
+	
+	
 	
 	
 	
@@ -98,49 +88,42 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	
 	
 	txt_projektname.getElement().setPropertyString("placeholder", "Projektname");
-	hp1.add(lbl_projektname);
-	hp1.add(txt_projektname);
-	vp.add(hp1);
+
 	
 	
 	txta_beschreibung.setPixelSize(200, 200);
 	txta_beschreibung.getElement().setPropertyString("placeholder", "Geben Sie die Beschreibung zum Projekt ein.");
-	hp2.add(lbl_beschreibung);
-	hp2.add(txta_beschreibung);
-	vp.add(hp2);
+	
 	
 	
 	DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
 	
 	
 	db_startdatum.setFormat(new DateBox.DefaultFormat(dateformat));
-	hp3.add(lbl_startdatum);
-	hp3.add(db_startdatum);
-	vp.add(hp3);
+	
 	
 	
 	db_enddatum.setFormat(new DateBox.DefaultFormat(dateformat));
-	hp4.add(lbl_enddatum);
-	hp4.add(db_enddatum);
-	vp.add(hp4);
+	
 	
 	//datepicker.setValue(new Date(), true);
 	
-	
-	hp5.add(lbl_projektmarktplatz);
-	hp5.add(lb_projektmarktplatz);
-	vp.add(hp5);
-	
-	
-	hp6.add(btn_abbrechen);
-	hp6.add(btn_ok);
-	vp.add(hp6);
-	
 	projektmarktplatzVerwaltung.getPersonById(8, new GetPersonCallback());
 	
+	ft_projektErstellen.setWidget(1, 0, lbl_projektname);
+	ft_projektErstellen.setWidget(1, 1, txt_projektname);
+	ft_projektErstellen.setWidget(2, 0, lbl_beschreibung);
+	ft_projektErstellen.setWidget(2, 1, txta_beschreibung);
+	ft_projektErstellen.setWidget(3, 0, lbl_startdatum);
+	ft_projektErstellen.setWidget(3, 1, db_startdatum);
+	ft_projektErstellen.setWidget(4, 0, lbl_enddatum);
+	ft_projektErstellen.setWidget(4, 1, db_enddatum);
+	ft_projektErstellen.setWidget(5, 0, lbl_projektmarktplatz);
+	ft_projektErstellen.setWidget(5, 1, lb_projektmarktplatz);
 	
+	ft_projektErstellen.setWidget(7, 1, hp);
 	
-	setWidget(vp);
+	setWidget(ft_projektErstellen);
 	
 	}
 	
@@ -148,7 +131,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Projektmarktpl�tze ist fehlgeschlagen!");
+			Window.alert("Das Anzeigen der Projektmarktplätze ist fehlgeschlagen!");
 			
 		}
 
@@ -218,14 +201,14 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("Das Hinzuf�gen des Projekts ist fehlgeschlagen!");
+			Window.alert("Das Hinzufügen des Projekts ist fehlgeschlagen!");
 		}
 
 		@Override
 		public void onSuccess(Projekt result) {
 			
 
-			Window.alert("Projekt erfolgreich hinzugef�gt!");
+			Window.alert("Projekt erfolgreich hinzugefügt!");
 		}
 		
 	}
@@ -233,4 +216,3 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	
 	
 }
-
