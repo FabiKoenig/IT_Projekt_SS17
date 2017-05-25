@@ -5,26 +5,38 @@ import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
 import de.hdm.itProjektSS17.client.gui.StellenauschreibungForm;
 import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
+
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 
+import com.google.appengine.api.images.Composite.Anchor;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point Klasse des Projektmarktplatzes. Dafür benötigen wir die Methode
@@ -32,8 +44,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class Projektmarktplatz implements EntryPoint {
 
+	
+	// private final CwConstants constants;
+	 
 	@Override
 	public void onModuleLoad() {
+		
+	 
 		
 		//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 		
@@ -45,172 +62,182 @@ public class Projektmarktplatz implements EntryPoint {
 	    //TopPanel für Logut
 	    VerticalPanel topPanel = new VerticalPanel();
 	    RootPanel.get("Header").add(topPanel);
-	    //Erstellen Projektmarktzplatz Button
-	    final Button Logut = new Button("Logout");
+	 
 
-	    Logut.setStylePrimaryName("projektmarktplatz-logout");
 
-	    navPanel.add(Logut);
 	   
-	    Logut.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				///Session beenden
-			}
-		});
 	    
-	    //Erstellen Projektmarktzplatz Button
-	    final Button findNavButtonProjektmarktplatz = new Button("Projektmarktplatz");
-
-	    findNavButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonProjektmarktplatz);
-	   
-	    findNavButtonProjektmarktplatz.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new GetPersonalInformation();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    // Erstellen Startseite Button
-	    final Button findNavButtonStartseite = new Button("Startseite");
-
-	    findNavButtonStartseite.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonStartseite);
-	    
-	    findNavButtonStartseite.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new GetPersonalInformation();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    
-	    
-	    
-	    // Erstellen Stellenausschreibung Button
-	    final Button findNavButtonStellenausschreibung = new Button("Stellenausschreibung");
-
-	    findNavButtonStellenausschreibung.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonStellenausschreibung);
-	    
-	    findNavButtonStellenausschreibung.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new StellenauschreibungForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    
-	    // Erstellen Stellenausschreibung Button
-	    final Button findNavButtonMeineBewerbung = new Button("Meine Bewerbung");
-
-	    findNavButtonMeineBewerbung.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonMeineBewerbung);
-	    
-	    findNavButtonMeineBewerbung.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new MeineBewerbungenForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    
-	    
-	    // Erstellen Meine Projekte Button
-	    final Button findNavButtonMeineProjekte = new Button("Meine Projekte");
-
-	    findNavButtonMeineProjekte.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonMeineProjekte);
-	    
-	    findNavButtonMeineProjekte.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new MeineProjektForm();
-				
-				
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-				
-			}
-		});
-	    
-	    
-	    // Erstellen Organisationseinheit Button
-	    final Button findNavButtonOrganisationseinheit= new Button("Organisationseinheit");
-
-	    findNavButtonOrganisationseinheit.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonOrganisationseinheit);
-	    
-	    findNavButtonOrganisationseinheit.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new OrganisationseinheitverwaltenForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    
-	    // Erstellen Person Button
-	    final Button findNavButtonProfil= new Button("Profil");
-
-	    findNavButtonProfil.setStylePrimaryName("projektmarktplatz-menubutton");
-
-	    navPanel.add(findNavButtonProfil);
-	    
-	    findNavButtonProfil.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Showcase showcase = new PersonProfilAnzeigenForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
-				
-			}
-		});
-	    
-	    
+//	    //Erstellen Projektmarktzplatz Button
+//	    final Button Logut = new Button("Logout");
+//
+//	    Logut.setStylePrimaryName("projektmarktplatz-logout");
+//
+//	    navPanel.add(Logut);
+//	   
+//	    Logut.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				///Session beenden
+//			}
+//		});
+//	    
+//	    //Erstellen Projektmarktzplatz Button
+//	    final Button findNavButtonProjektmarktplatz = new Button("Projektmarktplatz");
+//
+//	    findNavButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonProjektmarktplatz);
+//	   
+//	    findNavButtonProjektmarktplatz.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new GetPersonalInformation();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    // Erstellen Startseite Button
+//	    final Button findNavButtonStartseite = new Button("Startseite");
+//
+//	    findNavButtonStartseite.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonStartseite);
+//	    
+//	    findNavButtonStartseite.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new GetPersonalInformation();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    
+//	    
+//	    // Erstellen Stellenausschreibung Button
+//	    final Button findNavButtonStellenausschreibung = new Button("Stellenausschreibung");
+//
+//	    findNavButtonStellenausschreibung.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonStellenausschreibung);
+//	    
+//	    findNavButtonStellenausschreibung.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new StellenauschreibungForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    // Erstellen Stellenausschreibung Button
+//	    final Button findNavButtonMeineBewerbung = new Button("Meine Bewerbung");
+//
+//	    findNavButtonMeineBewerbung.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonMeineBewerbung);
+//	    
+//	    findNavButtonMeineBewerbung.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new MeineBewerbungenForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    
+//	    // Erstellen Meine Projekte Button
+//	    final Button findNavButtonMeineProjekte = new Button("Meine Projekte");
+//
+//	    findNavButtonMeineProjekte.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonMeineProjekte);
+//	    
+//	    findNavButtonMeineProjekte.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new MeineProjektForm();
+//				
+//				
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//				
+//			}
+//		});
+//	    
+//	    
+//	    // Erstellen Organisationseinheit Button
+//	    final Button findNavButtonOrganisationseinheit= new Button("Organisationseinheit");
+//
+//	    findNavButtonOrganisationseinheit.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonOrganisationseinheit);
+//	    
+//	    findNavButtonOrganisationseinheit.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new OrganisationseinheitverwaltenForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    // Erstellen Person Button
+//	    final Button findNavButtonProfil= new Button("Profil");
+//
+//	    findNavButtonProfil.setStylePrimaryName("projektmarktplatz-menubutton");
+//
+//	    navPanel.add(findNavButtonProfil);
+//	    
+//	    findNavButtonProfil.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//				Showcase showcase = new PersonProfilAnzeigenForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(showcase);
+//				
+//			}
+//		});
+//	    
+//	    
+//	    
+//	    
 	    
 	    
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
 	
 	}
+	
+	
 	
 	
 }
