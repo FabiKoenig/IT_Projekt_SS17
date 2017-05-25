@@ -8,11 +8,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -21,7 +19,6 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
-import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 
 
 public class MeineProjektForm extends Showcase{
