@@ -1300,6 +1300,7 @@ implements ProjektmarktplatzVerwaltung {
 		return organisationseinheiten;
 	}
 
+	//Liefert ein Organisationseinheit anhand der übergebenen orgaId zurück
 	public Organisationseinheit getOrganisationseinheitById(int orgaId){
 		
 		Person p = personMapper.findById(orgaId);
@@ -1317,6 +1318,15 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		else return null;
 	}
+	
+	
+	//Methode um alle Projektmarktplätze aus der Datenbank auszugeben
+	public Vector<Projektmarktplatz> getAllProjektmarktplatz(){
+		
+		Vector<Projektmarktplatz> projektmarktplatz = projektmarktplatzMapper.findAll();
+		return projektmarktplatz;
+	}
+	
 	
 	/**
 	 * Gibt alle Ausschreibungen zu dem übergebenen Projekt-Objekt zurück.

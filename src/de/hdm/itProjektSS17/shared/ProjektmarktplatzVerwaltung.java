@@ -171,6 +171,6 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Organisationseinheit getOrganisationseinheitById(int orgaId) throws IllegalArgumentException;
 
-	
+	public Vector<Projektmarktplatz> getAllProjektmarktplatz() throws IllegalArgumentException;
 }
 
