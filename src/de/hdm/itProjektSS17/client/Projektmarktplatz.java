@@ -5,6 +5,8 @@ import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
 import de.hdm.itProjektSS17.client.gui.StellenauschreibungForm;
 import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
+import de.hdm.itProjektSS17.client.gui.Navigation;
+import de.hdm.itProjektSS17.client.gui.Navigation2;
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -12,6 +14,7 @@ import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -40,6 +43,7 @@ public class Projektmarktplatz implements EntryPoint {
 	    VerticalPanel navPanel = new VerticalPanel();
 
 	    RootPanel.get("Navigator").add(navPanel);
+	    RootPanel.get("Navigator").add(new Navigation());
 		
 	    
 	    //TopPanel für Logut
