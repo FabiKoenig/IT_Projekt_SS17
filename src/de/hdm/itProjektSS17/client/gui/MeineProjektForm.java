@@ -258,7 +258,7 @@ public class MeineProjektForm extends Showcase{
 //		
 //		this.add(table);
 	
-		projektmarktplatzVerwaltung.getPersonById(6, new AsyncCallback<Person>() {
+		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
