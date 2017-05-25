@@ -45,18 +45,20 @@
 	
 .projektmarktplatz-logout{
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 25px;
+	right: 25px;
+	backgroundcolor: #e3e9f5;
 	
 }
 
 .IdentityPanel {
-    position: absolute;
-    right: 0px;
+	/*position: absolute; */
+	/*right: 0px; */
 	float: right;
-	border: 1px solid black;
-	background-color: #DF013A;
-	border-radius: 10px;
+	background-color: #117ada;
+	position: absolute;
+	right: 20px;
+	top: 50px;
 }
 
 div#TopLevelFrame {
@@ -87,7 +89,7 @@ div#TopLevelFrame {
 
 
 #Trailer {
-	background-color:#b30000;
+	background-color:#117ada;
 	border-bottom: dotted silver;
 	border-left: dotted silver;
 	border-right: dotted silver;
@@ -99,7 +101,7 @@ div#TopLevelFrame {
 
 
 #Header{
-	background-color:#b30000;
+	background-color:#117ada;
     color:white;
     text-align:center;
     padding:2px;
@@ -140,6 +142,27 @@ div#TopLevelFrame {
 	-moz-border-radius: 3px;
 }
 
+.navi-button:hover {
+	background: #d7d7d7;
+	color: #000;
+	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	-moz-box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	text-decoration: none;
+}
+
+.navi-button.aktiv {
+	background: #d7d7d7;
+	color: #000000;
+	font-size: 15px;
+	padding: 5px 15px 5px 15px;
+	text-decoration: none;
+	margin-left: 15px;
+	margin-right: 15px;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
@@ -159,71 +182,17 @@ div#TopLevelFrame {
 }
 
 
-.gwt-DecoratedStackPanel {
-  border-bottom: 1px solid #bb0f00;
-}
-.gwt-DecoratedStackPanel .gwt-StackPanelContent {
-  border: 1px solid #bbbbbb;
-  border-bottom: 0px;
-  background: white;
-  padding: 2px 2px 10px 5px;
-}
-.gwt-DecoratedStackPanel .gwt-StackPanelItem {
-  cursor: pointer;
-  cursor: hand;
-}
-.gwt-DecoratedStackPanel .stackItemTopLeft,
-.gwt-DecoratedStackPanel .stackItemTopRight {
-  height: 6px;
-  width: 6px;
-  zoom: 1;
-}
-.gwt-DecoratedStackPanel .stackItemTopLeft {
-  border-left: 1px solid #bbbbbb;
-}
-.gwt-DecoratedStackPanel .stackItemTopRight {
-  border-right: 1px solid #bbbbbb;
-}
-.gwt-DecoratedStackPanel .stackItemTopLeftInner,
-.gwt-DecoratedStackPanel .stackItemTopRightInner {
-  width: 1px;
-  height: 1px;
-}
-.gwt-DecoratedStackPanel .stackItemTopCenter {
-}
-.gwt-DecoratedStackPanel .stackItemMiddleLeft {
-  border-left: 1px solid #bbbbbb;
-}
-.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,
-.gwt-DecoratedStackPanel .stackItemMiddleRightInner {
-  width: 1px;
-  height: 1px;
-}
-.gwt-DecoratedStackPanel .stackItemMiddleRight {
-  border-right: 1px solid #bbbbbb;
-}
-.gwt-DecoratedStackPanel .stackItemMiddleCenter {
-  font-weight: bold;
-  font-size: 1.3em;
-}
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft {
-  border: 0px;
-  background-color: white;
-}
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight {
-  background-color: white;
-}
-html>body .gwt-DecoratedStackPanel {
-}
-* html .gwt-DecoratedStackPanel .stackItemTopLeftInner,
-* html .gwt-DecoratedStackPanel .stackItemTopRightInner {
-  width: 6px;
-  height: 6px;
-  overflow: hidden;
+.gwt-StackPanel .gwt-StackPanelItem {
+    font-weight: normal;
+    font-size: 8pt;
+    width: 100%;
+    background: green;
 }
 
+
+.gwt-StackPanel .gwt-StackPanelItem-selected {
+    background-color: red;
+}
 
 
 
