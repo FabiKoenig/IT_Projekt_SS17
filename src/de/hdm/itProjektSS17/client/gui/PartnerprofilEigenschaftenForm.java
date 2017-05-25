@@ -3,6 +3,8 @@ package de.hdm.itProjektSS17.client.gui;
 import java.util.Vector;
 
 import com.google.appengine.tools.admin.VerificationCodeReceiverRedirectUriException;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -40,10 +42,12 @@ public class PartnerprofilEigenschaftenForm extends VerticalPanel{
 	public PartnerprofilEigenschaftenForm(){
 		
 		projektmarktplatzVerwaltung.getPersonById(3, new PersonCallback());
-		this.setSpacing(8);
-		this.add(eigenschaftenTable);
 		buttonPanel.add(addEigenschaftenButton);
 		this.add(buttonPanel);
+		this.setSpacing(8);
+		this.add(eigenschaftenTable);
+		
+		
 	}
 	
 	public class GetPartnerProfilCallback implements AsyncCallback<Partnerprofil>{
@@ -76,6 +80,7 @@ public class PartnerprofilEigenschaftenForm extends VerticalPanel{
 				for (Eigenschaft eigenschaft: result){
 					int row = eigenschaftenTable.getRowCount();
 					TextBox textbox = new TextBox();
+					
 					textbox.setText(eigenschaft.getWert());
 					textbox.setReadOnly(true);
 					
@@ -106,6 +111,7 @@ public class PartnerprofilEigenschaftenForm extends VerticalPanel{
 			}			
 		}
 	}
+	
 	
 
 	

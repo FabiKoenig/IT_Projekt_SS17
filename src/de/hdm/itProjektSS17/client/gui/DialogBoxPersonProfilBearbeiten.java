@@ -52,6 +52,10 @@ public class DialogBoxPersonProfilBearbeiten extends DialogBox{
 		Button abbrechenButton = new Button("Abbrechen");
 		Button speichernButton = new Button("Speichern");
 		
+		//Anpassen der DialogBox
+		this.setTitle("Personendaten bearbeiten:");
+		this.setPixelSize(getAbsoluteTop(), getOffsetHeight());
+		
 		//Hinzufügen der Inhalte der ListBox
 		anredeBox.addItem("Herr");
 		anredeBox.addItem("Frau");

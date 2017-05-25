@@ -99,8 +99,8 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		 * Anfügen der FlexTable und des Buttons  an das Panel
 		 */
 		vpanel.setSpacing(8);
-		vpanel.add(ftable);
 		vpanel.add(bearbeitenButton);
+		vpanel.add(ftable);
 		hPanel.add(vpanel);
 		hPanel.add(new PartnerprofilEigenschaftenForm());
 		this.add(hPanel);
