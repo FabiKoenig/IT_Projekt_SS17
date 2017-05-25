@@ -12,7 +12,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -33,6 +35,7 @@ public class IdentityMarketChoice extends FlexTable{
 	private static Projektmarktplatz projektmarktplatz;
 	private static Vector<Projektmarktplatz> projektmarktplaetze;
 	
+	
 	private IdentityMarketChoice (int id){
 		
 		this.setWidget(1, 0, new Label("Nutze Identität von: "));		
@@ -43,6 +46,17 @@ public class IdentityMarketChoice extends FlexTable{
 		cellFormatter.setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
+		
+		
+//		ownOrgUnits.addChangeHandler(new ChangeHandler() {
+//			
+//			public void onChange(ChangeEvent event) {
+//				Widget w = RootPanel.get("Details").getWidget(1);
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(w);
+//				
+//			}
+//		});
 	}
 	
 	public static IdentityMarketChoice getNavigation(int id){
@@ -53,6 +67,29 @@ public class IdentityMarketChoice extends FlexTable{
 		return navigation;
 	}
 	
+	
+	//reload der Seite nach wechseln in der OrgaUnitsBox
+	public static void reload(){
+		ownOrgUnits.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				Widget w = RootPanel.get("Details").getWidget(1);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(w);
+				
+			}
+		});
+	}
+	
+	public static int getSelectedIndex(){
+		
+		int selectedIdentity = ownOrgUnits.getSelectedIndex();
+		
+		return selectedIdentity;
+	}
+	
+	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
 	public static int getSelectedIdentityId(){
 		int selectedIdentity = ownOrgUnits.getSelectedIndex();
 		if(ownOrgUnits.getSelectedIndex()==0){
