@@ -113,7 +113,7 @@ public class EigenschaftMapper {
 			       e.setName(rs.getString("Name"));
 			       e.setWert(rs.getString("Wert"));
 			       e.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
-			       eObj.addElement(e);
+			       eObj.add(e);
 		      }
 		   
 		    }

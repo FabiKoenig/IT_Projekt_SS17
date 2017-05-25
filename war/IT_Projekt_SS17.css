@@ -53,48 +53,54 @@
 div#TopLevelFrame {
 	max-width: 1280px;
 	min-width: 1200px;
-	
-
  }
+ 
 
-
-div#Navigator {
-	max-height: 6000px;
-	overflow:scroll;
-	border-width: 3px;
+#Navigator{
 	
-
+	line-height:30px;
+    background-color:#eeeeee;
+    height:600px;
+    width:250px;
+    float:left;
+    padding:5px;
+    border-left: dotted silver;
 }
 
-div#Details {
-	padding: 4em 1em;
-	
 
+#Details{
+	width:auto;
+    height:auto;
+    float:left;
+    padding:10px;
+    border-rigth: dotted silver;
 }
 
-div#Trailer {
-	clear: both;
-	padding: 10px 0;
-	margin-bottom: 0 auto;      /* standardkonforme horizontale Zentrierung */
-	border-top: 1px dashed silver;
-	font-size: 100%;
-	text-align: center;
-	
-	background: #DF013A;
+
+#Trailer {
+	background-color:#b30000;
+	border-bottom: dotted silver;
+	border-left: dotted silver;
+	border-right: dotted silver;
+    color:white;
+    clear:both;
+    text-align:center;
+   	padding:5px;	
 }
 
-div#Header{
-	font-size: 12pt;
-	font-weight: bold;
-	color: DF013A;
-	margin: 0px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-	text-align: center;
-	background: #DF013A
-	
-	
+
+#Header{
+	background-color:#b30000;
+    color:white;
+    text-align:center;
+    padding:2px;
+    height:120px;
+    width:auto;	
+    border-top: dotted silver;
+    border-left: dotted silver;
+    border-rigt: dotted silver;
 }
+
 
 /**
 	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.

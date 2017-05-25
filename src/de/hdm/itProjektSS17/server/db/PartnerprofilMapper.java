@@ -141,7 +141,7 @@ public class PartnerprofilMapper {
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
 	  
-	  //Die Methode benötigt kein übergebenes Partnerprofil, da die Attribute eines neuen Partnerprofils ohnehin
+	  //Die Methode benï¿½tigt kein ï¿½bergebenes Partnerprofil, da die Attribute eines neuen Partnerprofils ohnehin
 	  //automatisch gesetzt werden.
 	  public Partnerprofil insert(){
 		//Anlegen eines neuen Partnerprofil-Objekts.

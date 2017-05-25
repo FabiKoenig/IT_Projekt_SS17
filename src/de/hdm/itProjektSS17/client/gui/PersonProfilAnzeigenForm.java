@@ -1,12 +1,17 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
@@ -17,6 +22,10 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
+	private HorizontalPanel hPanel = new HorizontalPanel();
+	
+	//Erstellen der Buttons
+	Button bearbeitenButton = new Button("Bearbeiten");
 	
 	
 	//Erstellen der Text- bzw. ListBoxen
@@ -41,7 +50,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Mein Profil";
 	}
 
 	@Override
@@ -49,11 +58,21 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 		try {
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getPersonById(8, new ProfilAnzeigenCallback());
+			.getPersonById(3, new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		//Setzen der Boxen auf ReadOnly
+		anredeBox.setReadOnly(true);
+		vnameBox.setReadOnly(true);
+		nnameBox.setReadOnly(true);
+		strasseBox.setReadOnly(true);
+		hausnrBox.setReadOnly(true);
+		plzBox.setReadOnly(true);
+		ortBox.setReadOnly(true);
+		
+	
 		ftable.setWidget(0, 1, anredeBox);
 		ftable.setWidget(0, 0, anredeLabel);
 
@@ -79,9 +98,25 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		/**
 		 * Anfügen der FlexTable und des Buttons  an das Panel
 		 */
+		vpanel.setSpacing(8);
+		vpanel.add(bearbeitenButton);
+		vpanel.add(ftable);
+		hPanel.add(vpanel);
+		hPanel.add(new PartnerprofilEigenschaftenForm());
+		this.add(hPanel);
 		
-		this.add(ftable);
+		
+		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		bearbeitenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				DialogBoxPersonProfilBearbeiten dbppb = new DialogBoxPersonProfilBearbeiten();
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dbppb.setPopupPosition(left, top);
+				dbppb.show();
 	
+			}
+		});
 	}
 	
 	private class ProfilAnzeigenCallback implements AsyncCallback<Person> {
@@ -99,12 +134,10 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			anredeBox.setText(result.getAnrede());
 			strasseBox.setText(result.getStrasse());
 			hausnrBox.setText(result.getHausnummer());
-			plzBox.setValue(null);
+			plzBox.setText(Integer.toString(result.getPlz()));
 			ortBox.setText(result.getOrt());
 			
 			
 		}
-		
 	}
-
 }

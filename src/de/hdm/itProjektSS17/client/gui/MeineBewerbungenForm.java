@@ -5,12 +5,15 @@ import java.util.Vector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
@@ -27,10 +30,15 @@ import de.hdm.itProjektSS17.shared.bo.*;
  *
  */
 public class MeineBewerbungenForm extends Showcase{
-
+	
+	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
+	FlexTable ft_Bewerbung = new FlexTable();
 	
 	protected String getHeadlineText(){
 		return "Meine Bewerbungen";
+		
+
 	}
 	
 	
@@ -44,18 +52,26 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		HorizontalPanel panel_bewerbung = new HorizontalPanel();
 		this.add(panel_bewerbung);
+		
+		
+		FlexCellFormatter cellFormatterBewerbung = ft_Bewerbung .getFlexCellFormatter();
+		ft_Bewerbung.setWidth("32em");
+		ft_Bewerbung.setCellSpacing(5);
+		ft_Bewerbung.setCellPadding(3);
+		cellFormatterBewerbung.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
+		
 		// Tables have no explicit size -- they resize automatically on demand.
-	    FlexTable p = new FlexTable();
-
+	    FlexTable ft_Bewerbung = new FlexTable();
+	    
 	    // Put some text at the table's extremes.  This forces the table to be
 	    // 3 by 3.
-	    p.setText(0, 0, "Ausschreibung");
-	    p.setText(0, 1, "Organisationseinheit");
-	    p.setText(0, 2, "Bewerbungstext");
-	    p.setText(0, 3, "Erstellt am:");
-	    p.setText(0, 4, "Löschen");
-	    p.setText(0, 5, "Bearbeiten");
-	    panel_bewerbung.add(p);
+	    ft_Bewerbung.setText(0, 0, "Ausschreibung");
+	    ft_Bewerbung.setText(0, 1, "Bewerbungstext");
+	    ft_Bewerbung.setText(0, 2, "Erstellungsdatum");
+	    ft_Bewerbung.setText(0, 3, "Bewerbungsstatus");
+	    ft_Bewerbung.setText(0, 4, "Löschen");
+	    ft_Bewerbung.setText(0, 5, "Bearbeiten");
+	    panel_bewerbung.add(ft_Bewerbung);
 	    // Add a button to remove this stock from the table.
 	  Button removeBewerbungButton = new Button("x");
 	    removeBewerbungButton.addClickHandler(new ClickHandler() {
@@ -65,7 +81,7 @@ public class MeineBewerbungenForm extends Showcase{
 	        p.removeRow(removedIndex + 1);*/
 	      }
 	    });
-	    p.setWidget(1, 4, removeBewerbungButton);
+	    ft_Bewerbung.setWidget(1, 4, removeBewerbungButton);
 	
 	 Button editBewerbungButton = new Button("Bearbeiten");
 	    editBewerbungButton.addClickHandler(new ClickHandler() {
@@ -80,10 +96,92 @@ public class MeineBewerbungenForm extends Showcase{
 				dpa.show();
 	      }
 	    });
-	    p.setWidget(1, 5, editBewerbungButton);
+	    ft_Bewerbung.setWidget(1, 5, editBewerbungButton);
+		projektmarktplatzVerwaltung.getPersonById(3, new PersonCallback());
+		
 	}
 	
-	   /* Button btn_bewerbungAnlegen = new Button();
+	private class PersonCallback implements AsyncCallback<Person> {	   
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			Window.alert("Das Anzeigen Person ist fehlgeschlagen!");
+			
+		}
+		
+		@Override
+		public void onSuccess(Person result) {
+			
+			if (result != null) {
+				ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+				projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());
+			}
+			
+		}
+	}
+	
+	private class BewerbungAnzeigenCallback implements AsyncCallback<Vector<Bewerbung>>	{
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			Window.alert("Das Anzeigen der Projekte der Person ist fehlgeschlagen!");
+			
+		}
+		@Override
+		public void onSuccess(Vector<Bewerbung> result) {
+			
+		for (Bewerbung bewerbung : result) {
+		ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+		
+		projektmarktplatzVerwaltung.getAusschreibungById(bewerbung.getAusschreibungId(), new AusschreibungAnzeigenCallback(bewerbung));
+		}
+	}
+	
+	private class AusschreibungAnzeigenCallback implements AsyncCallback <Ausschreibung>{
+		
+		private Bewerbung  b = null;
+		
+		public AusschreibungAnzeigenCallback(Bewerbung b) {
+			this.b= b;
+		}
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			Window.alert("Das Anzeigen der Projekte der Person ist fehlgeschlagen!");
+			
+		}
+		@Override
+		public void onSuccess(Ausschreibung result) {
+			int row = ft_Bewerbung.getRowCount();
+			if (result != null) {
+				ft_Bewerbung.setWidget(row + 1, 0, new Label(result.getBezeichnung()));
+				ft_Bewerbung.setWidget(row + 1, 1, new Label(b.getBewerbungstext()));
+				ft_Bewerbung.setWidget(row + 1, 2, new Label(b.getErstellungsdatum().toString()));
+				ft_Bewerbung.setWidget(row + 1, 3, new Label(b.getStatus().toString()));
+			}
+		}
+		
+	}
+		
+		
+		
+		
+		/*			
+			int row = ft_Bewerbung.getRowCount();
+			if (result != null) {
+			ft_Bewerbung.setWidget(row + 1, 0, new Label(bewerbung.getAusschreibungId());
+			ft_Bewerbung.setWidget(row + 1, 1, new Label(bewerbung.getBewerbungstext()));
+			ft_Bewerbung.setWidget(row + 1, 2, new Label(bewerbung.getOrganisationseinheitId());
+			ft_Bewerbung.setWidget(row + 1, 3, new Label(bewerbung.getErstellungsdatum().toString());
+		}*/
+		
+	}
+			
+  
+		/* Button btn_bewerbungAnlegen = new Button();
+	}
 	    btn_bewerbungAnlegen.setText("Neue Bewerbung anlegen");
 	    btn_bewerbungAnlegen.addClickHandler(new ClickHandler() {
 		
