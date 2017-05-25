@@ -51,7 +51,9 @@ public void onLoad() {
   protected HTML createHeadline(String text) {
     HTML content = new HTML(text);
     content.setStylePrimaryName("projektmarktplatz-headline");
+    content.setHorizontalAlignment(ALIGN_LEFT);
     return content;
+    
   }
 
   /**

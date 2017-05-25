@@ -238,7 +238,7 @@ public class MeineProjektForm extends Showcase{
 //		};
 //		
 //		table.addColumn(beschreibungColumn, "Beschreibung");
-//		// TODO alle spalten hinzufügen
+//		// TODO alle spalten hinzufï¿½gen
 //		
 //		final SingleSelectionModel<Projekt> selectionModel = new SingleSelectionModel<Projekt>();
 //		table.setSelectionModel(selectionModel);
@@ -258,7 +258,7 @@ public class MeineProjektForm extends Showcase{
 //		
 //		this.add(table);
 	
-		projektmarktplatzVerwaltung.getPersonById(8, new AsyncCallback<Person>() {
+		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
