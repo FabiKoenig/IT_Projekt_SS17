@@ -1300,6 +1300,23 @@ implements ProjektmarktplatzVerwaltung {
 		return organisationseinheiten;
 	}
 
+	public Organisationseinheit getOrganisationseinheitById(int orgaId){
+		
+		Person p = personMapper.findById(orgaId);
+		Unternehmen u = unternehmenMapper.findById(orgaId);
+		Team t = teamMapper.findById(orgaId);
+		
+		if(p != null){
+			return p;
+		}
+		if(u != null){
+			return u;
+		}
+		if(t != null){
+			return t;
+		}
+		else return null;
+	}
 	
 	/**
 	 * Gibt alle Ausschreibungen zu dem übergebenen Projekt-Objekt zurück.

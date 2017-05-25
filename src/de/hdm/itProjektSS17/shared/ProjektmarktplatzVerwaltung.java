@@ -169,6 +169,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Person getPersonByIdTest(int id) throws IllegalArgumentException;
 	
+	public Organisationseinheit getOrganisationseinheitById(int orgaId) throws IllegalArgumentException;
+
 	
 }
 

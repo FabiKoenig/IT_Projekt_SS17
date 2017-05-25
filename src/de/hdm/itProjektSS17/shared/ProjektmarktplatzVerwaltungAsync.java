@@ -187,5 +187,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPersonByIdTest(int id, AsyncCallback<Person> callback);
 
+	void getOrganisationseinheitById(int orgaId, AsyncCallback<Organisationseinheit> callback);
+
 
 }
