@@ -131,7 +131,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Projektmarktplätze ist fehlgeschlagen!");
+			Window.alert("Das Anzeigen der ProjektmarktplÃ¤tze ist fehlgeschlagen!");
 			
 		}
 
@@ -201,14 +201,14 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("Das Hinzufügen des Projekts ist fehlgeschlagen!");
+			Window.alert("Das HinzufÃ¼gen des Projekts ist fehlgeschlagen!");
 		}
 
 		@Override
 		public void onSuccess(Projekt result) {
 			
 
-			Window.alert("Projekt erfolgreich hinzugefügt!");
+			Window.alert("Projekt erfolgreich hinzugefÃ¼gt!");
 		}
 		
 	}
@@ -216,4 +216,3 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	
 	
 }
-

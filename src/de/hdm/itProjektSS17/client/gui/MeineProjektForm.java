@@ -238,7 +238,7 @@ public class MeineProjektForm extends Showcase{
 //		};
 //		
 //		table.addColumn(beschreibungColumn, "Beschreibung");
-//		// TODO alle spalten hinzufügen
+//		// TODO alle spalten hinzufï¿½gen
 //		
 //		final SingleSelectionModel<Projekt> selectionModel = new SingleSelectionModel<Projekt>();
 //		table.setSelectionModel(selectionModel);
