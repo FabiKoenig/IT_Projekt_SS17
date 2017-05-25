@@ -63,7 +63,7 @@ public void onLoad() {
    * @param text der String, den wir als HTML an die bisherige Showcase-Ausgabe
    *          anhängen wollen.
    */
-  protected void append(String text) {
+  	protected void append(String text) {
     HTML content = new HTML(text);
     content.setStylePrimaryName("projektmarktplatz-simpletext");
     this.add(content);
