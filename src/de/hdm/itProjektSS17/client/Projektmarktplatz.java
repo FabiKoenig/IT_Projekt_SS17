@@ -3,6 +3,7 @@ package de.hdm.itProjektSS17.client;
 
 import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
 import de.hdm.itProjektSS17.client.gui.StellenauschreibungForm;
+import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
@@ -17,14 +18,21 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * Entry point Klasse des Projektmarktplatzes. Dafür benötigen wir die Methode
@@ -37,8 +45,13 @@ public class Projektmarktplatz implements EntryPoint {
 		
 		//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 		
-	    VerticalPanel navPanel = new VerticalPanel();
+		RootPanel.get("Organisation-Unit").add(IdentityMarketChoice.getNavigation(3));
+		//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
+		
 
+		
+		
+	    VerticalPanel navPanel = new VerticalPanel();
 	    RootPanel.get("Navigator").add(navPanel);
 		
 	    
@@ -60,7 +73,6 @@ public class Projektmarktplatz implements EntryPoint {
 			}
 		});
 	    
-	    //Erstellen Projektmarktzplatz Button
 	    final Button findNavButtonProjektmarktplatz = new Button("Projektmarktplatz");
 
 	    findNavButtonProjektmarktplatz.setStylePrimaryName("projektmarktplatz-menubutton");
@@ -204,7 +216,13 @@ public class Projektmarktplatz implements EntryPoint {
 			}
 		});
 	    
+	    //Projekte dieses Marktplatzes
+	    final Button findNavButtonProjekte = new Button("Laufende Projekte");
 	    
+	    findNavButtonProjekte.setStylePrimaryName("projektmarktplatz-menubutton");
+	    
+	    navPanel.add(findNavButtonProjekte);
+
 	    
 	    
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
