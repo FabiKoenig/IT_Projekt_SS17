@@ -154,8 +154,11 @@ public class Projektmarktplatz implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				
 				Showcase showcase = new MeineProjektForm();
+				
+				
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				
 				
 			}
 		});
