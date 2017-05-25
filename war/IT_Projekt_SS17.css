@@ -50,6 +50,15 @@
 	
 }
 
+.IdentityPanel {
+    position: absolute;
+    right: 0px;
+	float: right;
+	border: 1px solid black;
+	background-color: #DF013A;
+	border-radius: 10px;
+}
+
 div#TopLevelFrame {
 	max-width: 1280px;
 	min-width: 1200px;
@@ -214,5 +223,7 @@ html>body .gwt-DecoratedStackPanel {
   height: 6px;
   overflow: hidden;
 }
+
+
 
 
