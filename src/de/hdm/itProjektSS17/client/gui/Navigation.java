@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
@@ -12,7 +13,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
+import de.hdm.itProjektSS17.shared.bo.Person;
 
 public class Navigation extends StackPanel{
 	
@@ -108,9 +112,30 @@ public class Navigation extends StackPanel{
 		
 		personaldataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Showcase showcase = new PersonProfilAnzeigenForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
+				
+				//Auslesen des Index, der in der ListBox der agierenden Organisationseinheit ausgewählt ist
+				int indexOfSelectionBox = IdentityMarketChoice.getSelectedIndex();
+				//Auslesen der Id der ausgewählten agierenden Organisationseinheit
+				int idOfOrga = IdentityMarketChoice.getSelectedIdentityId();
+				
+				//Falls der Index 0 ist, dann ist es eine Person und es wird die PersonProfilAnzeigenForm geladen
+				if(indexOfSelectionBox==0){
+					Showcase showcase = new PersonProfilAnzeigenForm();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(showcase);
+					
+				//Falls der Index 1 ist, dann ist ein Team aktiv und es wird die TeamProfilAnzeigenForm geladen.	
+				}else if(indexOfSelectionBox==1){
+					Showcase showcase = new TeamProfilAnzeigenForm();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(showcase);
+					
+				//Falls der Index 2 ist, dann ist ein Unternehmen aktiv und es wird die UnternehmenProfilAnzeigenForm geladen.
+				}else if(indexOfSelectionBox==2){
+					Showcase showcase = new UnternehmenProfilAnzeigenForm();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(showcase);
+				}
 			}
 		});
 		
