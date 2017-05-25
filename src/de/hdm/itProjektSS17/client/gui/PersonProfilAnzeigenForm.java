@@ -102,7 +102,6 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		vpanel.add(bearbeitenButton);
 		vpanel.add(ftable);
 		hPanel.add(vpanel);
-		hPanel.add(new PartnerprofilEigenschaftenForm());
 		this.add(hPanel);
 		
 		
