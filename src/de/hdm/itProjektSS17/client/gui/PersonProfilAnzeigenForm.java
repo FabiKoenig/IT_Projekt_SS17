@@ -49,7 +49,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 		try {
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getPersonById(8, new ProfilAnzeigenCallback());
+			.getPersonById(3, new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

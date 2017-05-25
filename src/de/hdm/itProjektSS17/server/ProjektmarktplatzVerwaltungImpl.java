@@ -1047,7 +1047,17 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public Vector<Person> getPersonenByForeignProjektmarktplatz(Projektmarktplatz p){
-		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
+		Vector<Person> result = new Vector<>();
+		
+		if (p != null && this.personMapper != null) {
+			Vector<Person> personen = this.teilnahmeMapper.findRelatedPersonen(p); 
+			
+			if (personen != null) {
+				result.addAll(personen);
+			}
+			
+		}
+		return result;
 	}
 
 	

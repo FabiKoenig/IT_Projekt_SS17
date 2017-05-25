@@ -50,6 +50,15 @@
 	
 }
 
+.IdentityPanel {
+    position: absolute;
+    right: 0px;
+	float: right;
+	border: 1px solid black;
+	background-color: #DF013A;
+	border-radius: 10px;
+}
+
 div#TopLevelFrame {
 	max-width: 1280px;
 	min-width: 1200px;
@@ -121,6 +130,8 @@ div#Header{
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+
 
 
 
