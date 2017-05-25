@@ -7,12 +7,10 @@ import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
 import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
 import de.hdm.itProjektSS17.client.gui.Navigation;
-import de.hdm.itProjektSS17.client.gui.Navigation2;
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
