@@ -181,6 +181,14 @@ public class Navigation extends StackPanel{
 				RootPanel.get("Details").add(showcase);
 			}
 		});
+		
+		homeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new StartseiteForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+			}
+		});
 
 	}
 	

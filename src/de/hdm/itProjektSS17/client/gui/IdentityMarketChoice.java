@@ -47,13 +47,13 @@ public class IdentityMarketChoice extends FlexTable{
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
 		
-		
+//		
 //		ownOrgUnits.addChangeHandler(new ChangeHandler() {
 //			
 //			public void onChange(ChangeEvent event) {
-//				Widget w = RootPanel.get("Details").getWidget(1);
+//				Widget w = RootPanel.get("Details").getElement();
 //				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(w);
+//				RootPanel.get("Details").add(RootPanel.get("Details").);
 //				
 //			}
 //		});
