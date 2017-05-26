@@ -30,25 +30,53 @@ public class ProjektmarktplatzForm extends Showcase {
 	private static  Vector<Projektmarktplatz> projektmarktplatz = new Vector<>();
 	CellTable<Projektmarktplatz> dataGrid = new CellTable();
 	
+	
+	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
+	
+	//Deklarieren der Buttons
+	Button btn_projektmarktplatzlöschen = new Button("Projektmarktplatz löschen");
+	Button btn_projektmarktplatzanlegen = new Button("Projektmarktplatz anlegen");
+	
+	Projektmarktplatz selectedObject = new Projektmarktplatz();
+	SingleSelectionModel<Projektmarktplatz> ssm = new SingleSelectionModel<Projektmarktplatz>();
+	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Projektmarktplätze";
+		return "Alle Projektmarktplätze";
 	}
 
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
 		
-		HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
+		
 		this.add(panel_projektmarktplatz);
 		
-		Button btn_projektmarktplatzanlegen = new Button("Projektmarktplatz anlegen");
+		//Hinzufügen der Buttons zum Panel
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
-		
-		final Button btn_projektmarktplatzlöschen = new Button("Projektmarktplatz löschen");
 		panel_projektmarktplatz.add(btn_projektmarktplatzlöschen);
 		
+		btn_projektmarktplatzlöschen.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Projektmarktplatz selectedObject = ssm.getSelectedObject();
+				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteProjektmarktplatz(selectedObject, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("Der Projektmarktplatz wurde erfolgreich gelöscht");
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: " + caught.toString());
+						
+					}
+				});
+				
+			}
+		});
 	
 		
 		projektmarktplatzVerwaltung.getAllProjektmarktplatz(new AsyncCallback<Vector<Projektmarktplatz>>() {
@@ -75,18 +103,15 @@ public class ProjektmarktplatzForm extends Showcase {
 			}
 		};
 		dataGrid.addColumn(ProjektmarktplatznameColumn, "Projektmarktplatz");
-
-		
-		
-		
+	
 		//SingleSelectionModel anlegen um verschiedene Zeilen auszuwählen
-		final SingleSelectionModel<Projektmarktplatz> ssm = new SingleSelectionModel<Projektmarktplatz>();
+		
 		dataGrid.setSelectionModel(ssm);
 		ssm.addSelectionChangeHandler(new Handler() {
 		    @Override
 		    public void onSelectionChange(final SelectionChangeEvent event)
 		    {
-		        final Projektmarktplatz selectedObject = ssm.getSelectedObject();
+		        selectedObject = ssm.getSelectedObject();
 		        // do what you want
 		    }
 		});
@@ -96,49 +121,7 @@ public class ProjektmarktplatzForm extends Showcase {
 		dataGrid.setRowData(0, projektmarktplatz);
 		dataGrid.setWidth("100%");
 		
-		this.add(dataGrid);
-		
-		
-		
-	class ProjektmarktplatzLöschenCallback implements AsyncCallback<Projektmarktplatz>{
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Projektmarktplatz result) {
-				// TODO Auto-generated method stub
-				btn_projektmarktplatzlöschen.addClickHandler(new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						Projektmarktplatz selectedObject = ssm.getSelectedObject();
-						if(selectedObject != null){
-						projektmarktplatzVerwaltung.deleteProjektmarktplatz(selectedObject, new AsyncCallback<Void>(){
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-							@Override
-							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
-								
-							}
-						});
-							
-						}
-					}
-  			});
-				
-				}
-			}
-			
+		this.add(dataGrid);		
 		}		
 	}
 
