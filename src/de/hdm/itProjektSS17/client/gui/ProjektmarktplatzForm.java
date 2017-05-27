@@ -34,7 +34,7 @@ public class ProjektmarktplatzForm extends Showcase {
 	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
 	
 	//Deklarieren der Buttons
-	Button btn_projektmarktplatzlöschen = new Button("Projektmarktplatz löschen");
+	Button btn_projektmarktplatzloeschen = new Button("Projektmarktplatz löschen");
 	Button btn_projektmarktplatzanlegen = new Button("Projektmarktplatz anlegen");
 	
 	Projektmarktplatz selectedObject = new Projektmarktplatz();
@@ -55,9 +55,9 @@ public class ProjektmarktplatzForm extends Showcase {
 		
 		//Hinzufügen der Buttons zum Panel
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
-		panel_projektmarktplatz.add(btn_projektmarktplatzlöschen);
+		panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
 		
-		btn_projektmarktplatzlöschen.addClickHandler(new ClickHandler() {
+		btn_projektmarktplatzloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Projektmarktplatz selectedObject = ssm.getSelectedObject();
 				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteProjektmarktplatz(selectedObject, new AsyncCallback<Void>() {
