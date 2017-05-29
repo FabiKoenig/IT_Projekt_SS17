@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -124,7 +125,19 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
+				Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
+				projektmarktplatzVerwaltung.deleteEigenschaft(selectedEigenschaft, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: Die Eigenschaft konnte nicht gelöscht werden.");
+					}
+					public void onSuccess(Void result) {
+						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
+						
+						Showcase showcase = new PartnerprofilEigenschaftenForm();
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(showcase);
+					}
+				});
 				
 			}
 		});

@@ -41,7 +41,7 @@ public class Navigation extends StackPanel{
 	Button meineprojekteButton = new Button("Meine Projekte");
 	Button meineausschreibungenButton = new Button("Meine Ausschreibungen");
 	Button meinebewerbungenButton = new Button("Meine Bewerbungen");
-	Button meineteilnahmenButton = new Button("Meine Teilnahmen");
+	Button meineteilnahmenButton = new Button("Meine Projektbeteiligungen");
 	
 	Button personaldataButton = new Button("Persönliche Daten");
 	Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
