@@ -91,6 +91,7 @@ public class DialogBoxProjektAnzeigen extends DialogBox {
 			public void onClick(ClickEvent event) {
 				
 				
+				setText("Projekt bearbeiten...");
 				txt_projektname.setReadOnly(false);
 				txta_beschreibung.setReadOnly(false);
 				
