@@ -102,6 +102,22 @@ public class IdentityMarketChoice extends FlexTable{
 		return 0;
 	}
 	
+	public static void deactivateOrgUnits(){
+		ownOrgUnits.setEnabled(false);
+	}
+	
+	public static void deactivateProjectMarkets(){
+		ownProjectMarkets.setEnabled(false);
+	}
+	
+	public static void activateOrgUnits(){
+		ownOrgUnits.setEnabled(true);
+	}
+	
+	public static void activateProjectMarkets(){
+		ownProjectMarkets.setEnabled(true);
+	}
+	
 	
 	private class getUser implements AsyncCallback<Person>{
 		

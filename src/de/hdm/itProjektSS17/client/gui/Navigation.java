@@ -108,18 +108,19 @@ public class Navigation extends StackPanel{
 		//Clickhandler für den Impressum-Button
 		impressumButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new Impressum());
 			}
-		});
-
+		});		
 		
-		ClickHandler chOfPersonalDataButton = new ClickHandler() {
+		personaldataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				//Auslesen des Index, der in der ListBox der agierenden Organisationseinheit ausgewählt ist
 				int indexOfSelectionBox = IdentityMarketChoice.getSelectedIndex();
-				//Auslesen der Id der ausgewählten agierenden Organisationseinheit
-				int idOfOrga = IdentityMarketChoice.getSelectedIdentityId();
 				
 				//Falls der Index 0 ist, dann ist es eine Person und es wird die PersonProfilAnzeigenForm geladen
 				if(indexOfSelectionBox==0){
@@ -142,59 +143,79 @@ public class Navigation extends StackPanel{
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
-		};
-		
-		personaldataButton.addClickHandler(chOfPersonalDataButton);
+		});
 		
 		eigenesprofilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				Showcase showcase = new PartnerprofilEigenschaftenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 		
 		meineprojekteButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.activateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				Showcase showcase = new MeineProjektForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 		
 		meinebewerbungenButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				
+				IdentityMarketChoice.activateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				Showcase showcase = new MeineBewerbungenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 		
 		ausschreibungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.activateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				Showcase showcase = new StellenauschreibungForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
-				
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 		
 		projektmarktplaetzeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
 				Showcase showcase = new ProjektmarktplatzForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 		
 		homeButton.addClickHandler(new ClickHandler() {
+
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new StartseiteForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 
