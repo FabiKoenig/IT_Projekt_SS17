@@ -16,6 +16,7 @@ import de.hdm.itProjektSS17.client.Showcase;
 
 public class Navigation extends StackPanel{
 	
+	private static Showcase currentShowcase = null;
 	
 	//Anlegen der Panels
 	VerticalPanel startseitePanel = new VerticalPanel();
@@ -111,6 +112,7 @@ public class Navigation extends StackPanel{
 				Showcase showcase = new PersonProfilAnzeigenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
+				currentShowcase=showcase;
 			}
 		});
 		
@@ -157,6 +159,11 @@ public class Navigation extends StackPanel{
 			}
 		});
 
+	}
+
+
+	public static Showcase getCurrentShowcase() {
+		return currentShowcase;
 	}
 	
 	

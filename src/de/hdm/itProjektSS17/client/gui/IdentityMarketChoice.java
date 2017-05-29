@@ -2,6 +2,8 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.protocol.data.Handler;
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -12,10 +14,12 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
+import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
@@ -43,6 +47,14 @@ public class IdentityMarketChoice extends FlexTable{
 		cellFormatter.setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
+		ownOrgUnits.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(Navigation.getCurrentShowcase());
+			}
+		});
 	}
 	
 	public static IdentityMarketChoice getNavigation(int id){
@@ -53,7 +65,7 @@ public class IdentityMarketChoice extends FlexTable{
 		return navigation;
 	}
 	
-	public static int getSelectedIdentityId(){
+	public static int getSelectedIdentityId(Showcase sc){
 		int selectedIdentity = ownOrgUnits.getSelectedIndex();
 		if(ownOrgUnits.getSelectedIndex()==0){
 			return person.getId();
@@ -94,9 +106,6 @@ public class IdentityMarketChoice extends FlexTable{
 			if(person.getTeamId()!=null){
 				projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new getTeam());
 			}
-			if(person.getUnternehmenId()!=null){
-				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());	
-			}
 			projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(person, new getProjektmarktplatz());
 		}
 		
@@ -116,6 +125,10 @@ public class IdentityMarketChoice extends FlexTable{
 			Integer idOfTeam=result.getId();
 			ownOrgUnits.addItem("Team: "+result.getName(),idOfTeam.toString());	
 			team=result;
+			if(person.getUnternehmenId()!=null){
+				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());	
+			}
+
 		}
 		
 	}

@@ -41,6 +41,8 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 public class Projektmarktplatz implements EntryPoint {
 
+	private static Showcase currentView;
+	
 	@Override
 	public void onModuleLoad() {
 		
@@ -231,6 +233,16 @@ public class Projektmarktplatz implements EntryPoint {
 		
 	
 	}
+
+	public static Showcase getCurrentView() {
+		return currentView;
+	}
+
+	public static void setCurrentView(Showcase currentView) {
+		Projektmarktplatz.currentView = currentView;
+	}
+	
+	
 	
 	
 }
