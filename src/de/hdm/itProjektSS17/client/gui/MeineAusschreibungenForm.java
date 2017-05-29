@@ -2,7 +2,6 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Date;
 import java.util.Vector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -11,13 +10,19 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzufuegen.SetEigenschaftenCallback;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
 
@@ -41,6 +46,8 @@ public class MeineAusschreibungenForm extends Showcase{
 	@Override
 	protected void run() {
 		
+		//CallBack um die Ausschreibungen der gewünschten Person zu laden
+				projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -159,14 +166,134 @@ public class MeineAusschreibungenForm extends Showcase{
 			ausschreibungBearbeitenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					
+							//Erstellen der GUI Elemente
+								final DialogBox ausschreibungBearbeitenDialogBox = new DialogBox();
+								FlexTable ausschreibungBearbeitenFlexTable = new FlexTable();
+								HorizontalPanel buttonPanel = new HorizontalPanel();
+								VerticalPanel dialogBoxPanel = new VerticalPanel();
+								Label ausschreibungBezeichungLabel = new Label("Bezeichnung:");
+								Label ausschreibungBewerbungsfristLabel = new Label("Bewerbungsfrist:");
+								Label ausschreibungstextLabel = new Label("Ausschreibungstext:");
+								final TextBox ausschreibungBezeichungBox = new TextBox();
+								DateBox ausschreibungBewerbungsfristBox = new DateBox();
+								final TextBox ausschreibungstextBox = new TextBox();
+								Button abbrechenButton = new Button("Abbrechen");
+								Button speichernButton = new Button("Speichern");
+								
+								//Setzen des Formats
+								//ausschreibungBewerbungsfristBox.setFormat(new DateBox.DefaultFormat(dateformat));
+								ausschreibungstextBox.setHeight("20px");
+								
+							//Erstellen der FlexTable
+								ausschreibungBearbeitenFlexTable.setWidget(0, 1, ausschreibungBezeichungBox);
+								ausschreibungBearbeitenFlexTable.setWidget(0, 0, ausschreibungBezeichungLabel);
+								
+								ausschreibungBearbeitenFlexTable.setWidget(1, 1, ausschreibungBewerbungsfristBox);
+								ausschreibungBearbeitenFlexTable.setWidget(1, 0, ausschreibungBewerbungsfristLabel);
+								
+								ausschreibungBearbeitenFlexTable.setWidget(2, 1, ausschreibungstextBox);
+								ausschreibungBearbeitenFlexTable.setWidget(2, 0, ausschreibungstextLabel);
+								
+							//Hinzufügen der Buttons zum Buttonpanel
+								buttonPanel.add(speichernButton);
+								buttonPanel.add(abbrechenButton);
+								abbrechenButton.setStylePrimaryName("navi-button");
+								speichernButton.setStylePrimaryName("navi-button");
+								
+							//Hinzufügen der FlexTable zur DialogBox
+								dialogBoxPanel.setSpacing(8);
+								dialogBoxPanel.add(buttonPanel);
+								dialogBoxPanel.add(ausschreibungBearbeitenFlexTable);
+								ausschreibungBearbeitenDialogBox.add(dialogBoxPanel);
+								
+							//	Anzeigen der DialogBox
+								ausschreibungBearbeitenDialogBox.center();
+								ausschreibungBearbeitenDialogBox.show();
+								
+								/**
+								 * CLICK-HANDLER
+								 */
+									
+									abbrechenButton.addClickHandler(new ClickHandler() {
+										public void onClick(ClickEvent event) {
+											ausschreibungBearbeitenDialogBox.hide();
+										}
+									});
+									
+									speichernButton.addClickHandler(new ClickHandler() {
+										public void onClick(ClickEvent event) {
+											if(ausschreibungBezeichungBox.getText() != "" && ausschreibungstextBox.getText() != ""){
+												Ausschreibung bearbeiteteAusschreibung = new Ausschreibung();
+												bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
+												bearbeiteteAusschreibung.setAusschreibenderId(selectionModel.getSelectedObject().getAusschreibenderId());
+												bearbeiteteAusschreibung.setAusschreibungstext(ausschreibungstextBox.getText());
+											//	bearbeiteteAusschreibung.setBewerbungsfrist(ausschreibungBewerbungsfristBox.getDatePicker());
+												bearbeiteteAusschreibung.setBezeichnung(ausschreibungBezeichungBox.getText());
+												bearbeiteteAusschreibung.setPartnerprofilId(selectionModel.getSelectedObject().getPartnerprofilId());
+												bearbeiteteAusschreibung.setProjektId(selectionModel.getSelectedObject().getProjektId());
+												
+												projektmarktplatzVerwaltung.saveAusschreibung(bearbeiteteAusschreibung, new AsyncCallback<Void>() {
+
+													@Override
+													public void onFailure(Throwable caught) {
+														Window.alert("Das bearbeiten der Ausschreibung ist fehlgeschlagen.");
+														
+													}
+
+													@Override
+													public void onSuccess(Void result) {
+														Window.alert("Die Ausschreibung wurde erfolgreich bearbeitet.");
+													}
+												});
+											} else{
+												Window.alert("Bitte fülle die Felder vollständig aus.");
+											}
+											
+											
+										
+											
+										}
+									});
 					
 				}
 			});
 			
+		
 			
 			
 	}
+	
+	
+	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
 
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
+		}
+
+		@Override
+		public void onSuccess(Organisationseinheit result) {		
+			if (result != null) {
+				projektmarktplatzVerwaltung.getAusschreibungByForeignOrganisationseinheit(result, new GetAusschreibungenByOrgaCallback());
+			}			
+		}
+	
+	}
+	
+	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Ausschreibung> result) {
+			ausschreibungen = result;
+		}
+		
+	}
 	
 	
 }

@@ -20,7 +20,7 @@ public class DialogBoxEditBewerbung extends DialogBox {
 	public DialogBoxEditBewerbung() {
 	
 	VerticalPanel vp = new VerticalPanel();
-	this.setText("Bewerbung bearbeiten...");
+	this.setText("Bewerbung bearbeiten");
 	this.setAnimationEnabled(false);
 	this.setGlassEnabled(true);
 	
@@ -29,7 +29,7 @@ public class DialogBoxEditBewerbung extends DialogBox {
 	vp.setSpacing(10);
 	vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 	
-	Button ok = new Button("OK");
+	Button ok = new Button("Speichern");
 	Button abbrechen = new Button("Abbrechen");
 	
 	ok.addClickHandler(new ClickHandler() {
@@ -67,16 +67,16 @@ public class DialogBoxEditBewerbung extends DialogBox {
 	hp2.add(txta_beschreibung);
 	vp.add(hp2);
 	
-	/*
 	
-	HorizontalPanel hp4 = new HorizontalPanel();
-	Label lbl_enddatum = new Label("Enddatum: ");
-	DateBox db_enddatum = new DateBox();
-	db_enddatum.setFormat(new DateBox.DefaultFormat(dateformat));
-	hp4.add(lbl_enddatum);
-	hp4.add(db_enddatum);
-	vp.add(hp4);
-	*/
+	
+//	HorizontalPanel hp4 = new HorizontalPanel();
+//	Label lbl_enddatum = new Label("Enddatum: ");
+//	DateBox db_enddatum = new DateBox();
+//	db_enddatum.setFormat(new DateBox.DefaultFormat(dateformat));
+//	hp4.add(lbl_enddatum);
+//	hp4.add(db_enddatum);
+//	vp.add(hp4);
+	
 	//datepicker.setValue(new Date(), true);
 		
 	ListBox projektmarktplatz = new ListBox();
