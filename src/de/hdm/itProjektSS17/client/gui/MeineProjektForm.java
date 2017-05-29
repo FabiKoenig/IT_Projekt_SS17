@@ -35,9 +35,9 @@ import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 public class MeineProjektForm extends Showcase{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private static  Vector<Projekt> projekte = new Vector<>();
+	Button btn_projektBearbeiten = new Button("Projekt bearbeiten"); 
 	
-	
+	CellTable<Projekt> dataGrid = new CellTable<Projekt>();
 	
 	
 	
@@ -49,6 +49,7 @@ public class MeineProjektForm extends Showcase{
 	protected String getHeadlineText(){
 		return "Meine Projekte";
 	}
+	
 	
 	
 	
@@ -258,36 +259,11 @@ public class MeineProjektForm extends Showcase{
 //		
 //		this.add(table);
 	
-		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+		
 				
-			}
-
-			@Override
-			public void onSuccess(Person result) {
-				projektmarktplatzVerwaltung.getProjektByForeignPerson(result, new AsyncCallback<Vector<Projekt>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Vector<Projekt> result) {
-						
-							projekte = result;
-						
-					}
-				});
-			}
-		});
+		projektmarktplatzVerwaltung.getPersonById(8, new GetPersonCallback()); 
 		
 		
-		CellTable<Projekt> dataGrid = new CellTable<Projekt>();
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -343,17 +319,65 @@ public class MeineProjektForm extends Showcase{
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
+				DialogBoxProjektAnzeigen dpa = new DialogBoxProjektAnzeigen();
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dpa.setPopupPosition(left, top);
+				dpa.show();
 				
+				dpa.txt_projektname.setText(selectionModel.getSelectedObject().getName());
+				dpa.txta_beschreibung.setText(selectionModel.getSelectedObject().getBeschreibung());
+				dpa.txt_startdatum.setText(selectionModel.getSelectedObject().getStartdatum().toString());
+				dpa.txt_enddatum.setText(selectionModel.getSelectedObject().getEnddatum().toString());
+				dpa.txt_projektmarktplatz.setText(Integer.toString(selectionModel.getSelectedObject().getProjektmarktplatzId()));
+				dpa.txt_projektleiter.setText(Integer.toString(selectionModel.getSelectedObject().getProjektleiterId()));
 				
 			}
 		});
 		
-		dataGrid.setRowCount(projekte.size(), true);
-		dataGrid.setRowData(0, projekte);
+		
+		
 		
 		dataGrid.setWidth("100%");
 		
+	
+		
 		
 		this.add(dataGrid);
+		
+	}
+	
+	private class GetPersonCallback implements AsyncCallback<Person>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Person result) {
+			projektmarktplatzVerwaltung.getProjektByForeignPerson(result, new GetProjektCallback());
+			
+		}
+		
+	}
+	
+	private class GetProjektCallback implements AsyncCallback<Vector<Projekt>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Projekt> result) {
+			
+			dataGrid.setRowCount(result.size(), true);
+			dataGrid.setRowData(0, result);
+			
+		}
+		
 	}
 }
