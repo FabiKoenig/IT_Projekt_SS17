@@ -141,9 +141,10 @@ public class Navigation extends StackPanel{
 		
 		eigenesprofilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
+				
+				Showcase showcase = new PartnerprofilEigenschaftenForm();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PartnerprofilEigenschaftenForm());
+				RootPanel.get("Details").add(showcase);
 			}
 		});
 		
