@@ -148,9 +148,10 @@ public class Navigation extends StackPanel{
 		
 		eigenesprofilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
+				
+				Showcase showcase = new PartnerprofilEigenschaftenForm();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PartnerprofilEigenschaftenForm());
+				RootPanel.get("Details").add(showcase);
 			}
 		});
 		
@@ -184,6 +185,14 @@ public class Navigation extends StackPanel{
 		projektmarktplaetzeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Showcase showcase = new ProjektmarktplatzForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+			}
+		});
+		
+		homeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new StartseiteForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 			}
