@@ -8,17 +8,17 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
-import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.Team;
+import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
-public class PersonProfilAnzeigenForm extends Showcase{
+public class TeamProfilAnzeigenForm extends Showcase{
 
-	
+
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -30,10 +30,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	
 	//Erstellen der Text- bzw. ListBoxen
-	private ListBox anredeListBox = new ListBox();
-	private TextBox anredeBox = new TextBox();
-	private TextBox vnameBox = new TextBox();
-	private TextBox nnameBox = new TextBox();
+	private TextBox teamNameBox = new TextBox();
 	private TextBox strasseBox = new TextBox();
 	private TextBox hausnrBox = new TextBox();
 	private TextBox plzBox = new TextBox();
@@ -41,9 +38,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	
 	//Erstellen der Label
-	private Label anredeLabel = new Label("Anrede");
-	private Label vnameLabel = new Label("Vorname");
-	private Label nnameLabel = new Label("Nachname");
+	private Label teamNameLabel = new Label("Teamname");
 	private Label strasseLabel = new Label("Straße");
 	private Label hausnrLabel = new Label("Hausnummer");
 	private Label plzLabel = new Label("Postleitzahl");
@@ -53,7 +48,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Meine Personendaten";
+		return "Meine Teamdaten";
 	}
 
 	@Override
@@ -62,15 +57,13 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		try {
 			
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilAnzeigenCallback());
+			.getTeamById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		//Setzen der Boxen auf ReadOnly
-		anredeBox.setReadOnly(true);
-		vnameBox.setReadOnly(true);
-		nnameBox.setReadOnly(true);
+		teamNameBox.setReadOnly(true);
 		strasseBox.setReadOnly(true);
 		hausnrBox.setReadOnly(true);
 		plzBox.setReadOnly(true);
@@ -84,34 +77,23 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		//Setzen des SpeicherButtons
 		speichernButton.setVisible(false);
 		abbrechenButton.setVisible(false);
-		
-		//Hinzufügen der Inhalte der anredeListBox
-		anredeListBox.addItem("Herr");
-		anredeListBox.addItem("Frau");
 			
 		// Befüllen der FlexTable
-		ftable.setWidget(0, 1, anredeBox);
-		ftable.setWidget(0, 0, anredeLabel);
+		ftable.setWidget(0, 1, teamNameBox);
+		ftable.setWidget(0, 0, teamNameLabel);
 
-		ftable.setWidget(1, 1, vnameBox);
-		ftable.setWidget(1, 0, vnameLabel);
+		ftable.setWidget(1, 1, strasseBox);
+		ftable.setWidget(1, 0, strasseLabel);
 
-		ftable.setWidget(2, 1, nnameBox);
-		ftable.setWidget(2, 0, nnameLabel);
+		ftable.setWidget(2, 1, hausnrBox);
+		ftable.setWidget(2, 0, hausnrLabel);
 
-		ftable.setWidget(3, 1, strasseBox);
-		ftable.setWidget(3, 0, strasseLabel);
+		ftable.setWidget(3, 1, plzBox);
+		ftable.setWidget(3, 0, plzLabel);
 
-		ftable.setWidget(4, 1, hausnrBox);
-		ftable.setWidget(4, 0, hausnrLabel);
+		ftable.setWidget(4, 1, ortBox);
+		ftable.setWidget(4, 0, ortLabel);
 		
-		ftable.setWidget(5, 1, plzBox);
-		ftable.setWidget(5, 0, plzLabel);
-
-		ftable.setWidget(6, 1, ortBox);
-		ftable.setWidget(6, 0, ortLabel);
-
-
 		/**
 		 * Anfügen der FlexTable und des Buttons  an das Panel
 		 */
@@ -127,18 +109,10 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-//				DialogBoxPersonProfilBearbeiten dbppb = new DialogBoxPersonProfilBearbeiten();
-//				int left = Window.getClientWidth() / 3;
-//				int top = Window.getClientHeight() / 8;
-//				dbppb.setPopupPosition(left, top);
-//				dbppb.show();
-				
+			public void onClick(ClickEvent event) {				
 				
 				//Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
-				anredeBox.setReadOnly(false);
-				vnameBox.setReadOnly(false);
-				nnameBox.setReadOnly(false);
+				teamNameBox.setReadOnly(false);
 				strasseBox.setReadOnly(false);
 				hausnrBox.setReadOnly(false);
 				plzBox.setReadOnly(false);
@@ -149,8 +123,6 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				abbrechenButton.setVisible(true);
 				//Setzen des BearbeitenButtons auf NotVisible
 				bearbeitenButton.setVisible(false);
-				//Setzen der ListBox anstelle der TextBox
-				ftable.setWidget(0, 1, anredeListBox);
 			}
 		});
 		
@@ -158,19 +130,19 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PersonProfilAnzeigenForm());
+				RootPanel.get("Details").add(new TeamProfilAnzeigenForm());
 			}
 		});
 		
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
-				getPersonById(3, new ProfilBearbeitenCallback());
+				getTeamById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
 			}
 		});
 	}
 	
-	private class ProfilAnzeigenCallback implements AsyncCallback<Person> {
+	private class ProfilAnzeigenCallback implements AsyncCallback<Team> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -179,10 +151,8 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		}
 
 		@Override
-		public void onSuccess(Person result) {
-			vnameBox.setText(result.getVorname());
-			nnameBox.setText(result.getNachname());
-			anredeBox.setText(result.getAnrede());
+		public void onSuccess(Team result) {
+			teamNameBox.setText(result.getName());
 			strasseBox.setText(result.getStrasse());
 			hausnrBox.setText(result.getHausnummer());
 			plzBox.setText(Integer.toString(result.getPlz()));
@@ -191,7 +161,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			
 		}
 	}
-	private class ProfilBearbeitenCallback implements AsyncCallback<Person>{
+	private class ProfilBearbeitenCallback implements AsyncCallback<Team>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -199,19 +169,18 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		}
 
 		@Override
-		public void onSuccess(Person result) {
+		public void onSuccess(Team result) {
 			
-			result.setAnrede(anredeListBox.getItemText(anredeListBox.getSelectedIndex()));
+			result.setName(teamNameBox.getText());
 			result.setHausnummer(hausnrBox.getText());
-			result.setNachname(nnameBox.getText());
 			result.setOrt(ortBox.getText());
 			result.setPlz(Integer.parseInt(plzBox.getText()));
 			result.setStrasse(strasseBox.getText());
-			result.setVorname(vnameBox.getText());
+
 			
-			ClientsideSettings.getProjektmarktplatzVerwaltung().savePerson(result, new PersonSpeichernCallback());
+			ClientsideSettings.getProjektmarktplatzVerwaltung().saveTeam(result, new TeamSpeichernCallback());
 		
-			Showcase showcase = new PersonProfilAnzeigenForm();
+			Showcase showcase = new TeamProfilAnzeigenForm();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(showcase);
 			
@@ -220,7 +189,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	}
 	
 	
-	private class PersonSpeichernCallback implements AsyncCallback<Void>{
+	private class TeamSpeichernCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Das Profil konnte nicht gespeichert werden.");
@@ -232,7 +201,5 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		}
 		
 	}
-	
-	
 	
 }

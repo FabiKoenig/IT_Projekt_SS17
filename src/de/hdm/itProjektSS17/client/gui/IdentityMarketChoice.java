@@ -5,8 +5,13 @@ import java.util.Vector;
 import com.gargoylesoftware.htmlunit.protocol.data.Handler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -16,6 +21,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -37,6 +43,7 @@ public class IdentityMarketChoice extends FlexTable{
 	private static Projektmarktplatz projektmarktplatz;
 	private static Vector<Projektmarktplatz> projektmarktplaetze;
 	
+	
 	private IdentityMarketChoice (int id){
 		
 		this.setWidget(1, 0, new Label("Nutze Identität von: "));		
@@ -47,14 +54,15 @@ public class IdentityMarketChoice extends FlexTable{
 		cellFormatter.setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
+		
 		ownOrgUnits.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(Navigation.getCurrentShowcase());
+				Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 			}
 		});
+		
 	}
 	
 	public static IdentityMarketChoice getNavigation(int id){
@@ -65,7 +73,15 @@ public class IdentityMarketChoice extends FlexTable{
 		return navigation;
 	}
 	
-	public static int getSelectedIdentityId(Showcase sc){
+	public static int getSelectedIndex(){
+		
+		int selectedIdentity = ownOrgUnits.getSelectedIndex();
+		
+		return selectedIdentity;
+	}
+	
+	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
+	public static int getSelectedIdentityId(){
 		int selectedIdentity = ownOrgUnits.getSelectedIndex();
 		if(ownOrgUnits.getSelectedIndex()==0){
 			return person.getId();

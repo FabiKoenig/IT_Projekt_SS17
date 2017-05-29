@@ -40,11 +40,16 @@ import java_cup.action_part;
 public class MeineBewerbungenForm extends Showcase{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	@SuppressWarnings("unchecked")
 	private static Vector <Bewerbung> bewerbungen = new Vector();
 	private static Vector <Ausschreibung> ausschreibung = new Vector();
 	private static Vector <Organisationseinheit> ausschreibender = new Vector();
 	private static Vector <ausschreibungBewerbungHybrid> ausBewHybrid = new Vector();
 	CellTable cellTable = new CellTable();
+	
+	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
+	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
 
 	
 	protected String getHeadlineText(){
@@ -53,6 +58,9 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	protected void run() {
 		
+		
+		this.add(panel_Bewerbung);
+		panel_Bewerbung.add(btn_bewerbungloeschen);
 		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>(){
 		
 			@Override
@@ -124,12 +132,36 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.setWidth("100%");
 		
 		final SingleSelectionModel<Bewerbung> selectionModel = new SingleSelectionModel<>();
-		cellTable.setSelectionModel(selectionModel);			
+		cellTable.setSelectionModel(selectionModel);	
+		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 		
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 	
+			}
+		});
+		
+
+		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+			
+				Bewerbung selectedObject = selectionModel.getSelectedObject();
+				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteBewerbung(selectedObject, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("Die Bewerbung wurde erfolgreich zurück gezogen");
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: " + caught.toString());
+						
+					}
+				});
+				
 			}
 		});
 		

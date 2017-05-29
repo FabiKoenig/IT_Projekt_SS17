@@ -53,9 +53,9 @@ public class Projektmarktplatz implements EntryPoint {
 		
 
 		
-		
+		final Button Logout = new Button("Logout");
 	    VerticalPanel navPanel = new VerticalPanel();
-	    //RootPanel.get("Navigator").add(navPanel);
+	    RootPanel.get("Navigator").add(Logout);
 	    RootPanel.get("Navigator").add(new Navigation());
 		
 	    
@@ -63,13 +63,13 @@ public class Projektmarktplatz implements EntryPoint {
 	    VerticalPanel topPanel = new VerticalPanel();
 	    RootPanel.get("Header").add(topPanel);
 	    //Erstellen Projektmarktzplatz Button
-	    final Button Logut = new Button("Logout");
+	    
 
-	    Logut.setStylePrimaryName("projektmarktplatz-logout");
+	    Logout.setStylePrimaryName("projektmarktplatz-logout");
 
-	    navPanel.add(Logut);
+	    
 	   
-	    Logut.addClickHandler(new ClickHandler() {
+	    Logout.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
