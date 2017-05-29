@@ -76,6 +76,33 @@ public class ProjektmarktplatzMapper{
 	        return null;
 	  }
 	  
+	  
+	  
+//Methode um alle Projektmarktplätze auszulesen	  
+	  public Vector<Projektmarktplatz> findAll(){
+			Connection con = DBConnection.connection();
+			Vector<Projektmarktplatz> result = new Vector<Projektmarktplatz>();
+			
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * "
+						+ " FROM projektmarktplatz ORDER BY Projektmarktplatz_Id");
+				
+				
+				while (rs.next()){
+					Projektmarktplatz p = new Projektmarktplatz();
+					p.setId(rs.getInt("Projektmarktplatz_Id"));
+					p.setBezeichnung(rs.getString("Bezeichnung"));
+					result.add(p);
+					} 
+				}  
+			catch (SQLException e) {
+			e.printStackTrace();
+			}
+			return result;
+	  }
+	  
+	  
 	  /**
 	   * 
 	   * @param p

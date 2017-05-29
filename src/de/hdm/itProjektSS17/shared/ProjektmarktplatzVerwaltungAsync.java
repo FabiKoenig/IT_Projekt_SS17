@@ -189,5 +189,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getOrganisationseinheitById(int orgaId, AsyncCallback<Organisationseinheit> callback);
 
+	void getAllProjektmarktplatz(AsyncCallback<Vector<Projektmarktplatz>> callback);
+
 
 }
