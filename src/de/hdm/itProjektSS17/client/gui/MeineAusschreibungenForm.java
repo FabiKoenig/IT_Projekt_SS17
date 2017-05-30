@@ -1,9 +1,11 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
@@ -36,6 +38,9 @@ public class MeineAusschreibungenForm extends Showcase{
 	Button ausschreibungBearbeitenButton = new Button("Ausschreibung bearbeiten");
 	Button partnerprofilBearbeitenButton = new Button("Partnerprofil bearbeiten");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
+	
+	//Formate der Datebox
+	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	@Override
@@ -108,9 +113,7 @@ public class MeineAusschreibungenForm extends Showcase{
 				});
 				
 					
-			//Anpassen der CellTable
-				dataGrid.setRowCount(ausschreibungen.size(), true);
-				dataGrid.setRowData(0, ausschreibungen);
+			
 				dataGrid.setWidth("100%");
 				
 			//Hinzufügen der Buttons zum ButtonPanel
@@ -175,13 +178,15 @@ public class MeineAusschreibungenForm extends Showcase{
 								Label ausschreibungBewerbungsfristLabel = new Label("Bewerbungsfrist:");
 								Label ausschreibungstextLabel = new Label("Ausschreibungstext:");
 								final TextBox ausschreibungBezeichungBox = new TextBox();
-								DateBox ausschreibungBewerbungsfristBox = new DateBox();
+								final DateBox ausschreibungBewerbungsfristBox = new DateBox();
 								final TextBox ausschreibungstextBox = new TextBox();
 								Button abbrechenButton = new Button("Abbrechen");
 								Button speichernButton = new Button("Speichern");
 								
 								//Setzen des Formats
-								//ausschreibungBewerbungsfristBox.setFormat(new DateBox.DefaultFormat(dateformat));
+								
+								DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
+								ausschreibungBewerbungsfristBox.setFormat(new DateBox.DefaultFormat(dateformat));
 								ausschreibungstextBox.setHeight("20px");
 								
 							//Erstellen der FlexTable
@@ -227,13 +232,15 @@ public class MeineAusschreibungenForm extends Showcase{
 												bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
 												bearbeiteteAusschreibung.setAusschreibenderId(selectionModel.getSelectedObject().getAusschreibenderId());
 												bearbeiteteAusschreibung.setAusschreibungstext(ausschreibungstextBox.getText());
-											//	bearbeiteteAusschreibung.setBewerbungsfrist(ausschreibungBewerbungsfristBox.getDatePicker());
+												bearbeiteteAusschreibung.setBewerbungsfrist(ausschreibungBewerbungsfristBox.getValue());
 												bearbeiteteAusschreibung.setBezeichnung(ausschreibungBezeichungBox.getText());
 												bearbeiteteAusschreibung.setPartnerprofilId(selectionModel.getSelectedObject().getPartnerprofilId());
 												bearbeiteteAusschreibung.setProjektId(selectionModel.getSelectedObject().getProjektId());
 												
 												projektmarktplatzVerwaltung.saveAusschreibung(bearbeiteteAusschreibung, new AsyncCallback<Void>() {
-
+													
+													
+													
 													@Override
 													public void onFailure(Throwable caught) {
 														Window.alert("Das bearbeiten der Ausschreibung ist fehlgeschlagen.");
@@ -243,6 +250,10 @@ public class MeineAusschreibungenForm extends Showcase{
 													@Override
 													public void onSuccess(Void result) {
 														Window.alert("Die Ausschreibung wurde erfolgreich bearbeitet.");
+														
+														ausschreibungBearbeitenDialogBox.hide();					
+														RootPanel.get("Details").clear();
+														RootPanel.get("Details").add(new MeineAusschreibungenForm());
 													}
 												});
 											} else{
@@ -285,13 +296,22 @@ public class MeineAusschreibungenForm extends Showcase{
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
+			Window.alert("Fehler: "+ caught.toString());
 			
 		}
 
 		@Override
 		public void onSuccess(Vector<Ausschreibung> result) {
-			ausschreibungen = result;
+			
+			if(result != null){
+				//Anpassen der CellTable
+				
+				dataGrid.setRowCount(result.size(), true);
+				dataGrid.setRowData(0, result);
+			
+			}
 		}
+			
 		
 	}
 	

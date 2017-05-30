@@ -48,8 +48,9 @@ public class MeineBewerbungenForm extends Showcase{
 	CellTable cellTable = new CellTable();
 	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
-	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
-	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurÃ¼ckziehen");
+	
+	//Button btn_bewerbungzurï¿½ckziehen = new Button("Projektmarktplatz anlegen");
 
 	
 	protected String getHeadlineText(){
@@ -58,10 +59,12 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	protected void run() {
 		
+		//Stylen des Buttons
+		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
 		
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
-		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>(){
+		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new AsyncCallback<Person>(){
 		
 			@Override
 			public void onFailure(Throwable caught) {
@@ -127,8 +130,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
 	
-		cellTable.setRowCount(ausBewHybrid.size(), true);
-		cellTable.setRowData(0,ausBewHybrid);
+		
 		cellTable.setWidth("100%");
 		
 		final SingleSelectionModel<Bewerbung> selectionModel = new SingleSelectionModel<>();
@@ -151,7 +153,7 @@ public class MeineBewerbungenForm extends Showcase{
 					
 					@Override
 					public void onSuccess(Void result) {
-						Window.alert("Die Bewerbung wurde erfolgreich zurück gezogen");
+						Window.alert("Die Bewerbung wurde erfolgreich zurï¿½ck gezogen");
 						
 					}
 					
@@ -253,6 +255,8 @@ public class MeineBewerbungenForm extends Showcase{
 				hybrid.add(localHybrid);
 			}
 			ausBewHybrid=hybrid;
+			cellTable.setRowCount(ausBewHybrid.size(), true);
+			cellTable.setRowData(0,ausBewHybrid);
 			};
 		}
 	
