@@ -39,6 +39,7 @@ import java_cup.action_part;
  */
 public class MeineBewerbungenForm extends Showcase{
 	
+	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
 	private static Vector <Bewerbung> bewerbungen = new Vector();
@@ -131,7 +132,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.setRowData(0,ausBewHybrid);
 		cellTable.setWidth("100%");
 		
-		final SingleSelectionModel<Bewerbung> selectionModel = new SingleSelectionModel<>();
+		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
 		cellTable.setSelectionModel(selectionModel);	
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -145,10 +146,17 @@ public class MeineBewerbungenForm extends Showcase{
 
 		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-			
-				Bewerbung selectedObject = selectionModel.getSelectedObject();
+				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
+				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
+				{
+					ausBewHybrid.remove(selectionModel.getSelectedObject());
+				}
+				projektmarktplatzVerwaltung.getBewerbungById(selectionModel.getSelectedObject().getBewerbungId(),new getBewerbungCallback());
+				}
+				
+				/*ausschreibungBewerbungHybrid selectedObject = selectionModel.getSelectedObject();
 				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteBewerbung(selectedObject, new AsyncCallback<Void>() {
-					
+				
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("Die Bewerbung wurde erfolgreich zurück gezogen");
@@ -160,7 +168,7 @@ public class MeineBewerbungenForm extends Showcase{
 						Window.alert("Fehler: " + caught.toString());
 						
 					}
-				});
+				});*/
 				
 			}
 		});
@@ -168,7 +176,6 @@ public class MeineBewerbungenForm extends Showcase{
 		this.add(cellTable);
 	}
 
-	
 	private class ausschreibungBewerbungHybrid{
 		
 		private int bewerbungId;
@@ -287,7 +294,35 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		 
 	 };
+	 private class getBewerbungCallback implements AsyncCallback<Bewerbung>{
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Das Zurückziehen der Bewerbung ist fehlgeschlagen!");
+				
+			}
+
+			@Override
+			public void onSuccess(Bewerbung result) {
+				projektmarktplatzVerwaltung.deleteBewerbung(result, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						 Window.alert("Fehler: " + caught.toString());
+						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
+						
+					}
+				});
+				
+				}
+			};
 }
+
 		
 		
 		
