@@ -2,9 +2,16 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.protocol.data.Handler;
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -18,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
+import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
@@ -47,16 +55,14 @@ public class IdentityMarketChoice extends FlexTable{
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
 		
-//		
-//		ownOrgUnits.addChangeHandler(new ChangeHandler() {
-//			
-//			public void onChange(ChangeEvent event) {
-//				Widget w = RootPanel.get("Details").getElement();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(RootPanel.get("Details").);
-//				
-//			}
-//		});
+		ownOrgUnits.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+			}
+		});
+		
 	}
 	
 	public static IdentityMarketChoice getNavigation(int id){
@@ -65,21 +71,6 @@ public class IdentityMarketChoice extends FlexTable{
 			navigation = new IdentityMarketChoice(id);
 		}
 		return navigation;
-	}
-	
-	
-	//reload der Seite nach wechseln in der OrgaUnitsBox
-	public static void reload(){
-		ownOrgUnits.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				Widget w = RootPanel.get("Details").getWidget(1);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(w);
-				
-			}
-		});
 	}
 	
 	public static int getSelectedIndex(){
@@ -111,6 +102,22 @@ public class IdentityMarketChoice extends FlexTable{
 		return 0;
 	}
 	
+	public static void deactivateOrgUnits(){
+		ownOrgUnits.setEnabled(false);
+	}
+	
+	public static void deactivateProjectMarkets(){
+		ownProjectMarkets.setEnabled(false);
+	}
+	
+	public static void activateOrgUnits(){
+		ownOrgUnits.setEnabled(true);
+	}
+	
+	public static void activateProjectMarkets(){
+		ownProjectMarkets.setEnabled(true);
+	}
+	
 	
 	private class getUser implements AsyncCallback<Person>{
 		
@@ -131,9 +138,6 @@ public class IdentityMarketChoice extends FlexTable{
 			if(person.getTeamId()!=null){
 				projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new getTeam());
 			}
-			if(person.getUnternehmenId()!=null){
-				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());	
-			}
 			projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(person, new getProjektmarktplatz());
 		}
 		
@@ -153,6 +157,10 @@ public class IdentityMarketChoice extends FlexTable{
 			Integer idOfTeam=result.getId();
 			ownOrgUnits.addItem("Team: "+result.getName(),idOfTeam.toString());	
 			team=result;
+			if(person.getUnternehmenId()!=null){
+				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());	
+			}
+
 		}
 		
 	}

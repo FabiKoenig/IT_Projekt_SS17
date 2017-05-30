@@ -87,12 +87,11 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	});
 	
 	
-	txt_projektname.getElement().setPropertyString("placeholder", "Projektname");
+	
 
 	
 	
 	txta_beschreibung.setPixelSize(200, 200);
-	txta_beschreibung.getElement().setPropertyString("placeholder", "Geben Sie die Beschreibung zum Projekt ein.");
 	
 	
 	
@@ -118,8 +117,6 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	ft_projektErstellen.setWidget(3, 1, db_startdatum);
 	ft_projektErstellen.setWidget(4, 0, lbl_enddatum);
 	ft_projektErstellen.setWidget(4, 1, db_enddatum);
-	ft_projektErstellen.setWidget(5, 0, lbl_projektmarktplatz);
-	ft_projektErstellen.setWidget(5, 1, lb_projektmarktplatz);
 	
 	ft_projektErstellen.setWidget(7, 1, hp);
 	
@@ -185,7 +182,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 			if (result != null) {
 				
-				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), lb_projektmarktplatz.getSelectedIndex() + 1, new CreateProjektCallback());
+//				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(),, new CreateProjektCallback());
 
 
 				

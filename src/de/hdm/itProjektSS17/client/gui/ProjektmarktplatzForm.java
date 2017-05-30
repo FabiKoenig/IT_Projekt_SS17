@@ -57,23 +57,32 @@ public class ProjektmarktplatzForm extends Showcase {
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
 		panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
 		
+		
+		
 		btn_projektmarktplatzloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
 				Projektmarktplatz selectedObject = ssm.getSelectedObject();
-				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteProjektmarktplatz(selectedObject, new AsyncCallback<Void>() {
-					
-					@Override
-					public void onSuccess(Void result) {
-						Window.alert("Der Projektmarktplatz wurde erfolgreich gelÃ¶scht");
+				
+				if (selectedObject != null) {
+					ClientsideSettings.getProjektmarktplatzVerwaltung().deleteProjektmarktplatz(selectedObject, new AsyncCallback<Void>() {
 						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Fehler: " + caught.toString());
+						@Override
+						public void onSuccess(Void result) {
+							Window.alert("Der Projektmarktplatz wurde erfolgreich gelÃ¶scht");
+							
+						}
 						
-					}
-				});
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Fehler: Der Projektmarktplatz konnte nicht gelöscht werden. ");
+							
+						}
+					});
+					
+				}else {
+					Window.alert("Es wurde kein Projektmarktplatz ausgewählt");
+				}
 				
 			}
 		});
@@ -83,12 +92,15 @@ public class ProjektmarktplatzForm extends Showcase {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				Window.alert("fail");
 			}
 
 			@Override
 			public void onSuccess(Vector<Projektmarktplatz> result) {
 				if(result != null){
-						projektmarktplatz = result;
+					
+					dataGrid.setRowData(0, result);
+					dataGrid.setRowCount(result.size(), true);
 					}
 				}
 		});
@@ -117,8 +129,7 @@ public class ProjektmarktplatzForm extends Showcase {
 		});
 		
 		
-		dataGrid.setRowCount(projektmarktplatz.size(), true);
-		dataGrid.setRowData(0, projektmarktplatz);
+		
 		dataGrid.setWidth("100%");
 		
 		this.add(dataGrid);		
