@@ -16,6 +16,16 @@
     <url-pattern>/it_projekt_ss17/Verwaltung</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+      <servlet-name>loginService</servlet-name>
+      <servlet-class>de.hdm.itProjektSS17.server.LoginServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+      <servlet-name>loginService</servlet-name>
+      <url-pattern>/Projekto/login</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>IT_Projekt_SS17.html</welcome-file>
