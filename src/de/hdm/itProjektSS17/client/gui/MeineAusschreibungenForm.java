@@ -32,11 +32,12 @@ public class MeineAusschreibungenForm extends Showcase{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static Vector<Ausschreibung> ausschreibungen = new Vector<>();
+	private static int partnerprofilId = 0;
 	
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Button ausschreibungLoeschenButton = new Button("Ausschreibung löschen");
 	Button ausschreibungBearbeitenButton = new Button("Ausschreibung bearbeiten");
-	Button partnerprofilBearbeitenButton = new Button("Partnerprofil bearbeiten");
+	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	//Formate der Datebox
@@ -144,7 +145,9 @@ public class MeineAusschreibungenForm extends Showcase{
 				public void onClick(ClickEvent event) {
 					
 					Ausschreibung selectedAusschreibung = selectionModel.getSelectedObject();
-					projektmarktplatzVerwaltung.deleteAusschreibung(selectedAusschreibung, new AsyncCallback<Void>() {
+					
+					if(selectionModel.getSelectedObject() != null){
+						projektmarktplatzVerwaltung.deleteAusschreibung(selectedAusschreibung, new AsyncCallback<Void>() {
 						
 						@Override
 						public void onSuccess(Void result) {
@@ -160,8 +163,11 @@ public class MeineAusschreibungenForm extends Showcase{
 							Window.alert("Fehler: Die Ausschreibung konnte nicht gelöscht werden.");
 						}
 					});
+				} else {
+					Window.alert("Bitte wähle zuerst die zu löschende Ausschreibung aus.");
 				}
-			});
+			}
+		});
 			
 				/**
 				 * Click-Handler zum bearbeiten einer Ausschreibung
@@ -182,6 +188,7 @@ public class MeineAusschreibungenForm extends Showcase{
 								final TextBox ausschreibungstextBox = new TextBox();
 								Button abbrechenButton = new Button("Abbrechen");
 								Button speichernButton = new Button("Speichern");
+								Button zurueckButton = new Button("Zurück");
 								
 								//Setzen des Formats
 								
@@ -211,10 +218,15 @@ public class MeineAusschreibungenForm extends Showcase{
 								dialogBoxPanel.add(ausschreibungBearbeitenFlexTable);
 								ausschreibungBearbeitenDialogBox.add(dialogBoxPanel);
 								
+								
+								
+							if(selectionModel.getSelectedObject() != null){	
 							//	Anzeigen der DialogBox
 								ausschreibungBearbeitenDialogBox.center();
 								ausschreibungBearbeitenDialogBox.show();
-								
+								} else {
+									Window.alert("Bitte wähle zuerst die Ausschreibung aus, die bearbeitet werden soll.");
+								}
 								/**
 								 * CLICK-HANDLER
 								 */
@@ -227,6 +239,7 @@ public class MeineAusschreibungenForm extends Showcase{
 									
 									speichernButton.addClickHandler(new ClickHandler() {
 										public void onClick(ClickEvent event) {
+											
 											if(ausschreibungBezeichungBox.getText() != "" && ausschreibungstextBox.getText() != ""){
 												Ausschreibung bearbeiteteAusschreibung = new Ausschreibung();
 												bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
@@ -269,6 +282,28 @@ public class MeineAusschreibungenForm extends Showcase{
 				}
 			});
 			
+			
+			/**
+			 * Click-Handler für den "Partnerprofil anzeigen/bearbeiten" Button
+			 */
+			
+			partnerprofilBearbeitenButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					
+					if(selectionModel.getSelectedObject() != null){
+						partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
+					
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
+					
+						Navigation.setCurrentClickHandler(this);
+						Navigation.setCurrentClickEvent(event);
+						
+						} else {
+							Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
+					}
+				}
+			});
 		
 			
 			
@@ -313,6 +348,10 @@ public class MeineAusschreibungenForm extends Showcase{
 		}
 			
 		
+	}
+
+	public static int getPartnerprofilIdOfSelectedAusschreibung(){
+		return partnerprofilId;
 	}
 	
 	

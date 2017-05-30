@@ -32,9 +32,11 @@ import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
-public class PartnerprofilEigenschaftenForm extends Showcase{
+public class MeinPartnerprofilForm extends Showcase{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	private static int partnerprofilId = 0;
+	
 	
 	//Elemente für die GUI
 	CellTable<Eigenschaft> dataGrid = new CellTable<Eigenschaft>();
@@ -113,7 +115,7 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen();
+				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId);
 				gg.center();
 				gg.show();
 		
@@ -130,7 +132,7 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 					public void onSuccess(Void result) {
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
 						
-						Showcase showcase = new PartnerprofilEigenschaftenForm();
+						Showcase showcase = new MeinPartnerprofilForm();
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(showcase);
 					}
@@ -228,6 +230,7 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 
 		@Override
 		public void onSuccess(Partnerprofil result) {
+			partnerprofilId = result.getId();
 			projektmarktplatzVerwaltung.getEigenschaftByForeignPartnerprofil(result, new GetEigenschaftenCallback());
 		}
 	}

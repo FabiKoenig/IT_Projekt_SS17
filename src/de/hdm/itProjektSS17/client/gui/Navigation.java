@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import org.cyberneko.html.HTMLScanner.CurrentEntity;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -151,7 +153,7 @@ public class Navigation extends StackPanel{
 			public void onClick(ClickEvent event) {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.activateOrgUnits();
-				Showcase showcase = new PartnerprofilEigenschaftenForm();
+				Showcase showcase = new MeinPartnerprofilForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -239,6 +241,11 @@ public class Navigation extends StackPanel{
 	public static ClickEvent getCurrentClickEvent() {
 		return currentClickEvent;
 	}
-	
+	public static void setCurrentClickHandler(ClickHandler c){
+		currentClickHandler = c;
+	}
+	public static void setCurrentClickEvent(ClickEvent e){
+		currentClickEvent = e;
+	}
 	
 }
