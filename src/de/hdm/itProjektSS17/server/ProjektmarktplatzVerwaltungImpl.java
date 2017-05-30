@@ -951,7 +951,15 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		return this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
+		
+		Vector<Ausschreibung> result = new Vector<Ausschreibung>();
+		if(o != null && this.ausschreibungMapper != null){
+			Vector<Ausschreibung> ausschreibungen = this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
+				if(ausschreibungen != null){
+					result.addAll(ausschreibungen);
+				}
+		}
+		return result;
 	}
 
 	

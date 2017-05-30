@@ -35,7 +35,6 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 public class PartnerprofilEigenschaftenForm extends Showcase{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private static Vector<Eigenschaft> eigenschaften = new Vector<>();
 	
 	//Elemente für die GUI
 	CellTable<Eigenschaft> dataGrid = new CellTable<Eigenschaft>();
@@ -92,8 +91,6 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 		});
 		
 		//Anpassen der CellTable
-		dataGrid.setRowCount(eigenschaften.size(), true);
-		dataGrid.setRowData(0, eigenschaften);
 		dataGrid.setWidth("100%");
 		
 		//Hinzufügen der Buttons zum ButtonPanel
@@ -217,7 +214,8 @@ public class PartnerprofilEigenschaftenForm extends Showcase{
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> result) {
-			eigenschaften = result;
+			dataGrid.setRowCount(result.size(), true);
+			dataGrid.setRowData(0, result);
 		}	
 	}
 	

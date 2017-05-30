@@ -99,9 +99,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
 							hide();
 							
-							Showcase showcase = new PartnerprofilEigenschaftenForm();
-							RootPanel.get("Details.").clear();
-							RootPanel.get("Details").add(showcase);
+							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 			});
 		} else{
