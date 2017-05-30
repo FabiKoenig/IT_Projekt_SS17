@@ -102,7 +102,7 @@ public class PartnerprofilMapper {
 			  // Leeres SQL-Statement (JDBC) anlegen
 		      Statement stmt = con.createStatement();
 		      //Statement ausfüllen und als Update an die Datenbank schicken.
-		      stmt.executeUpdate("DELETE FROM Partnerprofil " + "WHERE Partnerprofil_Id=" + p.getId());
+		      stmt.executeUpdate("DELETE FROM partnerprofil " + "WHERE Partnerprofil_Id=" + p.getId());
 		    }
 		    catch (SQLException e) {
 		      e.printStackTrace();
