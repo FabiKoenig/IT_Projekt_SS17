@@ -199,6 +199,8 @@ implements ProjektmarktplatzVerwaltung {
 		a.setPartnerprofilId(partnerprofilId);
 		a.setStatus(Ausschreibungsstatus.laufend);
 		
+		this.partnerprofilMapper.insert();
+		
 		return this.ausschreibungMapper.insert(a); 
 	}
 
@@ -509,15 +511,16 @@ implements ProjektmarktplatzVerwaltung {
 	public void deleteProjekt(Projekt p) throws IllegalArgumentException {
 		
 		Vector<Ausschreibung> ausschreibungen = this.getAusschreibungByForeignProjekt(p);
+		Vector<Beteiligung> beteiligungen = this.getBeteiligungByForeignProjekt(p);
 		
-		
-		for (Ausschreibung ausschreibung : ausschreibungen) {
-			if (ausschreibung.getPartnerprofilId() == this.getPartnerProfilByForeignAusschreibung(ausschreibung).getId()) {
-				
-				Partnerprofil pp = this.getPartnerProfilByForeignAusschreibung(ausschreibung);
-				this.deletePartnerprofil(pp);
-			}
+		for (Beteiligung beteiligung : beteiligungen){
+			this.deleteBeteiligung(beteiligung);
 		}
+		
+		for (Ausschreibung ausschreibung : ausschreibungen) {		
+			this.deleteAusschreibung(ausschreibung);
+		}
+
 		
 		this.projektMapper.delete(p);
 	}
@@ -951,7 +954,15 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
 			throws IllegalArgumentException {
-		return this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
+		
+		Vector<Ausschreibung> result = new Vector<Ausschreibung>();
+		if(o != null && this.ausschreibungMapper != null){
+			Vector<Ausschreibung> ausschreibungen = this.ausschreibungMapper.findByForeignAusschreibenderId(o.getId());
+				if(ausschreibungen != null){
+					result.addAll(ausschreibungen);
+				}
+		}
+		return result;
 	}
 
 	
@@ -1347,7 +1358,7 @@ implements ProjektmarktplatzVerwaltung {
 		}
 		
 		return result;
-			}
+		}
 	
 
 	/**

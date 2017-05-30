@@ -49,9 +49,11 @@ public class MeineBewerbungenForm extends Showcase{
 	CellTable cellTable = new CellTable();
 	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
+
 	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
 	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
 	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
+
 
 	
 	protected String getHeadlineText(){
@@ -60,11 +62,15 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	protected void run() {
 		
+		//Stylen des Buttons
+		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
 		
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
+
 		panel_Bewerbung.add(btn_bewerbungstext);
 		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new AsyncCallback<Organisationseinheit>(){
+
 		
 			@Override
 			public void onFailure(Throwable caught) {
@@ -86,7 +92,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public String getValue(ausschreibungBewerbungHybrid object) {
-				// TODO Auto-generated method stub
+			
 				return object.getAusschreibungsbezeichnung();
 			}
 
@@ -130,8 +136,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
 	
-		cellTable.setRowCount(ausBewHybrid.size(), true);
-		cellTable.setRowData(0,ausBewHybrid);
+		
 		cellTable.setWidth("100%");
 		
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
@@ -159,7 +164,9 @@ public class MeineBewerbungenForm extends Showcase{
 				}
 				projektmarktplatzVerwaltung.getBewerbungById(selectionModel.getSelectedObject().getBewerbungId(),new getBewerbungCallback());
 				}
-					
+
+				
+			
 			}
 		});
 		
@@ -260,6 +267,8 @@ public class MeineBewerbungenForm extends Showcase{
 				hybrid.add(localHybrid);
 			}
 			ausBewHybrid=hybrid;
+			cellTable.setRowCount(ausBewHybrid.size(), true);
+			cellTable.setRowData(0,ausBewHybrid);
 			};
 		}
 	

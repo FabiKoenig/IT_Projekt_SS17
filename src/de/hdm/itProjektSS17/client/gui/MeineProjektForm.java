@@ -42,10 +42,10 @@ public class MeineProjektForm extends Showcase{
 	
 	
 	
-//	FlexTable ft_projekteAnzeigen = new FlexTable();
-//	Button btn_eigeneProjekte = new Button("Eigene Projekte");
-//	Button btn_projektAnlegen = new Button("Projekt anlegen");
-//	Button btn_beteiligungen = new Button("Meine Beteiligungen");
+
+	Button btn_projektAnlegen = new Button("Projekt anlegen");
+	Button btn_projektLoeschen = new Button("Projekt löschen");
+
 	
 	protected String getHeadlineText(){
 		return "Meine Projekte";
@@ -265,6 +265,26 @@ public class MeineProjektForm extends Showcase{
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
 		
 		
+		btn_projektAnlegen.addClickHandler(new ClickHandler() {
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO weiterarbeiten
+			DialogBoxProjektAnlegen dpa = new DialogBoxProjektAnlegen();
+			int left = Window.getClientWidth() / 3;
+			int top = Window.getClientHeight() / 8;
+			dpa.setPopupPosition(left, top);
+			dpa.show();
+			
+		}
+	});
+		
+		
+	this.add(btn_projektAnlegen);
+	
+	projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
+		
+		
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -320,22 +340,37 @@ public class MeineProjektForm extends Showcase{
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				DialogBoxProjektAnzeigen dpa = new DialogBoxProjektAnzeigen();
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				dpa.setPopupPosition(left, top);
-				dpa.show();
-				
-				dpa.txt_projektname.setText(selectionModel.getSelectedObject().getName());
-				dpa.txta_beschreibung.setText(selectionModel.getSelectedObject().getBeschreibung());
-				dpa.txt_startdatum.setText(selectionModel.getSelectedObject().getStartdatum().toString());
-				dpa.txt_enddatum.setText(selectionModel.getSelectedObject().getEnddatum().toString());
-				dpa.txt_projektmarktplatz.setText(Integer.toString(selectionModel.getSelectedObject().getProjektmarktplatzId()));
-				dpa.txt_projektleiter.setText(Integer.toString(selectionModel.getSelectedObject().getProjektleiterId()));
 				
 			}
 		});
 		
+		this.add(btn_projektLoeschen);
+
+		
+		btn_projektLoeschen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if (selectionModel.getSelectedObject() != null) {
+					projektmarktplatzVerwaltung.deleteProjekt(selectionModel.getSelectedObject(), new AsyncCallback<Void>() {
+						
+						@Override
+						public void onSuccess(Void result) {
+							
+							Window.alert("Das Löschen des Projektes war erfolgreich....");
+							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Das Löschen des Projektes schlug fehl");
+							
+						}
+					});
+				}
+				
+			}
+		});
 		
 		
 		

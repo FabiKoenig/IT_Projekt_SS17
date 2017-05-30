@@ -165,7 +165,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
-				getPersonById(3, new ProfilBearbeitenCallback());
+				getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
 			}
 		});
 	}

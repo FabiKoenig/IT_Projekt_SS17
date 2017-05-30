@@ -30,6 +30,12 @@ public class ClientsideSettings extends CommonSettings{
 	private static ReportGeneratorAsync reportGenerator = null;
 	
 	/**
+	 * Remote Service Proxy zur Verbindungsaufnahme mit dem serverseitigen
+	 * Dienst <code>LoginService</code>
+	 */
+	private static LoginServiceAsync loginService = null;
+	
+	/**
 	 * Name des Client-seitigen Loggers.
 	 */
 	private static final String LOGGER_NAME = "Projektmarktplatz Web Client";
@@ -48,6 +54,20 @@ public class ClientsideSettings extends CommonSettings{
 	public static Logger getLogger(){
 		return log;
 	}
+	
+	/**
+	 * Durch die Methode wird die LoginService erstellt, sofern diese noch nicht besteht.
+	 * Bei erneutem Aufruf der Methode wird das bereits angelegte Objekt zurückgegeben.
+	 * 
+	 * @return eindeutige Instanz des Typs <code>LoginServiceAsync</code>
+	 */
+	public static LoginServiceAsync getLoginService(){
+		if(loginService == null){
+			loginService = GWT.create(LoginService.class);
+		}
+		return loginService;
+	}
+	
 	
 	/**
 	 * Durch die Methode wird die ProjektmarktplatzVerwaltung erstellt, sofern diese noch nicht besteht.

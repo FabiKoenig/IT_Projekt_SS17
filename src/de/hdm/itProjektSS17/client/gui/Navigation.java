@@ -112,6 +112,8 @@ public class Navigation extends StackPanel{
 				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new Impressum());
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});		
 		
@@ -224,6 +226,8 @@ public class Navigation extends StackPanel{
 				Showcase showcase = new MeineAusschreibungenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);	
+				currentClickHandler=this;
+				currentClickEvent=event;
 			}
 		});
 	}
