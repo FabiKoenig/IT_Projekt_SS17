@@ -9,6 +9,7 @@ import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
 import de.hdm.itProjektSS17.client.gui.Navigation;
 import de.hdm.itProjektSS17.client.gui.OrganisationseinheitverwaltenForm;
 import de.hdm.itProjektSS17.shared.FieldVerifier;
+import de.hdm.itProjektSS17.shared.LoginServiceAsync;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 import com.google.gwt.core.client.EntryPoint;
@@ -46,11 +47,14 @@ public class Projektmarktplatz implements EntryPoint {
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung;
 	private LoginServiceAsync loginService;
 	
-	
+	final Button Logout = new Button("Logout");
+	private Button loginButton = new Button("Login");
 	private LoginInfo loginInfo = null;
-	VerticalPanel loginPanel = new VerticalPanel();
-	Label loginLabel = new Label("Bitte Logge dich mit deinem Google Account ein, um Zugang zum Projekto zu erhalten.");
-	Anchor signInLink= new Anchor("Login");
+	private VerticalPanel loginPanel = new VerticalPanel();
+	private Label loginLabel = new Label("Bitte melde dich mit deinem Google Account an, um Zugang zu Projekto zu erhalten.");
+	private Anchor signInLink= new Anchor("Login");
+	private Anchor signOutLink = new Anchor("Logout");
+	
 	
 	
 	@Override
@@ -64,14 +68,14 @@ public class Projektmarktplatz implements EntryPoint {
 		projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		loginService = ClientsideSettings.getLoginService();
 		
-		
 		//Überprüfen des Login-Status
 		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
-		loginService.login(GWT.getHostPageBaseURL() + "IT_Projekt_SS17.html", new AsyncCallback<LoginInfo>() {
+		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Fehler: " + caught.toString());
+				Window.alert(GWT.getHostPageBaseURL());
 				
 			}
 
@@ -86,28 +90,44 @@ public class Projektmarktplatz implements EntryPoint {
 				
 			}
 		});	
+	
 	}
 	
 	
 	
 		private void loadLogin(){
-			loginPanel.add(loginLabel);
-			loginPanel.add(signInLink);
-			signInLink.setHref(loginInfo.getLoginUrl());
-			RootPanel.get("Details").add(loginPanel);
 			
+			loginPanel.setSpacing(20);
+			loginPanel.add(loginLabel);
+			loginPanel.add(loginButton);
+			signInLink.setHref(loginInfo.getLoginUrl());
+			RootPanel.get("Details").add(loginLabel);
+			RootPanel.get("Navigator").add(loginButton);
+			
+			
+			loginButton.setWidth("150px");
+			loginButton.setStylePrimaryName("projektmarktplatz-logout");
+			loginButton.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.open(signInLink.getHref(), "_self",
+							"");	
+				}
+			});
 		}
 	
 	
 		private void loadProjektmarktplatz(){
+			
+			//Erstellen des Logout-Links
+			signOutLink.setHref(loginInfo.getLogoutUrl());
+			
 			//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 			
 			RootPanel.get("Header").add(IdentityMarketChoice.getNavigation(3));
 			//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
-			
 
-			
-			final Button Logout = new Button("Logout");
 		    RootPanel.get("Navigator").add(Logout);
 		    RootPanel.get("Navigator").add(new Navigation());
 			
@@ -117,7 +137,7 @@ public class Projektmarktplatz implements EntryPoint {
 //		    RootPanel.get("Header").add(topPanel);
 		    //Erstellen Projektmarktzplatz Button
 		    
-
+		    Logout.setWidth("150px");
 		    Logout.setStylePrimaryName("projektmarktplatz-logout");
 
 		    
@@ -126,7 +146,8 @@ public class Projektmarktplatz implements EntryPoint {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					///Session beenden
+					Window.open(signOutLink.getHref(), "_self",
+							"");
 				}
 			});
 		    

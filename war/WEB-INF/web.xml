@@ -23,7 +23,7 @@
   
   <servlet-mapping>
       <servlet-name>loginService</servlet-name>
-      <url-pattern>/Projekto/login</url-pattern>
+      <url-pattern>/it_projekt_ss17/login</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

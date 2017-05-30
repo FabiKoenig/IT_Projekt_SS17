@@ -5,7 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.itProjektSS17.client.LoginInfo;
-import de.hdm.itProjektSS17.client.LoginService;
+import de.hdm.itProjektSS17.shared.LoginService;
 
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
 
