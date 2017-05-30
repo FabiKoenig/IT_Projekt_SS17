@@ -29,6 +29,8 @@ public class StellenauschreibungForm extends Showcase {
 	private static  Vector<Projekt> projekte = new Vector<>();
 	Projektmarktplatz p = new Projektmarktplatz();
 	
+	CellTable<Ausschreibung> dataGrid = new CellTable();
+	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
@@ -82,9 +84,10 @@ public class StellenauschreibungForm extends Showcase {
 									public void onSuccess(Vector<Ausschreibung> result) {
 										// TODO Auto-generated method stub
 										if(result != null){
-											for(Ausschreibung ausschreibung : result){
-												ausschreibungen.add(ausschreibung);
-											}
+											
+												dataGrid.setRowCount(result.size(), true);
+												dataGrid.setRowData(0, result);
+											
 										}
 									
 									}
@@ -99,7 +102,7 @@ public class StellenauschreibungForm extends Showcase {
 			
 		});
 		
-		CellTable<Ausschreibung> dataGrid = new CellTable();
+		
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -168,8 +171,7 @@ public class StellenauschreibungForm extends Showcase {
 		
 		
 		
-		dataGrid.setRowCount(ausschreibungen.size(), true);
-		dataGrid.setRowData(0, ausschreibungen);
+		
 		dataGrid.setWidth("100%");
 		
 		this.add(dataGrid);
