@@ -191,5 +191,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAllProjektmarktplatz(AsyncCallback<Vector<Projektmarktplatz>> callback);
 
+	void getBewerbungByForeignAusschreibungId(int id, AsyncCallback<Vector<Bewerbung>> callback);
+
 
 }

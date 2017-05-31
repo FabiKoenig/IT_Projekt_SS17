@@ -1157,6 +1157,24 @@ implements ProjektmarktplatzVerwaltung {
 		return result;
 	}
 
+	/**
+	 * Liefert einen Vector mit Bewerbungen anhand der AusschreibungId
+	 * @param id
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Bewerbung> getBewerbungByForeignAusschreibungId(int id) throws IllegalArgumentException {
+		Vector <Bewerbung> result = new Vector <Bewerbung>();
+			if(this.bewerbungMapper != null){
+				
+				Vector<Bewerbung> bewerbungen = this.bewerbungMapper.findByForeignAusschreibungId(id);
+				
+				if (bewerbungen != null){
+					result.addAll(bewerbungen);
+				}
+			}
+			return result; 
+	}
 	
 	/**
 	 * Gibt eine Ausschreibung zu dem übergebenen Partnerprofil-Objekt zurück.

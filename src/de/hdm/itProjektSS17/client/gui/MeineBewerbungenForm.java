@@ -50,9 +50,9 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
 
-	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurÃ¼ckziehen");
 	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
-	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
+	//Button btn_bewerbungzurï¿½ckziehen = new Button("Projektmarktplatz anlegen");
 
 
 	
@@ -64,7 +64,9 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		//Stylen des Buttons
 		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
+		btn_bewerbungstext.setStylePrimaryName("navi-button");
 		
+		this.setSpacing(8);
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
 
@@ -198,6 +200,7 @@ public class MeineBewerbungenForm extends Showcase{
 		private String ausschreibungsbezeichnername;
 		private Date erstellungsdatum;
 		private Bewerbungsstatus statusBewerbungsstatus;
+		private String bewerber;
 		
 		public int getBewerbungId() {
 			return bewerbungId;
@@ -316,7 +319,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Das Zurückziehen der Bewerbung ist fehlgeschlagen!");
+				Window.alert("Das Zurï¿½ckziehen der Bewerbung ist fehlgeschlagen!");
 				
 			}
 
@@ -332,7 +335,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 					@Override
 					public void onSuccess(Void result) {
-						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
+						Window.alert("Das Zurï¿½ckziehen der Bewerbung war erfolgreich!");
 					;
 						
 					}

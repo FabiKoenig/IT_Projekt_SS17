@@ -39,6 +39,7 @@ public class Navigation extends StackPanel{
 	Button homeButton = new Button("Home");
 	Button agbButton = new Button("AGB");
 	Button impressumButton = new Button("Impressum");
+	Button testButton = new Button("TEST");
 	
 	Button ausschreibungenButton = new Button("Stellenausschreibungen");
 	Button projektmarktplaetzeButton = new Button("Projektmarktplätze");
@@ -64,6 +65,7 @@ public class Navigation extends StackPanel{
 		startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
 		agbButton.setStylePrimaryName("navi-button");
+		startseitePanel.add(testButton); //TODO WIEDER RAUS MACHEN
 		startseitePanel.setSpacing(5);
 		
 		//Zusammensetzen des projektlocatorPanels
@@ -230,6 +232,16 @@ public class Navigation extends StackPanel{
 				RootPanel.get("Details").add(showcase);	
 				currentClickHandler=this;
 				currentClickEvent=event;
+			}
+		});
+		
+		testButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(3));	
+				
 			}
 		});
 	}

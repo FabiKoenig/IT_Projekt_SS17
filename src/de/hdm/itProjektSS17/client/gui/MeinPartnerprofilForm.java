@@ -118,7 +118,6 @@ public class MeinPartnerprofilForm extends Showcase{
 				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId);
 				gg.center();
 				gg.show();
-		
 			}
 		});
 		
