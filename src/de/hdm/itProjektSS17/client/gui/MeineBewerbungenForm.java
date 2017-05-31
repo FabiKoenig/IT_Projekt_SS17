@@ -19,8 +19,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
-
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.server.db.BewerbungMapper;
@@ -49,9 +49,11 @@ public class MeineBewerbungenForm extends Showcase{
 	CellTable cellTable = new CellTable();
 	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
-	Button btn_bewerbungloeschen = new Button("Bewerbung zurÃ¼ckziehen");
-	
-	//Button btn_bewerbungzurï¿½ckziehen = new Button("Projektmarktplatz anlegen");
+
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
+	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
+	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
+
 
 	
 	protected String getHeadlineText(){
@@ -65,7 +67,10 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
-		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new AsyncCallback<Person>(){
+
+		panel_Bewerbung.add(btn_bewerbungstext);
+		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new AsyncCallback<Organisationseinheit>(){
+
 		
 			@Override
 			public void onFailure(Throwable caught) {
@@ -73,7 +78,7 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 
 			@Override
-			public void onSuccess(Person result) {
+			public void onSuccess(Organisationseinheit result) {
 			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 			projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());	
@@ -87,7 +92,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public String getValue(ausschreibungBewerbungHybrid object) {
-				// TODO Auto-generated method stub
+			
 				return object.getAusschreibungsbezeichnung();
 			}
 
@@ -144,8 +149,12 @@ public class MeineBewerbungenForm extends Showcase{
 	
 			}
 		});
-		
-
+		btn_bewerbungstext.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
+				text.show();
+		}
+		});
 		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
@@ -155,25 +164,13 @@ public class MeineBewerbungenForm extends Showcase{
 				}
 				projektmarktplatzVerwaltung.getBewerbungById(selectionModel.getSelectedObject().getBewerbungId(),new getBewerbungCallback());
 				}
+
 				
-				/*ausschreibungBewerbungHybrid selectedObject = selectionModel.getSelectedObject();
-				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteBewerbung(selectedObject, new AsyncCallback<Void>() {
-				
-					@Override
-					public void onSuccess(Void result) {
-						Window.alert("Die Bewerbung wurde erfolgreich zurï¿½ck gezogen");
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Fehler: " + caught.toString());
-						
-					}
-				});*/
-				
+			
 			}
 		});
+		
+		
 		
 		this.add(cellTable);
 	}
@@ -181,6 +178,13 @@ public class MeineBewerbungenForm extends Showcase{
 	private class ausschreibungBewerbungHybrid{
 		
 		private int bewerbungId;
+		private String bewerbungstext;
+		public String getBewerbungstext() {
+			return bewerbungstext;
+		}
+		public void setBewerbungstext(String bewerbungstext){
+			this.bewerbungstext=bewerbungstext;
+		}
 		private String ausschreibungsbezeichnung;
 		private String ausschreibungsbezeichnername;
 		private Date erstellungsdatum;
@@ -258,6 +262,7 @@ public class MeineBewerbungenForm extends Showcase{
 				localHybrid.setBewerbungId(result.get(i).getId());
 				localHybrid.setErstellungsdatum(result.get(i).getErstellungsdatum());
 				localHybrid.setStatusBewerbungsstatus(result.get(i).getStatus());
+				localHybrid.setBewerbungstext(result.get(i).getBewerbungstext());
 				
 				hybrid.add(localHybrid);
 			}
@@ -319,6 +324,7 @@ public class MeineBewerbungenForm extends Showcase{
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
+					;
 						
 					}
 				});

@@ -67,7 +67,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		
 		@Override
 		public void onClick(ClickEvent event) {
-			projektmarktplatzVerwaltung.getPersonById(8, new GetPersonCallback2());
+			projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback2());
 			hide();
 			
 			Showcase showcase = new MeineProjektForm();
@@ -182,8 +182,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 			if (result != null) {
 				
-//				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(),, new CreateProjektCallback());
-
+				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), IdentityMarketChoice.getSelectedProjectMarketplaceId(), new CreateProjektCallback());
 
 				
 				
@@ -206,6 +205,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 
 			Window.alert("Projekt erfolgreich hinzugefügt!");
+			Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 		}
 		
 	}
