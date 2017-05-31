@@ -151,12 +151,21 @@ public class MeineBewerbungenForm extends Showcase{
 		});
 		btn_bewerbungstext.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
+				if (selectionModel.getSelectedObject() == null)
+				{
+					Window.alert("Bitte wählen Sie eine Bewerbung aus");
+				}
 				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
 				text.show();
 		}
 		});
 		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
+				if (selectionModel.getSelectedObject() == null)
+				{
+					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
+				}
 				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
 				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
 				{
@@ -230,7 +239,7 @@ public class MeineBewerbungenForm extends Showcase{
 		@Override
 		public void onFailure(Throwable caught) {
 			
-			Window.alert("Das Anzeigen der Projekte der Person ist fehlgeschlagen!");
+			Window.alert("Das Anzeigen der Bewerbungen ist fehlgeschlagen!");
 			
 		}
 		@Override
@@ -248,7 +257,7 @@ public class MeineBewerbungenForm extends Showcase{
 				localHybrid.setAusschreibungsbezeichnung(ausschreibung.get(i).getBezeichnung());
 				if (ausschreibender.get(i) instanceof Person){
 					Person localPerson = (Person) ausschreibender.get(i);
-					localHybrid.setAusschreibungsbezeichnername(localPerson.getVorname());
+					localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
 				} else if(ausschreibender.get(i) instanceof Team){
 					Team localTeam = (Team) ausschreibender.get(i);
 					localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
@@ -279,7 +288,7 @@ public class MeineBewerbungenForm extends Showcase{
 		@Override
 		public void onFailure(Throwable caught) {
 			
-			Window.alert("Das Anzeigen der Bewerbung ist fehlgeschlagen!");
+			Window.alert("Das Anzeigen der Bewerbungen ist fehlgeschlagen!");
 			
 		}
 		@Override
