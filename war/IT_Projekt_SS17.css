@@ -112,7 +112,11 @@ div#TopLevelFrame {
     border-rigt: dotted silver;
 }
 
-
+#logo{
+	position: absolute;
+	top: 8px;
+	left: 22px;
+}
 
 /**
 	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.
