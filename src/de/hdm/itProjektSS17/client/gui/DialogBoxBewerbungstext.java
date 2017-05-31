@@ -21,15 +21,15 @@ public class DialogBoxBewerbungstext extends DialogBox {
 	VerticalPanel vp = new VerticalPanel();
 	FlexTable ft_bewerbungstext = new FlexTable();
 	TextArea txta_bewerbungstext = new TextArea();
-	Button btn_zurueck = new Button("Zurück");
-
+	Button btn_zurueck = new Button("ZurÃ¼ck");
 	
 	public DialogBoxBewerbungstext(String text){
+		btn_zurueck.setStylePrimaryName("navi-button");
 		this.setText("Bewerbungstext anzeigen: ");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
-		
-		vp.setPixelSize(400, 600);
+		this.center();
+		vp.setPixelSize(400, 400);
 		vp.setSpacing(10);
 		vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		

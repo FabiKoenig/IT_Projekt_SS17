@@ -10,6 +10,7 @@ import java.util.Vector;
 
 
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
+import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung.Ausschreibungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
@@ -257,6 +258,39 @@ public class AusschreibungMapper {
 		  return a;
 		  
 	  }
+	  
+	  public Vector<Ausschreibung> findAllAusschreibungen(){
+			Connection con = DBConnection.connection();
+			
+			Vector<Ausschreibung> result = new Vector<Ausschreibung>();
+			
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * "
+						+ " FROM ausschreibung WHERE Ausschreibungsstatus='offen'");
+				
+				
+				while (rs.next()){
+					Ausschreibung a = new Ausschreibung();
+					a.setId(rs.getInt("Ausschreibung_Id"));
+					a.setBezeichnung(rs.getString("Bezeichnung"));
+					a.setAusschreibenderId(rs.getInt("Ausschreibender_Id"));
+					a.setAusschreibungstext(rs.getString("Ausschreibungstext"));
+					a.setPartnerprofilId(rs.getInt("Partnerprofil_Id"));
+					a.setBewerbungsfrist(rs.getDate("Bewerbungsfrist"));
+					a.setProjektId(rs.getInt("Projekt_Id"));
+					a.setStatus(Ausschreibungsstatus.valueOf(rs.getString("Ausschreibungsstatus")));
+			
+					
+					result.add(a);
+					} 
+				}  
+			catch (SQLException e) {
+			e.printStackTrace();
+			}
+			return result;
+			
+		}
 	  
 	  /**
 	   * 

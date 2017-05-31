@@ -50,9 +50,9 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
 
-	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurÃ¼ckziehen");
 	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
-	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
+	//Button btn_bewerbungzurï¿½ckziehen = new Button("Projektmarktplatz anlegen");
 
 
 	
@@ -64,6 +64,7 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		//Stylen des Buttons
 		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
+		btn_bewerbungstext.setStylePrimaryName("navi-button");
 		
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
@@ -79,7 +80,6 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public void onSuccess(Organisationseinheit result) {
-			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 			projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());	
 					
@@ -153,7 +153,7 @@ public class MeineBewerbungenForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				if (selectionModel.getSelectedObject() == null)
 				{
-					Window.alert("Bitte wählen Sie eine Bewerbung aus");
+					Window.alert("Bitte wÃ¤hlen Sie eine Bewerbung aus");
 				}
 				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
 				text.show();
@@ -164,7 +164,7 @@ public class MeineBewerbungenForm extends Showcase{
 				
 				if (selectionModel.getSelectedObject() == null)
 				{
-					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
+					Window.alert("Bitte wÃ¤hlen Sie die zu lÃ¶schende Bewerbung aus");
 				}
 				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
 				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
@@ -316,7 +316,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Das Zurückziehen der Bewerbung ist fehlgeschlagen!");
+				Window.alert("Das ZurÃ¼ckziehen der Bewerbung ist fehlgeschlagen!");
 				
 			}
 
@@ -332,7 +332,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 					@Override
 					public void onSuccess(Void result) {
-						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
+						Window.alert("Das ZurÃ¼ckziehen der Bewerbung war erfolgreich!");
 					;
 						
 					}
