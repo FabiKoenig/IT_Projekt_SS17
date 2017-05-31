@@ -1,5 +1,3 @@
-
-
 .projektmarktplatz-headline {
 	font-size: 12pt;
 	font-weight: bold;
@@ -75,7 +73,7 @@ div#TopLevelFrame {
     width:250px;
     float:left;
     padding:5px;
-    border-left: dotted silver;
+    border-left: solid silver;
 }
 
 
@@ -84,15 +82,15 @@ div#TopLevelFrame {
     height:auto;
     float:left;
     padding:10px;
-    border-rigth: dotted silver;
+    border-rigth: solid silver;
 }
 
 
 #Trailer {
 	background-color:#117ada;
-	border-bottom: dotted silver;
-	border-left: dotted silver;
-	border-right: dotted silver;
+	border-bottom: solid silver;
+	border-left: solid silver;
+	border-right: solid silver;
     color:white;
     clear:both;
     text-align:center;
@@ -107,9 +105,9 @@ div#TopLevelFrame {
     padding:2px;
     height:120px;
     width:auto;	
-    border-top: dotted silver;
-    border-left: dotted silver;
-    border-rigt: dotted silver;
+    border-top:  solid silver;
+    border-left: solid silver;
+    border-right: solid silver;
 }
 
 #logo{
@@ -117,6 +115,8 @@ div#TopLevelFrame {
 	top: 8px;
 	left: 22px;
 }
+
+
 
 /**
 	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.

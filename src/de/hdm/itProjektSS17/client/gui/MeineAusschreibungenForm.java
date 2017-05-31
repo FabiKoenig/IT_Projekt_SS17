@@ -33,6 +33,8 @@ public class MeineAusschreibungenForm extends Showcase{
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static Vector<Ausschreibung> ausschreibungen = new Vector<>();
 	private static int partnerprofilId = 0;
+	private static ClickHandler clickhandler;
+	private static ClickEvent clickevent;
 	
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Button ausschreibungLoeschenButton = new Button("Ausschreibung löschen");
@@ -299,12 +301,28 @@ public class MeineAusschreibungenForm extends Showcase{
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
 					
+						clickhandler = this;
+						clickevent = event;
 //						Navigation.setCurrentClickHandler(this);
 //						Navigation.setCurrentClickEvent(event);
 						
 						} else {
 							Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
 					}
+				}
+			});
+			
+			bewerbungenAnzeigenButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					
+					if(selectionModel.getSelectedObject() != null){
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
+						
+					} else {
+						Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
+					}
+					
 				}
 			});
 		
@@ -348,13 +366,18 @@ public class MeineAusschreibungenForm extends Showcase{
 				dataGrid.setRowData(0, result);
 			
 			}
-		}
-			
-		
+		}	
 	}
 
+	
 	public static int getPartnerprofilIdOfSelectedAusschreibung(){
 		return partnerprofilId;
+	}
+	public static ClickHandler getClickHandlerForBewerbungen(){
+		return clickhandler;
+	}
+	public static ClickEvent getClickEventForBewerbungen(){
+		return clickevent;
 	}
 	
 	

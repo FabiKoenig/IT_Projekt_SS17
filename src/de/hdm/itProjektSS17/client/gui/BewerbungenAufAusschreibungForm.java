@@ -3,6 +3,8 @@ package de.hdm.itProjektSS17.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
@@ -10,6 +12,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -25,9 +29,12 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	
 	
 	CellTable<BewertungBewerbungHybrid> dataGrid = new CellTable<BewertungBewerbungHybrid>();
+	Vector<BewertungBewerbungHybrid> hybrid = new Vector<BewertungBewerbungHybrid>();
 	Vector<Bewerbung> bewerbungen = new Vector<Bewerbung>();
+	Bewertung bewertung = null;
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
 	Button bewerberZusagenButton = new Button("Bewerber annehmen");
+	Button zurueckButton = new Button("Zurück");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
@@ -101,10 +108,13 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		});
 		
 		//Hinzufügen der Buttons zum ButtonPanel
+		buttonPanel.add(zurueckButton);
 		buttonPanel.add(bewerbungBewertenButton);
 		buttonPanel.add(bewerberZusagenButton);
 		
+		
 		//Stylen der Buttons
+		zurueckButton.setStylePrimaryName("navi-button");
 		bewerbungBewertenButton.setStylePrimaryName("navi-button");
 		bewerberZusagenButton.setStylePrimaryName("navi-button");
 		
@@ -112,6 +122,17 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		
+		
+		/**
+		 * CLICK-HANDLER
+		 */
+		
+		zurueckButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new MeineAusschreibungenForm());				
+			}
+		});
 	}
 	
 	private class BewertungBewerbungHybrid{
@@ -179,13 +200,23 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		}
 		public void onSuccess(Vector<Bewerbung> result) {
 			
-			Vector<BewertungBewerbungHybrid> hybrid = new Vector();
-			
 			bewerbungen = result;
 			
 			for(int i=0;i<bewerbungen.size();i++){
+				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.elementAt(i), new GetBewertungCallback());
 				
+				//Erstellen einer neuen Instanz unserer Hybrid-Klasse BewertungBewerbungHybrid
+				BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
+				localHybrid.setBewerbungstext(bewerbungen.elementAt(i).getBewerbungstext());
+				localHybrid.setErstellungsdatum(bewerbungen.elementAt(i).getErstellungsdatum());
+				localHybrid.setBewerbungsstatus(bewerbungen.elementAt(i).getStatus());
+				localHybrid.setStellungsnahme(bewertung.getStellungnahme());
+				localHybrid.setBewertungWert(bewertung.getWert());
+				
+				hybrid.add(localHybrid);
 			}
+			dataGrid.setRowCount(hybrid.size(), true);
+			dataGrid.setRowData(0,hybrid);
 		}
 		
 	}
@@ -195,7 +226,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			Window.alert("Fehler: " + caught.toString());
 		}
 		public void onSuccess(Bewertung result) {
-			// TODO Auto-generated method stub
+			bewertung = result;
 			
 		}
 		

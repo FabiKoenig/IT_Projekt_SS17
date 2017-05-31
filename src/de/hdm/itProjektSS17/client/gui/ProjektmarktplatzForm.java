@@ -53,6 +53,10 @@ public class ProjektmarktplatzForm extends Showcase {
 		
 		this.add(panel_projektmarktplatz);
 		
+		//Stylen der Buttons
+		btn_projektmarktplatzanlegen.setStylePrimaryName("navi-button");
+		btn_projektmarktplatzloeschen.setStylePrimaryName("navi-button");
+		
 		//HinzufÃ¼gen der Buttons zum Panel
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
 		panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
@@ -75,13 +79,13 @@ public class ProjektmarktplatzForm extends Showcase {
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							Window.alert("Fehler: Der Projektmarktplatz konnte nicht gelöscht werden. ");
+							Window.alert("Fehler: Der Projektmarktplatz konnte nicht gelï¿½scht werden. ");
 							
 						}
 					});
 					
 				}else {
-					Window.alert("Es wurde kein Projektmarktplatz ausgewählt");
+					Window.alert("Es wurde kein Projektmarktplatz ausgewï¿½hlt");
 				}
 				
 			}
