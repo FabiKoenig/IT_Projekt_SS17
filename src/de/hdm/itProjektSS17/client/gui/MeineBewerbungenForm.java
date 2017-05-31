@@ -191,6 +191,7 @@ public class MeineBewerbungenForm extends Showcase{
 		private String ausschreibungsbezeichnername;
 		private Date erstellungsdatum;
 		private Bewerbungsstatus statusBewerbungsstatus;
+		private String bewerber;
 		
 		public int getBewerbungId() {
 			return bewerbungId;

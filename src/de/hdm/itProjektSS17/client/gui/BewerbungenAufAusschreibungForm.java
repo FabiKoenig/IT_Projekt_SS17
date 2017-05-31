@@ -22,6 +22,10 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
+import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
+import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.Team;
+import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 
@@ -31,7 +35,10 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	CellTable<BewertungBewerbungHybrid> dataGrid = new CellTable<BewertungBewerbungHybrid>();
 	Vector<BewertungBewerbungHybrid> hybrid = new Vector<BewertungBewerbungHybrid>();
 	Vector<Bewerbung> bewerbungen = new Vector<Bewerbung>();
+	Vector <String> bewerber = new Vector<String>();
+	Vector<Bewertung> bewertungen = new Vector<Bewertung>();
 	Bewertung bewertung = null;
+	//String bewerber = null;
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
 	Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button zurueckButton = new Button("Zurück");
@@ -89,11 +96,21 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			}
 		};
 		
+		TextColumn<BewertungBewerbungHybrid> bewerberColumn = new TextColumn<BewertungBewerbungHybrid>(){
+
+			@Override
+			public String getValue(BewertungBewerbungHybrid object) {
+				return object.getBewerber();
+			}
+		};
+		
+		dataGrid.addColumn(bewerberColumn, "Bewerber");
 		dataGrid.addColumn(bewerbungstextColumn, "Bewerbungstext");
 		dataGrid.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		dataGrid.addColumn(bewerbungsstatusColumn, "Bewerbungsstatus");
 		dataGrid.addColumn(stellungsnahmeColumn, "Stellungsnahme");
 		dataGrid.addColumn(bewertungsWertColumn, "Bewertung");
+		
 		dataGrid.setWidth("100%");
 		
 		final SingleSelectionModel<BewertungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
@@ -143,7 +160,16 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private String stellungsnahme;
 		private double bewertungWert;
 		private int bewerbungId;
+		private String bewerber;
 		
+		public String getBewerber() {
+			return bewerber;
+		}
+
+		public void setBewerber(String bewerber) {
+			this.bewerber = bewerber;
+		}
+
 		public int getBewerbungId() {
 			return bewerbungId;
 		}
@@ -200,21 +226,53 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		}
 		public void onSuccess(Vector<Bewerbung> result) {
 			
-			bewerbungen = result;
+			bewerbungen = result;			
+			BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
 			
 			for(int i=0;i<bewerbungen.size();i++){
-				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.elementAt(i), new GetBewertungCallback());
+				
+				
+				
+				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.get(i), new AsyncCallback<Bewertung>() {
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: " + caught.toString());
+					}
+					public void onSuccess(Bewertung result) {
+						bewertung = result;						
+					}
+				});
+				projektmarktplatzVerwaltung.getOrganisationseinheitById(bewerbungen.get(i).getOrganisationseinheitId(), new AsyncCallback<Organisationseinheit>() {
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: " + caught.toString());
+					}
+					public void onSuccess(Organisationseinheit result) {
+						if(result instanceof Person){
+							bewerber.add(((Person) result).getVorname() + " " + ((Person) result).getNachname()); 
+						} else if(result instanceof Team){
+							bewerber.add(((Team) result).getName());
+						} else if(result instanceof Unternehmen){
+							bewerber.add(((Unternehmen) result).getName());
+						}						
+					}
+				});
+				
 				
 				//Erstellen einer neuen Instanz unserer Hybrid-Klasse BewertungBewerbungHybrid
-				BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
-				localHybrid.setBewerbungstext(bewerbungen.elementAt(i).getBewerbungstext());
-				localHybrid.setErstellungsdatum(bewerbungen.elementAt(i).getErstellungsdatum());
-				localHybrid.setBewerbungsstatus(bewerbungen.elementAt(i).getStatus());
+				
+				localHybrid.setBewerbungstext(bewerbungen.get(i).getBewerbungstext());
+				localHybrid.setErstellungsdatum(bewerbungen.get(i).getErstellungsdatum());
+				localHybrid.setBewerbungsstatus(bewerbungen.get(i).getStatus());
 				localHybrid.setStellungsnahme(bewertung.getStellungnahme());
 				localHybrid.setBewertungWert(bewertung.getWert());
+				localHybrid.setBewerber(bewerber.get(i));
+				
+				
 				
 				hybrid.add(localHybrid);
+				
+				
 			}
+			Window.alert("Hallo i bim hier und lad zeugs in de vector");
 			dataGrid.setRowCount(hybrid.size(), true);
 			dataGrid.setRowData(0,hybrid);
 		}
@@ -226,10 +284,28 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			Window.alert("Fehler: " + caught.toString());
 		}
 		public void onSuccess(Bewertung result) {
-			bewertung = result;
+			
+			bewertungen.add(result);
 			
 		}
 		
+	}
+	
+	private class GetBewerberCallback implements AsyncCallback<Organisationseinheit>{
+		public void onFailure(Throwable caught) {
+			Window.alert("Fehler: " + caught.toString());
+		}
+
+		public void onSuccess(Organisationseinheit result) {
+			
+			if(result instanceof Person){
+				bewerber.add(((Person) result).getVorname() + " " + ((Person) result).getNachname()); 
+			} else if(result instanceof Team){
+				bewerber.add(((Team) result).getName());
+			} else if(result instanceof Unternehmen){
+				bewerber.add(((Unternehmen) result).getName());
+			}
+		}		
 	}
 	
 	
