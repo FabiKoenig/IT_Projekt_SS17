@@ -37,10 +37,11 @@ public class MeineAusschreibungenForm extends Showcase{
 	private static ClickEvent clickevent;
 	
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
-	Button ausschreibungLoeschenButton = new Button("Ausschreibung löschen");
-	Button ausschreibungBearbeitenButton = new Button("Ausschreibung bearbeiten");
+	Button ausschreibungLoeschenButton = new Button("Löschen");
+	Button ausschreibungBearbeitenButton = new Button("Bearbeiten");
 	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
-	Button bewerbungenAnzeigenButton = new Button("Eigegangene Bewerbungen anzeigen");
+	Button bewerbungenAnzeigenButton = new Button("Bewerbungen anzeigen");
+	Button ausschreibungstextButton = new Button("Ausschreibungstext anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	//Formate der Datebox
@@ -101,7 +102,7 @@ public class MeineAusschreibungenForm extends Showcase{
 			// Hinzufügen der Spalten zu unserer CellTable
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
-				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstest");
+				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
 				
 			// Anlegen des SingleSeletion Models
@@ -125,12 +126,14 @@ public class MeineAusschreibungenForm extends Showcase{
 				buttonPanel.add(ausschreibungLoeschenButton);
 				buttonPanel.add(partnerprofilBearbeitenButton);
 				buttonPanel.add(bewerbungenAnzeigenButton);
+				buttonPanel.add(ausschreibungstextButton);
 				
 			//Style der Buttons
 				ausschreibungBearbeitenButton.setStylePrimaryName("navi-button");
 				ausschreibungLoeschenButton.setStylePrimaryName("navi-button");
 				partnerprofilBearbeitenButton.setStylePrimaryName("navi-button");
 				bewerbungenAnzeigenButton.setStylePrimaryName("navi-button");
+				ausschreibungstextButton.setStylePrimaryName("navi-button");
 				
 			//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
 				this.setSpacing(8);

@@ -139,8 +139,8 @@ div#TopLevelFrame {
 	text-decoration: none;
 	width: auto;
 	outline-color: #000000;
-	margin-left: 15px;
-	margin-right: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
 	cursor: pointer;
 	cursor: hand;
 	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
