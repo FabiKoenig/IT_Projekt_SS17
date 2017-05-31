@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
-import de.hdm.itProjektSS17.client.gui.PartnerprofilEigenschaftenForm.GetEigenschaftenCallback;
-import de.hdm.itProjektSS17.client.gui.PartnerprofilEigenschaftenForm.GetPartnerProfilCallback;
+import de.hdm.itProjektSS17.client.gui.MeinPartnerprofilForm.GetEigenschaftenCallback;
+import de.hdm.itProjektSS17.client.gui.MeinPartnerprofilForm.GetPartnerProfilCallback;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
@@ -38,7 +38,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	Button speichernButton = new Button("Speichern");
 	
 	
-	public DialogBoxEigenschaftHinzufuegen(){
+	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId){
 	
 	//Erstellen der FlexTable
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 1, eigenschaftNameBox);
@@ -70,7 +70,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	speichernButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-			projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
+			projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new SetEigenschaftenCallback());
 			
 		}
 	});
@@ -99,6 +99,9 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
 							hide();
 							
+//							RootPanel.get("Details").clear();
+//							RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
+//							
 							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 			});
@@ -110,19 +113,19 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	}
 	
 	
-	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-		}
-
-		@Override
-		public void onSuccess(Organisationseinheit result) {		
-			if (result != null) {
-				projektmarktplatzVerwaltung.getPartnerprofilByForeignOrganisationseinheit(result, new SetEigenschaftenCallback());
-			}			
-		}
-	
-	}
+//	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
+//		}
+//
+//		@Override
+//		public void onSuccess(Organisationseinheit result) {		
+//			if (result != null) {
+//				projektmarktplatzVerwaltung.getPartnerprofilByForeignOrganisationseinheit(result, new SetEigenschaftenCallback());
+//			}			
+//		}
+//	
+//	}
 }
