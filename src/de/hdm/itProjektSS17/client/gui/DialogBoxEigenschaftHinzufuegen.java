@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -26,6 +28,8 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 
+	private int partnerpId = 0;
+	
 	//Erstellen der GUI Elemente
 	FlexTable eigenschaftHinzufuegenFlexTable = new FlexTable();
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -40,6 +44,8 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId){
 	
+	this.partnerpId = partnerprofilId;	
+		
 	//Erstellen der FlexTable
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 1, eigenschaftNameBox);
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 0, eigenschaftNameLabel);
@@ -99,10 +105,32 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
 							hide();
 							
+							// Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
+							// Je nachdem wird die entsprechende Form geladen.
+							projektmarktplatzVerwaltung.getAllOrganisationseinheiten(new AsyncCallback<Vector<Organisationseinheit>>() {
+								public void onFailure(Throwable caught) {
+								}
+
+								public void onSuccess(Vector<Organisationseinheit> result) {
+									
+									for (Organisationseinheit organisationseinheit : result) {
+										if(organisationseinheit.getPartnerprofilId() == partnerpId){
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new MeinPartnerprofilForm());
+											break;		
+										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
+										}
+									}
+									
+								}
+							});
+							
 //							RootPanel.get("Details").clear();
 //							RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
 //							
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+//							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 			});
 		} else{

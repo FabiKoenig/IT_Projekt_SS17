@@ -38,6 +38,7 @@ public class MeineAusschreibungenForm extends Showcase{
 	Button ausschreibungLoeschenButton = new Button("Ausschreibung löschen");
 	Button ausschreibungBearbeitenButton = new Button("Ausschreibung bearbeiten");
 	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
+	Button bewerbungenAnzeigenButton = new Button("Eigegangene Bewerbungen anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	//Formate der Datebox
@@ -53,7 +54,7 @@ public class MeineAusschreibungenForm extends Showcase{
 	protected void run() {
 		
 		//CallBack um die Ausschreibungen der gewünschten Person zu laden
-				projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
+		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -121,11 +122,13 @@ public class MeineAusschreibungenForm extends Showcase{
 				buttonPanel.add(ausschreibungBearbeitenButton);
 				buttonPanel.add(ausschreibungLoeschenButton);
 				buttonPanel.add(partnerprofilBearbeitenButton);
+				buttonPanel.add(bewerbungenAnzeigenButton);
 				
 			//Style der Buttons
 				ausschreibungBearbeitenButton.setStylePrimaryName("navi-button");
 				ausschreibungLoeschenButton.setStylePrimaryName("navi-button");
 				partnerprofilBearbeitenButton.setStylePrimaryName("navi-button");
+				bewerbungenAnzeigenButton.setStylePrimaryName("navi-button");
 				
 			//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
 				this.setSpacing(8);
@@ -296,8 +299,8 @@ public class MeineAusschreibungenForm extends Showcase{
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
 					
-						Navigation.setCurrentClickHandler(this);
-						Navigation.setCurrentClickEvent(event);
+//						Navigation.setCurrentClickHandler(this);
+//						Navigation.setCurrentClickEvent(event);
 						
 						} else {
 							Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");

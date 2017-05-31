@@ -36,7 +36,9 @@ import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 public class MeineProjektForm extends Showcase{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	Button btn_projektBearbeiten = new Button("Projekt bearbeiten"); 
+	
+	HorizontalPanel buttonPanel = new HorizontalPanel();
+	Button btn_projektBearbeiten = new Button("Projekt bearbeiten");
 	
 	CellTable<Projekt> dataGrid = new CellTable<Projekt>();
 	
@@ -44,7 +46,7 @@ public class MeineProjektForm extends Showcase{
 	
 
 	Button btn_projektAnlegen = new Button("Projekt anlegen");
-	Button btn_projektLoeschen = new Button("Projekt löschen");
+	Button btn_projektLoeschen = new Button("Projekt lÃ¶schen");
 
 	
 	protected String getHeadlineText(){
@@ -280,7 +282,7 @@ public class MeineProjektForm extends Showcase{
 	});
 		
 		
-	this.add(btn_projektAnlegen);
+	//this.add(btn_projektAnlegen);
 	
 	projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
 		
@@ -344,7 +346,7 @@ public class MeineProjektForm extends Showcase{
 			}
 		});
 		
-		this.add(btn_projektLoeschen);
+		//this.add(btn_projektLoeschen);
 
 		
 		btn_projektLoeschen.addClickHandler(new ClickHandler() {
@@ -357,13 +359,13 @@ public class MeineProjektForm extends Showcase{
 						@Override
 						public void onSuccess(Void result) {
 							
-							Window.alert("Das Löschen des Projektes war erfolgreich....");
+							Window.alert("Das Lï¿½schen des Projektes war erfolgreich....");
 							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							Window.alert("Das Löschen des Projektes schlug fehl");
+							Window.alert("Das Lï¿½schen des Projektes schlug fehl");
 							
 						}
 					});
@@ -375,10 +377,15 @@ public class MeineProjektForm extends Showcase{
 		
 		
 		dataGrid.setWidth("100%");
-		
+		btn_projektAnlegen.setStylePrimaryName("navi-button");
+		btn_projektLoeschen.setStylePrimaryName("navi-button");
+		btn_projektBearbeiten.setStylePrimaryName("navi-button");
 	
 		
-		
+		buttonPanel.add(btn_projektAnlegen);
+		buttonPanel.add(btn_projektLoeschen);
+		this.setSpacing(8);
+		this.add(buttonPanel);
 		this.add(dataGrid);
 		
 	}
