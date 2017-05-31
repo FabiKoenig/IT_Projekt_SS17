@@ -6,9 +6,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -16,7 +18,7 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 public class DialogBoxBewerbungstext extends DialogBox {
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	
+	VerticalPanel vp = new VerticalPanel();
 	FlexTable ft_bewerbungstext = new FlexTable();
 	TextArea txta_bewerbungstext = new TextArea();
 	Button btn_zurueck = new Button("Zurück");
@@ -27,14 +29,21 @@ public class DialogBoxBewerbungstext extends DialogBox {
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
+		vp.setPixelSize(400, 600);
+		vp.setSpacing(10);
+		vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
 		txta_bewerbungstext.setReadOnly(true);
-		txta_bewerbungstext.setWidth("900");
-		txta_bewerbungstext.setHeight("900");
+		txta_bewerbungstext.setCharacterWidth(80);
+		txta_bewerbungstext.setVisibleLines(40);		
 		txta_bewerbungstext.setText(text);
 		ft_bewerbungstext.setWidget(0, 0, txta_bewerbungstext);
 		ft_bewerbungstext.setWidget(1, 0, btn_zurueck);
 
-		setWidget(ft_bewerbungstext);
+		
+		vp.add(ft_bewerbungstext);
+		vp.add(btn_zurueck);
+		setWidget(vp);
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			
