@@ -97,7 +97,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o,
 			AsyncCallback<Vector<Ausschreibung>> callback);
-
+	
 	void getAusschreibungByForeignPartnerprofil(Partnerprofil p, AsyncCallback<Ausschreibung> callback);
 
 	void getAusschreibungByForeignProjekt(Projekt p, AsyncCallback<Vector<Ausschreibung>> callback);
@@ -190,6 +190,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getOrganisationseinheitById(int orgaId, AsyncCallback<Organisationseinheit> callback);
 
 	void getAllProjektmarktplatz(AsyncCallback<Vector<Projektmarktplatz>> callback);
+	
+	void getAllAusschreibungen(AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getBewerbungByForeignAusschreibungId(int id, AsyncCallback<Vector<Bewerbung>> callback);
 

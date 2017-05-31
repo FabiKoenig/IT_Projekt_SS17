@@ -81,7 +81,6 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public void onSuccess(Organisationseinheit result) {
-			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 			projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());	
 					
@@ -155,7 +154,7 @@ public class MeineBewerbungenForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				if (selectionModel.getSelectedObject() == null)
 				{
-					Window.alert("Bitte wählen Sie eine Bewerbung aus");
+					Window.alert("Bitte wÃ¤hlen Sie eine Bewerbung aus");
 				}
 				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
 				text.show();
@@ -166,7 +165,7 @@ public class MeineBewerbungenForm extends Showcase{
 				
 				if (selectionModel.getSelectedObject() == null)
 				{
-					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
+					Window.alert("Bitte wÃ¤hlen Sie die zu lÃ¶schende Bewerbung aus");
 				}
 				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
 				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
@@ -319,7 +318,8 @@ public class MeineBewerbungenForm extends Showcase{
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Das Zurï¿½ckziehen der Bewerbung ist fehlgeschlagen!");
+
+				Window.alert("Das ZurÃ¼ckziehen der Bewerbung ist fehlgeschlagen!");
 				
 			}
 
@@ -335,7 +335,9 @@ public class MeineBewerbungenForm extends Showcase{
 
 					@Override
 					public void onSuccess(Void result) {
-						Window.alert("Das Zurï¿½ckziehen der Bewerbung war erfolgreich!");
+
+						Window.alert("Das ZurÃ¼ckziehen der Bewerbung war erfolgreich!");
+
 					;
 						
 					}

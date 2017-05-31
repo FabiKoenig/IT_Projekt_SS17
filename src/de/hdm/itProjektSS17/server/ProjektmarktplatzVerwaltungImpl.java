@@ -1309,6 +1309,22 @@ implements ProjektmarktplatzVerwaltung {
 		this.ausschreibungMapper.update(a);
 	}
 
+	/**
+	 * Gibt alle Ausschreibungen zurück.
+	 */
+	@Override
+	public Vector<Ausschreibung> getAllAusschreibungen() throws IllegalArgumentException {
+		
+		Vector<Ausschreibung> ausschreibungen = new Vector<Ausschreibung>();
+		
+		Vector<Ausschreibung> a = ausschreibungMapper.findAllAusschreibungen();
+		
+		
+		ausschreibungen.addAll(a);
+		
+		
+		return ausschreibungen;
+	}
 	
 	/**
 	 * Gibt alle Organisationseinheiten zurück.

@@ -10,11 +10,11 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -35,12 +35,13 @@ public class StellenauschreibungForm extends Showcase {
 	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
 	private static  Vector<Projekt> projekte = new Vector<>();
 	private static Vector <Organisationseinheit> ausschreibender = new Vector();
+	
 	private static Vector <projektAusschreibungHybrid> proAusHybrid = new Vector();
 	Projektmarktplatz p = new Projektmarktplatz();
 	Button btn_bewerben = new Button("Bewerben");
-	
+	Button btn_Text = new Button("Ausschreibungstext anzeigen");
 	CellTable cellTable= new CellTable();
-	
+	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
@@ -53,21 +54,31 @@ public class StellenauschreibungForm extends Showcase {
 	protected void run() {
 		// TODO Auto-generated method stub
 		
+		btn_Text.setStylePrimaryName("navi-button");
+		btn_bewerben.setStylePrimaryName("navi-button");
 		
+		this.add(panel_Ausschreibung);
+		panel_Ausschreibung.add(btn_Text);
+		panel_Ausschreibung.add(btn_bewerben);
 		
-		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>(){
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Projektmarktplatz result) {
-				// TODO Auto-generated method stub
-			}
-		});
+		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new GetProjektmarktplatz());
+//		{
+//
+//			
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				// TODO Auto-generated method stub					
+//			}
+//
+//			@Override
+//			public void onSuccess(Organisationseinheit result) {
+//			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+//		
+//			projektmarktplatzVerwaltung.getAusschreibungByForeignOrganisationseinheit(result, new AusschreibungAnzeigenCallback());	
+//					
+//			}
+//		});
+	
 		
 	
 	
@@ -125,65 +136,70 @@ public class StellenauschreibungForm extends Showcase {
 			
 		
 		final SingleSelectionModel<projektAusschreibungHybrid> selectionModel = new SingleSelectionModel<>();
-		cellTable.setSelectionModel(selectionModel);
+		cellTable.setSelectionModel(selectionModel);	
+		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			
+		
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
+	
 			}
 		});
 		
-		
-		
+	
 		
 		cellTable.setWidth("100%");
 		
 		this.add(cellTable);
 	}
+
 	
 
-private class projektAusschreibungHybrid{
-	private String bezeichnung;
-	private String projektbezeichnung;
-	private String ausschreibungsbezeichnername;
-	private Date bewerbungsfrist;
-	private Ausschreibungsstatus ausschreibungstatus;
-	private int ausschreibungId;
-	public int getAusschreibungId() {
-		return ausschreibungId;
-	}
-	public void setAusschreibungId(int ausschreibungId) {
-		this.ausschreibungId = ausschreibungId;
-	}
-	public String getBezeichnung() {
-		return bezeichnung;
-	}
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
-	}
-	public String getProjektbezeichnung() {
-		return projektbezeichnung;
-	}
-	public void setProjektbezeichnung(String projektbezeichnung) {
-		this.projektbezeichnung = projektbezeichnung;
-	}
-	public String getAusschreibungsbezeichnername() {
-		return ausschreibungsbezeichnername;
-	}
-	public void setAusschreibungsbezeichnername(String ausschreibungsbezeichnername) {
-		this.ausschreibungsbezeichnername = ausschreibungsbezeichnername;
-	}
-	public Date getBewerbungsfrist() {
-		return bewerbungsfrist;
-	}
-	public void setBewerbungsfrist(Date bewerbungsfrist) {
-		this.bewerbungsfrist = bewerbungsfrist;
-	}
-	public Ausschreibungsstatus getAusschreibungstatus() {
-		return ausschreibungstatus;
-	}
-	public void setAusschreibungstatus(Ausschreibungsstatus ausschreibungstatus) {
-		this.ausschreibungstatus = ausschreibungstatus;
+	private class projektAusschreibungHybrid{
+		
+		private String bezeichnung;
+		private String projektbezeichnung;
+		private String ausschreibungsbezeichnername;
+		private Date bewerbungsfrist;
+		private Ausschreibungsstatus ausschreibungstatus;
+		private int ausschreibungId;
+		
+		public int getAusschreibungId() {
+			return ausschreibungId;
+		}
+		public void setAusschreibungId(int ausschreibungId) {
+			this.ausschreibungId = ausschreibungId;
+		}
+		public String getBezeichnung() {
+			return bezeichnung;
+		}
+		public void setBezeichnung(String bezeichnung) {
+			this.bezeichnung = bezeichnung;
+		}
+		public String getProjektbezeichnung() {
+			return projektbezeichnung;
+		}
+		public void setProjektbezeichnung(String projektbezeichnung) {
+			this.projektbezeichnung = projektbezeichnung;
+		}
+		public String getAusschreibungsbezeichnername() {
+			return ausschreibungsbezeichnername;
+		}
+		public void setAusschreibungsbezeichnername(String ausschreibungsbezeichnername) {
+			this.ausschreibungsbezeichnername = ausschreibungsbezeichnername;
+		}
+		public Date getBewerbungsfrist() {
+			return bewerbungsfrist;
+		}
+		public void setBewerbungsfrist(Date bewerbungsfrist) {
+			this.bewerbungsfrist = bewerbungsfrist;
+		}
+		public Ausschreibungsstatus getAusschreibungstatus() {
+			return ausschreibungstatus;
+		}
+		public void setAusschreibungstatus(Ausschreibungsstatus ausschreibungstatus) {
+			this.ausschreibungstatus = ausschreibungstatus;
+		}
 	}
 	
 private class AusschreibungAnzeigenCallback implements AsyncCallback<Vector<Ausschreibung>>	{
@@ -197,14 +213,15 @@ private class AusschreibungAnzeigenCallback implements AsyncCallback<Vector<Auss
 		@Override
 		public void onSuccess(Vector<Ausschreibung> result) {
 			
-			Vector<projektAusschreibungHybrid> hybrid = new Vector();
-			
+			Vector<projektAusschreibungHybrid> hybrid = new Vector<>();
+
 			ausschreibungen = result;
 			
 			for(int i=0;i<result.size();i++){
-				
 				projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new ProjekteAnzeigenCallback());
-				projektmarktplatzVerwaltung.getOrganisationseinheitById(projekte.get(i).getProjektleiterId(), new AusschreibenderAnzeigenCallback());
+				projektmarktplatzVerwaltung.getOrganisationseinheitById(ausschreibungen.get(i).getAusschreibenderId(), new AusschreibenderAnzeigenCallback());
+				
+			
 				projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
 				localHybrid.setProjektbezeichnung(projekte.get(i).getName());
 				if (ausschreibender.get(i) instanceof Person){
@@ -225,46 +242,86 @@ private class AusschreibungAnzeigenCallback implements AsyncCallback<Vector<Auss
 				localHybrid.setBezeichnung(result.get(i).getBezeichnung());
 				localHybrid.setAusschreibungstatus(result.get(i).getStatus());
 				
+				if(localHybrid.getAusschreibungstatus().equals(Ausschreibungsstatus.laufend))
+				{
 				hybrid.add(localHybrid);
+				}
 			}
+			
 			proAusHybrid=hybrid;
 			cellTable.setRowCount(proAusHybrid.size(), true);
 			cellTable.setRowData(0,proAusHybrid);
 			};
 		}
 	
-private class ProjekteAnzeigenCallback implements AsyncCallback <Projekt>{
-	
-	
-	@Override
-	public void onFailure(Throwable caught) {
+		private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
 		
-		Window.alert("Das Anzeigen der Ausschreibung ist fehlgeschlagen!");
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
 		
-	}
-	@Override
-	public void onSuccess(Projekt result) {
-	projekte.add(result);		
-	}
-
-};
-
-private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
-
-	@Override
-	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
+			@Override
+			public void onSuccess(Organisationseinheit result) {
+				ausschreibender.add(result);
+			}
+			 
+		 };
 		
-	}
-
-	@Override
-	public void onSuccess(Organisationseinheit result) {
-		ausschreibender.add(result);
-	}
-	 
- };
- 
+		private class ProjekteAnzeigenCallback implements AsyncCallback <Projekt>{
+			
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				
+				Window.alert("Das Anzeigen der Ausschreibung ist fehlgeschlagen!");
+				
+			}
+			@Override
+			public void onSuccess(Projekt result) {
+			projekte.add(result);		
+			}
+		
+		};
+		
+		
+		 
+		 private class GetProjekte implements AsyncCallback<Vector<Projekt>>{
+			
+			 @Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			
+				@Override
+				public void onSuccess(Vector <Projekt> result) {
+					
+					for (Projekt projekt : result) {
+						
+						projektmarktplatzVerwaltung.getAusschreibungByForeignProjekt(projekt, new AusschreibungAnzeigenCallback());
+					}
+				}
+		 }
+		 private class GetProjektmarktplatz implements AsyncCallback<Projektmarktplatz>{
+				
+			 @Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			
+					 
+				@Override
+				public void onSuccess(Projektmarktplatz result) {
+					projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new GetProjekte());
+					
+				}}
+		 
+		 
+		 
+			
+		}
 	
-}
-}
 
