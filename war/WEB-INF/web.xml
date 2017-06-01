@@ -26,9 +26,27 @@
       <url-pattern>/it_projekt_ss17/login</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+      <servlet-name>loginService</servlet-name>
+      <url-pattern>/reportgenerator/login</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>IT_Projekt_SS17.html</welcome-file>
   </welcome-file-list>
 
+  
+ <!-- ReportServlet -->
+  <servlet>
+      <servlet-name>ReportGenerator</servlet-name>
+      <servlet-class>de.hdm.itProjektSS17.server.report.ReportGeneratorImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+      <servlet-name>ReportGenerator</servlet-name>
+      <url-pattern>/reportgenerator/report</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>

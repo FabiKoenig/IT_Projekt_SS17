@@ -86,8 +86,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new StartseiteFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -97,8 +97,8 @@ public class NavigationReport extends StackPanel {
 			public void onClick(ClickEvent event) {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new Impressum());
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(new Impressum());
 			}
 		});	
 		
@@ -107,8 +107,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new AllAusschreibungFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -119,8 +119,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new AusschreibungMatchsPartnerprofilFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -131,8 +131,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new AllBewerbungFromUserFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -143,8 +143,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new BewerbungAusschreibungFromUserFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -155,8 +155,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new ProjektverflechtungFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
@@ -167,8 +167,8 @@ public class NavigationReport extends StackPanel {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
 				ShowcaseReport showcaseReport = new FanInFanOutFormReport();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcaseReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
