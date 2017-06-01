@@ -54,6 +54,8 @@ public class IdentityMarketChoice extends FlexTable{
 		this.setWidget(2, 1, ownProjectMarkets);
 		cellFormatter.setHorizontalAlignment(1, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		cellFormatter.setHorizontalAlignment(2, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+		ownProjectMarkets.setWidth("250px");
+		ownOrgUnits.setWidth("250px");
 		projektmarktplatzVerwaltung.getPersonById(id, new getUser());
 		
 		ownOrgUnits.addChangeHandler(new ChangeHandler() {
