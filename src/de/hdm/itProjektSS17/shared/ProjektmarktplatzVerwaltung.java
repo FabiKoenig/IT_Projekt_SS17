@@ -167,8 +167,10 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public Partnerprofil getPartnerprofilByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
 	
+	public Person getPersonByIdTest(int id) throws IllegalArgumentException;
+	
+	public Organisationseinheit getOrganisationseinheitById(int orgaId) throws IllegalArgumentException;
 
-	
-	
+	public Vector<Projektmarktplatz> getAllProjektmarktplatz() throws IllegalArgumentException;
 }
 

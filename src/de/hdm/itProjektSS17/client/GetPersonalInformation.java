@@ -16,7 +16,7 @@ public class GetPersonalInformation extends Showcase{
 
 	@Override
 	protected void run() {
-		this.append("Pers�nliche Informationen Ihres Profils:");
+		this.append("Persönliche Informationen Ihres Profils:");
 		
 		ProjektmarktplatzVerwaltungAsync pimpl = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		

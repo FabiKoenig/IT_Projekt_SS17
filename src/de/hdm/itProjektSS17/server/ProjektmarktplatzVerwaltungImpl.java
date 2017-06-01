@@ -1047,7 +1047,17 @@ implements ProjektmarktplatzVerwaltung {
 	 */
 	@Override
 	public Vector<Person> getPersonenByForeignProjektmarktplatz(Projektmarktplatz p){
-		return TeilnahmeMapper.teilnahmeMapper().findRelatedPersonen(p);
+		Vector<Person> result = new Vector<>();
+		
+		if (p != null && this.personMapper != null) {
+			Vector<Person> personen = this.teilnahmeMapper.findRelatedPersonen(p); 
+			
+			if (personen != null) {
+				result.addAll(personen);
+			}
+			
+		}
+		return result;
 	}
 
 	
@@ -1290,6 +1300,33 @@ implements ProjektmarktplatzVerwaltung {
 		return organisationseinheiten;
 	}
 
+	//Liefert ein Organisationseinheit anhand der übergebenen orgaId zurück
+	public Organisationseinheit getOrganisationseinheitById(int orgaId){
+		
+		Person p = personMapper.findById(orgaId);
+		Unternehmen u = unternehmenMapper.findById(orgaId);
+		Team t = teamMapper.findById(orgaId);
+		
+		if(p != null){
+			return p;
+		}
+		if(u != null){
+			return u;
+		}
+		if(t != null){
+			return t;
+		}
+		else return null;
+	}
+	
+	
+	//Methode um alle Projektmarktplätze aus der Datenbank auszugeben
+	public Vector<Projektmarktplatz> getAllProjektmarktplatz(){
+		
+		Vector<Projektmarktplatz> projektmarktplatz = projektmarktplatzMapper.findAll();
+		return projektmarktplatz;
+	}
+	
 	
 	/**
 	 * Gibt alle Ausschreibungen zu dem übergebenen Projekt-Objekt zurück.
@@ -1406,6 +1443,20 @@ implements ProjektmarktplatzVerwaltung {
 		return result;
 		
 		
+	}
+	
+	public Person getPersonByIdTest(int id){
+		Person p = new Person();
+		p.setAnrede("Herr");
+		p.setId(1);
+		p.setNachname("Koenig");
+		p.setVorname("Fabian");
+		p.setStrasse("Kernerstrasse");
+		p.setHausnummer("33a");
+		p.setOrt("Stuttgart");
+		p.setPlz(1234);
+		
+		return p;
 	}
 	
 

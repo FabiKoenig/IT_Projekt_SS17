@@ -1,22 +1,33 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.server.db.BewerbungMapper;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
+import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
+import java_cup.action_part;
 
 
 /**
@@ -27,123 +38,259 @@ import de.hdm.itProjektSS17.shared.bo.*;
  *
  */
 public class MeineBewerbungenForm extends Showcase{
+	
+	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	@SuppressWarnings("unchecked")
+	private static Vector <Bewerbung> bewerbungen = new Vector();
+	private static Vector <Ausschreibung> ausschreibung = new Vector();
+	private static Vector <Organisationseinheit> ausschreibender = new Vector();
+	private static Vector <ausschreibungBewerbungHybrid> ausBewHybrid = new Vector();
+	CellTable cellTable = new CellTable();
+	
+	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
+	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
+	//Button btn_bewerbungzurückziehen = new Button("Projektmarktplatz anlegen");
 
 	
 	protected String getHeadlineText(){
-		return "Meine Bewerbungen";
+	return "Meine Bewerbungen";
 	}
-	
-	
 	
 	protected void run() {
-		// TODO Auto-generated method stub
-	/*	Label lbl_valueProjektname = new Label();
-		Label lbl_valueBeschreibung = new Label();
-		*/
 		
 		
-		HorizontalPanel panel_bewerbung = new HorizontalPanel();
-		this.add(panel_bewerbung);
-		// Tables have no explicit size -- they resize automatically on demand.
-	    FlexTable p = new FlexTable();
-
-	    // Put some text at the table's extremes.  This forces the table to be
-	    // 3 by 3.
-	    p.setText(0, 0, "Ausschreibung");
-	    p.setText(0, 1, "Organisationseinheit");
-	    p.setText(0, 2, "Bewerbungstext");
-	    p.setText(0, 3, "Erstellt am:");
-	    p.setText(0, 4, "Löschen");
-	    p.setText(0, 5, "Bearbeiten");
-	    panel_bewerbung.add(p);
-	    // Add a button to remove this stock from the table.
-	  Button removeBewerbungButton = new Button("x");
-	    removeBewerbungButton.addClickHandler(new ClickHandler() {
-	      public void onClick(ClickEvent event) {
-	       /* int removedIndex =Bewerbung.indexOf(symbol);
-	        Bewerbung.deleteBewerbung(removedIndex);
-	        p.removeRow(removedIndex + 1);*/
-	      }
-	    });
-	    p.setWidget(1, 4, removeBewerbungButton);
-	
-	 Button editBewerbungButton = new Button("Bearbeiten");
-	    editBewerbungButton.addClickHandler(new ClickHandler() {
-	      public void onClick(ClickEvent event) {
-	       /* int removedIndex =Bewerbung.indexOf(symbol);
-	        Bewerbung.deleteBewerbung(removedIndex);
-	        p.removeRow(removedIndex + 1);*/
-	    	 DialogBoxEditBewerbung dpa = new DialogBoxEditBewerbung();
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				dpa.setPopupPosition(left, top);
-				dpa.show();
-	      }
-	    });
-	    p.setWidget(1, 5, editBewerbungButton);
-	}
-	
-	   /* Button btn_bewerbungAnlegen = new Button();
-	    btn_bewerbungAnlegen.setText("Neue Bewerbung anlegen");
-	    btn_bewerbungAnlegen.addClickHandler(new ClickHandler() {
+		this.add(panel_Bewerbung);
+		panel_Bewerbung.add(btn_bewerbungloeschen);
+		projektmarktplatzVerwaltung.getPersonById(3, new AsyncCallback<Person>(){
 		
 			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub					
+			}
+
+			@Override
+			public void onSuccess(Person result) {
+			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+		
+			projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());	
+					
+			}
+		});
+	
+		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+	
+		TextColumn<ausschreibungBewerbungHybrid> AusschreibungNameColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+				// TODO Auto-generated method stub
+				return object.getAusschreibungsbezeichnung();
+			}
+
+
+		
+		};	
+	
+		TextColumn<ausschreibungBewerbungHybrid> erstellungsdatumColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+		
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+			
+			return object.getErstellungsdatum().toString();
+			
+			}
+		};
+		
+		TextColumn<ausschreibungBewerbungHybrid> AusschreibenderColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+			
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+			
+			return object.getAusschreibungsbezeichnername();
+			
+			}
+		};
+		
+		TextColumn<ausschreibungBewerbungHybrid> statusColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+			
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+			
+			return object.getStatusBewerbungsstatus().toString();
+			
+			}
+		};
+		
+		
+		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
+		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
+		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
+		cellTable.addColumn(statusColumn, "Status");
+	
+		cellTable.setRowCount(ausBewHybrid.size(), true);
+		cellTable.setRowData(0,ausBewHybrid);
+		cellTable.setWidth("100%");
+		
+		final SingleSelectionModel<Bewerbung> selectionModel = new SingleSelectionModel<>();
+		cellTable.setSelectionModel(selectionModel);	
+		
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+	
+			}
+		});
+		
+
+		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
-				DialogBoxBewerbungAnlegen dpa = new DialogBoxBewerbungAnlegen();
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				dpa.setPopupPosition(left, top);
-				dpa.show();
+			
+				Bewerbung selectedObject = selectionModel.getSelectedObject();
+				ClientsideSettings.getProjektmarktplatzVerwaltung().deleteBewerbung(selectedObject, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("Die Bewerbung wurde erfolgreich zurück gezogen");
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler: " + caught.toString());
+						
+					}
+				});
 				
 			}
 		});
-	    // Let's put a button in the middle...
-	    p.setWidget(1, 0, btn_bewerbungAnlegen);
+		
+		this.add(cellTable);
+	}
 
-	    // ...and set it's column span so that it takes up the whole row.
-	    p.getFlexCellFormatter().setColSpan(1, 0, 3);
-
-	    //RootPanel.get().add(p);
-	  
-		
-		HorizontalPanel panel_bewerbung = new HorizontalPanel();
-		this.add(panel_bewerbung);
-		
-		
-		
-				
-		Grid projektGrid = new Grid(7 , 7);
-		this.add(projektGrid);
-		
-		Label lbl_projektName = new Label("Projektname");
-		projektGrid.setWidget(1, 0, lbl_projektName);
-		projektGrid.setWidget(1, 1, lbl_valueProjektname);
-		
-		Label lbl_beschreibung = new Label("Beschriebung");
-		projektGrid.setWidget(1, 1, lbl_beschreibung);
-		projektGrid.setWidget(2, 1, lbl_valueBeschreibung);
-		
-		Label lbl_startdatum = new Label("Startdatum");
-		projektGrid.setWidget(1, 2, lbl_startdatum);
-		projektGrid.setWidget(3, 1, lbl_valueStartdatum);
-		
-		Label lbl_enddatum = new Label("Enddatum");
-		projektGrid.setWidget(1, 3, lbl_enddatum);
-		projektGrid.setWidget(4, 1, lbl_valueEnddatum);
-		
-		Label lbl_projektleiter = new Label("Projektleiter");
-		projektGrid.setWidget(1, 4, lbl_projektleiter);
-		projektGrid.setWidget(5, 1, lbl_valueProjektleiter);
-		
-		Label lbl_projektmarktplatz = new Label("Projektmarktplatz");
-		projektGrid.setWidget(1, 5, lbl_projektmarktplatz);
-		projektGrid.setWidget(6, 1, lbl_valueProjektmarktplatz);
-		*/
 	
+	private class ausschreibungBewerbungHybrid{
+		
+		private int bewerbungId;
+		private String ausschreibungsbezeichnung;
+		private String ausschreibungsbezeichnername;
+		private Date erstellungsdatum;
+		private Bewerbungsstatus statusBewerbungsstatus;
+		
+		public int getBewerbungId() {
+			return bewerbungId;
+		}
+		public void setBewerbungId(int bewerbungId) {
+			this.bewerbungId = bewerbungId;
+		}
+		public String getAusschreibungsbezeichnung() {
+			return ausschreibungsbezeichnung;
+		}
+		public void setAusschreibungsbezeichnung(String ausschreibungsbezeichnung) {
+			this.ausschreibungsbezeichnung = ausschreibungsbezeichnung;
+		}
+		public String getAusschreibungsbezeichnername() {
+			return ausschreibungsbezeichnername;
+		}
+		public void setAusschreibungsbezeichnername(String ausschreibungsbezeichnername) {
+			this.ausschreibungsbezeichnername = ausschreibungsbezeichnername;
+		}
+		public Date getErstellungsdatum() {
+			return erstellungsdatum;
+		}
+		public void setErstellungsdatum(Date erstellungsdatum) {
+			this.erstellungsdatum = erstellungsdatum;
+		}
+		public Bewerbungsstatus getStatusBewerbungsstatus() {
+			return statusBewerbungsstatus;
+		}
+		public void setStatusBewerbungsstatus(Bewerbungsstatus statusBewerbungsstatus) {
+			this.statusBewerbungsstatus = statusBewerbungsstatus;
+		}
 		
 		
 	}
+
 	
+	private class BewerbungAnzeigenCallback implements AsyncCallback<Vector<Bewerbung>>	{
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			Window.alert("Das Anzeigen der Projekte der Person ist fehlgeschlagen!");
+			
+		}
+		@Override
+		public void onSuccess(Vector<Bewerbung> result) {
+			
+			Vector<ausschreibungBewerbungHybrid> hybrid = new Vector();
+			
+			bewerbungen = result;
+			
+			for(int i=0;i<result.size();i++){
+				
+				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AusschreibungAnzeigenCallback());
+				projektmarktplatzVerwaltung.getOrganisationseinheitById(ausschreibung.get(i).getAusschreibenderId(), new AusschreibenderAnzeigenCallback());
+				ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+				localHybrid.setAusschreibungsbezeichnung(ausschreibung.get(i).getBezeichnung());
+				if (ausschreibender.get(i) instanceof Person){
+					Person localPerson = (Person) ausschreibender.get(i);
+					localHybrid.setAusschreibungsbezeichnername(localPerson.getVorname());
+				} else if(ausschreibender.get(i) instanceof Team){
+					Team localTeam = (Team) ausschreibender.get(i);
+					localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
+				} else if (ausschreibender.get(i) instanceof Unternehmen){
+					Unternehmen localUnternehmen = (Unternehmen) ausschreibender.get(i);
+					localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
+				}
+				else{
+					localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
+				}
+				localHybrid.setBewerbungId(result.get(i).getId());
+				localHybrid.setErstellungsdatum(result.get(i).getErstellungsdatum());
+				localHybrid.setStatusBewerbungsstatus(result.get(i).getStatus());
+				
+				hybrid.add(localHybrid);
+			}
+			ausBewHybrid=hybrid;
+			};
+		}
+	
+	
+	 private class AusschreibungAnzeigenCallback implements AsyncCallback <Ausschreibung>{
+		
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			Window.alert("Das Anzeigen der Bewerbung ist fehlgeschlagen!");
+			
+		}
+		@Override
+		public void onSuccess(Ausschreibung result) {
+		ausschreibung.add(result);		
+		}
+
+	};
+	 
+	 private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Organisationseinheit result) {
+			ausschreibender.add(result);
+		}
+		 
+	 };
+}
+		
+		
+		
+		
 	
 
