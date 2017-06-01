@@ -4,7 +4,7 @@
 <module rename-to='reportgenerator'>
 	<inherits name="com.google.gwt.user.User" />
 	  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
-	<entry-point class='de.hdm.itProjektSS17.client.ReportGenerator'/>
+	<entry-point class='de.hdm.itProjektSS17.client.ReportGenerator'></entry-point>
 	<source path="client"/>
   	<source path='shared'/>
   	 <!-- allow Super Dev Mode -->

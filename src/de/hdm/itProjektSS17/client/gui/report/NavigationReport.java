@@ -2,6 +2,7 @@ package de.hdm.itProjektSS17.client.gui.report;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -40,7 +41,6 @@ public class NavigationReport extends StackPanel {
 	Button showFanInFanOutAnalyseButton = new Button("Fan-in/Fan-out Analyse");
 	
 	public NavigationReport(){
-		
 	//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
