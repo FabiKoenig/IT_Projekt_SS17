@@ -56,6 +56,8 @@ public class MeineProjektForm extends Showcase{
 	@Override
 	protected void run() {		
 			
+
+
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
 		
 		
