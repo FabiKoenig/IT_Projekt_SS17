@@ -246,6 +246,19 @@ public class Navigation extends StackPanel{
 				currentClickEvent=event;
 			}
 		});
+		
+		meineausschreibungenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new MeineAusschreibungenForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+				currentClickHandler=this;
+				currentClickEvent=event;
+				
+			}
+		});
 
 	}
 	

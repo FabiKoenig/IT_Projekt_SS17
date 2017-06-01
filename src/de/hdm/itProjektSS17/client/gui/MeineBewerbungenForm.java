@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -60,6 +61,9 @@ public class MeineBewerbungenForm extends Showcase{
 	}
 	
 	protected void run() {
+		
+		RootPanel.get("Details").setWidth("70%");
+		cellTable.setWidth("100%", true);
 		
 		//Stylen des Buttons
 		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
