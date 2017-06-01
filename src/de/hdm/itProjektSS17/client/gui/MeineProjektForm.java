@@ -254,8 +254,7 @@ public class MeineProjektForm extends Showcase{
 //		
 //		this.add(table);
 	
-		
-				
+
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
 		
 		
