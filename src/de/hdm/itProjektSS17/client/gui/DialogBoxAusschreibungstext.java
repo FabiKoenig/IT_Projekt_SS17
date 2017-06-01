@@ -28,7 +28,7 @@ public class DialogBoxAusschreibungstext extends DialogBox{
 		this.center();
 		txta_ausschreibungsstext.setReadOnly(true);
 		txta_ausschreibungsstext.setCharacterWidth(70);
-		txta_ausschreibungsstext.setVisibleLines(35);		
+		txta_ausschreibungsstext.setVisibleLines(25);		
 		txta_ausschreibungsstext.setText(text);
 		ft_ausschreibungstext.setWidget(0, 0, txta_ausschreibungsstext);
 		ft_ausschreibungstext.setWidget(1, 0, btn_zurueck);

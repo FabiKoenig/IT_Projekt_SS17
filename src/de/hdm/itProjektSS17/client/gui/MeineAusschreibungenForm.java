@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -82,13 +83,13 @@ public class MeineAusschreibungenForm extends Showcase{
 				};
 				
 		
-				TextColumn<Ausschreibung> ausschreibungstextColumn = new TextColumn<Ausschreibung>(){
-
-					@Override
-					public String getValue(Ausschreibung object) {
-						return object.getAusschreibungstext();
-					}
-				};
+//				TextColumn<Ausschreibung> ausschreibungstextColumn = new TextColumn<Ausschreibung>(){
+//
+//					@Override
+//					public String getValue(Ausschreibung object) {
+//						return object.getAusschreibungstext();
+//					}
+//				};
 				
 //		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 //				
@@ -104,7 +105,7 @@ public class MeineAusschreibungenForm extends Showcase{
 			// Hinzufügen der Spalten zu unserer CellTable
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
-				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
+//				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
 				
 			// Anlegen des SingleSeletion Models
@@ -195,7 +196,7 @@ public class MeineAusschreibungenForm extends Showcase{
 								Label ausschreibungstextLabel = new Label("Ausschreibungstext:");
 								final TextBox ausschreibungBezeichungBox = new TextBox();
 								final DateBox ausschreibungBewerbungsfristBox = new DateBox();
-								final TextBox ausschreibungstextBox = new TextBox();
+								final TextArea ausschreibungstextBox = new TextArea();
 								Button abbrechenButton = new Button("Abbrechen");
 								Button speichernButton = new Button("Speichern");
 								Button zurueckButton = new Button("Zurück");
@@ -204,7 +205,11 @@ public class MeineAusschreibungenForm extends Showcase{
 								
 								DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
 								ausschreibungBewerbungsfristBox.setFormat(new DateBox.DefaultFormat(dateformat));
-								ausschreibungstextBox.setHeight("20px");
+//								ausschreibungstextBox.setHeight("20px");
+								ausschreibungstextBox.setVisibleLines(20);
+								ausschreibungstextBox.setCharacterWidth(70);
+								ausschreibungBearbeitenDialogBox.setGlassEnabled(true);
+								ausschreibungBearbeitenDialogBox.setAnimationEnabled(false);
 								
 							//Erstellen der FlexTable
 								ausschreibungBearbeitenFlexTable.setWidget(0, 1, ausschreibungBezeichungBox);
@@ -329,6 +334,21 @@ public class MeineAusschreibungenForm extends Showcase{
 					}
 					
 				}
+			});
+			
+			ausschreibungstextButton.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					if (selectionModel.getSelectedObject() == null)
+					{
+						Window.alert("Bitte wählen Sie eine Stellenausschreibung aus");
+					}
+					DialogBoxAusschreibungstext text = new DialogBoxAusschreibungstext(selectionModel.getSelectedObject().getAusschreibungstext());
+					int left = Window.getClientWidth() / 3;
+					int top = Window.getClientHeight() / 8;
+					text.setPopupPosition(left, top);
+					text.show();
+					
+			}
 			});
 		
 			

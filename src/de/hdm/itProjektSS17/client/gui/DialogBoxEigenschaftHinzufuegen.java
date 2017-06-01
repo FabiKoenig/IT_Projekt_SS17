@@ -63,6 +63,9 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	dialogBoxPanel.add(buttonPanel);
 	dialogBoxPanel.add(eigenschaftHinzufuegenFlexTable);
 	this.add(dialogBoxPanel);
+	this.setGlassEnabled(true);
+	this.setAnimationEnabled(false);
+	this.center();
 	
 	/**
 	 * CLICK-HANDLER

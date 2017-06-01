@@ -32,7 +32,7 @@ public class DialogBoxBewerbungstext extends DialogBox {
 			
 		txta_bewerbungstext.setReadOnly(true);
 		txta_bewerbungstext.setCharacterWidth(70);
-		txta_bewerbungstext.setVisibleLines(35);		
+		txta_bewerbungstext.setVisibleLines(25);		
 		txta_bewerbungstext.setText(text);
 		ft_bewerbungstext.setWidget(0, 0, txta_bewerbungstext);
 		ft_bewerbungstext.setWidget(1, 0, btn_zurueck);
