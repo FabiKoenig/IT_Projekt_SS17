@@ -1,7 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
 
-import java.util.Vector;
+
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -25,7 +24,6 @@ import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
-import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 public class DialogBoxProjektAnlegen extends DialogBox {
 	
@@ -43,8 +41,6 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	Label lbl_enddatum = new Label("Enddatum: ");
 	DateBox db_enddatum = new DateBox();
 	DatePicker datepicker = new DatePicker();
-	Label lbl_projektmarktplatz = new Label("Projektmarktplatz: ");
-	ListBox lb_projektmarktplatz = new ListBox();
 	HorizontalPanel hp = new HorizontalPanel();
 	
 	public DialogBoxProjektAnlegen() {
@@ -67,12 +63,21 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		
 		@Override
 		public void onClick(ClickEvent event) {
-			projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback2());
-			hide();
+			if (db_enddatum.getValue().before(db_startdatum.getValue())) {
+				Window.alert("Das Enddatum muss nach dem Startdatum erfolgen.");
+			}
+			else if (txt_projektname.getText().isEmpty()) {
+				Window.alert("Bitte geben Sie einen Projektnamen für Ihr Projekt ein.");
+			}
+			else if (txta_beschreibung.getText().isEmpty()) {
+				Window.alert("Bitte geben Sie eine Beschreibung für Ihr Projekt ein.");
+			}
+			else {
+				projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
+				
 			
-			Showcase showcase = new MeineProjektForm();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(showcase);
+			}
+			
 		}
 	});
 	
@@ -105,10 +110,8 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	db_enddatum.setFormat(new DateBox.DefaultFormat(dateformat));
 	
 	
-	//datepicker.setValue(new Date(), true);
-	
-	projektmarktplatzVerwaltung.getPersonById(8, new GetPersonCallback());
-	
+
+
 	ft_projektErstellen.setWidget(1, 0, lbl_projektname);
 	ft_projektErstellen.setWidget(1, 1, txt_projektname);
 	ft_projektErstellen.setWidget(2, 0, lbl_beschreibung);
@@ -124,52 +127,12 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	
 	}
 	
-	private class GetProjektmarktplaetzeCallback implements AsyncCallback<Vector<Projektmarktplatz>> {
+	
 
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Projektmarktplätze ist fehlgeschlagen!");
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Projektmarktplatz> result) {
-			if (result != null) {
-				
-				for (Projektmarktplatz projektmarktplatz : result) {
-					lb_projektmarktplatz.addItem(projektmarktplatz.getBezeichnung());
-					
-				}
-			}
-			
-		}
-		
-	}
-
+	
+	
+	
 	private class GetPersonCallback implements AsyncCallback<Person> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-			
-		}
-
-		@Override
-		public void onSuccess(Person result) {
-			
-			if (result != null) {
-				
-				projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(result, new GetProjektmarktplaetzeCallback());
-
-				
-				
-			}
-		}
-		
-	}
-	
-	
-	private class GetPersonCallback2 implements AsyncCallback<Person> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -196,7 +159,6 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 			Window.alert("Das Hinzufügen des Projekts ist fehlgeschlagen!");
 		}
 
@@ -205,6 +167,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 
 			Window.alert("Projekt erfolgreich hinzugefügt!");
+			hide();
 			Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 		}
 		
