@@ -43,12 +43,11 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
-	private static Vector <Bewerbung> bewerbungen = new Vector();
-	private static Vector <Ausschreibung> ausschreibung = new Vector();
 	private static Vector <Organisationseinheit> ausschreibender = new Vector();
-	private static Vector <ausschreibungBewerbungHybrid> ausBewHybrid = new Vector();
 	CellTable cellTable = new CellTable();
-	
+	Vector<ausschreibungBewerbungHybrid> hybrid = new Vector();
+	Bewerbung localBewerbung = new Bewerbung();
+		
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
 
 	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
@@ -161,6 +160,9 @@ public class MeineBewerbungenForm extends Showcase{
 					Window.alert("Bitte wählen Sie eine Bewerbung aus");
 				}
 				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				text.setPopupPosition(left, top);
 				text.show();
 		}
 		});
@@ -171,10 +173,10 @@ public class MeineBewerbungenForm extends Showcase{
 				{
 					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
 				}
-				for(ausschreibungBewerbungHybrid abH : ausBewHybrid){
+				for(ausschreibungBewerbungHybrid abH : hybrid){
 				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
 				{
-					ausBewHybrid.remove(selectionModel.getSelectedObject());
+					hybrid.remove(selectionModel.getSelectedObject());
 				}
 				projektmarktplatzVerwaltung.getBewerbungById(selectionModel.getSelectedObject().getBewerbungId(),new getBewerbungCallback());
 				}
@@ -203,7 +205,7 @@ public class MeineBewerbungenForm extends Showcase{
 		private String ausschreibungsbezeichnername;
 		private Date erstellungsdatum;
 		private Bewerbungsstatus statusBewerbungsstatus;
-		private String bewerber;
+		
 		
 		public int getBewerbungId() {
 			return bewerbungId;
@@ -251,45 +253,23 @@ public class MeineBewerbungenForm extends Showcase{
 		@Override
 		public void onSuccess(Vector<Bewerbung> result) {
 			
-			Vector<ausschreibungBewerbungHybrid> hybrid = new Vector();
 			
-			bewerbungen = result;
+			
+			result.size();
 			
 			for(int i=0;i<result.size();i++){
 				
+				localBewerbung=result.get(i);
 				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AusschreibungAnzeigenCallback());
-				projektmarktplatzVerwaltung.getOrganisationseinheitById(ausschreibung.get(i).getAusschreibenderId(), new AusschreibenderAnzeigenCallback());
-				ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
-				localHybrid.setAusschreibungsbezeichnung(ausschreibung.get(i).getBezeichnung());
-				if (ausschreibender.get(i) instanceof Person){
-					Person localPerson = (Person) ausschreibender.get(i);
-					localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
-				} else if(ausschreibender.get(i) instanceof Team){
-					Team localTeam = (Team) ausschreibender.get(i);
-					localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
-				} else if (ausschreibender.get(i) instanceof Unternehmen){
-					Unternehmen localUnternehmen = (Unternehmen) ausschreibender.get(i);
-					localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
-				}
-				else{
-					localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
-				}
-				localHybrid.setBewerbungId(result.get(i).getId());
-				localHybrid.setErstellungsdatum(result.get(i).getErstellungsdatum());
-				localHybrid.setStatusBewerbungsstatus(result.get(i).getStatus());
-				localHybrid.setBewerbungstext(result.get(i).getBewerbungstext());
-				
-				hybrid.add(localHybrid);
 			}
-			ausBewHybrid=hybrid;
-			cellTable.setRowCount(ausBewHybrid.size(), true);
-			cellTable.setRowData(0,ausBewHybrid);
+
+
+			
 			};
 		}
 	
 	
 	 private class AusschreibungAnzeigenCallback implements AsyncCallback <Ausschreibung>{
-		
 		
 		@Override
 		public void onFailure(Throwable caught) {
@@ -299,13 +279,21 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		@Override
 		public void onSuccess(Ausschreibung result) {
-		ausschreibung.add(result);		
+		ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+		localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
+		projektmarktplatzVerwaltung.getOrganisationseinheitById(result.getAusschreibenderId(), new AusschreibenderAnzeigenCallback(localHybrid));
 		}
 
 	};
 	 
 	 private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
 
+		 ausschreibungBewerbungHybrid localHybrid = null;
+		 
+		 public AusschreibenderAnzeigenCallback(ausschreibungBewerbungHybrid localHybrid){
+			 this.localHybrid=localHybrid;
+		 }
+		
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
@@ -314,7 +302,30 @@ public class MeineBewerbungenForm extends Showcase{
 
 		@Override
 		public void onSuccess(Organisationseinheit result) {
-			ausschreibender.add(result);
+
+			if (result instanceof Person){
+				Person localPerson = (Person) result;
+				localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
+			} else if(result instanceof Team){
+				Team localTeam = (Team) result;
+				localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
+			} else if (result instanceof Unternehmen){
+				Unternehmen localUnternehmen = (Unternehmen) result;
+				localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
+			}
+			else{
+				localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
+			}
+			
+			localHybrid.setBewerbungId(localBewerbung.getId());
+			localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
+			localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
+			localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
+			
+			hybrid.add(localHybrid);
+			
+			cellTable.setRowCount(hybrid.size(), true);
+			cellTable.setRowData(0,hybrid);
 		}
 		 
 	 };
