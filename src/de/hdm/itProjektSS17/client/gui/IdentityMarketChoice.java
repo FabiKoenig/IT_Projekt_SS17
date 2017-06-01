@@ -32,11 +32,12 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
+	private static int currentLogin = 3;
 	private static IdentityMarketChoice navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private static ListBox ownProjectMarkets = new ListBox();
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
-	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	private static ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static Person person;
 	private static Team team;
 	private static Unternehmen unternehmen;
@@ -63,12 +64,20 @@ public class IdentityMarketChoice extends FlexTable{
 			}
 		});
 		
+		ownProjectMarkets.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+			}
+		});
+		
 	}
 	
-	public static IdentityMarketChoice getNavigation(int id){
+	public static IdentityMarketChoice getNavigation(){
 		//Falls bis jetzt noch keine PMV Instanz bestand
 		if (navigation == null){
-			navigation = new IdentityMarketChoice(id);
+			navigation = new IdentityMarketChoice(currentLogin);
 		}
 		return navigation;
 	}
@@ -118,19 +127,29 @@ public class IdentityMarketChoice extends FlexTable{
 		ownProjectMarkets.setEnabled(true);
 	}
 	
+	public static void setOwnOrgUnitToZero(){
+		ownOrgUnits.setSelectedIndex(0);
+	}
+	
+	public void reinitialize(){
+		projektmarktplatzVerwaltung.getPersonById(3, new getUser());
+	}
+	
 	
 	private class getUser implements AsyncCallback<Person>{
 		
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("User konnte nicht f�r die Identit�tsleiste geladen werden");
+			Window.alert("User konnte nicht für die Identitätsleiste geladen werden");
 			
 			
 		}
 
 		@Override
 		public void onSuccess(Person result) {
+			ownOrgUnits.clear();
+			ownProjectMarkets.clear();
 			person=result;
 			Integer idOfPerson=result.getId();
 			ownOrgUnits.addItem("Person: "+result.getVorname()+" "+result.getNachname(), idOfPerson.toString());
@@ -187,7 +206,7 @@ public class IdentityMarketChoice extends FlexTable{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Projektmarktplätze des Users konnte nicht für die Identitätsleiste geladen werden");			
+			Window.alert("Projektmarktplätze des Users konnten nicht für die Identitätsleiste geladen werden");			
 		}
 
 		@Override

@@ -9,6 +9,7 @@ import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
+import de.hdm.itProjektSS17.shared.bo.BusinessObject;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
@@ -194,6 +195,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getAllAusschreibungen(AsyncCallback<Vector<Ausschreibung>> callback);
 
 	void getBewerbungByForeignAusschreibungId(int id, AsyncCallback<Vector<Bewerbung>> callback);
+
+	void getProjekteByBeteiligungen(Vector<Beteiligung> bt, AsyncCallback<Vector<Projekt>> callback);
 
 
 }
