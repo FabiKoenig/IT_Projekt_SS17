@@ -30,7 +30,6 @@ import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
-import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 
 public class MeineProjektForm extends Showcase{
@@ -38,13 +37,9 @@ public class MeineProjektForm extends Showcase{
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
-	Button btn_projektBearbeiten = new Button("Projekt bearbeiten");
-	
 	CellTable<Projekt> dataGrid = new CellTable<Projekt>();
 	
-	
-	
-
+	Button btn_projektBearbeiten = new Button("Projekt bearbeiten");
 	Button btn_projektAnlegen = new Button("Projekt anlegen");
 	Button btn_projektLoeschen = new Button("Projekt löschen");
 
@@ -52,9 +47,6 @@ public class MeineProjektForm extends Showcase{
 	protected String getHeadlineText(){
 		return "Meine Projekte";
 	}
-	
-	
-	
 	
 	
 	@Override
@@ -271,7 +263,7 @@ public class MeineProjektForm extends Showcase{
 		
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO weiterarbeiten
+			
 			DialogBoxProjektAnlegen dpa = new DialogBoxProjektAnlegen();
 			int left = Window.getClientWidth() / 3;
 			int top = Window.getClientHeight() / 8;
@@ -282,7 +274,8 @@ public class MeineProjektForm extends Showcase{
 	});
 		
 		
-	//this.add(btn_projektAnlegen);
+		
+	
 	
 	projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
 		
@@ -346,8 +339,19 @@ public class MeineProjektForm extends Showcase{
 			}
 		});
 		
-		//this.add(btn_projektLoeschen);
-
+		
+		btn_projektBearbeiten.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+					DialogBoxProjektBearbeiten dpb = new DialogBoxProjektBearbeiten(selectionModel.getSelectedObject());
+					int left = Window.getClientWidth() / 3;
+					int top = Window.getClientHeight() / 8;
+					dpb.setPopupPosition(left, top);
+					
+					dpb.show();
+					}
+				});
 		
 		btn_projektLoeschen.addClickHandler(new ClickHandler() {
 			
@@ -359,13 +363,13 @@ public class MeineProjektForm extends Showcase{
 						@Override
 						public void onSuccess(Void result) {
 							
-							Window.alert("Das L�schen des Projektes war erfolgreich....");
+							Window.alert("Das Löschen des Projektes war erfolgreich");
 							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							Window.alert("Das L�schen des Projektes schlug fehl");
+							Window.alert("Das Löschen des Projektes schlug fehl");
 							
 						}
 					});
@@ -383,6 +387,7 @@ public class MeineProjektForm extends Showcase{
 	
 		
 		buttonPanel.add(btn_projektAnlegen);
+		buttonPanel.add(btn_projektBearbeiten);
 		buttonPanel.add(btn_projektLoeschen);
 		this.setSpacing(8);
 		this.add(buttonPanel);
@@ -416,6 +421,7 @@ public class MeineProjektForm extends Showcase{
 
 		@Override
 		public void onSuccess(Vector<Projekt> result) {
+			
 			
 			dataGrid.setRowCount(result.size(), true);
 			dataGrid.setRowData(0, result);
