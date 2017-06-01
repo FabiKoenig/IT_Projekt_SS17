@@ -44,7 +44,7 @@ public class Navigation extends StackPanel{
 	Button meineprojekteButton = new Button("Meine Projekte");
 	Button meineausschreibungenButton = new Button("Meine Ausschreibungen");
 	Button meinebewerbungenButton = new Button("Meine Bewerbungen");
-	Button meineteilnahmenButton = new Button("Meine Projektbeteiligungen");
+	Button meineBeteiligungenButton = new Button("Meine Beteiligungen");
 	
 	Button personaldataButton = new Button("Persönliche Daten");
 	Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
@@ -83,9 +83,9 @@ public class Navigation extends StackPanel{
 		meineaktivitaetenPanel.add(meinebewerbungenButton);
 		meinebewerbungenButton.setWidth("200px");
 		meinebewerbungenButton.setStylePrimaryName("navi-button");
-		meineaktivitaetenPanel.add(meineteilnahmenButton);
-		meineteilnahmenButton.setWidth("200px");
-		meineteilnahmenButton.setStylePrimaryName("navi-button");
+		meineaktivitaetenPanel.add(meineBeteiligungenButton);
+		meineBeteiligungenButton.setWidth("200px");
+		meineBeteiligungenButton.setStylePrimaryName("navi-button");
 		meineaktivitaetenPanel.setSpacing(5);
 		
 		//Zusammensezuung des einstellungenPanels
@@ -112,8 +112,6 @@ public class Navigation extends StackPanel{
 				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new Impressum());
-				currentClickHandler=this;
-				currentClickEvent=event;
 			}
 		});		
 		
@@ -198,8 +196,9 @@ public class Navigation extends StackPanel{
 		
 		projektmarktplaetzeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.setOwnOrgUnitToZero();
 				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
+				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new ProjektmarktplatzForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
@@ -220,16 +219,21 @@ public class Navigation extends StackPanel{
 				currentClickEvent=event;
 			}
 		});
-
-		meineausschreibungenButton.addClickHandler(new ClickHandler() {
+		
+		meineBeteiligungenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
 			public void onClick(ClickEvent event) {
-				Showcase showcase = new MeineAusschreibungenForm();
+				IdentityMarketChoice.activateProjectMarkets();
+				IdentityMarketChoice.activateOrgUnits();
+				Showcase showcase = new BeteiligungenForm();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);	
+				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}
 		});
+
 	}
 	
 	public static ClickHandler getCurrentClickHandler() {
@@ -238,6 +242,10 @@ public class Navigation extends StackPanel{
 
 	public static ClickEvent getCurrentClickEvent() {
 		return currentClickEvent;
+	}
+	
+	public static void reload(){
+		currentClickHandler.onClick(currentClickEvent);
 	}
 	
 	

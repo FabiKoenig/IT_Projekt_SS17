@@ -125,7 +125,7 @@ public class Projektmarktplatz implements EntryPoint {
 			
 			//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 			
-			RootPanel.get("Header").add(IdentityMarketChoice.getNavigation(3));
+			RootPanel.get("Header").add(IdentityMarketChoice.getNavigation());
 			//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("Navigator").add(Logout);

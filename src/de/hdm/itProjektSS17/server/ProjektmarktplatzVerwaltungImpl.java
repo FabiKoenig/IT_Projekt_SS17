@@ -14,6 +14,7 @@ import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
+import de.hdm.itProjektSS17.shared.bo.BusinessObject;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
@@ -640,7 +641,7 @@ implements ProjektmarktplatzVerwaltung {
 		Vector<Beteiligung> be = this.getBeteiligungByForeignOrganisationseinheit(p);
 		Team te = this.getTeamByForeignPerson(p);
 		Unternehmen un = this.getUnternehmenByForeignOrganisationseinheit(p);
-		Vector<Projektmarktplatz> pm = this.getProjektmarktplaetzeByPerson(p);
+		Vector<Projektmarktplatz> pm = this.getProjektmarktplaetzeByForeignPerson(p);
 		Vector<Bewerbung> bew = this.getBewerbungByForeignOrganisationseinheit(p);
 		Vector<Projekt> proj = this.getProjektByForeignPerson(p);
 		
@@ -738,7 +739,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * @return Gibt alle Projektmakrtplätze zurück, auf denen die übergebene Person teilnimmt.
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Projektmarktplatz> getProjektmarktplaetzeByPerson(Person p) throws IllegalArgumentException {
+	public Vector<Projektmarktplatz> getProjektmarktplaetzeByForeignPerson(Person p) throws IllegalArgumentException {
 		
 		Vector<Projektmarktplatz> result = new Vector<>();
 		
@@ -751,9 +752,6 @@ implements ProjektmarktplatzVerwaltung {
 			
 		}
 		return result;
-		
-		
-		
 		
 	}
 
@@ -882,15 +880,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Projektmarktplatz getProjektmarktplatzById(int id) throws IllegalArgumentException {
 		return this.projektmarktplatzMapper.findById(id);
-	}
-	
-	
-	/**
-	 * Gibt alle Projektmarktplätze zurück auf denen die übergebene Person eine Teilnahme besitzt.
-	 */
-	@Override
-	public Vector<Projektmarktplatz> getProjektmarktplaetzeByForeignPerson(Person p) throws IllegalArgumentException {
-		return this.teilnahmeMapper.findRelatedProjektMarktplaetze(p);
 	}
 
 	
@@ -1468,6 +1457,18 @@ implements ProjektmarktplatzVerwaltung {
 		p.setPlz(1234);
 		
 		return p;
+	}
+
+	@Override
+	public Vector<Projekt> getProjekteByBeteiligungen(Vector<Beteiligung> bt) throws IllegalArgumentException {
+		
+		Vector<Projekt> projekte = new Vector();
+		for(Beteiligung beteiligung : bt){
+			Projekt p = this.getProjektById(beteiligung.getProjektId());
+			projekte.add(p);
+		}
+
+		return projekte;
 	}
 	
 
