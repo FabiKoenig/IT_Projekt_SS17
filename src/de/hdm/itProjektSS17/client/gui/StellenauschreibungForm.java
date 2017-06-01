@@ -54,6 +54,9 @@ public class StellenauschreibungForm extends Showcase {
 	protected void run() {
 		// TODO Auto-generated method stub
 		
+		RootPanel.get("Details").setWidth("70%");
+		cellTable.setWidth("100%", true);
+		
 		btn_Text.setStylePrimaryName("navi-button");
 		btn_bewerben.setStylePrimaryName("navi-button");
 		

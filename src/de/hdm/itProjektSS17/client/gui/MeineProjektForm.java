@@ -75,8 +75,8 @@ public class MeineProjektForm extends Showcase{
 	
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
 
-		// TODO Abstimmen wegen Breite der einheitlichen CellTable
-		RootPanel.get("Details").setWidth("50%");
+		
+		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);

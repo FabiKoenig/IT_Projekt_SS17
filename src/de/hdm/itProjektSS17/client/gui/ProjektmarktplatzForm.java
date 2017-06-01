@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -59,7 +60,9 @@ public class ProjektmarktplatzForm extends Showcase {
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
-		
+		RootPanel.get("Details").setWidth("70%");
+		ct_fremdeProjektmarktplaetze.setWidth("100%", true);
+		ct_eigeneProjektmarktplaetze.setWidth("100%", true);
 		
 		this.add(panel_projektmarktplatz);
 		

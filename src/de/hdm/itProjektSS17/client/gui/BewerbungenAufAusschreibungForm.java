@@ -48,7 +48,8 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	
 	public BewerbungenAufAusschreibungForm(int ausschreibungId){
 		
-		
+		RootPanel.get("Details").setWidth("70%");
+		dataGrid.setWidth("100%", true);
 		projektmarktplatzVerwaltung.getBewerbungByForeignAusschreibungId(ausschreibungId, new GetBewerbungenCallback());
 		
 		

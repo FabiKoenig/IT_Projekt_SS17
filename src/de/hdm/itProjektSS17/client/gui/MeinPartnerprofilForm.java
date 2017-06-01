@@ -53,6 +53,9 @@ public class MeinPartnerprofilForm extends Showcase{
 	
 	protected void run() {
 		
+		RootPanel.get("Details").setWidth("70%");
+		dataGrid.setWidth("100%", true);
+		
 		//CallBack um die Eigenschaften der gewünschten Person zu laden
 		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		

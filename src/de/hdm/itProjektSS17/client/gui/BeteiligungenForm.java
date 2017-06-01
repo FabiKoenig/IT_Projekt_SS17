@@ -10,6 +10,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -39,6 +40,8 @@ public class BeteiligungenForm extends Showcase{
 
 	@Override
 	protected void run() {
+		RootPanel.get("Details").setWidth("70%");
+		ct_beteiligungen.setWidth("100%", true);
 		beteiligungen.clear();
 		hybrid.clear();
 		Organisationseinheit oTemp = new Organisationseinheit();
