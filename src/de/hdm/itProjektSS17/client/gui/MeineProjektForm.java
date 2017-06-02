@@ -178,7 +178,7 @@ public class MeineProjektForm extends Showcase{
 						public void onSuccess(Void result) {
 							
 							Window.alert("Das Löschen des Projektes war erfolgreich");
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+							Navigation.reload();
 						}
 						
 						@Override

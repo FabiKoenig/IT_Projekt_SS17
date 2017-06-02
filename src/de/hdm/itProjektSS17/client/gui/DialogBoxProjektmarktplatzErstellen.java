@@ -84,7 +84,7 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 
 		@Override
 		public void onSuccess(Void result) {
-			Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+			Navigation.reload();
 			IdentityMarketChoice.getNavigation().reinitialize();
 			Window.alert("Neuer Projektmarktplatz wurde hinzugefügt!");
 			hide();
