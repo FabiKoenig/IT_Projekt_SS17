@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.shared;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
@@ -12,6 +13,7 @@ import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.bo.*;
 
+@RemoteServiceRelativePath("report")
 public interface ReportGenerator extends RemoteService{
 
 	public void init() throws IllegalArgumentException;

@@ -116,7 +116,17 @@ public class Navigation extends StackPanel{
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new Impressum());
 			}
-		});		
+		});	
+		
+		agbButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
+				Showcase showcase = new AGB();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+			}
+		});	
 		
 		personaldataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

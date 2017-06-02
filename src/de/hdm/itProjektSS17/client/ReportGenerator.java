@@ -23,7 +23,7 @@ import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 
 
 
-public class ProjektmarktplatzReport implements EntryPoint {
+public class ReportGenerator implements EntryPoint {
 
 	
 	private ReportGeneratorAsync reportGenerator;
@@ -65,7 +65,7 @@ public class ProjektmarktplatzReport implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()){
-					loadProjektmarktplatz();
+					loadReportGenerator();
 				} else{
 					loadLogin();
 				}
@@ -83,8 +83,8 @@ public class ProjektmarktplatzReport implements EntryPoint {
 			loginPanel.add(loginLabel);
 			loginPanel.add(loginButton);
 			signInLink.setHref(loginInfo.getLoginUrl());
-			RootPanel.get("Details").add(loginLabel);
-			RootPanel.get("Navigator").add(loginButton);
+			RootPanel.get("DetailsReport").add(loginLabel);
+			RootPanel.get("NavigatorReport").add(loginButton);
 			
 			
 			loginButton.setWidth("150px");
@@ -100,18 +100,18 @@ public class ProjektmarktplatzReport implements EntryPoint {
 		}
 	
 	
-		private void loadProjektmarktplatz(){
+		private void loadReportGenerator(){
 			
 			//Erstellen des Logout-Links
 			signOutLink.setHref(loginInfo.getLogoutUrl());
 			
 			//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
 			
-			RootPanel.get("Header").add(IdentityMarketChoice.getNavigation());
+			RootPanel.get("HeaderReport").add(IdentityMarketChoice.getNavigation());
 			//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
-		    RootPanel.get("Navigator").add(Logout);
-		    RootPanel.get("Navigator").add(new NavigationReport());
+		    RootPanel.get("NavigatorReport").add(Logout);
+		    RootPanel.get("NavigatorReport").add(new NavigationReport());
 			
 		    
 		    //TopPanel für Logut
@@ -135,4 +135,6 @@ public class ProjektmarktplatzReport implements EntryPoint {
 		    
 		    ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		}
+		
+	
 	}
