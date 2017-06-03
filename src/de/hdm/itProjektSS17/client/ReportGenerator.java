@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.Navigation;
-import de.hdm.itProjektSS17.client.gui.report.NavigationReport;
 import de.hdm.itProjektSS17.shared.LoginServiceAsync;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
@@ -111,7 +110,7 @@ public class ReportGenerator implements EntryPoint {
 			//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("NavigatorReport").add(Logout);
-		    RootPanel.get("NavigatorReport").add(new NavigationReport());
+		    RootPanel.get("NavigatorReport").add(new Navigation());
 			
 		    
 		    //TopPanel für Logut

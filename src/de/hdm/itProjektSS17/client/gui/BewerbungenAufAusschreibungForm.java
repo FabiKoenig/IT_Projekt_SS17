@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -40,9 +41,9 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	Bewertung bewertung = null;
 	//String bewerber = null;
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
-	Button bewerberZusagenButton = new Button("Bewerber annehmen");
+	//Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button zurueckButton = new Button("Zurück");
-	Button texteAnzeigenButton = new Button("Bewerbungstext und Stellungsnahme anzeigen");
+	//Button texteAnzeigenButton = new Button("Bewerbungstext und Stellungsnahme anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
@@ -129,15 +130,15 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		//Hinzufügen der Buttons zum ButtonPanel
 		buttonPanel.add(zurueckButton);
 		buttonPanel.add(bewerbungBewertenButton);
-		buttonPanel.add(bewerberZusagenButton);
-		buttonPanel.add(texteAnzeigenButton);
+		//buttonPanel.add(bewerberZusagenButton);
+		//buttonPanel.add(texteAnzeigenButton);
 		
 		
 		//Stylen der Buttons
 		zurueckButton.setStylePrimaryName("navi-button");
 		bewerbungBewertenButton.setStylePrimaryName("navi-button");
-		bewerberZusagenButton.setStylePrimaryName("navi-button");
-		texteAnzeigenButton.setStylePrimaryName("navi-button");
+		//bewerberZusagenButton.setStylePrimaryName("navi-button");
+		//texteAnzeigenButton.setStylePrimaryName("navi-button");
 		
 		this.setSpacing(8);
 		this.add(buttonPanel);
@@ -148,6 +149,17 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		/**
 		 * CLICK-HANDLER
 		 */
+		bewerbungBewertenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject());
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				dbb.setPopupPosition(left, top);
+				dbb.show();
+				
+			}
+		});
+		
 		
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -158,7 +170,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	}
 	
 	
-	private class BewertungBewerbungHybrid{
+	public class BewertungBewerbungHybrid{
 		
 		private String bewerbungstext;
 		private Bewerbungsstatus bewerbungsstatus;
@@ -166,6 +178,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private String stellungsnahme;
 		private double bewertungWert;
 		private String bewerber;
+		private int bewerbungId;
 		
 		public String getBewerber() {
 			return bewerber;
@@ -214,7 +227,16 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setBewertungWert(double bewertungWert) {
 			this.bewertungWert = bewertungWert;
 		}
-			
+		
+		public int getBewerbungId() {
+			return bewerbungId;
+		}
+
+		public void setBewerbungId(int bewerbungId) {
+			this.bewerbungId = bewerbungId;
+		}
+		
+	
 	}
 
 	
@@ -267,6 +289,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 				
 				//Erstellen einer neuen Instanz unserer Hybrid-Klasse BewertungBewerbungHybrid
 				
+				localHybrid.setBewerbungId(bewerbungen.get(i).getId());
 				localHybrid.setBewerbungstext(bewerbungen.get(i).getBewerbungstext());
 				localHybrid.setErstellungsdatum(bewerbungen.get(i).getErstellungsdatum());
 				localHybrid.setBewerbungsstatus(bewerbungen.get(i).getStatus());
@@ -310,8 +333,6 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 //			}
 //		}		
 //	}
-	
-	
 	
 }
 
