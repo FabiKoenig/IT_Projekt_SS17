@@ -2,6 +2,8 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -84,8 +86,12 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				hp_BewerbungBewertung.add(ft_Bewertung);
 				vp_BewerbungBewertung.add(hp_BewerbungBewertung);
 				setWidget(vp_BewerbungBewertung);
-				
-			}	
-	
-	
+
+		//ClickHandler anlegen		
+				abbrechenButton.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						hide();
+					}
+				});
+		}
 }
