@@ -6,6 +6,8 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -20,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.gui.BewerbungenAufAusschreibungForm.BewertungBewerbungHybrid;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.bo.Bewertung;
 
 public class DialogBoxBewerbungBewerten extends DialogBox {
 	
@@ -57,16 +60,23 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
+
+		final BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
+
+		
 		for (int i = 0; i < bewertungen.length; i++) {
 			lb_Bewertung.addItem(bewertungen[i]);
 		}
-		
-		
-		BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
-		
-	
+
+		//Buttons dem HorizontalPanel hinzufügen
 		hp_Bewertung.add(speicherButton);
 		hp_Bewertung.add(abbrechenButton);
+		
+		//Buttons stylen
+		speicherButton.setStylePrimaryName("navi-button");
+		abbrechenButton.setStylePrimaryName("navi-button");
+		bewerberAnnehmenButton.setStylePrimaryName("navi-button");
+		
 		//Erstellen der FlexTable
 				ft_Bewerbung.setWidget(1, 0, lbl_Bewerber);
 				ft_Bewerbung.setWidget(1, 1, txt_Bewerber);
@@ -79,7 +89,6 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				ft_Bewertung.setWidget(2, 0, lbl_Stellungnahme);
 				ft_Bewertung.setWidget(2, 1, txta_Stellungnahme);
 				ft_Bewertung.setWidget(3, 1, hp_Bewertung);
-//				ft_Bewertung.setWidget(3, 1, abbrechenButton);
 				
 				txt_Bewerber.setEnabled(false);
 				txta_Bewerbungstext.setEnabled(false);
@@ -89,7 +98,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				txt_Bewerber.setText(bewertungBewerbungHybrid.getBewerber());
 				txta_Bewerbungstext.setText(bewertungBewerbungHybrid.getBewerbungstext());
 				txta_Stellungnahme.setText(bewertungBewerbungHybrid.getStellungsnahme());
-				//lb_Bewertung.s(bewertungBewerbungHybrid.getBewertungWert());
+				//lb_Bewertung.get
 				
 		//Panels Widgets zuweisen
 				hp_BewerbungBewertung.add(ft_Bewerbung);
@@ -103,5 +112,32 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						hide();
 					}
 				});
+				
+				speicherButton.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+					//	bewertungBewerbungHybrid.setBewertungWert(bewertungen.);
+						bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
+					//	projektmarktplatzverwaltung.saveBewertung(bewertungBewerbungHybrid, new SaveBewertungCallback());
+					}
+				});
+	}			
+	
+	
+	
+	private class SaveBewertungCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Das Speichern der Bewertung schlug fehl. Versuchen Sie es erneut!");
+			
 		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Das Projekt wurde erfolgreich gespeichert.");
+			hide();
+			Navigation.reload();			
+		
+		}
+	}
 }

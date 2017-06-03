@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.hdm.itProjektSS17.client.gui.BewerbungenAufAusschreibungForm.BewertungBewerbungHybrid;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
@@ -158,7 +159,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void saveBewerbung(Bewerbung b, AsyncCallback<Void> callback);
 
 	void saveBewertung(Bewertung b, AsyncCallback<Void> callback);
-
+	
 	void saveEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
 	void savePartnerprofil(Partnerprofil p, AsyncCallback<Void> callback);
