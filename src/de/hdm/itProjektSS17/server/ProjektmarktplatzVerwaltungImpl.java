@@ -200,7 +200,9 @@ implements ProjektmarktplatzVerwaltung {
 		a.setPartnerprofilId(partnerprofilId);
 		a.setStatus(Ausschreibungsstatus.laufend);
 		
-		this.partnerprofilMapper.insert();
+		
+		
+		this.createPartnerprofil();
 		
 		return this.ausschreibungMapper.insert(a); 
 	}
@@ -209,16 +211,15 @@ implements ProjektmarktplatzVerwaltung {
 	/**
 	 * Erstellung eines neuen Partnerprofils
 	 */
-	public Partnerprofil createPartnerprofil(Date erstellungsdatum, Date aenderungsdatum) throws IllegalArgumentException {
+	public Partnerprofil createPartnerprofil() throws IllegalArgumentException {
 		
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
-		p.setErstellungsdatum(erstellungsdatum);
-		p.setAenderungdatum(aenderungsdatum);
+		
 		
 		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
 		//die korrekte ID vergeben.
-		return partnerprofilMapper.insert();
+		return partnerprofilMapper.insert(p);
 	}
 	
 	
