@@ -3,12 +3,9 @@ package de.hdm.itProjektSS17.client.gui;
 import java.math.BigDecimal;
 import java.util.Vector;
 
-<<<<<<< HEAD
-import com.google.gwt.user.client.Window;
-=======
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
->>>>>>> branch 'master' of https://github.com/FabiKoenig/IT_Projekt_SS17
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
