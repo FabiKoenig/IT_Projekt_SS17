@@ -45,6 +45,7 @@ public class MeineProjektForm extends Showcase{
 	Button btn_projektBearbeiten = new Button("Projekt bearbeiten");
 	Button btn_projektAnlegen = new Button("Projekt anlegen");
 	Button btn_projektLoeschen = new Button("Projekt löschen");
+	Button btn_ausschreibungAnlegen = new Button("Ausschreibung anlegen");
 	Button btn_ausschreibungenAnzeigen = new Button("Ausschreibungen anzeigen");
 
 	
@@ -140,6 +141,24 @@ public class MeineProjektForm extends Showcase{
 		});
 		
 		
+		btn_ausschreibungAnlegen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				DialogBoxAusschreibungAnlegen daa = new DialogBoxAusschreibungAnlegen(selectionModel.getSelectedObject());
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				daa.setPopupPosition(left, top);
+				if (selectionModel.getSelectedObject() != null) {
+					
+					daa.show();
+				}
+				else {
+					Window.alert("Bitte wählen Sie ein Projekt zuerst aus, bevor Sie eine Ausschreibung anlegen möchten!");
+				}
+			}
+		});
+		
 		btn_ausschreibungenAnzeigen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -180,7 +199,7 @@ public class MeineProjektForm extends Showcase{
 						public void onSuccess(Void result) {
 							
 							Window.alert("Das Löschen des Projektes war erfolgreich");
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+							Navigation.reload();
 						}
 						
 						@Override
@@ -189,6 +208,9 @@ public class MeineProjektForm extends Showcase{
 							
 						}
 					});
+				}
+				else {
+					Window.alert("Bitte wählen Sie zuerst das zu löschende Projekte aus!");
 				}
 				
 			}
@@ -200,11 +222,13 @@ public class MeineProjektForm extends Showcase{
 		btn_projektAnlegen.setStylePrimaryName("navi-button");
 		btn_projektLoeschen.setStylePrimaryName("navi-button");
 		btn_projektBearbeiten.setStylePrimaryName("navi-button");
+		btn_ausschreibungAnlegen.setStylePrimaryName("navi-button");
 	
 		
 		buttonPanel.add(btn_projektAnlegen);
 		buttonPanel.add(btn_projektBearbeiten);
 		buttonPanel.add(btn_projektLoeschen);
+		buttonPanel.add(btn_ausschreibungAnlegen);
 		buttonPanel.add(btn_ausschreibungenAnzeigen);
 		this.setSpacing(8);
 		this.add(buttonPanel);

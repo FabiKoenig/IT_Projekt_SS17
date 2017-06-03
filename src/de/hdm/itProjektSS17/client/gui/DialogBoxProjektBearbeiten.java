@@ -132,7 +132,7 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Das Projekt wurde erfolgreich gespeichert.");
 			hide();
-			Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+			Navigation.reload();
 			
 		}
 		

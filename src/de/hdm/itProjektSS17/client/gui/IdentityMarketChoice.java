@@ -62,7 +62,7 @@ public class IdentityMarketChoice extends FlexTable{
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+				Navigation.reload();
 			}
 		});
 		
@@ -70,7 +70,7 @@ public class IdentityMarketChoice extends FlexTable{
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+				Navigation.reload();
 			}
 		});
 		

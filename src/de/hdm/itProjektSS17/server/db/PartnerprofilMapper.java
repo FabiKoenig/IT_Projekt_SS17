@@ -143,9 +143,9 @@ public class PartnerprofilMapper {
 	  
 	  //Die Methode ben�tigt kein �bergebenes Partnerprofil, da die Attribute eines neuen Partnerprofils ohnehin
 	  //automatisch gesetzt werden.
-	  public Partnerprofil insert(){
+	  public Partnerprofil insert(Partnerprofil p){
 		//Anlegen eines neuen Partnerprofil-Objekts.
-		  Partnerprofil p = new Partnerprofil();
+		 // Partnerprofil p = new Partnerprofil();
 		//DB-Verbindung holen
 		  Connection con = DBConnection.connection();
 

@@ -353,8 +353,8 @@ public class MeineBewerbungenForm extends Showcase{
 
 						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
 
-					;
-						
+						Navigation.reload();
+												
 					}
 				});
 				

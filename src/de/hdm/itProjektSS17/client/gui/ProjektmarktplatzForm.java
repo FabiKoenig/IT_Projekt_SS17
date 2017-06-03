@@ -97,7 +97,7 @@ public class ProjektmarktplatzForm extends Showcase {
 						@Override
 						public void onSuccess(Void result) {
 							Window.alert("Der Projektmarktplatz wurde erfolgreich gelöscht");
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+							Navigation.reload();
 							IdentityMarketChoice.getNavigation().reinitialize();
 						}
 						

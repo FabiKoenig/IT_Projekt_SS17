@@ -146,6 +146,20 @@ public class StellenauschreibungForm extends Showcase {
 		}
 		});
 		
+		btn_bewerben.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				if (selectionModel.getSelectedObject() == null)
+				{
+					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus auf die Sie sich bewerben möchten");
+				}
+				DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				text.setPopupPosition(left, top);
+				text.show();
+				
+		}
+		});
 		cellTable.setWidth("100%");
 		
 		this.add(cellTable);

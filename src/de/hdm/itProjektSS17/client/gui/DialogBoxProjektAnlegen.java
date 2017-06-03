@@ -168,7 +168,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 			Window.alert("Projekt erfolgreich hinzugefügt!");
 			hide();
-			Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
+			Navigation.reload();
 		}
 		
 	}
