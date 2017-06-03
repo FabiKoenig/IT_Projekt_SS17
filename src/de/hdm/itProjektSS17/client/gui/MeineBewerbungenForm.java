@@ -352,9 +352,9 @@ public class MeineBewerbungenForm extends Showcase{
 					public void onSuccess(Void result) {
 
 						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
+
 						Navigation.reload();
-						
-						
+												
 					}
 				});
 				
