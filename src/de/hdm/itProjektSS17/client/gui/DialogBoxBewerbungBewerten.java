@@ -23,7 +23,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	//Panels anlegen
 	VerticalPanel vp_BewerbungBewertung = new VerticalPanel();
 	HorizontalPanel hp_BewerbungBewertung = new HorizontalPanel();
-	//HorizontalPanel hp_Bewertung = new HorizontalPanel();
+	HorizontalPanel hp_Bewertung = new HorizontalPanel();
 	
 	//Anlegen der Flextables
 	FlexTable ft_Bewerbung = new FlexTable();
@@ -55,6 +55,8 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
 		
 	
+		hp_Bewertung.add(speicherButton);
+		hp_Bewertung.add(abbrechenButton);
 		//Erstellen der FlexTable
 				ft_Bewerbung.setWidget(1, 0, lbl_Bewerber);
 				ft_Bewerbung.setWidget(1, 1, txt_Bewerber);
@@ -66,8 +68,8 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				ft_Bewertung.setWidget(1, 1, lb_Bewertung);
 				ft_Bewertung.setWidget(2, 0, lbl_Stellungnahme);
 				ft_Bewertung.setWidget(2, 1, txta_Stellungnahme);
-				ft_Bewertung.setWidget(3, 1, speicherButton);
-				ft_Bewertung.setWidget(3, 2, abbrechenButton);
+				ft_Bewertung.setWidget(3, 1, hp_Bewertung);
+//				ft_Bewertung.setWidget(3, 1, abbrechenButton);
 				
 				txt_Bewerber.setEnabled(false);
 				txta_Bewerbungstext.setEnabled(false);
