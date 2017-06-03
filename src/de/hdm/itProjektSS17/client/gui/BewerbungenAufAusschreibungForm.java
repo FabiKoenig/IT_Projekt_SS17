@@ -39,10 +39,11 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	Vector<Bewertung> bewertungen = new Vector<Bewertung>();
 	Bewertung bewertung = null;
 	//String bewerber = null;
-	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
+//	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
 	Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button zurueckButton = new Button("Zurück");
-	Button texteAnzeigenButton = new Button("Bewerbungstext und Stellungsnahme anzeigen");
+	Button bewerbungstextButton = new Button("Bewerbungstext anzeigen");
+	Button stellungsnahmeButton = new Button("Stellungsnahme anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
@@ -128,16 +129,18 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		//Hinzufügen der Buttons zum ButtonPanel
 		buttonPanel.add(zurueckButton);
-		buttonPanel.add(bewerbungBewertenButton);
+//		buttonPanel.add(bewerbungBewertenButton);
 		buttonPanel.add(bewerberZusagenButton);
-		buttonPanel.add(texteAnzeigenButton);
+		buttonPanel.add(bewerbungstextButton);
+		buttonPanel.add(stellungsnahmeButton);
 		
 		
 		//Stylen der Buttons
 		zurueckButton.setStylePrimaryName("navi-button");
-		bewerbungBewertenButton.setStylePrimaryName("navi-button");
+//		bewerbungBewertenButton.setStylePrimaryName("navi-button");
 		bewerberZusagenButton.setStylePrimaryName("navi-button");
-		texteAnzeigenButton.setStylePrimaryName("navi-button");
+		bewerbungstextButton.setStylePrimaryName("navi-button");
+		stellungsnahmeButton.setStylePrimaryName("navi-button");
 		
 		this.setSpacing(8);
 		this.add(buttonPanel);
@@ -148,6 +151,20 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		/**
 		 * CLICK-HANDLER
 		 */
+		
+		bewerbungstextButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				if (selectionModel.getSelectedObject() == null)
+				{
+					Window.alert("Bitte wählen Sie eine Bewerbung aus");
+				}
+				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
+				int left = Window.getClientWidth() / 3;
+				int top = Window.getClientHeight() / 8;
+				text.setPopupPosition(left, top);
+				text.show();
+			}
+		});
 		
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
