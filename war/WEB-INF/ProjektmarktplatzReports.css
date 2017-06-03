@@ -1,0 +1,207 @@
+.projektmarktplatz-headline {
+	font-size: 12pt;
+	font-weight: bold;
+	color: DF013A;
+	margin: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.projektmarktplatz-simpletext {
+	font-size: 100%;
+	font-weight: normal;
+	padding: 3px;
+}
+
+.projektmarktplatz-label {
+	font-size: 120%;
+	font-weight: bold;
+	font-style: italic;
+	color: gray;
+	padding-bottom: 0.5em;
+}
+
+.projektmarktplatz-textfield {
+	font-size: 100%;
+	font-weight: normal;
+	padding: 3px;
+	width: 15em;
+}
+
+.projektmarktplatz-menubutton {
+	font-size: 100%;
+	font-weight: bold;
+	width: 15em;
+	margin-bottom: 1em;
+}
+
+.projektmarktplatz-button {
+	font-size: 100%;
+	font-weight: bold;
+}
+	
+.projektmarktplatz-logout{
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	backgroundcolor: #e3e9f5;
+	
+}
+
+.IdentityPanel {
+	/*position: absolute; */
+	/*right: 0px; */
+	float: right;
+	background-color: #117ada;
+	position: absolute;
+	right: 20px;
+	top: 50px;
+}
+
+div#TopLevelFrame {
+	max-width: 1280px;
+	min-width: 1200px;
+ }
+ 
+
+#Navigator{
+	
+	line-height:30px;
+    background-color:#eeeeee;
+    height:600px;
+    width:250px;
+    float:left;
+    padding:5px;
+    border-left: solid silver;
+}
+
+
+#Details{
+	width:auto;
+    height:auto;
+    float:left;
+    padding:10px;
+    border-rigth: solid silver;
+}
+
+#logo{
+	width
+	height
+	
+}
+
+#Trailer {
+	background-color:#117ada;
+	border-bottom: solid silver;
+	border-left: solid silver;
+	border-right: solid silver;
+    color:white;
+    clear:both;
+    text-align:center;
+   	padding:5px;	
+}
+
+
+#Header{
+	background-color:#117ada;
+    color:white;
+    text-align:center;
+    padding:2px;
+    height:120px;
+    width:auto;	
+    border-top:  solid silver;
+    border-left: solid silver;
+    border-right: solid silver;
+}
+
+#logo{
+	position: absolute;
+	top: 8px;
+	left: 22px;
+}
+
+
+
+/**
+	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.
+*/
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+.navi-button {
+	background-color: #FFF;
+	color: #000000;
+	font-size: 15px;
+	padding: 5px 15px 5px 15px;
+	text-decoration: none;
+	width: auto;
+	outline-color: #000000;
+	margin-left: 5px;
+	margin-right: 5px;
+	cursor: pointer;
+	cursor: hand;
+	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	-moz-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	border: 0px solid #c7c7c7;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+.navi-button:hover {
+	background: #d7d7d7;
+	color: #000;
+	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	-moz-box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	box-shadow: inset 0px 0px 5px 3px rgba(200,200,200,0.85);
+	text-decoration: none;
+}
+
+.navi-button.aktiv {
+	background: #d7d7d7;
+	color: #000000;
+	font-size: 15px;
+	padding: 5px 15px 5px 15px;
+	text-decoration: none;
+	margin-left: 15px;
+	margin-right: 15px;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+
+.gwt-StackPanel .gwt-StackPanelItem {
+    font-weight: normal;
+    font-size: 8pt;
+    width: 100%;
+    background: green;
+}
+
+
+.gwt-StackPanel .gwt-StackPanelItem-selected {
+    background-color: red;
+}
+
+
+
