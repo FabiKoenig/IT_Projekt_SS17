@@ -1,6 +1,8 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.math.BigDecimal;
 import java.util.Vector;
+
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -19,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.gui.BewerbungenAufAusschreibungForm.BewertungBewerbungHybrid;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.bo.Bewertung;
 
 public class DialogBoxBewerbungBewerten extends DialogBox {
 	
@@ -49,15 +53,21 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	TextArea txta_Bewerbungstext = new TextArea();
 	TextArea txta_Stellungnahme = new TextArea();
 	ListBox lb_Bewertung = new ListBox();
-	
+	String[] bewertungen = { "0,1", "0,2", "0,3", "0,4", "0,5", "0,6", "0,7", "0,8", "0,9", "1,0" };
 	
 	public DialogBoxBewerbungBewerten(BewertungBewerbungHybrid bbh) {
 		this.setText("Bewerbung bewerten");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
+
 		final BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
+
 		
+		for (int i = 0; i < bewertungen.length; i++) {
+			lb_Bewertung.addItem(bewertungen[i]);
+		}
+
 		//Buttons dem HorizontalPanel hinzufügen
 		hp_Bewertung.add(speicherButton);
 		hp_Bewertung.add(abbrechenButton);
@@ -105,15 +115,16 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				
 				speicherButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						//bewertungBewerbungHybrid.setBewertungWert(lb_Bewertung);
+					//	bewertungBewerbungHybrid.setBewertungWert(bewertungen.);
 						bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
-				//		projektmarktplatzverwaltung.saveBewertung(bewertungBewerbungHybrid, new SaveBewertungCallback());
+					//	projektmarktplatzverwaltung.saveBewertung(bewertungBewerbungHybrid, new SaveBewertungCallback());
 					}
 				});
-				
-				
-				
-	 class SaveBewertungCallback implements AsyncCallback<Void>{
+	}			
+	
+	
+	
+	private class SaveBewertungCallback implements AsyncCallback<Void>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -126,7 +137,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 			Window.alert("Das Projekt wurde erfolgreich gespeichert.");
 			hide();
 			Navigation.reload();			
+		
 		}
-	}
 	}
 }
