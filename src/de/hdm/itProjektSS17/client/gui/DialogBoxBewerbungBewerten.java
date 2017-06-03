@@ -1,10 +1,13 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.math.BigDecimal;
 import java.util.Vector;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -45,12 +48,17 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	TextArea txta_Bewerbungstext = new TextArea();
 	TextArea txta_Stellungnahme = new TextArea();
 	ListBox lb_Bewertung = new ListBox();
-	
+	String[] bewertungen = { "0,1", "0,2", "0,3", "0,4", "0,5", "0,6", "0,7", "0,8", "0,9", "1,0" };
 	
 	public DialogBoxBewerbungBewerten(BewertungBewerbungHybrid bbh) {
 		this.setText("Bewerbung bewerten");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
+		
+		for (int i = 0; i < bewertungen.length; i++) {
+			lb_Bewertung.addItem(bewertungen[i]);
+		}
+		
 		
 		BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
 		
