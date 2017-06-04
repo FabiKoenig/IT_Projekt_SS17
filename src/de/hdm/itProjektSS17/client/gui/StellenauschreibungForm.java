@@ -162,6 +162,7 @@ public class StellenauschreibungForm extends Showcase {
 		});
 		cellTable.setWidth("100%");
 		
+		this.setSpacing(8);
 		this.add(cellTable);
 	}
 

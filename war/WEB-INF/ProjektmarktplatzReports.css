@@ -8,17 +8,6 @@
 	text-align: center;
 }
 
-.startseite_label {
-	font-size: 12pt;
-	font-weight: bold;
-}
-
-.willkommen_label {
-	font-size: 18pt;
-	font-stretch: extra-condensed;
-	font-weight: bolder;
-}
-
 .projektmarktplatz-simpletext {
 	font-size: 100%;
 	font-weight: normal;
@@ -67,7 +56,7 @@
 	background-color: #117ada;
 	position: absolute;
 	right: 20px;
-	top: 60px;
+	top: 50px;
 }
 
 div#TopLevelFrame {
@@ -87,26 +76,8 @@ div#TopLevelFrame {
     border-left: solid silver;
 }
 
-#NavigatorReport{
-	line-height:30px;
-    background-color:#eeeeee;
-    height:600px;
-    width:250px;
-    float:left;
-    padding:5px;
-    border-left: solid silver;
-}
-
 
 #Details{
-	width:auto;
-    height:auto;
-    float:left;
-    padding:10px;
-    border-rigth: solid silver;
-}
-
-#DetailsReport{
 	width:auto;
     height:auto;
     float:left;
@@ -133,18 +104,6 @@ div#TopLevelFrame {
 
 
 #Header{
-	background-color:#117ada;
-    color:white;
-    text-align:center;
-    padding:2px;
-    height:120px;
-    width:auto;	
-    border-top:  solid silver;
-    border-left: solid silver;
-    border-right: solid silver;
-}
-
-#HeaderReport{
 	background-color:#117ada;
     color:white;
     text-align:center;

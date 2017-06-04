@@ -225,9 +225,9 @@ public class Navigation extends StackPanel{
 			public void onClick(ClickEvent event) {
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcase = new StartseiteForm();
+				
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
+				RootPanel.get("Details").add(new StartseiteForm());
 				currentClickHandler=this;
 				currentClickEvent=event;
 			}

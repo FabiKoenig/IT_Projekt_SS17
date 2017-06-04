@@ -223,6 +223,7 @@ public class MeineProjektForm extends Showcase{
 		btn_projektLoeschen.setStylePrimaryName("navi-button");
 		btn_projektBearbeiten.setStylePrimaryName("navi-button");
 		btn_ausschreibungAnlegen.setStylePrimaryName("navi-button");
+		btn_ausschreibungenAnzeigen.setStylePrimaryName("navi-button");
 	
 		
 		buttonPanel.add(btn_projektAnlegen);

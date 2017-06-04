@@ -64,11 +64,14 @@ public class ProjektmarktplatzForm extends Showcase {
 		ct_fremdeProjektmarktplaetze.setWidth("100%", true);
 		ct_eigeneProjektmarktplaetze.setWidth("100%", true);
 		
+		this.setSpacing(8);
 		this.add(panel_projektmarktplatz);
 		
 		//Stylen der Buttons
 		btn_projektmarktplatzanlegen.setStylePrimaryName("navi-button");
 		btn_projektmarktplatzloeschen.setStylePrimaryName("navi-button");
+		btn_projektmarktplatzTeilnahmeentfernen.setStylePrimaryName("navi-button");
+		btn_projektmarktplatzuebernehmen.setStylePrimaryName("navi-button");
 		
 		//Hinzufügen der Buttons zum Panel
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
