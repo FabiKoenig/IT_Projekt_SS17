@@ -172,8 +172,10 @@ public class Navigation extends StackPanel{
 		
 		meineprojekteButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.activateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
+				
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.setOwnOrgUnitToZero();
+				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new MeineProjektForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
@@ -251,6 +253,9 @@ public class Navigation extends StackPanel{
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.setOwnOrgUnitToZero();
+				IdentityMarketChoice.deactivateOrgUnits();
+				IdentityMarketChoice.deactivateProjectMarkets();
 				Showcase showcase = new MeineAusschreibungenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
