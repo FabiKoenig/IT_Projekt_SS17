@@ -53,6 +53,8 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		RootPanel.get("Details").setWidth("70%");
 		cellTable.setWidth("100%", true);
+		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
+		cellTable.setLoadingIndicator(null);
 		
 		//Stylen des Buttons
 		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
@@ -239,8 +241,9 @@ public class MeineBewerbungenForm extends Showcase{
 					@Override
 					public void onSuccess(Ausschreibung result) {
 					final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+					final Ausschreibung a = result;
 					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
-					projektmarktplatzVerwaltung.getOrganisationseinheitById(result.getAusschreibenderId(), new AsyncCallback<Organisationseinheit>() {
+					projektmarktplatzVerwaltung.getProjektById(result.getProjektId(), new AsyncCallback<Projekt>(){
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -249,42 +252,66 @@ public class MeineBewerbungenForm extends Showcase{
 						}
 
 						@Override
-						public void onSuccess(Organisationseinheit result) {
-
-							if (result instanceof Person){
-								Person localPerson = (Person) result;
-								localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
-							} else if(result instanceof Team){
-								Team localTeam = (Team) result;
-								localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
-							} else if (result instanceof Unternehmen){
-								Unternehmen localUnternehmen = (Unternehmen) result;
-								localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
-							}
-							else{
-								localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
-							}
-							
-							localHybrid.setBewerbungId(localBewerbung.getId());
-							localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
-							localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
-							localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
-							
-							hybrid.add(localHybrid);
-
-							cellTable.setRowCount(hybrid.size(), true);
-							cellTable.setRowData(0,hybrid);
-						}
-					});
-					}
+						public void onSuccess(Projekt result) {
+							// TODO Auto-generated method stub
+							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()!=result.getProjektmarktplatzId()){
+								
+								projektmarktplatzVerwaltung.getOrganisationseinheitById(a.getAusschreibenderId(), new AsyncCallback<Organisationseinheit>() { 
+									
+														@Override
+															public void onFailure(Throwable caught) {
+																// TODO Auto-generated method stub
+																
+															}
+									
+															@Override
+														public void onSuccess(Organisationseinheit result) {
+									
+																if (result instanceof Person){
+																	Person localPerson = (Person) result;
+																	localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
+															} else if(result instanceof Team){
+																	Team localTeam = (Team) result;
+																	localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
+																} else if (result instanceof Unternehmen){
+																	Unternehmen localUnternehmen = (Unternehmen) result;
+																	localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
+																}
+																else{
+																	localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
+																}
+																
+																localHybrid.setBewerbungId(localBewerbung.getId());
+																localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
+																localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
+																localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
+																
+																hybrid.add(localHybrid);
+									
+																cellTable.setRowCount(hybrid.size(), true);
+																cellTable.setRowData(0,hybrid);
+															}
+														});
+													
+													}
+												}
+											});
+										}
+						
+									});
 					
-				});
-			}
+								}	
+							}
+	
+					 };
+
+				
+			
 
 
 			
-			};
-		}
+			
+	
 	
 	 private class getBewerbungCallback implements AsyncCallback<Bewerbung>{
 
@@ -317,7 +344,8 @@ public class MeineBewerbungenForm extends Showcase{
 				
 				}
 			};
-}
+	}
+
 
 		
 		

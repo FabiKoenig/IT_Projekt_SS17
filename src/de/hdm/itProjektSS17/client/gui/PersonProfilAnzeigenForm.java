@@ -214,6 +214,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
 				getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
+
 			}
 		});
 		
@@ -290,7 +291,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			
 			ClientsideSettings.getProjektmarktplatzVerwaltung().savePerson(result, new PersonSpeichernCallback());
 
-			Navigation.reload();
+
 			
 		}
 		

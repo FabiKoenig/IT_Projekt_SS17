@@ -57,6 +57,8 @@ public class StellenauschreibungForm extends Showcase {
 		
 		RootPanel.get("Details").setWidth("70%");
 		cellTable.setWidth("100%", true);
+		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
+		cellTable.setLoadingIndicator(null);
 		
 		btn_Text.setStylePrimaryName("navi-button");
 		btn_bewerben.setStylePrimaryName("navi-button");
@@ -132,86 +134,88 @@ public class StellenauschreibungForm extends Showcase {
 													
 														@Override
 														public void onSuccess(Person result) {
+															localHybrid.setAnrede(result.getAnrede());
 															localHybrid.setAusschreibender(result.getNachname());
 															
 															Person p = result;
-															
-															if(p.getTeamId()==null && p.getUnternehmenId()==null){
-																
-																localHybrid.setTeam("Kein Team");
-																localHybrid.setUnternehmen("Kein Unternehmen");
-																Hybrid.add(localHybrid);
-																cellTable.setRowCount(Hybrid.size(), true);
-																cellTable.setRowData(0,Hybrid);
-																
-															}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
-																
-																projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+															if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+																if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																	
-																	@Override
-																	public void onFailure(Throwable caught) {
-																		Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
-																	}
-
-																	@Override
-																	public void onSuccess(Team result) {
-																		localHybrid.setUnternehmen("Kein Unternehmen");
-																		localHybrid.setTeam(result.getName());
-																		Hybrid.add(localHybrid);
-																		cellTable.setRowCount(Hybrid.size(), true);
-																		cellTable.setRowData(0,Hybrid);
-																	}
-																});
-																
-															}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
-																
-																projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
-
-																	@Override
-																	public void onFailure(Throwable caught) {
-																		Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
-																	}
-
-																	@Override
-																	public void onSuccess(Unternehmen result) {
-																		localHybrid.setTeam("Kein Team");
-																		localHybrid.setUnternehmen(result.getName());
-																		Hybrid.add(localHybrid);
-																		cellTable.setRowCount(Hybrid.size(), true);
-																		cellTable.setRowData(0,Hybrid);
-																	}
-																});
-																
-															}else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
-																
-																projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+																	localHybrid.setTeam("Kein Team");
+																	localHybrid.setUnternehmen("Kein Unternehmen");
+																	Hybrid.add(localHybrid);
+																	cellTable.setRowCount(Hybrid.size(), true);
+																	cellTable.setRowData(0,Hybrid);
 																	
-																	@Override
-																	public void onFailure(Throwable caught) {
-																		Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
-																	}
+																}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
+																	
+																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+																		
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
+																		}
 
-																	@Override
-																	public void onSuccess(Team result) {
-																		localHybrid.setTeam(result.getName());
-																		projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+																		@Override
+																		public void onSuccess(Team result) {
+																			localHybrid.setUnternehmen("Kein Unternehmen");
+																			localHybrid.setTeam(result.getName());
+																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																		}
+																	});
+																	
+																}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+																	
+																	projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
-																			@Override
-																			public void onFailure(Throwable caught) {
-																				Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
-																			}
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
+																		}
 
-																			@Override
-																			public void onSuccess(Unternehmen result) {
-																				localHybrid.setUnternehmen(result.getName());
-																				Hybrid.add(localHybrid);
-																				cellTable.setRowCount(Hybrid.size(), true);
-																				cellTable.setRowData(0,Hybrid);
-																			}
-																		});
-																	}
-																});
-															}	
+																		@Override
+																		public void onSuccess(Unternehmen result) {
+																			localHybrid.setTeam("Kein Team");
+																			localHybrid.setUnternehmen(result.getName());
+																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																		}
+																	});
+																	
+																}else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
+																	
+																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+																		
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
+																		}
+
+																		@Override
+																		public void onSuccess(Team result) {
+																			localHybrid.setTeam(result.getName());
+																			projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+
+																				@Override
+																				public void onFailure(Throwable caught) {
+																					Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
+																				}
+
+																				@Override
+																				public void onSuccess(Unternehmen result) {
+																					localHybrid.setUnternehmen(result.getName());
+																					Hybrid.add(localHybrid);
+																					cellTable.setRowCount(Hybrid.size(), true);
+																					cellTable.setRowData(0,Hybrid);
+																				}
+																			});
+																		}
+																	});
+																}
+															}
 														}
 													});
 												}
@@ -233,7 +237,8 @@ public class StellenauschreibungForm extends Showcase {
 			@Override
 			public String getValue(projektAusschreibungHybrid object) {
 				// TODO Auto-generated method stub
-				return object.getAusschreibender();
+				
+				return object.getAnrede()+ " "+ object.getAusschreibender();
 			}
 		};
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
@@ -346,6 +351,7 @@ public class StellenauschreibungForm extends Showcase {
 	private class projektAusschreibungHybrid{
 		
 		private String bezeichnung;
+		private String Anrede;
 		private String projektbezeichnung;
 		private String ausschreibender;
 		private String team;
@@ -355,6 +361,12 @@ public class StellenauschreibungForm extends Showcase {
 		private Ausschreibungsstatus ausschreibungstatus;
 		private int ausschreibungId;
 		
+		public String getAnrede() {
+			return Anrede;
+		}
+		public void setAnrede(String anrede) {
+			Anrede = anrede;
+		}		
 		public int getAusschreibungId() {
 			return ausschreibungId;
 		}
