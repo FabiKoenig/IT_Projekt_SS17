@@ -355,8 +355,8 @@ public class MeineAusschreibungenForm extends Showcase{
 			
 	}
 	
-	
-	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
+	//Geändert
+	public class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -371,8 +371,8 @@ public class MeineAusschreibungenForm extends Showcase{
 		}
 	
 	}
-	
-	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
+	//Geändert
+	public class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
