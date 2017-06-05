@@ -2,6 +2,7 @@ package de.hdm.itProjektSS17.client;
 
 
 import de.hdm.itProjektSS17.client.gui.PersonProfilAnzeigenForm;
+import de.hdm.itProjektSS17.client.gui.StartseiteForm;
 import de.hdm.itProjektSS17.client.gui.StellenauschreibungForm;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.MeineBewerbungenForm;
@@ -129,6 +130,7 @@ public class Projektmarktplatz implements EntryPoint {
 
 		    RootPanel.get("Navigator").add(Logout);
 		    RootPanel.get("Navigator").add(new Navigation());
+		    RootPanel.get("Details").add(new StartseiteForm());
 			
 		    
 		    //TopPanel für Logut
