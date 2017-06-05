@@ -202,5 +202,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAllUnternehmen(AsyncCallback<Vector<Unternehmen>> callback);
 
+	void getAusschreibungByBewerbung(Bewerbung b, AsyncCallback<Ausschreibung> callback);
+
 
 }

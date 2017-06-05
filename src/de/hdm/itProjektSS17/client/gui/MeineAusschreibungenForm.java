@@ -328,6 +328,8 @@ public class MeineAusschreibungenForm extends Showcase{
 					if(selectionModel.getSelectedObject() != null){
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
+						Navigation.setCurrentClickHandler(this);
+						Navigation.setCurrentClickEvent(event);
 						
 					} else {
 						Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
