@@ -13,6 +13,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class UnternehmenProfilAnzeigenForm extends Showcase{
@@ -26,7 +28,8 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 	Button bearbeitenButton = new Button("Bearbeiten");
 	Button speichernButton = new Button("Speichern");
 	Button abbrechenButton = new Button("Abbrechen");
-	
+	Button unternehmenVerlassenButton = new Button("Unternehmen verlassen");
+	Button unternehmenLoeschen = new Button("Unternehmen löschen");
 	
 	//Erstellen der Text- bzw. ListBoxen
 	private TextBox unternehmenNameBox = new TextBox();
@@ -43,6 +46,10 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 	private Label plzLabel = new Label("Postleitzahl");
 	private Label ortLabel = new Label("Ort");
 	
+	private Person user = IdentityMarketChoice.getUser();
+	private Unternehmen unternehmen = (Unternehmen) IdentityMarketChoice.getSelectedIdentityAsObject();
+	
+	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 	@Override
 	protected String getHeadlineText() {
@@ -72,10 +79,15 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		bearbeitenButton.setStylePrimaryName("navi-button");
 		speichernButton.setStylePrimaryName("navi-button");
 		abbrechenButton.setStylePrimaryName("navi-button");
+		unternehmenVerlassenButton.setStylePrimaryName("navi-button");
+		unternehmenLoeschen.setStylePrimaryName("navi-button");
+
 		
 		//Setzen des SpeicherButtons
 		speichernButton.setVisible(false);
 		abbrechenButton.setVisible(false);
+		unternehmenVerlassenButton.setVisible(false);
+		unternehmenLoeschen.setVisible(false);
 			
 		// Befüllen der FlexTable
 		ftable.setWidget(0, 1, unternehmenNameBox);
@@ -99,7 +111,10 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		vpanel.setSpacing(8);
 		buttonPanel.add(bearbeitenButton);
 		buttonPanel.add(speichernButton);
+		buttonPanel.add(unternehmenVerlassenButton);
+		buttonPanel.add(unternehmenLoeschen);
 		buttonPanel.add(abbrechenButton);
+
 		vpanel.add(buttonPanel);
 		vpanel.add(ftable);
 		
@@ -120,6 +135,8 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 				//Setzen des SpeicherButtons auf Visible
 				speichernButton.setVisible(true);
 				abbrechenButton.setVisible(true);
+				unternehmenVerlassenButton.setVisible(true);
+				unternehmenLoeschen.setVisible(true);
 				//Setzen des BearbeitenButtons auf NotVisible
 				bearbeitenButton.setVisible(false);
 			}
@@ -128,8 +145,7 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new UnternehmenProfilAnzeigenForm());
+				Navigation.reload();
 			}
 		});
 		
@@ -137,6 +153,68 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
 				getUnternehmenById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
+			}
+		});
+		
+		unternehmenVerlassenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+
+				user.setUnternehmenId(0);
+
+				projektmarktplatzVerwaltung.savePerson(user, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Beziehung konnte nicht aufgelöst werden");
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("Beziehung wurde aufgelöst!");
+						IdentityMarketChoice.getNavigation().reinitialize();
+						IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+						Navigation.reload();
+					}
+				
+				});
+			}
+		});
+		
+		unternehmenLoeschen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {				
+				user.setUnternehmenId(0);
+				projektmarktplatzVerwaltung.savePerson(user, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Beziehung konnte nicht aufgelöst werden");
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						projektmarktplatzVerwaltung.deleteUnternehmen(unternehmen, new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Unternehmen konnte nicht gelöscht werden!");
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								Window.alert("Unternehmen: "+unternehmen.getName()+" wurde gelöscht und die Beziehung wurde aufgelöst!");
+								IdentityMarketChoice.getNavigation().reinitialize();
+								IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+								Navigation.reload();
+							}
+							
+						});
+					}
+				
+				});
 			}
 		});
 	}

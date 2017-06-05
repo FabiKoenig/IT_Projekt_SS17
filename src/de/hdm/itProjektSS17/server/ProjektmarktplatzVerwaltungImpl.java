@@ -552,9 +552,7 @@ implements ProjektmarktplatzVerwaltung {
 		Partnerprofil p = this.getPartnerprofilByForeignOrganisationseinheit(t);
 		Vector <Beteiligung> b = this.getBeteiligungByForeignOrganisationseinheit(t);
 		
-		if(p!=null){
-			this.partnerprofilMapper.delete(p);
-		}
+
 		if (b != null){
 			for (Beteiligung beteiligung: b)
 			{
@@ -562,6 +560,9 @@ implements ProjektmarktplatzVerwaltung {
 			}		
 		}
 		this.teamMapper.delete(t);
+		if(p!=null){
+			this.partnerprofilMapper.delete(p);
+			}
 		}
 	
 	
@@ -1504,6 +1505,16 @@ implements ProjektmarktplatzVerwaltung {
 		}
 
 		return projekte;
+	}
+
+	@Override
+	public Vector<Team> getAllTeams() throws IllegalArgumentException {
+		return teamMapper.findAllTeam();
+	}
+
+	@Override
+	public Vector<Unternehmen> getAllUnternehmen() throws IllegalArgumentException {
+		return unternehmenMapper.findAllUnternehmen();
 	}
 	
 

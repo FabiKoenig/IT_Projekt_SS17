@@ -32,7 +32,7 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
-	private static int currentLogin = 3;
+	private static int currentLogin = 7;
 	private static IdentityMarketChoice navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private static ListBox ownProjectMarkets = new ListBox();
@@ -93,15 +93,45 @@ public class IdentityMarketChoice extends FlexTable{
 	
 	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
 	public static int getSelectedIdentityId(){
-		int selectedIdentity = ownOrgUnits.getSelectedIndex();
-		if(ownOrgUnits.getSelectedIndex()==0){
-			return person.getId();
-		}else if(ownOrgUnits.getSelectedIndex()==1){
-			return team.getId();
-		}else if(ownOrgUnits.getSelectedIndex()==2){
-			return unternehmen.getId();
+		
+		if(person.getTeamId()!=null){
+			if(ownOrgUnits.getSelectedIndex()==0){
+				return person.getId();
+			}else if(ownOrgUnits.getSelectedIndex()==1){
+				return team.getId();
+			}else if(ownOrgUnits.getSelectedIndex()==2){
+				return unternehmen.getId();
+			}
+		}else if(person.getTeamId()==null){
+			if(ownOrgUnits.getSelectedIndex()==0){
+				return person.getId();
+			}else if(ownOrgUnits.getSelectedIndex()==1){
+				return unternehmen.getId();
+			}
+
 		}
 		return 0;
+	}
+	
+	public static Organisationseinheit getSelectedIdentityAsObject(){
+		int selectedIdentity = ownOrgUnits.getSelectedIndex();
+		if(person.getTeamId()!=null){
+			if(ownOrgUnits.getSelectedIndex()==0){
+				return person;
+			}else if(ownOrgUnits.getSelectedIndex()==1){
+				return team;
+			}else if(ownOrgUnits.getSelectedIndex()==2){
+				return unternehmen;
+			}
+		}else if(person.getTeamId()==null){
+			if(ownOrgUnits.getSelectedIndex()==0){
+				return person;
+			}else if(ownOrgUnits.getSelectedIndex()==1){
+				return unternehmen;
+			}
+
+		}
+		return null;
 	}
 	
 	public static int getSelectedProjectMarketplaceId(){
@@ -111,6 +141,14 @@ public class IdentityMarketChoice extends FlexTable{
 			}
 		}
 		return 0;
+	}
+	
+	public static Person getUser(){
+		return person;
+	}
+	
+	public static ListBox getOwnOrgUnits(){
+		return ownOrgUnits;
 	}
 	
 	public static void deactivateOrgUnits(){
@@ -134,7 +172,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	public void reinitialize(){
-		projektmarktplatzVerwaltung.getPersonById(3, new getUser());
+		projektmarktplatzVerwaltung.getPersonById(currentLogin, new getUser());
 	}
 	
 	
@@ -158,8 +196,10 @@ public class IdentityMarketChoice extends FlexTable{
 			
 			if(person.getTeamId()!=null){
 				projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new getTeam());
+			}else if(person.getUnternehmenId()!=null){
+				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());
 			}
-			projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(person, new getProjektmarktplatz());
+			projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(result, new getProjektmarktplatz());
 		}
 		
 	}
@@ -179,7 +219,7 @@ public class IdentityMarketChoice extends FlexTable{
 			ownOrgUnits.addItem("Team: "+result.getName(),idOfTeam.toString());	
 			team=result;
 			if(person.getUnternehmenId()!=null){
-				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new getUnternehmen());	
+				projektmarktplatzVerwaltung.getUnternehmenById(person.getUnternehmenId(), new getUnternehmen());
 			}
 
 		}
@@ -187,7 +227,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	private class getUnternehmen implements AsyncCallback<Unternehmen>{
-
+		
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Unternehmen des Users konnte nicht für die Identitätsleiste geladen werden");
