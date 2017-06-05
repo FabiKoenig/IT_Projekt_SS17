@@ -32,7 +32,7 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
-	private static int currentLogin = 7;
+	private static int currentLogin = 3;
 	private static IdentityMarketChoice navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private static ListBox ownProjectMarkets = new ListBox();
@@ -144,6 +144,14 @@ public class IdentityMarketChoice extends FlexTable{
 	
 	public static Person getUser(){
 		return person;
+	}
+	
+	public static Team getTeamOfUser(){
+		return team;
+	}
+	
+	public static Unternehmen getUnternehmenOfUser(){
+		return unternehmen;
 	}
 	
 	public static ListBox getOwnOrgUnits(){

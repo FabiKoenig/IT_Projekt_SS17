@@ -11,24 +11,15 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
-import de.hdm.itProjektSS17.server.db.BewerbungMapper;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
-import java_cup.action_part;
 
 
 /**
@@ -43,10 +34,8 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
-	private static Vector <Organisationseinheit> ausschreibender = new Vector();
 	CellTable<ausschreibungBewerbungHybrid> cellTable = new CellTable<ausschreibungBewerbungHybrid>();
 	Vector<ausschreibungBewerbungHybrid> hybrid = new Vector<ausschreibungBewerbungHybrid>();
-	Bewerbung localBewerbung = new Bewerbung();
 		
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
 
@@ -74,21 +63,7 @@ public class MeineBewerbungenForm extends Showcase{
 		panel_Bewerbung.add(btn_bewerbungloeschen);
 
 		panel_Bewerbung.add(btn_bewerbungstext);
-		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new AsyncCallback<Organisationseinheit>(){
-
-		
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub					
-			}
-
-			@Override
-			public void onSuccess(Organisationseinheit result) {
-		
-			projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(result, new BewerbungAnzeigenCallback());	
-					
-			}
-		});
+		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
 	
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	
@@ -99,9 +74,7 @@ public class MeineBewerbungenForm extends Showcase{
 			
 				return object.getAusschreibungsbezeichnung();
 			}
-
-
-		
+	
 		};	
 	
 		TextColumn<ausschreibungBewerbungHybrid> erstellungsdatumColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
@@ -253,12 +226,8 @@ public class MeineBewerbungenForm extends Showcase{
 		@Override
 		public void onSuccess(Vector<Bewerbung> result) {
 			
-			
-			
-			Window.alert(Integer.toString(result.size()));
-			
 			for(int i=0;i<result.size();i++){
-
+				final Bewerbung localBewerbung = result.get(i);
 				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AsyncCallback<Ausschreibung>() {
 
 					@Override
@@ -302,7 +271,7 @@ public class MeineBewerbungenForm extends Showcase{
 							localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
 							
 							hybrid.add(localHybrid);
-							Window.alert(Integer.toString(hybrid.size()));
+
 							cellTable.setRowCount(hybrid.size(), true);
 							cellTable.setRowData(0,hybrid);
 						}

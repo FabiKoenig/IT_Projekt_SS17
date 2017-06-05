@@ -58,7 +58,6 @@ public class MeineProjektForm extends Showcase{
 	protected void run() {		
 			
 
-
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
 		
 		
@@ -263,6 +262,11 @@ public class MeineProjektForm extends Showcase{
 		@Override
 		public void onSuccess(Vector<Projekt> result) {
 			
+			for(Projekt projekt : result){
+				if(projekt.getProjektmarktplatzId()!=IdentityMarketChoice.getSelectedProjectMarketplaceId()){
+					result.remove(projekt);
+				}
+			}
 			
 			dataGrid.setRowCount(result.size(), true);
 			dataGrid.setRowData(0, result);

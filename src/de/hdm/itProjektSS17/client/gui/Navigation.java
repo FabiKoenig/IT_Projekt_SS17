@@ -176,7 +176,7 @@ public class Navigation extends StackPanel{
 		meineprojekteButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.activateProjectMarkets();
 				IdentityMarketChoice.setOwnOrgUnitToZero();
 				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new MeineProjektForm();
