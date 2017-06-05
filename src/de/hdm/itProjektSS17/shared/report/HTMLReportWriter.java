@@ -2,6 +2,8 @@ package de.hdm.itProjektSS17.shared.report;
 
 import java.util.Vector;
 
+import com.google.gwt.user.client.Window;
+
 public class HTMLReportWriter {
 
 	private String reportText = "";
@@ -82,7 +84,7 @@ public class HTMLReportWriter {
 		  //Löschen des Ergebnisses der vorherigen Prozessierung
 		  this.resetReportText();
 		  
-
+			
 		    /*
 		     * In diesen Buffer schreiben wir während der Prozessierung sukzessive
 		     * unsere Ergebnisse.
@@ -96,11 +98,10 @@ public class HTMLReportWriter {
 		     */
 		  	result.append("<H1>" + r.getTitel() + "</H1>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	
+		  
 		  	
 		  	 Vector<Row> rows = r.getRows();
 		     result.append("<table style=\"width:400px\">");
@@ -110,8 +111,10 @@ public class HTMLReportWriter {
 		         result.append("<tr>");
 		         for (int k = 0; k < row.getColumnsSize(); k++) {
 		           if (i == 0) {
+		        	
 		             result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnByIndex(k)
 		                 + "</td>");
+		             
 		           }
 		           else {
 		             if (i > 1) {
@@ -280,8 +283,6 @@ public class HTMLReportWriter {
 		     */
 		  	result.append("<H1>" + r.getTitel() + "</H1>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	

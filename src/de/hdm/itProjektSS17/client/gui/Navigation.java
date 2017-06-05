@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Vector;
+
 import org.cyberneko.html.HTMLScanner.CurrentEntity;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -19,7 +21,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.client.gui.report.AlleAusschreibungenShowcase;
+import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
@@ -276,9 +280,20 @@ public class Navigation extends StackPanel{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Showcase showcase = new AlleAusschreibungenShowcase();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(showcase);
+				ProjektmarktplatzVerwaltungAsync proj = ClientsideSettings.getProjektmarktplatzVerwaltung();
+				proj.getAllAusschreibungen(new AsyncCallback<Vector<Ausschreibung>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Ausschreibung> result) {
+						Window.alert("HUHU " + result.size());
+					}
+				});
 
 			}
 		});

@@ -3,6 +3,7 @@ package de.hdm.itProjektSS17.server.report;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itProjektSS17.server.ProjektmarktplatzVerwaltungImpl;
@@ -36,6 +37,7 @@ import de.hdm.itProjektSS17.shared.report.SimpleParagraph;
 import de.hdm.itProjektSS17.shared.report.SimpleReport;
 
 
+@SuppressWarnings("serial")
 public class ReportGeneratorImpl extends RemoteServiceServlet
 implements ReportGenerator{
 
@@ -56,6 +58,7 @@ implements ReportGenerator{
 	
 	public void init() throws IllegalArgumentException{
 		/**
+		 * 
 		 * Hier wird eine ProjektmarktplatzVerwaltungImpl-Instanz instantiiert
 		 * um auf dessen Methoden zugreifen zu können.
 		 */
@@ -104,11 +107,14 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 		
-		Vector<Ausschreibung> alleAusschreibungen = this.projektmarktplatzverwaltung.getAllAusschreibungen();
 		
+		
+		Vector<Ausschreibung> alleAusschreibungen = this.projektmarktplatzverwaltung.getAllAusschreibungen();
+	
 		for(Ausschreibung a : alleAusschreibungen){
 			// Eine leere Zeile anlegen.
 		      Row ausschreibungRow = new Row();
+		            
 		      
 		   /**
 		    * prüfen, ob der Ausschreibene eine Person, Team oder Unternehmen ist.
@@ -116,6 +122,8 @@ implements ReportGenerator{
 		    */
 		      Organisationseinheit ausschreibender = projektmarktplatzverwaltung.getOrganisationseinheitById(a.getAusschreibenderId());
 		      Projekt zugehoerigesProjekt = projektmarktplatzverwaltung.getProjektById(a.getProjektId());
+		      
+		      
 		      
 		      if(ausschreibender instanceof Person){
 					ausschreibungRow.addColum(new Column(((Person) ausschreibender).getVorname() 
@@ -125,8 +133,10 @@ implements ReportGenerator{
 					ausschreibungRow.addColum(new Column(((Team) ausschreibender).getName()));
 				
 				} else if(ausschreibender instanceof Unternehmen){
+
 					ausschreibungRow.addColum(new Column(((Unternehmen) ausschreibender).getName()));
 				}	
+
 		      
 		   // Zweite Spalte: Zugehöriges Projekt hinzufügen   
 		      ausschreibungRow.addColum(new Column(zugehoerigesProjekt.getName()));

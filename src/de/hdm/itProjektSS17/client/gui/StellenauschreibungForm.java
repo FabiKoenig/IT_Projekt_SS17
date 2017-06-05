@@ -40,6 +40,7 @@ public class StellenauschreibungForm extends Showcase {
 	Projektmarktplatz p = new Projektmarktplatz();
 	Button btn_bewerben = new Button("Bewerben");
 	Button btn_Text = new Button("Ausschreibungstext anzeigen");
+	Button btn_partnerprofilAnzeigen = new Button("Partnerprofil anzeigen");
 	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
 	Ausschreibung localAusschreibung = new Ausschreibung();
 	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
@@ -62,10 +63,12 @@ public class StellenauschreibungForm extends Showcase {
 		
 		btn_Text.setStylePrimaryName("navi-button");
 		btn_bewerben.setStylePrimaryName("navi-button");
+		btn_partnerprofilAnzeigen.setStylePrimaryName("navi-button");
 		
 		this.add(panel_Ausschreibung);
 		panel_Ausschreibung.add(btn_Text);
 		panel_Ausschreibung.add(btn_bewerben);
+		panel_Ausschreibung.add(btn_partnerprofilAnzeigen);
 		
 		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
 
@@ -121,6 +124,7 @@ public class StellenauschreibungForm extends Showcase {
 													localHybrid.setBezeichnung(localAusschreibung.getBezeichnung());
 													localHybrid.setAusschreibungstatus(localAusschreibung.getStatus());
 													localHybrid.setAusschreibungstext(localAusschreibung.getAusschreibungstext());
+													localHybrid.setPartnerprofilId(localAusschreibung.getPartnerprofilId());
 												
 													projektmarktplatzVerwaltung.getPersonById(localAusschreibung.getAusschreibenderId(), new AsyncCallback<Person>() {
 
@@ -340,6 +344,17 @@ public class StellenauschreibungForm extends Showcase {
 				
 		}
 		});
+		
+		
+		btn_partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
+			}
+		});
+		
+		
 		cellTable.setWidth("100%");
 		
 		this.setSpacing(8);
@@ -360,13 +375,23 @@ public class StellenauschreibungForm extends Showcase {
 		private Date bewerbungsfrist;
 		private Ausschreibungsstatus ausschreibungstatus;
 		private int ausschreibungId;
+		private int partnerprofilId;
 		
+
 		public String getAnrede() {
 			return Anrede;
 		}
 		public void setAnrede(String anrede) {
 			Anrede = anrede;
 		}		
+
+		public int getPartnerprofilId() {
+			return partnerprofilId;
+		}
+		public void setPartnerprofilId(int partnerprofilId) {
+			this.partnerprofilId = partnerprofilId;
+		}
+
 		public int getAusschreibungId() {
 			return ausschreibungId;
 		}

@@ -14,7 +14,7 @@ import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.bo.*;
 
-@RemoteServiceRelativePath("report")
+@RemoteServiceRelativePath("reportgenerator")
 public interface ReportGenerator extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
