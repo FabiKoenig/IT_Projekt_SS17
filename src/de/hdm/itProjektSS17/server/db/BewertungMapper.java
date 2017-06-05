@@ -6,6 +6,8 @@ import de.hdm.itProjektSS17.shared.bo.Bewertung;
 
 import java.sql.*;
 
+import com.google.gwt.user.client.Window;
+
 /*
  * Mapper für Bewertung-Objekte
  */
@@ -159,10 +161,10 @@ public class BewertungMapper {
 		    	//Leeres SQL-Statement anlegen.
 		      Statement stmt = con.createStatement();
 		      //Statement mit Update-Befehl füllen.
-		      stmt.executeUpdate("UPDATE bewertung " + "SET Stellungnahme=\""
+		      stmt.executeUpdate("UPDATE bewertung SET Stellungnahme='"
 
-		          + b.getStellungnahme() + "\", " + "Wert=\"" + b.getWert() + "\", " + "Bewerbung_Id=\"" + b.getBewerbungId()+ "\" "
-		          + "WHERE Bewertung_Id=" + b.getId());
+		          + b.getStellungnahme() + "', " + "Wert=" + b.getWert()
+		          + " WHERE Bewertung_Id=" + b.getId());
 
 		    }
 		    catch (SQLException e) {
@@ -200,7 +202,7 @@ public class BewertungMapper {
 		         */
 		        b.setId(rs.getInt("maxid") + 1);
 		        
-		       
+		        
 		        
 		        //Leeres SQL-Statement für die Insert- Ausführung anlegen.
 		        stmt = con.createStatement();

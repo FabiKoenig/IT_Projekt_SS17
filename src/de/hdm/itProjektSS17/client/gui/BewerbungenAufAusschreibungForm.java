@@ -200,6 +200,15 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private double bewertungWert;
 		private String bewerber;
 		private int bewerbungId;
+		private int bewertungId;
+		
+		public int getBewertungId() {
+			return bewertungId;
+		}
+		
+		public void setBewertungId(int bewertungId) {
+			this.bewertungId = bewertungId;
+		}
 		
 		public String getBewerber() {
 			return bewerber;
@@ -280,6 +289,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 					public void onSuccess(Bewertung result) {
 						localHybrid.setStellungsnahme(result.getStellungnahme());
 						localHybrid.setBewertungWert(result.getWert());
+						localHybrid.setBewertungId(result.getId());
 						
 						dataGrid.setRowCount(hybrid.size(), true);
 						dataGrid.setRowData(0,hybrid);
