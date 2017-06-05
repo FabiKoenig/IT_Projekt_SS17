@@ -14,6 +14,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 
 	public void init() throws IllegalArgumentException;
 	
+	public Ausschreibung getAusschreibungByBewerbung(Bewerbung b) throws IllegalArgumentException;
+	
 	public void setPerson(Person p) throws IllegalArgumentException;
 	
 	public Person getPerson() throws IllegalArgumentException;
