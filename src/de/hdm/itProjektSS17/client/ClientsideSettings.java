@@ -3,6 +3,7 @@ package de.hdm.itProjektSS17.client;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itProjektSS17.shared.*;
@@ -92,26 +93,40 @@ public class ClientsideSettings extends CommonSettings{
 	 */	
 	
 	public static ReportGeneratorAsync getReportGenerator(){
+		
 		//Falls bis jetzt noch keine ReportGenerator Instanz bestand
 		if(reportGenerator == null){
 			reportGenerator = GWT.create(ReportGenerator.class);
 			
-			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>(){
+			
+			reportGenerator.init(new AsyncCallback<Void>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					ClientsideSettings.getLogger().severe("Der ReportGenerator konnte nicht initialisiert werden");
-					
+				
 				}
 
 				@Override
-				public void onSuccess(Void result) {
-					ClientsideSettings.getLogger().info("Der ReportGenerator wurde initialisiert.");
-					
+				public void onSuccess(Void result) {				
 				}
-				
-			};
-			reportGenerator.init(initReportGeneratorCallback);
+			});
+			
+//			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>(){
+//
+//				@Override
+//				public void onFailure(Throwable caught) {
+//					ClientsideSettings.getLogger().severe("Der ReportGenerator konnte nicht initialisiert werden");
+//					Window.alert(caught.toString());
+//				}
+//
+//				@Override
+//				public void onSuccess(Void result) {
+//					ClientsideSettings.getLogger().info("Der ReportGenerator wurde initialisiert.");
+//					
+//				}
+////				
+////			};
+//			reportGenerator.init(initReportGeneratorCallback);
 		}
 		
 		return reportGenerator;

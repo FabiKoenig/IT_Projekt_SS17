@@ -16,13 +16,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.Navigation;
+import de.hdm.itProjektSS17.client.gui.report.NavigationReport;
 import de.hdm.itProjektSS17.shared.LoginServiceAsync;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 
 
 
-public class ReportGenerator implements EntryPoint {
+public class ReportEntry implements EntryPoint {
 
 	
 	private ReportGeneratorAsync reportGenerator;
@@ -46,8 +47,8 @@ public class ReportGenerator implements EntryPoint {
 		 * LoginService Instanz
 		 */
 		
-		reportGenerator = ClientsideSettings.getReportGenerator();
-		loginService = ClientsideSettings.getLoginService();
+		this.reportGenerator = ClientsideSettings.getReportGenerator();
+		this.loginService = ClientsideSettings.getLoginService();
 		
 		//Überprüfen des Login-Status
 		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
@@ -104,13 +105,15 @@ public class ReportGenerator implements EntryPoint {
 			//Erstellen des Logout-Links
 			signOutLink.setHref(loginInfo.getLogoutUrl());
 			
-			//ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getBankVerwaltung();
+//			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 			
+			RootPanel.get("HeaderReport").clear();
 			RootPanel.get("HeaderReport").add(IdentityMarketChoice.getNavigation());
-			//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
+//			Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("NavigatorReport").add(Logout);
-		    RootPanel.get("NavigatorReport").add(new Navigation());
+			RootPanel.get("NavigatorReport").clear();
+		    RootPanel.get("NavigatorReport").add(new NavigationReport());
 			
 		    
 		    //TopPanel für Logut
