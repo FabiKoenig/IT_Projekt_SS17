@@ -259,9 +259,8 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		        }else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
 				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
 					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
-					          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id= NULL, WHERE Person_Id=" + p.getId());
+					          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=NULL" + " WHERE Person_Id=" + p.getId());
 		        }else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
-			        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 				      stmt.executeUpdate("UPDATE person " + "SET Vorname=\""
 					          + p.getVorname() + "\", " + "Nachname=\"" + p.getNachname() + "\", " + "Anrede=\""+ p.getAnrede() +
 					          "\", " + "Unternehmen_Id=\"" + p.getUnternehmenId() + "\", " + "Team_Id=\""+ p.getTeamId() + "\" "

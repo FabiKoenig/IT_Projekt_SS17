@@ -20,6 +20,8 @@ import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.Team;
+import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class Navigation extends StackPanel{
 	
@@ -120,31 +122,32 @@ public class Navigation extends StackPanel{
 		
 		personaldataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+
+				currentClickHandler=this;
+				currentClickEvent=event;
 				IdentityMarketChoice.deactivateProjectMarkets();
 				IdentityMarketChoice.activateOrgUnits();
 				//Auslesen des Index, der in der ListBox der agierenden Organisationseinheit ausgewählt ist
-				int indexOfSelectionBox = IdentityMarketChoice.getSelectedIndex();
-				
+				Organisationseinheit selectedIdentity = IdentityMarketChoice.getSelectedIdentityAsObject();
+				//Window.alert(selectedIdentity.toString());
 				//Falls der Index 0 ist, dann ist es eine Person und es wird die PersonProfilAnzeigenForm geladen
-				if(indexOfSelectionBox==0){
+				if(selectedIdentity instanceof Person){
 					Showcase showcase = new PersonProfilAnzeigenForm();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
 				//Falls der Index 1 ist, dann ist ein Team aktiv und es wird die TeamProfilAnzeigenForm geladen.	
-				}else if(indexOfSelectionBox==1){
+				}else if(selectedIdentity instanceof Team){
 					Showcase showcase = new TeamProfilAnzeigenForm();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
 				//Falls der Index 2 ist, dann ist ein Unternehmen aktiv und es wird die UnternehmenProfilAnzeigenForm geladen.
-				}else if(indexOfSelectionBox==2){
+				}else if(selectedIdentity instanceof Unternehmen){
 					Showcase showcase = new UnternehmenProfilAnzeigenForm();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 				}
-				currentClickHandler=this;
-				currentClickEvent=event;
 			}
 		});
 		
