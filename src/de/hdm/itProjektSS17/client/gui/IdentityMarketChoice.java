@@ -32,7 +32,7 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
-	private static int currentLogin = 6;
+	private static int currentLogin = 3;
 	private static IdentityMarketChoice navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private static ListBox ownProjectMarkets = new ListBox();

@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Vector;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -253,7 +252,14 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					bewerbung.setId(bewertungBewerbungHybrid.getBewerbungId());
 					bewerbung.setStatus(Bewerbungsstatus.angenommen);
 					projektmarktplatzverwaltung.saveBewerbung(bewerbung, new SaveBewerbungCallback());
-					projektmarktplatzverwaltung.createBeteiligung(20, result.getStartdatum(), result.getEnddatum(), bewertungBewerbungHybrid.getBewertungId(), result.getId(), bewertungBewerbungHybrid.getBewertungId(), new BeteiligungErstelltCallback());
+					try{
+						Date date1 = result.getStartdatum();
+						Date date2 = result.getEnddatum();
+						int umfang = date2.compareTo(date1);
+						projektmarktplatzverwaltung.createBeteiligung(umfang, result.getStartdatum(), result.getEnddatum(), bewertungBewerbungHybrid.getBewertungId(), result.getId(), bewertungBewerbungHybrid.getBewertungId(), new BeteiligungErstelltCallback());
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 			}
 		}
 	}
