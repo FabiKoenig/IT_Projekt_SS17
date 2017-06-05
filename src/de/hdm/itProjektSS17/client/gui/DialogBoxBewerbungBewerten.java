@@ -1,17 +1,22 @@
 package de.hdm.itProjektSS17.client.gui;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Vector;
 
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -63,7 +68,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		
 
 		final BewertungBewerbungHybrid bewertungBewerbungHybrid = bbh;
-
+		
 		
 		for (int i = 0; i < bewertungen.length; i++) {
 			lb_Bewertung.addItem(bewertungen[i]);
@@ -99,8 +104,8 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				txt_Bewerber.setText(bewertungBewerbungHybrid.getBewerber());
 				txta_Bewerbungstext.setText(bewertungBewerbungHybrid.getBewerbungstext());
 				txta_Stellungnahme.setText(bewertungBewerbungHybrid.getStellungsnahme());
-				//lb_Bewertung.get
 				
+								
 		//Panels Widgets zuweisen
 				hp_BewerbungBewertung.add(ft_Bewerbung);
 				hp_BewerbungBewertung.add(ft_Bewertung);
@@ -116,10 +121,34 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				
 				speicherButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
-					//	bewertungBewerbungHybrid.setBewertungWert(bewertungen.);
+						Bewertung bewertung = new Bewertung();
+					//Bewertung aus Listbox ziehen und in double umwandeln
+						try {
+							String numberString = lb_Bewertung.getSelectedItemText();
+							Double number = NumberFormat.getDecimalFormat().parse(numberString);
+							double number2 = number /10;
+							
+							bewertung.setWert(number2);
+							bewertungBewerbungHybrid.setBewertungWert(number2);
+							
+						} catch (Exception e) {
+							e.getStackTrace();
+						}
+					//Werte setzen
+						bewertung.setId(bewertungBewerbungHybrid.getBewertungId());
 						bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
-					//	projektmarktplatzverwaltung.saveBewertung(bewertungBewerbungHybrid, new SaveBewertungCallback());
-					}
+						bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
+						bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());
+						
+					//Prüfung ob Bewertung überschrieben oder neu erstellt wird
+						if(bewertungBewerbungHybrid.getBewertungId() == 0){
+							projektmarktplatzverwaltung.createBewertung(new Date(), bewertung.getStellungnahme(), bewertung.getWert(), bewertung.getBewerbungId(), new CreateBewertungCallback());
+						}
+						else{
+							projektmarktplatzverwaltung.saveBewertung(bewertung, new SaveBewertungCallback());
+						}
+						
+					}				
 				});
 	}			
 	
@@ -135,10 +164,27 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("Das Projekt wurde erfolgreich gespeichert.");
+			Window.alert("Die Bewertung wurde erfolgreich gespeichert.");
 			hide();
 			Navigation.reload();			
 		
 		}
+	}
+	
+	private class CreateBewertungCallback implements AsyncCallback<Bewertung>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Das Speichern der Bewertung schlug fehl. Versuchen Sie es erneut!");
+			
+		}
+
+		@Override
+		public void onSuccess(Bewertung result) {
+			Window.alert("Die Bewertung wurde erfolgreich angelegt.");
+			hide();
+			Navigation.reload();
+		}
+		
 	}
 }
