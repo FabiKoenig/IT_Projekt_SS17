@@ -20,11 +20,16 @@ import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
+import de.hdm.itProjektSS17.shared.report.AlleBeteiligungenEinesUsers;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEineAusschreibungDesUsers;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenEinesUsers;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.Column;
 import de.hdm.itProjektSS17.shared.report.CompositeParagraph;
+import de.hdm.itProjektSS17.shared.report.FanIn;
 import de.hdm.itProjektSS17.shared.report.FanInFanOutReport;
+import de.hdm.itProjektSS17.shared.report.FanOut;
 import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 import de.hdm.itProjektSS17.shared.report.Row;
 import de.hdm.itProjektSS17.shared.report.SimpleParagraph;
@@ -283,8 +288,7 @@ implements ReportGenerator{
 		return result;
 	}
 
-	@Override
-	public AlleBewerbungenAufEigeneAusschreibungenReport createAlleAusschreibungenAufEigeneAusschreibungenReport(
+	public AlleBewerbungenAufEigeneAusschreibungenReport createAlleBewerbungenAufEigeneAusschreibungenReport(
 			Organisationseinheit o) throws IllegalArgumentException {
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -608,50 +612,50 @@ implements ReportGenerator{
 		
 	}
 	
-	private class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
+//	public class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 	
-	private class AlleBeteiligungenEinesUsers extends SimpleReport{
+//	public class AlleBeteiligungenEinesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
-
-	private class AlleBewerbungenEinesUsers extends SimpleReport{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
+//	public class AlleBewerbungenEinesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 	
-	private class FanIn extends SimpleReport {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
-	
-	private class FanOut extends SimpleReport {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
+//	public class FanIn extends SimpleReport {
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
+//	
+//	public class FanOut extends SimpleReport {
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 	
 	
 }

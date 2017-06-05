@@ -18,8 +18,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.client.gui.report.AlleAusschreibungenShowcase;
+import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
+import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 
 public class Navigation extends StackPanel{
 	
@@ -99,6 +103,7 @@ public class Navigation extends StackPanel{
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("navi-button");
 		einstellungenPanel.setSpacing(5);
+		einstellungenPanel.add(testButton);
 		
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
@@ -262,6 +267,17 @@ public class Navigation extends StackPanel{
 				currentClickHandler=this;
 				currentClickEvent=event;
 				
+			}
+		});
+		
+		testButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new AlleAusschreibungenShowcase();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+
 			}
 		});
 
