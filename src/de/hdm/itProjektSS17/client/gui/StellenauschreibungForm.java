@@ -33,15 +33,14 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 public class StellenauschreibungForm extends Showcase {
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
-	private static  Vector<Projekt> projekte = new Vector<>();
-	private static Vector <Organisationseinheit> ausschreibender = new Vector();
+//	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
+//	private static  Vector<Projekt> projekte = new Vector<>();
+//	private static Vector <Organisationseinheit> ausschreibender = new Vector();
 	
-	Vector <projektAusschreibungHybrid> Hybrid = new Vector();
 	Projektmarktplatz p = new Projektmarktplatz();
 	Button btn_bewerben = new Button("Bewerben");
 	Button btn_Text = new Button("Ausschreibungstext anzeigen");
-	CellTable cellTable= new CellTable();
+	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
 	Ausschreibung localAusschreibung = new Ausschreibung();
 	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
 	@Override
@@ -58,6 +57,8 @@ public class StellenauschreibungForm extends Showcase {
 		
 		RootPanel.get("Details").setWidth("70%");
 		cellTable.setWidth("100%", true);
+		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
+		cellTable.setLoadingIndicator(null);
 		
 		btn_Text.setStylePrimaryName("navi-button");
 		btn_bewerben.setStylePrimaryName("navi-button");
@@ -66,7 +67,168 @@ public class StellenauschreibungForm extends Showcase {
 		panel_Ausschreibung.add(btn_Text);
 		panel_Ausschreibung.add(btn_bewerben);
 		
-		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new GetProjektmarktplatz());
+		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
+
+			 @Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			
+					 
+				@Override
+				public void onSuccess(Projektmarktplatz result) {
+					projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new AsyncCallback<Vector<Projekt>>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub	
+						}
+						
+						@Override
+						public void onSuccess(Vector <Projekt> result) {
+					
+							for (Projekt projekt : result) {
+							
+								projektmarktplatzVerwaltung.getAusschreibungByForeignProjekt(projekt, new AsyncCallback<Vector<Ausschreibung>>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										
+										Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
+										
+									}
+									@Override
+									public void onSuccess(Vector<Ausschreibung> result) {
+										final Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
+										for(int i=0;i<result.size();i++){
+											final Ausschreibung localAusschreibung = result.get(i);
+											projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new AsyncCallback<Projekt>() {
+
+												@Override
+												public void onFailure(Throwable caught) {
+													
+													Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
+													
+												}
+												@Override
+												public void onSuccess(Projekt result) {
+													
+													final projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
+													localHybrid.setProjektbezeichnung(result.getName());
+													localHybrid.setAusschreibungId(localAusschreibung.getId());
+													localHybrid.setBewerbungsfrist(localAusschreibung.getBewerbungsfrist());
+													localHybrid.setBezeichnung(localAusschreibung.getBezeichnung());
+													localHybrid.setAusschreibungstatus(localAusschreibung.getStatus());
+													localHybrid.setAusschreibungstext(localAusschreibung.getAusschreibungstext());
+												
+													projektmarktplatzVerwaltung.getPersonById(localAusschreibung.getAusschreibenderId(), new AsyncCallback<Person>() {
+
+														
+														@Override
+														public void onFailure(Throwable caught) {
+															// TODO Auto-generated method stub
+															Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
+															
+														}
+													
+														@Override
+														public void onSuccess(Person result) {
+															localHybrid.setAnrede(result.getAnrede());
+															localHybrid.setAusschreibender(result.getNachname());
+															
+															Person p = result;
+															if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+																if(p.getTeamId()==null && p.getUnternehmenId()==null){
+																	
+																	localHybrid.setTeam("Kein Team");
+																	localHybrid.setUnternehmen("Kein Unternehmen");
+																	Hybrid.add(localHybrid);
+																	cellTable.setRowCount(Hybrid.size(), true);
+																	cellTable.setRowData(0,Hybrid);
+																	
+																}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
+																	
+																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+																		
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
+																		}
+
+																		@Override
+																		public void onSuccess(Team result) {
+																			localHybrid.setUnternehmen("Kein Unternehmen");
+																			localHybrid.setTeam(result.getName());
+																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																		}
+																	});
+																	
+																}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+																	
+																	projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
+																		}
+
+																		@Override
+																		public void onSuccess(Unternehmen result) {
+																			localHybrid.setTeam("Kein Team");
+																			localHybrid.setUnternehmen(result.getName());
+																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																		}
+																	});
+																	
+																}else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
+																	
+																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
+																		
+																		@Override
+																		public void onFailure(Throwable caught) {
+																			Window.alert("Team zu Ausschreibendem konnte nicht geladen werden.");
+																		}
+
+																		@Override
+																		public void onSuccess(Team result) {
+																			localHybrid.setTeam(result.getName());
+																			projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+
+																				@Override
+																				public void onFailure(Throwable caught) {
+																					Window.alert("Unternehmen zu Ausschreibendem konnte nicht geladen werden.");
+																				}
+
+																				@Override
+																				public void onSuccess(Unternehmen result) {
+																					localHybrid.setUnternehmen(result.getName());
+																					Hybrid.add(localHybrid);
+																					cellTable.setRowCount(Hybrid.size(), true);
+																					cellTable.setRowData(0,Hybrid);
+																				}
+																			});
+																		}
+																	});
+																}
+															}
+														}
+													});
+												}
+											});
+										}
+									}
+								});
+							}
+						}
+					});
+					
+				}
+		});
 
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -75,10 +237,31 @@ public class StellenauschreibungForm extends Showcase {
 			@Override
 			public String getValue(projektAusschreibungHybrid object) {
 				// TODO Auto-generated method stub
-				return object.getAusschreibungsbezeichnername();
+				
+				return object.getAnrede()+ " "+ object.getAusschreibender();
 			}
 		};
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
+		
+		TextColumn<projektAusschreibungHybrid> AusschreibenderTeamColumn = new TextColumn<projektAusschreibungHybrid>() {
+
+			@Override
+			public String getValue(projektAusschreibungHybrid object) {
+				// TODO Auto-generated method stub
+				return object.getTeam();
+			}
+		};
+		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
+		
+		TextColumn<projektAusschreibungHybrid> AusschreibenderUnternehmenColumn = new TextColumn<projektAusschreibungHybrid>() {
+
+			@Override
+			public String getValue(projektAusschreibungHybrid object) {
+				// TODO Auto-generated method stub
+				return object.getUnternehmen();
+			}
+		};
+		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 
 		
 		TextColumn<projektAusschreibungHybrid> ProjektColumn = new TextColumn<projektAusschreibungHybrid>() {
@@ -115,9 +298,6 @@ public class StellenauschreibungForm extends Showcase {
 			}
 		};
 		cellTable.addColumn(BewerbungsfristColumn, "Bewerbungsfrist");
-
-		
-		
 			
 		
 		final SingleSelectionModel<projektAusschreibungHybrid> selectionModel = new SingleSelectionModel<>();
@@ -152,12 +332,32 @@ public class StellenauschreibungForm extends Showcase {
 				{
 					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus auf die Sie sich bewerben möchten");
 				}
-				DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				text.setPopupPosition(left, top);
-				text.show();
-				
+				projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new AsyncCallback<Vector<Bewerbung>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Bereits vorhandene Bewerbungen der Identität konnten nicht geladen werden!");
+					}
+
+					@Override
+					public void onSuccess(Vector<Bewerbung> result) {
+						boolean bereitsBeworben = false;
+						for (Bewerbung bewerbung : result) {
+							if(bewerbung.getAusschreibungId()==selectionModel.getSelectedObject().getAusschreibungId()){
+								bereitsBeworben=true;
+							}
+						}
+						if(bereitsBeworben==true){
+							Window.alert("Sie haben sich bereits auf die Ausschreibung beworben! Bitte wählen Sie eine andere Ausschreibung!");
+						}else{
+							DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
+							int left = Window.getClientWidth() / 3;
+							int top = Window.getClientHeight() / 8;
+							text.setPopupPosition(left, top);
+							text.show();
+						}
+					}
+				});			
 		}
 		});
 		cellTable.setWidth("100%");
@@ -171,13 +371,22 @@ public class StellenauschreibungForm extends Showcase {
 	private class projektAusschreibungHybrid{
 		
 		private String bezeichnung;
+		private String Anrede;
 		private String projektbezeichnung;
-		private String ausschreibungsbezeichnername;
+		private String ausschreibender;
+		private String team;
+		private String unternehmen;
 		private String ausschreibungstext;
 		private Date bewerbungsfrist;
 		private Ausschreibungsstatus ausschreibungstatus;
 		private int ausschreibungId;
 		
+		public String getAnrede() {
+			return Anrede;
+		}
+		public void setAnrede(String anrede) {
+			Anrede = anrede;
+		}		
 		public int getAusschreibungId() {
 			return ausschreibungId;
 		}
@@ -196,11 +405,11 @@ public class StellenauschreibungForm extends Showcase {
 		public void setProjektbezeichnung(String projektbezeichnung) {
 			this.projektbezeichnung = projektbezeichnung;
 		}
-		public String getAusschreibungsbezeichnername() {
-			return ausschreibungsbezeichnername;
+		public String getAusschreibender() {
+			return ausschreibender;
 		}
-		public void setAusschreibungsbezeichnername(String ausschreibungsbezeichnername) {
-			this.ausschreibungsbezeichnername = ausschreibungsbezeichnername;
+		public void setAusschreibender(String ausschreibungsbezeichnername) {
+			this.ausschreibender = ausschreibungsbezeichnername;
 		}
 		public Date getBewerbungsfrist() {
 			return bewerbungsfrist;
@@ -220,133 +429,21 @@ public class StellenauschreibungForm extends Showcase {
 		public void setAusschreibungstext(String ausschreibungstext) {
 			this.ausschreibungstext = ausschreibungstext;
 		}
+		public String getTeam() {
+			return team;
+		}
+		public void setTeam(String team) {
+			this.team = team;
+		}
+		public String getUnternehmen() {
+			return unternehmen;
+		}
+		public void setUnternehmen(String unternehmen) {
+			this.unternehmen = unternehmen;
+		}
+		
 	}
-	
-private class AusschreibungAnzeigenCallback implements AsyncCallback<Vector<Ausschreibung>>	{
-		
-		@Override
-		public void onFailure(Throwable caught) {
-			
-			Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
-			
-		}
-		@Override
-		public void onSuccess(Vector<Ausschreibung> result) {
-			
-			
-
-			 result.size();
-			
-			for(int i=0;i<result.size();i++){
-				
-				localAusschreibung=result.get(i);
-				projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new ProjekteAnzeigenCallback(localAusschreibung));
-			}
-		}
-}	
-private class ProjekteAnzeigenCallback implements AsyncCallback <Projekt>{
-				
-		Ausschreibung a = new Ausschreibung();
-			
-				public ProjekteAnzeigenCallback(Ausschreibung a){
-					this.a=a;
-				}
-				@Override
-				public void onFailure(Throwable caught) {
-					
-					Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
-					
-				}
-				@Override
-				public void onSuccess(Projekt result) {
-					
-					projektAusschreibungHybrid localhybrid = new projektAusschreibungHybrid();
-					localhybrid.setProjektbezeichnung(result.getName());
-					projektmarktplatzVerwaltung.getOrganisationseinheitById(a.getAusschreibenderId(), new AusschreibenderAnzeigenCallback(localhybrid));
-					}
-}
-	
-		private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
-			
-			projektAusschreibungHybrid localHybrid = null;
-			
-			public AusschreibenderAnzeigenCallback(projektAusschreibungHybrid localHybrid){
-				
-				this.localHybrid=localHybrid;
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				Window.alert("Das Anzeigen der Ausschreibungen ist fehlgeschlagen!");
-				
-			}
-		
-			@Override
-			public void onSuccess(Organisationseinheit result) {
-				if (result instanceof Person){
-					Person localPerson = (Person) result;
-					localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
-				} else if(result instanceof Team){
-					Team localTeam = (Team) result;
-					localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
-				} else if (result instanceof Unternehmen){
-					Unternehmen localUnternehmen = (Unternehmen) result;
-					localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
-				}
-				else{
-					localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
-				}
-				localHybrid.setAusschreibungId(localAusschreibung.getId());
-				localHybrid.setBewerbungsfrist(localAusschreibung.getBewerbungsfrist());
-				localHybrid.setBezeichnung(localAusschreibung.getBezeichnung());
-				localHybrid.setAusschreibungstatus(localAusschreibung.getStatus());
-				localHybrid.setAusschreibungstext(localAusschreibung.getAusschreibungstext());
-				
-				Hybrid.add(localHybrid);
-				
-				cellTable.setRowCount(Hybrid.size(), true);
-				cellTable.setRowData(0,Hybrid);
-			}
-		}
-			 
-		 
-
-		
-		 private class GetProjekte implements AsyncCallback<Vector<Projekt>>{
-			
-			 @Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-			
-				@Override
-				public void onSuccess(Vector <Projekt> result) {
-					
-					for (Projekt projekt : result) {
-						
-						projektmarktplatzVerwaltung.getAusschreibungByForeignProjekt(projekt, new AusschreibungAnzeigenCallback());
-					}
-				}
-		 }
-		 private class GetProjektmarktplatz implements AsyncCallback<Projektmarktplatz>{
-				
-			 @Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-			
-					 
-				@Override
-				public void onSuccess(Projektmarktplatz result) {
-					projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new GetProjekte());
-					
-				}
-			}
-
-		 
+	 
 }		 
 		 
 
