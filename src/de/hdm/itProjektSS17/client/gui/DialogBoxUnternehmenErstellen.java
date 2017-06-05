@@ -107,7 +107,7 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 		}
 		
 		void procede(final int plz) {
-			projektmarktplatzverwaltung.createPartnerprofil(new Date(), new Date(), new AsyncCallback<Partnerprofil>() {
+			projektmarktplatzverwaltung.createPartnerprofil(new AsyncCallback<Partnerprofil>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

@@ -114,7 +114,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	public static Organisationseinheit getSelectedIdentityAsObject(){
-		int selectedIdentity = ownOrgUnits.getSelectedIndex();
+
 		if(person.getTeamId()!=null){
 			if(ownOrgUnits.getSelectedIndex()==0){
 				return person;
