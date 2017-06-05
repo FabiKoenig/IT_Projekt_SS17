@@ -44,8 +44,8 @@ public class MeineBewerbungenForm extends Showcase{
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
 	private static Vector <Organisationseinheit> ausschreibender = new Vector();
-	CellTable cellTable = new CellTable();
-	Vector<ausschreibungBewerbungHybrid> hybrid = new Vector();
+	CellTable<ausschreibungBewerbungHybrid> cellTable = new CellTable<ausschreibungBewerbungHybrid>();
+	Vector<ausschreibungBewerbungHybrid> hybrid = new Vector<ausschreibungBewerbungHybrid>();
 	Bewerbung localBewerbung = new Bewerbung();
 		
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
@@ -255,12 +255,61 @@ public class MeineBewerbungenForm extends Showcase{
 			
 			
 			
-			result.size();
+			Window.alert(Integer.toString(result.size()));
 			
 			for(int i=0;i<result.size();i++){
-				
-				localBewerbung=result.get(i);
-				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AusschreibungAnzeigenCallback());
+
+				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AsyncCallback<Ausschreibung>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						
+						Window.alert("Das Anzeigen der Bewerbungen ist fehlgeschlagen!");
+						
+					}
+					@Override
+					public void onSuccess(Ausschreibung result) {
+					final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
+					projektmarktplatzVerwaltung.getOrganisationseinheitById(result.getAusschreibenderId(), new AsyncCallback<Organisationseinheit>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onSuccess(Organisationseinheit result) {
+
+							if (result instanceof Person){
+								Person localPerson = (Person) result;
+								localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
+							} else if(result instanceof Team){
+								Team localTeam = (Team) result;
+								localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
+							} else if (result instanceof Unternehmen){
+								Unternehmen localUnternehmen = (Unternehmen) result;
+								localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
+							}
+							else{
+								localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
+							}
+							
+							localHybrid.setBewerbungId(localBewerbung.getId());
+							localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
+							localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
+							localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
+							
+							hybrid.add(localHybrid);
+							Window.alert(Integer.toString(hybrid.size()));
+							cellTable.setRowCount(hybrid.size(), true);
+							cellTable.setRowData(0,hybrid);
+						}
+					});
+					}
+					
+				});
 			}
 
 
@@ -268,67 +317,6 @@ public class MeineBewerbungenForm extends Showcase{
 			};
 		}
 	
-	
-	 private class AusschreibungAnzeigenCallback implements AsyncCallback <Ausschreibung>{
-		
-		@Override
-		public void onFailure(Throwable caught) {
-			
-			Window.alert("Das Anzeigen der Bewerbungen ist fehlgeschlagen!");
-			
-		}
-		@Override
-		public void onSuccess(Ausschreibung result) {
-		ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
-		localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
-		projektmarktplatzVerwaltung.getOrganisationseinheitById(result.getAusschreibenderId(), new AusschreibenderAnzeigenCallback(localHybrid));
-		}
-
-	};
-	 
-	 private class AusschreibenderAnzeigenCallback implements AsyncCallback<Organisationseinheit>{
-
-		 ausschreibungBewerbungHybrid localHybrid = null;
-		 
-		 public AusschreibenderAnzeigenCallback(ausschreibungBewerbungHybrid localHybrid){
-			 this.localHybrid=localHybrid;
-		 }
-		
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Organisationseinheit result) {
-
-			if (result instanceof Person){
-				Person localPerson = (Person) result;
-				localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
-			} else if(result instanceof Team){
-				Team localTeam = (Team) result;
-				localHybrid.setAusschreibungsbezeichnername(localTeam.getName());
-			} else if (result instanceof Unternehmen){
-				Unternehmen localUnternehmen = (Unternehmen) result;
-				localHybrid.setAusschreibungsbezeichnername(localUnternehmen.getName());
-			}
-			else{
-				localHybrid.setAusschreibungsbezeichnername("Konnte nicht gesetzt werden");
-			}
-			
-			localHybrid.setBewerbungId(localBewerbung.getId());
-			localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
-			localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
-			localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
-			
-			hybrid.add(localHybrid);
-			
-			cellTable.setRowCount(hybrid.size(), true);
-			cellTable.setRowData(0,hybrid);
-		}
-		 
-	 };
 	 private class getBewerbungCallback implements AsyncCallback<Bewerbung>{
 
 			@Override

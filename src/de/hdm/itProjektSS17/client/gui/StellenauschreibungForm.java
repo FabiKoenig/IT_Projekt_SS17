@@ -33,15 +33,15 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 public class StellenauschreibungForm extends Showcase {
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
-	private static  Vector<Projekt> projekte = new Vector<>();
-	private static Vector <Organisationseinheit> ausschreibender = new Vector();
+//	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
+//	private static  Vector<Projekt> projekte = new Vector<>();
+//	private static Vector <Organisationseinheit> ausschreibender = new Vector();
 	
-	Vector <projektAusschreibungHybrid> Hybrid = new Vector();
+	Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
 	Projektmarktplatz p = new Projektmarktplatz();
 	Button btn_bewerben = new Button("Bewerben");
 	Button btn_Text = new Button("Ausschreibungstext anzeigen");
-	CellTable cellTable= new CellTable();
+	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
 	Ausschreibung localAusschreibung = new Ausschreibung();
 	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
 	@Override
