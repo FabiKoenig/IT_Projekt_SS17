@@ -40,6 +40,7 @@ public class StellenauschreibungForm extends Showcase {
 	Projektmarktplatz p = new Projektmarktplatz();
 	Button btn_bewerben = new Button("Bewerben");
 	Button btn_Text = new Button("Ausschreibungstext anzeigen");
+	
 	Button btn_partnerprofilAnzeigen = new Button("Partnerprofil anzeigen");
 	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
 	Ausschreibung localAusschreibung = new Ausschreibung();
@@ -336,12 +337,32 @@ public class StellenauschreibungForm extends Showcase {
 				{
 					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus auf die Sie sich bewerben möchten");
 				}
-				DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				text.setPopupPosition(left, top);
-				text.show();
-				
+				projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new AsyncCallback<Vector<Bewerbung>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Bereits vorhandene Bewerbungen der Identität konnten nicht geladen werden!");
+					}
+
+					@Override
+					public void onSuccess(Vector<Bewerbung> result) {
+						boolean bereitsBeworben = false;
+						for (Bewerbung bewerbung : result) {
+							if(bewerbung.getAusschreibungId()==selectionModel.getSelectedObject().getAusschreibungId()){
+								bereitsBeworben=true;
+							}
+						}
+						if(bereitsBeworben==true){
+							Window.alert("Sie haben sich bereits auf die Ausschreibung beworben! Bitte wählen Sie eine andere Ausschreibung!");
+						}else{
+							DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
+							int left = Window.getClientWidth() / 3;
+							int top = Window.getClientHeight() / 8;
+							text.setPopupPosition(left, top);
+							text.show();
+						}
+					}
+				});			
 		}
 		});
 		
@@ -376,14 +397,6 @@ public class StellenauschreibungForm extends Showcase {
 		private Ausschreibungsstatus ausschreibungstatus;
 		private int ausschreibungId;
 		private int partnerprofilId;
-		
-
-		public String getAnrede() {
-			return Anrede;
-		}
-		public void setAnrede(String anrede) {
-			Anrede = anrede;
-		}		
 
 		public int getPartnerprofilId() {
 			return partnerprofilId;
@@ -391,7 +404,12 @@ public class StellenauschreibungForm extends Showcase {
 		public void setPartnerprofilId(int partnerprofilId) {
 			this.partnerprofilId = partnerprofilId;
 		}
-
+		public String getAnrede() {
+			return Anrede;
+		}
+		public void setAnrede(String anrede) {
+			Anrede = anrede;
+		}		
 		public int getAusschreibungId() {
 			return ausschreibungId;
 		}

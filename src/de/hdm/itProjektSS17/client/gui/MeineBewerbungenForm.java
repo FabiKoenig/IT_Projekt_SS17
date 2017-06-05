@@ -99,6 +99,26 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		};
 		
+		TextColumn<ausschreibungBewerbungHybrid> AusschreibenderTeamColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+				// TODO Auto-generated method stub
+				return object.getTeam();
+			}
+		};
+
+		
+		TextColumn<ausschreibungBewerbungHybrid> AusschreibenderUnternehmenColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+				// TODO Auto-generated method stub
+				return object.getUnternehmen();
+			}
+		};
+		
+		
 		TextColumn<ausschreibungBewerbungHybrid> statusColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
 			
 			@Override
@@ -112,6 +132,8 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
+		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
+		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
 	
@@ -147,14 +169,30 @@ public class MeineBewerbungenForm extends Showcase{
 				if (selectionModel.getSelectedObject() == null)
 				{
 					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
+				}else{				
+					/*for(ausschreibungBewerbungHybrid abH : hybrid){
+						if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
+						{
+							hybrid.remove(selectionModel.getSelectedObject());
+						}
+					}*/
+						Bewerbung tempBew = new Bewerbung();
+						tempBew.setId(selectionModel.getSelectedObject().getBewerbungId());
+						projektmarktplatzVerwaltung.deleteBewerbung(tempBew, new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Bewerbung konnte nicht zurückgezogen werden");
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								Window.alert("Bewerbung wurde zurückgezogen!");
+								Navigation.reload();
+							}
+						});
 				}
-				for(ausschreibungBewerbungHybrid abH : hybrid){
-				if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
-				{
-					hybrid.remove(selectionModel.getSelectedObject());
-				}
-				projektmarktplatzVerwaltung.getBewerbungById(selectionModel.getSelectedObject().getBewerbungId(),new getBewerbungCallback());
-				}
+
 
 				
 			
@@ -170,18 +208,20 @@ public class MeineBewerbungenForm extends Showcase{
 		
 		private int bewerbungId;
 		private String bewerbungstext;
+
+		private String ausschreibungsbezeichnung;
+		private String ausschreibungsbezeichnername;
+		private Date erstellungsdatum;
+		private Bewerbungsstatus statusBewerbungsstatus;
+		private String Team;
+		private String Unternehmen;
+		
 		public String getBewerbungstext() {
 			return bewerbungstext;
 		}
 		public void setBewerbungstext(String bewerbungstext){
 			this.bewerbungstext=bewerbungstext;
 		}
-		private String ausschreibungsbezeichnung;
-		private String ausschreibungsbezeichnername;
-		private Date erstellungsdatum;
-		private Bewerbungsstatus statusBewerbungsstatus;
-		
-		
 		public int getBewerbungId() {
 			return bewerbungId;
 		}
@@ -211,6 +251,18 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		public void setStatusBewerbungsstatus(Bewerbungsstatus statusBewerbungsstatus) {
 			this.statusBewerbungsstatus = statusBewerbungsstatus;
+		}
+		public String getTeam() {
+			return Team;
+		}
+		public void setTeam(String team) {
+			Team = team;
+		}
+		public String getUnternehmen() {
+			return Unternehmen;
+		}
+		public void setUnternehmen(String unternehmen) {
+			Unternehmen = unternehmen;
 		}
 		
 		
@@ -305,51 +357,4 @@ public class MeineBewerbungenForm extends Showcase{
 	
 					 };
 
-				
-			
-
-
-			
-			
-	
-	
-	 private class getBewerbungCallback implements AsyncCallback<Bewerbung>{
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("Das Zurückziehen der Bewerbung ist fehlgeschlagen!");
-				
-			}
-
-			@Override
-			public void onSuccess(Bewerbung result) {
-				projektmarktplatzVerwaltung.deleteBewerbung(result, new AsyncCallback<Void>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						 Window.alert("Fehler: " + caught.toString());
-						
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-
-						Window.alert("Das Zurückziehen der Bewerbung war erfolgreich!");
-
-						Navigation.reload();
-												
-					}
-				});
-				
-				}
-			};
 	}
-
-
-		
-		
-		
-		
-	
-
