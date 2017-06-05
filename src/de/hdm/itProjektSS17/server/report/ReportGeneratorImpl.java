@@ -9,7 +9,9 @@ import de.hdm.itProjektSS17.server.ProjektmarktplatzVerwaltungImpl;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.ReportGenerator;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
+import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
+import de.hdm.itProjektSS17.shared.bo.Bewertung;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
@@ -18,11 +20,16 @@ import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
+import de.hdm.itProjektSS17.shared.report.AlleBeteiligungenEinesUsers;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEineAusschreibungDesUsers;
+import de.hdm.itProjektSS17.shared.report.AlleBewerbungenEinesUsers;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.Column;
 import de.hdm.itProjektSS17.shared.report.CompositeParagraph;
+import de.hdm.itProjektSS17.shared.report.FanIn;
 import de.hdm.itProjektSS17.shared.report.FanInFanOutReport;
+import de.hdm.itProjektSS17.shared.report.FanOut;
 import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 import de.hdm.itProjektSS17.shared.report.Row;
 import de.hdm.itProjektSS17.shared.report.SimpleParagraph;
@@ -144,14 +151,7 @@ implements ReportGenerator{
 	}
 	
 	
-	private class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	}
 	
 	
 	public AlleBewerbungenAufEineAusschreibungDesUsers AlleBewerbungenAufEineAusschreibungDesUser(int ausschreibungId){
@@ -288,8 +288,7 @@ implements ReportGenerator{
 		return result;
 	}
 
-	@Override
-	public AlleBewerbungenAufEigeneAusschreibungenReport createAlleAusschreibungenAufEigeneAusschreibungenReport(
+	public AlleBewerbungenAufEigeneAusschreibungenReport createAlleBewerbungenAufEigeneAusschreibungenReport(
 			Organisationseinheit o) throws IllegalArgumentException {
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -319,18 +318,291 @@ implements ReportGenerator{
 	
 	
 	
+	public AlleBeteiligungenEinesUsers alleBeteiligungenEinesUsers(Organisationseinheit o){
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		AlleBeteiligungenEinesUsers result = new AlleBeteiligungenEinesUsers();
+		
+		result.setTitel("Alle Beteiligungen des Users");
+		
+		result.setErstellungsdatum(new Date());
+		
+		Row headline = new Row();
+		
+		headline.addColum(new Column("Projekt"));
+		headline.addColum(new Column("Startdatum"));
+		headline.addColum(new Column("Enddatum"));
+		headline.addColum(new Column("Umfang"));
+		
+		result.addRow(headline);
+
+		Vector<Beteiligung> alleBeteiligungen = projektmarktplatzverwaltung.getBeteiligungByForeignOrganisationseinheit(o);
+		
+		for(Beteiligung b : alleBeteiligungen){
+			
+			Projekt projekt = projektmarktplatzverwaltung.getProjektById(b.getProjektId());
+			
+			// Eine leere Zeile anlegen.
+		      Row beteiligungRow = new Row();
+		      
+		    //Erste Zeile: Projektname hinzufügen  
+		      beteiligungRow.addColum(new Column(projekt.getName()));
+		      
+		    //Zweite Zeile: Startdatum hinzufügen  
+		      beteiligungRow.addColum(new Column(b.getStartDatum().toString()));
+		      
+		    //Dritte Zeile: Enddatum hinzufügen  
+		      beteiligungRow.addColum(new Column(b.getEndDatum().toString()));
+		      
+		    // Vierte Zeile: Umfang hinzufügen  
+		      beteiligungRow.addColum(new Column(Integer.toString(b.getUmfang())));
+		     
+ 
+		      result.addRow(beteiligungRow);
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
+	public AlleBewerbungenEinesUsers alleBewerbungenEinesUsers(Organisationseinheit o){
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		AlleBewerbungenEinesUsers result = new AlleBewerbungenEinesUsers();
+		
+		result.setTitel("Alle Bewerbungen des Users");
+		
+		
+		result.setErstellungsdatum(new Date());
+		
+		
+		Row headline = new Row();		
+		headline.addColum(new Column("Erstellungsdatum der Bewerbung"));
+		headline.addColum(new Column("Bewerbungstext"));
+		headline.addColum(new Column("Bewerbungsstatus"));
+		headline.addColum(new Column("Auf Ausschreibung"));
+		
+		result.addRow(headline);
+		
+		
+		Vector<Bewerbung> bewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(o);
+				
+		for(Bewerbung b : bewerbungen){
+			
+			Ausschreibung empfangendeAusschreibung = projektmarktplatzverwaltung.getAusschreibungById(b.getAusschreibungId());
+			
+			
+			// Eine leere Zeile anlegen.
+		      Row bewerbungRow = new Row();
+		      		      
+		      //Erste Spalte: Erstellungsdatum
+		      	bewerbungRow.addColum(new Column(b.getErstellungsdatum().toString()));
+		      	
+		      // Zweite Spalte: Bewerbungstext hinzufügen
+		      	bewerbungRow.addColum(new Column(b.getBewerbungstext()));
+		      	
+		      // Dritte Spalte: Bewerbungsstatus
+		      	bewerbungRow.addColum(new Column(b.getStatus().toString()));
+		      	
+		      // Vierte Spalte: Auf Ausschreibung hinzufügen
+		      	bewerbungRow.addColum(new Column(empfangendeAusschreibung.getBezeichnung())); 	
+		   
+		      	
+		      result.addRow(bewerbungRow);
+		}
+		
+		
+		
+		return result;		
+	}
+	
 
 	@Override
 	public ProjektverflechtungenReport createProjektverflechtungenReport(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		
+		ProjektverflechtungenReport result = new ProjektverflechtungenReport();
+		
+		result.setTitel("Projektverfplechtungen des Users");
+		
+		result.setErstellungsdatum(new Date());
+		
+		/*
+	       * Anlegen des jew. Teil-Reports und Hinzufügen zum Gesamt-Report.
+	       */
+	      result.addSubReport(this.alleBeteiligungenEinesUsers(o));
+	      result.addSubReport(this.alleBewerbungenEinesUsers(o));
+		
+		
+		return result;
 	}
+	
+	
 
+	public FanIn fanInAnalyse(Organisationseinheit o) throws IllegalArgumentException {
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		
+		FanIn result = new FanIn();
+		
+		
+		 if(o instanceof Person){
+			 
+			 result.setTitel("Anzahl der Bewerbungen von der Person " + ((Person) o).getVorname() + " " 
+			 + ((Person) o).getNachname() + ", ID: " + o.getId());
+			
+			} else if(o instanceof Team){
+				
+			result.setTitel("Anzahl der Bewerbungen von dem Team " + ((Team) o).getName() + ", ID: "+ o.getId());
+
+			} else if(o instanceof Unternehmen){
+				
+			result.setTitel("Anzahl der Bewerbungen von dem Unternehmen "+ ((Unternehmen) o).getName()+ ", ID: " +o.getId());	
+			}
+		
+		
+		result.setErstellungsdatum(new Date());
+		
+		Row headline = new Row();		
+		headline.addColum(new Column("laufend"));
+		headline.addColum(new Column("abgelehnt"));
+		headline.addColum(new Column("angenommen"));
+		
+		result.addRow(headline);
+		
+		//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
+		Vector<Bewerbung> alleBewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(o);
+		
+		
+		Vector<Bewerbung> laufendeBewerbungen = new Vector<Bewerbung>();
+		Vector<Bewerbung> abgelehnteBewerbungen = new Vector<Bewerbung>();
+		Vector<Bewerbung> angenommeneBewerbungen = new Vector<Bewerbung>();
+		
+		for(Bewerbung b: alleBewerbungen){
+			
+
+			
+			if(b.getStatus().equals("laufend")){
+				laufendeBewerbungen.add(b);
+			} else if(b.getStatus().equals("abgelehnt")){
+				abgelehnteBewerbungen.add(b);
+			} else if(b.getStatus().equals("angenommen")){
+				angenommeneBewerbungen.add(b);
+			}
+		}
+		
+		Row anzahlRow = new Row();
+		anzahlRow.addColum(new Column(String.valueOf(laufendeBewerbungen.size())));
+		anzahlRow.addColum(new Column(String.valueOf(abgelehnteBewerbungen.size())));
+		anzahlRow.addColum(new Column(String.valueOf(angenommeneBewerbungen.size())));
+		
+		return result;
+		
+	}
+	
+	public FanOut fanOutAnalyse(Organisationseinheit o){
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		
+		FanOut result = new FanOut();
+		
+		
+		 if(o instanceof Person){
+	 
+			 result.setTitel("Anzahl der Ausschreibungen von der Person " + ((Person) o).getVorname() + " " 
+			 + ((Person) o).getNachname() + ", ID: " + o.getId());
+			
+			} else if(o instanceof Team){
+				
+			result.setTitel("Anzahl der Ausschreibungen von dem Team " + ((Team) o).getName() + ", ID: "+ o.getId());
+
+			} else if(o instanceof Unternehmen){
+				
+			result.setTitel("Anzahl der Ausschreibungen von dem Unternehmen "+ ((Unternehmen) o).getName()+ ", ID: " +o.getId());	
+			}
+		
+		
+		
+		result.setErstellungsdatum(new Date());
+		
+		Row headline = new Row();		
+		headline.addColum(new Column("besetzt"));
+		headline.addColum(new Column("abgebrochen"));
+		headline.addColum(new Column("laufend"));
+		
+		result.addRow(headline);
+		
+		//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
+		Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(o);
+		
+		
+		Vector<Ausschreibung> besetzteAusschreibungen = new Vector<Ausschreibung>();
+		Vector<Ausschreibung> abgebrocheneAusschreibungen = new Vector<Ausschreibung>();
+		Vector<Ausschreibung> laufendeAusschreibungen = new Vector<Ausschreibung>();
+		
+		for(Ausschreibung a: alleAusschreibungen){
+			
+
+			
+			if(a.getStatus().equals("besetzt")){
+				besetzteAusschreibungen.add(a);
+			} else if(a.getStatus().equals("abgebrochen")){
+				abgebrocheneAusschreibungen.add(a);
+			} else if(a.getStatus().equals("laufend")){
+				laufendeAusschreibungen.add(a);
+			}
+		}
+		
+		Row anzahlRow = new Row();
+		anzahlRow.addColum(new Column(String.valueOf(besetzteAusschreibungen.size())));
+		anzahlRow.addColum(new Column(String.valueOf(abgebrocheneAusschreibungen.size())));
+		anzahlRow.addColum(new Column(String.valueOf(laufendeAusschreibungen.size())));		
+		
+		return result;		
+	}
+	
+	
 	@Override
 	public FanInFanOutReport createFanInFanOutReport() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+		}
+		
+		FanInFanOutReport result = new FanInFanOutReport();
+		
+		result.setTitel("Fan-In/ Fan-Out-Analyse");
+		
+		result.setErstellungsdatum(new Date());
+		
+		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
+		
+		for(Organisationseinheit organisationseinheit : alleOrganisationseinheiten){
+			
+			result.addSubReport(this.fanInAnalyse(organisationseinheit));
+			result.addSubReport(this.fanOutAnalyse(organisationseinheit));
+		}
+		
+		return result;
 	}
 
 
@@ -339,7 +611,51 @@ implements ReportGenerator{
 		// TODO Auto-generated method stub
 		
 	}
+	
+//	public class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
+	
+//	public class AlleBeteiligungenEinesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 
+//	public class AlleBewerbungenEinesUsers extends SimpleReport{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
+	
+//	public class FanIn extends SimpleReport {
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
+//	
+//	public class FanOut extends SimpleReport {
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//		
+//	}
 	
 	
 }
