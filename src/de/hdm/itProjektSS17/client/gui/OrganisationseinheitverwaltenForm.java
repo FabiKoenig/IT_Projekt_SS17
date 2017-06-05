@@ -42,7 +42,7 @@ public class OrganisationseinheitverwaltenForm extends Showcase {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				DialogBoxUnternehmenErstellen due = new DialogBoxUnternehmenErstellen();
+				DialogBoxTeamErstellen due = new DialogBoxTeamErstellen();
 				int left = Window.getClientWidth() / 3;
 				int top = Window.getClientHeight() / 8;
 				due.setPopupPosition(left, top);

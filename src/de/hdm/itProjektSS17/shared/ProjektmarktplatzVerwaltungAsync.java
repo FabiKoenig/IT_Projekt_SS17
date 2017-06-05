@@ -198,5 +198,9 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getProjekteByBeteiligungen(Vector<Beteiligung> bt, AsyncCallback<Vector<Projekt>> callback);
 
+	void getAllTeams(AsyncCallback<Vector<Team>> callback);
+
+	void getAllUnternehmen(AsyncCallback<Vector<Unternehmen>> callback);
+
 
 }
