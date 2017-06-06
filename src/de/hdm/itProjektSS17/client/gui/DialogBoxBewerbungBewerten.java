@@ -178,6 +178,17 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		//ClickHandler für BewerberAblehnenButton anlegen		
 				bewerberAblehnenButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
+						if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.abgelehnt){
+							Window.alert("Bewerber wurde bereits abgelehnt!");
+							hide();
+							Navigation.reload();
+						}
+						else if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.angenommen){
+							Window.alert("Der Bewerber wurde bereits angenommen!");
+							hide();
+							Navigation.reload();
+						}
+						else{
 						Bewerbung b = new Bewerbung();
 						b.setId(bewertungBewerbungHybrid.getBewerbungId());
 						b.setStatus(Bewerbungsstatus.abgelehnt);
@@ -185,6 +196,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						Window.alert("Der Bewerber wurde abgelehnt!");
 						hide();
 						Navigation.reload();
+						}
 					}
 				});
 	}			
@@ -208,9 +220,13 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	private class SaveBewerbungCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {
+			Window.alert("Das Speichern der Bewertung schlug fehl. Versuchen Sie es erneut!");	
 		}
 		@Override
 		public void onSuccess(Void result) {
+			Window.alert("Die Bewertung wurde erfolgreich gespeichert.");
+			hide();
+			Navigation.reload();
 		}
 	}
 	
