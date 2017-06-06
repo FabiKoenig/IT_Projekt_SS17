@@ -189,6 +189,7 @@ public class IdentityMarketChoice extends FlexTable{
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("User konnte nicht für die Identitätsleiste geladen werden");
+			Window.alert("Fehler ist: " + caught.toString());
 			
 			
 		}

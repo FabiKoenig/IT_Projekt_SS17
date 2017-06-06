@@ -70,11 +70,12 @@ public class Projektmarktplatz implements EntryPoint {
 		//Überprüfen des Login-Status
 		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+			
+			
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Fehler: " + caught.toString());
-				Window.alert(GWT.getHostPageBaseURL());
 				
 			}
 
@@ -103,10 +104,11 @@ public class Projektmarktplatz implements EntryPoint {
 			RootPanel.get("Details").add(loginLabel);
 			RootPanel.get("Navigator").add(loginButton);
 			
-			
 			loginButton.setWidth("150px");
 			loginButton.setStylePrimaryName("projektmarktplatz-logout");
 			loginButton.addClickHandler(new ClickHandler() {
+				
+				
 				
 				@Override
 				public void onClick(ClickEvent event) {
@@ -116,6 +118,7 @@ public class Projektmarktplatz implements EntryPoint {
 			});
 		}
 	
+		
 	
 		private void loadProjektmarktplatz(){
 			

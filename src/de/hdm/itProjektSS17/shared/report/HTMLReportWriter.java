@@ -96,7 +96,7 @@ public class HTMLReportWriter {
 		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		     * ausgelesen und in HTML-Form übersetzt.
 		     */
-		  	result.append("<H1>" + r.getTitel() + "</H1>");
+		  	result.append("<H3>" + r.getTitel() + "</H3>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
@@ -160,9 +160,8 @@ public class HTMLReportWriter {
 		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		     * ausgelesen und in HTML-Form übersetzt.
 		     */
-		    result.append("<H1>" + r.getTitel() + "</H1>");
+		    result.append("<H2>" + r.getTitel() + "</H2>");
 		    result.append("<table><tr>");
-
 		    result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		        + "</td></tr></table>");
 
@@ -202,9 +201,60 @@ public class HTMLReportWriter {
 
 	  
 	  public void process(AlleBewerbungenMitAusschreibungenReport r){
-		  /**
-		   * TODO
-		   */
+		  
+		  //Löschen des Ergebnisses der vorherigen Prozessierung
+		  this.resetReportText();
+		  
+
+		    /*
+		     * In diesen Buffer schreiben wir während der Prozessierung sukzessive
+		     * unsere Ergebnisse.
+		     */
+		  StringBuffer result = new StringBuffer();
+		  
+		  
+		    /*
+		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
+		     * ausgelesen und in HTML-Form übersetzt.
+		     */
+		  	result.append("<H1>" + r.getTitel() + "</H1>");
+		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
+		  	        + "</td></tr></table>");
+		  	
+		  	
+		  	 Vector<Row> rows = r.getRows();
+		     result.append("<table style=\"width:400px\">");
+		     
+		     for (int i = 0; i < rows.size(); i++) {
+		         Row row = rows.elementAt(i);
+		         result.append("<tr>");
+		         for (int k = 0; k < row.getColumnsSize(); k++) {
+		           if (i == 0) {
+		             result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnByIndex(k)
+		                 + "</td>");
+		           }
+		           else {
+		             if (i > 1) {
+		               result.append("<td style=\"border-top:1px solid silver\">"
+		                   + row.getColumnByIndex(k) + "</td>");
+		             }
+		             else {
+		               result.append("<td valign=\"top\">" + row.getColumnByIndex(k) + "</td>");
+		             }
+		           }
+		         }
+		         result.append("</tr>");
+		       }
+
+		       result.append("</table>");
+		       
+		       /*
+		        * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
+		        * reportText-Variable zugewiesen. Dadurch wird es möglich, anschließend das
+		        * Ergebnis mittels getReportText() auszulesen.
+		        */
+		       this.reportText = result.toString();
 	  }
 	  
 	  public void process(ProjektverflechtungenReport r){
@@ -223,7 +273,6 @@ public class HTMLReportWriter {
 		     */
 		    result.append("<H1>" + r.getTitel() + "</H1>");
 		    result.append("<table><tr>");
-
 		    result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		        + "</td></tr></table>");
 
@@ -260,9 +309,54 @@ public class HTMLReportWriter {
 	  }
 	  
 	  public void process(FanInFanOutReport r){
-		  /**
-		   * TODO
-		   */
+		    // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
+		    this.resetReportText();
+
+		    /*
+		     * In diesen Buffer schreiben wir während der Prozessierung sukzessive
+		     * unsere Ergebnisse.
+		     */
+		    StringBuffer result = new StringBuffer();
+
+		    /*
+		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
+		     * ausgelesen und in HTML-Form übersetzt.
+		     */
+		    result.append("<H2>" + r.getTitel() + "</H2>");
+		    result.append("<table><tr>");
+		    result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
+		        + "</td></tr></table>");
+
+		    /*
+		     * Da ProjektverflechtungenReport ein CompositeReport ist, enthält r
+		     * eine Menge von Teil-Reports des Typs AllAccountsOfCustomerReport. Für
+		     * jeden dieser Teil-Reports rufen wir processAllAccountsOfCustomerReport
+		     * auf. Das Ergebnis des jew. Aufrufs fügen wir dem Buffer hinzu.
+		     */
+		    for (int i = 0; i < r.getSubReportsSize(); i++) {
+		      /*
+		       * AlleBewerbungenAufEineAusschreibungDesUsers wird als Typ der SubReports vorausgesetzt.
+		       * Sollte dies in einer erweiterten Form des Projekts nicht mehr gelten,
+		       * so müsste hier eine detailliertere Implementierung erfolgen.
+		       */
+		    
+		      this.processSimpleReport(r.getSubReportByIndex(i));
+
+		      result.append(this.reportText + "\n");
+
+		      /*
+		       * Nach jeder Übersetzung eines Teilreports und anschließendem Auslesen
+		       * sollte die Ergebnisvariable zurückgesetzt werden.
+		       */
+		      this.resetReportText();
+		    }
+
+		    /*
+		     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
+		     * reportText-Variable zugewiesen. Dadurch wird es möglich, anschließend das
+		     * Ergebnis mittels getReportText() auszulesen.
+		     */
+		    this.reportText = result.toString();
 	  }
 	  
 	  public void process(AlleBewerbungenAufEineAusschreibungDesUsers r){
@@ -281,7 +375,7 @@ public class HTMLReportWriter {
 		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		     * ausgelesen und in HTML-Form übersetzt.
 		     */
-		  	result.append("<H1>" + r.getTitel() + "</H1>");
+		  	result.append("<H3>" + r.getTitel() + "</H3>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
@@ -339,10 +433,8 @@ public class HTMLReportWriter {
 		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		     * ausgelesen und in HTML-Form übersetzt.
 		     */
-		  	result.append("<H1>" + r.getTitel() + "</H1>");
+		  	result.append("<H3>" + r.getTitel() + "</H3>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	
@@ -398,10 +490,8 @@ public class HTMLReportWriter {
 		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		     * ausgelesen und in HTML-Form übersetzt.
 		     */
-		  	result.append("<H1>" + r.getTitel() + "</H1>");
+		  	result.append("<H3>" + r.getTitel() + "</H3>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	
@@ -459,8 +549,6 @@ public class HTMLReportWriter {
 		     */
 		  	result.append("<H1>" + r.getTitel() + "</H1>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	
@@ -518,8 +606,6 @@ public class HTMLReportWriter {
 		     */
 		  	result.append("<H1>" + r.getTitel() + "</H1>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	
@@ -579,8 +665,6 @@ public class HTMLReportWriter {
 		     */
 		  	result.append("<H1>" + r.getTitel() + "</H1>");
 		  	result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  	result.append("<td valign=\"top\"><b>" + paragraphToHTML(r.getHeader())
-	        + "</b></td>");
 		  	result.append("</tr><tr><td></td><td>" + r.getErstellungsdatum().toString()
 		  	        + "</td></tr></table>");
 		  	

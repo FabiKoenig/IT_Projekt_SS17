@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.Navigation;
+import de.hdm.itProjektSS17.client.gui.report.IdentityChoiceReport;
 import de.hdm.itProjektSS17.client.gui.report.NavigationReport;
 import de.hdm.itProjektSS17.shared.LoginServiceAsync;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -26,6 +27,7 @@ import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 public class ReportEntry implements EntryPoint {
 
 	
+	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung;
 	private ReportGeneratorAsync reportGenerator;
 	private LoginServiceAsync loginService;
 	
@@ -49,6 +51,7 @@ public class ReportEntry implements EntryPoint {
 		
 		this.reportGenerator = ClientsideSettings.getReportGenerator();
 		this.loginService = ClientsideSettings.getLoginService();
+		this.projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
 		//Überprüfen des Login-Status
 		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
@@ -108,7 +111,7 @@ public class ReportEntry implements EntryPoint {
 //			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 			
 			RootPanel.get("HeaderReport").clear();
-			RootPanel.get("HeaderReport").add(IdentityMarketChoice.getNavigation());
+			RootPanel.get("HeaderReport").add(IdentityChoiceReport.getNavigation());
 //			Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("NavigatorReport").add(Logout);

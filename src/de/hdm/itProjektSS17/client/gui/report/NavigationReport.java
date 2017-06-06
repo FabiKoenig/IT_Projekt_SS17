@@ -134,42 +134,42 @@ public class NavigationReport extends StackPanel {
 				currentClickEvent=event;
 			}
 		});
-//		
-//		showBewerbungenAusschreibungenFromUserButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				IdentityMarketChoice.deactivateProjectMarkets();
-//				IdentityMarketChoice.deactivateOrgUnits();
-//				ShowcaseReport showcaseReport = new BewerbungAusschreibungFromUserFormReport();
-//				RootPanel.get("DetailsReport").clear();
-//				RootPanel.get("DetailsReport").add(showcaseReport);
-//				currentClickHandler=this;
-//				currentClickEvent=event;
-//			}
-//		});
-//		
-//		showProjektverflechtungenButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				IdentityMarketChoice.deactivateProjectMarkets();
-//				IdentityMarketChoice.deactivateOrgUnits();
-//				ShowcaseReport showcaseReport = new ProjektverflechtungFormReport();
-//				RootPanel.get("DetailsReport").clear();
-//				RootPanel.get("DetailsReport").add(showcaseReport);
-//				currentClickHandler=this;
-//				currentClickEvent=event;
-//			}
-//		});
-//		
-//		showFanInFanOutAnalyseButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				IdentityMarketChoice.deactivateProjectMarkets();
-//				IdentityMarketChoice.deactivateOrgUnits();
-//				ShowcaseReport showcaseReport = new FanInFanOutFormReport();
-//				RootPanel.get("DetailsReport").clear();
-//				RootPanel.get("DetailsReport").add(showcaseReport);
-//				currentClickHandler=this;
-//				currentClickEvent=event;
-//			}
-//		});
+		
+		showBewerbungenAusschreibungenFromUserButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
+				Showcase showcaseReport = new MeineBewerbungenShowcase();
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
+				currentClickHandler=this;
+				currentClickEvent=event;
+			}
+		});
+		
+		showProjektverflechtungenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
+				Showcase showcaseReport = new ProjektverflechtungenShowcase();
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
+				currentClickHandler=this;
+				currentClickEvent=event;
+			}
+		});
+		
+		showFanInFanOutAnalyseButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.deactivateOrgUnits();
+				Showcase showcaseReport = new FanInFanOutShowcase();
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
+				currentClickHandler=this;
+				currentClickEvent=event;
+			}
+		});
 	}
 	
 	public static ClickHandler getCurrentClickHandler() {

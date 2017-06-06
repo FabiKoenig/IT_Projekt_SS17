@@ -19,7 +19,7 @@ public class AlleBewerungenAufEigeneAusschreibungenShowcase extends Showcase{
 
 	@Override
 	protected String getHeadlineText() {
-		return "Alle Bewerbungen auf eigene Ausschreibungen";
+		return "Report für alle Bewerbungen auf eigene Ausschreibungen";
 	}
 
 	@Override
@@ -31,10 +31,9 @@ public class AlleBewerungenAufEigeneAusschreibungenShowcase extends Showcase{
 		
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
-		Organisationseinheit o = new Organisationseinheit();
-		o.setId(3);
 		
-		reportGenerator.createAlleBewerbungenAufEigeneAusschreibungenReport(o,
+		
+		reportGenerator.createAlleBewerbungenAufEigeneAusschreibungenReport(IdentityChoiceReport.getSelectedIdentityAsObject(),
 				new AsyncCallback<AlleBewerbungenAufEigeneAusschreibungenReport>() {
 
 					@Override
