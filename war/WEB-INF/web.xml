@@ -32,14 +32,12 @@
   </servlet-mapping>
   
   <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>IT_Projekt_SS17.html</welcome-file>
-  </welcome-file-list>
 
   
  <!-- ReportServlet -->
  <welcome-file-list>
      <welcome-file>ProjektmarktplatzReports.html</welcome-file>
+     <welcome-file>IT_Projekt_SS17.html</welcome-file>
  </welcome-file-list>
  
   <servlet>
@@ -49,7 +47,7 @@
 
   <servlet-mapping>
       <servlet-name>ReportGenerator</servlet-name>
-      <url-pattern>/reportgeneratpr/report</url-pattern>
+      <url-pattern>/reportgenerator/reportgenerator</url-pattern>
   </servlet-mapping>
   
   

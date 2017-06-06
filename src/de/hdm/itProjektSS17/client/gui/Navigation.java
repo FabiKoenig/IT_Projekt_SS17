@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Vector;
+
 import org.cyberneko.html.HTMLScanner.CurrentEntity;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -18,10 +20,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.client.gui.report.AlleAusschreibungenShowcase;
+import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
+
 
 public class Navigation extends StackPanel{
 	
@@ -101,6 +108,7 @@ public class Navigation extends StackPanel{
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("navi-button");
 		einstellungenPanel.setSpacing(5);
+		einstellungenPanel.add(testButton);
 		
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
@@ -176,7 +184,7 @@ public class Navigation extends StackPanel{
 		meineprojekteButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-				IdentityMarketChoice.deactivateProjectMarkets();
+				IdentityMarketChoice.activateProjectMarkets();
 				IdentityMarketChoice.setOwnOrgUnitToZero();
 				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new MeineProjektForm();
@@ -265,6 +273,28 @@ public class Navigation extends StackPanel{
 				currentClickHandler=this;
 				currentClickEvent=event;
 				
+			}
+		});
+		
+		testButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				ProjektmarktplatzVerwaltungAsync proj = ClientsideSettings.getProjektmarktplatzVerwaltung();
+				proj.getAllAusschreibungen(new AsyncCallback<Vector<Ausschreibung>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Ausschreibung> result) {
+						Window.alert("HUHU " + result.size());
+					}
+				});
+
 			}
 		});
 

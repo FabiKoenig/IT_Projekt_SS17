@@ -267,7 +267,7 @@ public class AusschreibungMapper {
 			try{
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * "
-						+ " FROM ausschreibung WHERE Ausschreibungsstatus='offen'");
+						+ "FROM ausschreibung");
 				
 				
 				while (rs.next()){

@@ -328,6 +328,8 @@ public class MeineAusschreibungenForm extends Showcase{
 					if(selectionModel.getSelectedObject() != null){
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
+						Navigation.setCurrentClickHandler(this);
+						Navigation.setCurrentClickEvent(event);
 						
 					} else {
 						Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
@@ -355,8 +357,8 @@ public class MeineAusschreibungenForm extends Showcase{
 			
 	}
 	
-	
-	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
+	//Geändert
+	public class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -371,8 +373,8 @@ public class MeineAusschreibungenForm extends Showcase{
 		}
 	
 	}
-	
-	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
+	//Geändert
+	public class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
 
 		@Override
 		public void onFailure(Throwable caught) {

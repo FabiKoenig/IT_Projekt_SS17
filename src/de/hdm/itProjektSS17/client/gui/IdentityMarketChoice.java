@@ -92,8 +92,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
-	public static int getSelectedIdentityId(){
-		
+	public static int getSelectedIdentityId(){		
 		if(person.getTeamId()!=null){
 			if(ownOrgUnits.getSelectedIndex()==0){
 				return person.getId();
@@ -114,7 +113,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	public static Organisationseinheit getSelectedIdentityAsObject(){
-		int selectedIdentity = ownOrgUnits.getSelectedIndex();
+
 		if(person.getTeamId()!=null){
 			if(ownOrgUnits.getSelectedIndex()==0){
 				return person;
@@ -145,6 +144,14 @@ public class IdentityMarketChoice extends FlexTable{
 	
 	public static Person getUser(){
 		return person;
+	}
+	
+	public static Team getTeamOfUser(){
+		return team;
+	}
+	
+	public static Unternehmen getUnternehmenOfUser(){
+		return unternehmen;
 	}
 	
 	public static ListBox getOwnOrgUnits(){

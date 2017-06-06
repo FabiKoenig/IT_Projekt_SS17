@@ -1507,6 +1507,11 @@ implements ProjektmarktplatzVerwaltung {
 		return projekte;
 	}
 
+	public Ausschreibung getAusschreibungByBewerbung(Bewerbung b) throws IllegalArgumentException {
+		Ausschreibung a = this.getAusschreibungById(b.getAusschreibungId());
+		return a;
+	}
+	
 	@Override
 	public Vector<Team> getAllTeams() throws IllegalArgumentException {
 		return teamMapper.findAllTeam();

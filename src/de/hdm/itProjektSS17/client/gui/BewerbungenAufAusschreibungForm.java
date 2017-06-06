@@ -56,13 +56,14 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		
 		//Erstellen der TextColumns der CellTable
-		TextColumn<BewertungBewerbungHybrid> bewerbungstextColumn = new TextColumn<BewertungBewerbungHybrid>(){
-
-			@Override
-			public String getValue(BewertungBewerbungHybrid object) {
-				return object.getBewerbungstext();
-			}
-		};
+//		TextColumn<BewertungBewerbungHybrid> bewerbungstextColumn = new TextColumn<BewertungBewerbungHybrid>(){
+//
+//			@Override
+//			public String getValue(BewertungBewerbungHybrid object) {
+//				return object.getBewerbungstext();
+//			}
+//		};
+//		
 		
 		TextColumn<BewertungBewerbungHybrid> erstellungsdatumColumn = new TextColumn<BewertungBewerbungHybrid>(){
 
@@ -80,13 +81,13 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			}
 		};
 		
-		TextColumn<BewertungBewerbungHybrid> stellungsnahmeColumn = new TextColumn<BewertungBewerbungHybrid>(){
-
-			@Override
-			public String getValue(BewertungBewerbungHybrid object) {
-				return object.getStellungsnahme();
-			}
-		};
+//		TextColumn<BewertungBewerbungHybrid> stellungsnahmeColumn = new TextColumn<BewertungBewerbungHybrid>(){
+//
+//			@Override
+//			public String getValue(BewertungBewerbungHybrid object) {
+//				return object.getStellungsnahme();
+//			}
+//		};
 		
 		TextColumn<BewertungBewerbungHybrid> bewertungsWertColumn = new TextColumn<BewertungBewerbungHybrid>(){
 
@@ -107,10 +108,10 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		};
 		
 		dataGrid.addColumn(bewerberColumn, "Bewerber");
-		dataGrid.addColumn(bewerbungstextColumn, "Bewerbungstext");
+		//dataGrid.addColumn(bewerbungstextColumn, "Bewerbungstext");
 		dataGrid.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		dataGrid.addColumn(bewerbungsstatusColumn, "Bewerbungsstatus");
-		dataGrid.addColumn(stellungsnahmeColumn, "Stellungsnahme");
+		//dataGrid.addColumn(stellungsnahmeColumn, "Stellungsnahme");
 		dataGrid.addColumn(bewertungsWertColumn, "Bewertung");
 		
 		dataGrid.setWidth("100%");
@@ -200,6 +201,17 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private double bewertungWert;
 		private String bewerber;
 		private int bewerbungId;
+		private int bewertungId;
+		private int ausschreibungId;
+		private int projektId;
+		
+		public int getBewertungId() {
+			return bewertungId;
+		}
+		
+		public void setBewertungId(int bewertungId) {
+			this.bewertungId = bewertungId;
+		}
 		
 		public String getBewerber() {
 			return bewerber;
@@ -256,6 +268,23 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setBewerbungId(int bewerbungId) {
 			this.bewerbungId = bewerbungId;
 		}
+
+		public int getAusschreibungId() {
+			return ausschreibungId;
+		}
+
+		public void setAusschreibungId(int ausschreibungId) {
+			this.ausschreibungId = ausschreibungId;
+		}
+
+		public int getProjektId() {
+			return projektId;
+		}
+
+		public void setProjektId(int projektId) {
+			this.projektId = projektId;
+		}
+		
 		
 	
 	}
@@ -280,6 +309,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 					public void onSuccess(Bewertung result) {
 						localHybrid.setStellungsnahme(result.getStellungnahme());
 						localHybrid.setBewertungWert(result.getWert());
+						localHybrid.setBewertungId(result.getId());
 						
 						dataGrid.setRowCount(hybrid.size(), true);
 						dataGrid.setRowData(0,hybrid);
@@ -312,6 +342,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 				
 				localHybrid.setBewerbungId(bewerbungen.get(i).getId());
 				localHybrid.setBewerbungstext(bewerbungen.get(i).getBewerbungstext());
+				localHybrid.setAusschreibungId(bewerbungen.get(i).getAusschreibungId());
 				localHybrid.setErstellungsdatum(bewerbungen.get(i).getErstellungsdatum());
 				localHybrid.setBewerbungsstatus(bewerbungen.get(i).getStatus());
 				

@@ -28,6 +28,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
+import de.hdm.itProjektSS17.client.AusschreibungenaufProjektForm;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
@@ -57,7 +58,6 @@ public class MeineProjektForm extends Showcase{
 	@Override
 	protected void run() {		
 			
-
 
 		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
 		
@@ -163,10 +163,20 @@ public class MeineProjektForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-			// TODO	
+				if(selectionModel.getSelectedObject() != null){
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new AusschreibungenaufProjektForm(selectionModel.getSelectedObject()));
+					
+				} else {
+					Window.alert("Bitte wähle zuerst eine Projekt aus.");
+				}
+				
+				
 				
 			}
 		});
+		
+		
 		
 		btn_projektBearbeiten.addClickHandler(new ClickHandler() {
 					
@@ -222,9 +232,11 @@ public class MeineProjektForm extends Showcase{
 		btn_projektAnlegen.setStylePrimaryName("navi-button");
 		btn_projektLoeschen.setStylePrimaryName("navi-button");
 		btn_projektBearbeiten.setStylePrimaryName("navi-button");
+
 		btn_ausschreibungAnlegen.setStylePrimaryName("navi-button");
 		btn_ausschreibungenAnzeigen.setStylePrimaryName("navi-button");
 	
+
 		
 		buttonPanel.add(btn_projektAnlegen);
 		buttonPanel.add(btn_projektBearbeiten);
@@ -263,6 +275,11 @@ public class MeineProjektForm extends Showcase{
 		@Override
 		public void onSuccess(Vector<Projekt> result) {
 			
+			for(Projekt projekt : result){
+				if(projekt.getProjektmarktplatzId()!=IdentityMarketChoice.getSelectedProjectMarketplaceId()){
+					result.remove(projekt);
+				}
+			}
 			
 			dataGrid.setRowCount(result.size(), true);
 			dataGrid.setRowData(0, result);
