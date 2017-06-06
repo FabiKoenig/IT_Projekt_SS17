@@ -152,10 +152,10 @@ public class DialogBoxTeamErstellen extends DialogBox {
 				if(wasUnternehmenCreated==0){
 					Unternehmen tempUnternehmen = new Unternehmen();
 					tempUnternehmen.setId(0);
-					projektmarktplatzverwaltung.createPartnerprofil(new Date(), new Date(), new createTeamCallback(tempUnternehmen));
+					projektmarktplatzverwaltung.createPartnerprofil(new createTeamCallback(tempUnternehmen));
 				
 				}else if(wasUnternehmenCreated==1){
-						projektmarktplatzverwaltung.createPartnerprofil(new Date(), new Date(), new AsyncCallback<Partnerprofil>() {
+						projektmarktplatzverwaltung.createPartnerprofil(new AsyncCallback<Partnerprofil>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -175,7 +175,7 @@ public class DialogBoxTeamErstellen extends DialogBox {
 									@Override
 									public void onSuccess(Unternehmen result) {
 										createdUnternehmen.setId(result.getId());
-										projektmarktplatzverwaltung.createPartnerprofil(new Date(), new Date(), new createTeamCallback(createdUnternehmen));
+										projektmarktplatzverwaltung.createPartnerprofil(new createTeamCallback(createdUnternehmen));
 									}
 								});
 									
@@ -183,7 +183,7 @@ public class DialogBoxTeamErstellen extends DialogBox {
 						});
 						
 				}else if(wasUnternehmenCreated==2){
-					projektmarktplatzverwaltung.createPartnerprofil(new Date(), new Date(), new createTeamCallback(chosenUnternehmen));		
+					projektmarktplatzverwaltung.createPartnerprofil(new createTeamCallback(chosenUnternehmen));		
 				}	
 			}
 						

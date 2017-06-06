@@ -259,6 +259,7 @@ public class MeineBewerbungenForm extends Showcase{
 			
 			for(int i=0;i<result.size();i++){
 				
+				
 				localBewerbung=result.get(i);
 				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AusschreibungAnzeigenCallback());
 			}
@@ -279,6 +280,7 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		@Override
 		public void onSuccess(Ausschreibung result) {
+			Window.alert(localBewerbung.getBewerbungstext());
 		ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
 		localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
 		projektmarktplatzVerwaltung.getOrganisationseinheitById(result.getAusschreibenderId(), new AusschreibenderAnzeigenCallback(localHybrid));
