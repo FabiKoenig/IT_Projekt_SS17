@@ -35,9 +35,9 @@
 
   
  <!-- ReportServlet -->
- <welcome-file-list>
-     <welcome-file>ProjektmarktplatzReports.html</welcome-file>
+ <welcome-file-list> 
      <welcome-file>IT_Projekt_SS17.html</welcome-file>
+     <welcome-file>ProjektmarktplatzReports.html</welcome-file>
  </welcome-file-list>
  
   <servlet>

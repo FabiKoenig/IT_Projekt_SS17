@@ -83,6 +83,37 @@ implements ReportGenerator{
 		return null;
 	}
 
+	public Person getPersonById(int id) throws IllegalArgumentException {
+		return projektmarktplatzverwaltung.getPersonById(id);
+	}
+	
+	
+	public Team getTeamById(int id) throws IllegalArgumentException{
+		return projektmarktplatzverwaltung.getTeamById(id);
+	}
+	
+	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException{
+		return projektmarktplatzverwaltung.getUnternehmenById(id);
+	}
+	
+	
+	public Vector<Organisationseinheit> getBewerberAufEigeneAusschreibungen(Organisationseinheit o) throws IllegalArgumentException{
+		
+		Vector<Organisationseinheit> bewerber = new Vector<Organisationseinheit>();
+		Vector<Ausschreibung> meineAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(o);
+		
+		for (Ausschreibung ausschreibung : meineAusschreibungen) {
+			
+			Vector<Bewerbung> bewerbungen =  projektmarktplatzverwaltung.getBewerbungByForeignAusschreibungId(ausschreibung.getId());
+			
+				for (Bewerbung bewerbung : bewerbungen) {
+					
+					bewerber.add(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()));
+				}
+			}
+		return bewerber;
+	}
+	
 	@Override
 	public AlleAusschreibungenReport createAlleAusschreibungenReport() throws IllegalArgumentException {
 		
@@ -175,7 +206,7 @@ implements ReportGenerator{
 		
 		AlleBewerbungenAufEineAusschreibungDesUsers result = new AlleBewerbungenAufEineAusschreibungDesUsers();
 		
-		result.setTitel("Alle Bewerbungen auf die Ausschreibung " + ausschreibung.getBezeichnung() 
+		result.setTitel("Alle Bewerbungen auf die Ausschreibung: " + ausschreibung.getBezeichnung() 
 		+ ", ID: " + ausschreibung.getId());
 		
 		
@@ -238,6 +269,8 @@ implements ReportGenerator{
 	public AlleBewerbungenMitAusschreibungenReport createAlleBewerbungenMitAusschreibungenReport(Organisationseinheit o)
 			throws IllegalArgumentException {
 		
+		
+		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
 		}
@@ -247,6 +280,8 @@ implements ReportGenerator{
 		result.setTitel("Alle eigenen Bewerbungen mit den zugehörigen Ausschreibungen");
 		
 		result.setErstellungsdatum(new Date());
+		
+
 		
 		Row headline = new Row();
 		
@@ -265,6 +300,8 @@ implements ReportGenerator{
 		for(Bewerbung b : alleEigeneBewerbungen){
 			
 			Ausschreibung ausschreibung = projektmarktplatzverwaltung.getAusschreibungById(b.getAusschreibungId());
+			Person ausschreibender = projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId());
+			System.out.println(ausschreibender.getVorname() + ausschreibender.getNachname() + "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 			
 			// Eine leere Zeile anlegen.
 		      Row bewerbungRow = new Row();
@@ -282,9 +319,7 @@ implements ReportGenerator{
 		      bewerbungRow.addColum(new Column(ausschreibung.getBezeichnung()));
 		      
 		    // Fünfte Zeile: Ausschreibender hinzufügen
-		      bewerbungRow.addColum(new Column(projektmarktplatzverwaltung.
-		    		  getPersonById(ausschreibung.getAusschreibenderId()).getVorname() + " " +
-		    		  projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId()).getNachname()));
+		      bewerbungRow.addColum(new Column(ausschreibender.getVorname() + " " + ausschreibender.getNachname()));
 		    // Sechste Zeile: Be ewerbungsfrist der Ausschreibung
 		      bewerbungRow.addColum(new Column(ausschreibung.getBewerbungsfrist().toString()));
 		      
@@ -462,7 +497,7 @@ implements ReportGenerator{
 	
 	
 
-	public FanIn fanInAnalyse(Organisationseinheit o) throws IllegalArgumentException {
+	public FanIn fanInAnalyse() throws IllegalArgumentException {
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
@@ -471,62 +506,72 @@ implements ReportGenerator{
 		
 		FanIn result = new FanIn();
 		
-		
-		 if(o instanceof Person){
-			 
-			 result.setTitel("Anzahl der Bewerbungen von der Person " + ((Person) o).getVorname() + " " 
-			 + ((Person) o).getNachname() + ", ID: " + o.getId());
-			
-			} else if(o instanceof Team){
-				
-			result.setTitel("Anzahl der Bewerbungen von dem Team " + ((Team) o).getName() + ", ID: "+ o.getId());
-
-			} else if(o instanceof Unternehmen){
-				
-			result.setTitel("Anzahl der Bewerbungen von dem Unternehmen "+ ((Unternehmen) o).getName()+ ", ID: " +o.getId());	
-			}
+		result.setTitel("Anzahl der Bewerbungen");
 		
 		
 		result.setErstellungsdatum(new Date());
 		
-		Row headline = new Row();		
+		Row headline = new Row();
+		headline.addColum(new Column("ID"));
+		headline.addColum(new Column("Organisationseinheit"));
 		headline.addColum(new Column("laufend"));
 		headline.addColum(new Column("abgelehnt"));
 		headline.addColum(new Column("angenommen"));
 		
 		result.addRow(headline);
 		
-		//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
-		Vector<Bewerbung> alleBewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(o);
 		
 		
-		Vector<Bewerbung> laufendeBewerbungen = new Vector<Bewerbung>();
-		Vector<Bewerbung> abgelehnteBewerbungen = new Vector<Bewerbung>();
-		Vector<Bewerbung> angenommeneBewerbungen = new Vector<Bewerbung>();
+		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
 		
-		for(Bewerbung b: alleBewerbungen){
+		for (Organisationseinheit orga : alleOrganisationseinheiten) {
 			
+			Vector<Bewerbung> laufendeBewerbungen = new Vector<Bewerbung>();
+			Vector<Bewerbung> abgelehnteBewerbungen = new Vector<Bewerbung>();
+			Vector<Bewerbung> angenommeneBewerbungen = new Vector<Bewerbung>();
+			
+			//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
+			Vector<Bewerbung> alleBewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(orga);
+			
+			for(Bewerbung b: alleBewerbungen){
+				
 
-			
-			if(b.getStatus().equals("laufend")){
-				laufendeBewerbungen.add(b);
-			} else if(b.getStatus().equals("abgelehnt")){
-				abgelehnteBewerbungen.add(b);
-			} else if(b.getStatus().equals("angenommen")){
-				angenommeneBewerbungen.add(b);
+				
+				if(b.getStatus().toString().equals("laufend")){
+					laufendeBewerbungen.add(b);
+				} else if(b.getStatus().toString().equals("abgelehnt")){
+					abgelehnteBewerbungen.add(b);
+				} else if(b.getStatus().toString().equals("angenommen")){
+					angenommeneBewerbungen.add(b);
+				}
 			}
+			
+			Row anzahlRow = new Row();
+			
+			anzahlRow.addColum(new Column(String.valueOf(orga.getId())));
+			
+			if(orga instanceof Person){
+				anzahlRow.addColum(new Column(((Person)orga).getVorname() + " "+((Person)orga).getNachname()));
+			} else if(orga instanceof Team){
+				anzahlRow.addColum(new Column(((Team)orga).getName()));
+			} else if(orga instanceof Unternehmen){
+				anzahlRow.addColum(new Column(((Unternehmen)orga).getName()));		
+			}
+			
+			anzahlRow.addColum(new Column(String.valueOf(laufendeBewerbungen.size())));
+			anzahlRow.addColum(new Column(String.valueOf(abgelehnteBewerbungen.size())));
+			anzahlRow.addColum(new Column(String.valueOf(angenommeneBewerbungen.size())));
+			
+			result.addRow(anzahlRow);
+			
 		}
 		
-		Row anzahlRow = new Row();
-		anzahlRow.addColum(new Column(String.valueOf(laufendeBewerbungen.size())));
-		anzahlRow.addColum(new Column(String.valueOf(abgelehnteBewerbungen.size())));
-		anzahlRow.addColum(new Column(String.valueOf(angenommeneBewerbungen.size())));
-		
-		return result;
-		
+		return result;	
 	}
 	
-	public FanOut fanOutAnalyse(Organisationseinheit o){
+	
+	
+	public FanOut fanOutAnalyse(){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
@@ -535,58 +580,65 @@ implements ReportGenerator{
 		
 		FanOut result = new FanOut();
 		
-		
-		 if(o instanceof Person){
-	 
-			 result.setTitel("Anzahl der Ausschreibungen von der Person " + ((Person) o).getVorname() + " " 
-			 + ((Person) o).getNachname() + ", ID: " + o.getId());
-			
-			} else if(o instanceof Team){
-				
-			result.setTitel("Anzahl der Ausschreibungen von dem Team " + ((Team) o).getName() + ", ID: "+ o.getId());
-
-			} else if(o instanceof Unternehmen){
-				
-			result.setTitel("Anzahl der Ausschreibungen von dem Unternehmen "+ ((Unternehmen) o).getName()+ ", ID: " +o.getId());	
-			}
+		result.setTitel("Anzahl der Ausschreibungen");
 		
 		
 		
 		result.setErstellungsdatum(new Date());
 		
-		Row headline = new Row();		
+		Row headline = new Row();
+		headline.addColum(new Column("ID"));
+		headline.addColum(new Column("Organisationseinheit"));
 		headline.addColum(new Column("besetzt"));
 		headline.addColum(new Column("abgebrochen"));
 		headline.addColum(new Column("laufend"));
 		
 		result.addRow(headline);
 		
-		//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
-		Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(o);
 		
+		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
 		
-		Vector<Ausschreibung> besetzteAusschreibungen = new Vector<Ausschreibung>();
-		Vector<Ausschreibung> abgebrocheneAusschreibungen = new Vector<Ausschreibung>();
-		Vector<Ausschreibung> laufendeAusschreibungen = new Vector<Ausschreibung>();
-		
-		for(Ausschreibung a: alleAusschreibungen){
+	
+		for(Organisationseinheit orga : alleOrganisationseinheiten) {
 			
+			Vector<Ausschreibung> besetzteAusschreibungen = new Vector<Ausschreibung>();
+			Vector<Ausschreibung> abgebrocheneAusschreibungen = new Vector<Ausschreibung>();
+			Vector<Ausschreibung> laufendeAusschreibungen = new Vector<Ausschreibung>();
+			
+			Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(orga);
+				
 
-			
-			if(a.getStatus().equals("besetzt")){
-				besetzteAusschreibungen.add(a);
-			} else if(a.getStatus().equals("abgebrochen")){
-				abgebrocheneAusschreibungen.add(a);
-			} else if(a.getStatus().equals("laufend")){
-				laufendeAusschreibungen.add(a);
+			for(Ausschreibung a: alleAusschreibungen){
+				
+				if(a.getStatus().toString().equals("besetzt")){
+					besetzteAusschreibungen.add(a);
+				} else if(a.getStatus().toString().equals("abgebrochen")){
+					abgebrocheneAusschreibungen.add(a);
+				} else if(a.getStatus().toString().equals("laufend")){
+					laufendeAusschreibungen.add(a);
+				}
+				
 			}
-		}
-		
-		Row anzahlRow = new Row();
-		anzahlRow.addColum(new Column(String.valueOf(besetzteAusschreibungen.size())));
-		anzahlRow.addColum(new Column(String.valueOf(abgebrocheneAusschreibungen.size())));
-		anzahlRow.addColum(new Column(String.valueOf(laufendeAusschreibungen.size())));		
-		
+			
+			Row anzahlRow = new Row();
+			
+			anzahlRow.addColum(new Column(String.valueOf(orga.getId())));
+			
+			if(orga instanceof Person){
+				anzahlRow.addColum(new Column(((Person)orga).getVorname() + " "+((Person)orga).getNachname()));
+			} else if(orga instanceof Team){
+				anzahlRow.addColum(new Column(((Team)orga).getName()));
+			} else if(orga instanceof Unternehmen){
+				anzahlRow.addColum(new Column(((Unternehmen)orga).getName()));		
+			}
+			
+			anzahlRow.addColum(new Column(String.valueOf(besetzteAusschreibungen.size())));
+			anzahlRow.addColum(new Column(String.valueOf(abgebrocheneAusschreibungen.size())));
+			anzahlRow.addColum(new Column(String.valueOf(laufendeAusschreibungen.size())));		
+			
+			result.addRow(anzahlRow);
+			
+		}	
 		return result;		
 	}
 	
@@ -604,13 +656,9 @@ implements ReportGenerator{
 		
 		result.setErstellungsdatum(new Date());
 		
-		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
-		
-		for(Organisationseinheit organisationseinheit : alleOrganisationseinheiten){
 			
-			result.addSubReport(this.fanInAnalyse(organisationseinheit));
-			result.addSubReport(this.fanOutAnalyse(organisationseinheit));
-		}
+			result.addSubReport(this.fanInAnalyse());
+			result.addSubReport(this.fanOutAnalyse());
 		
 		return result;
 	}

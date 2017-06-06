@@ -38,6 +38,14 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 	public PartnerprofilByAusschreibungForm(int partnerprofilId){
 		
 		
+		if(Navigation.getCurrentClickHandler().toString() == "de.hdm.itProjektSS17.client.gui.Navigation$7@71"){
+			eigenschaftHinzufuegenButton.setVisible(false);
+			loeschenButton.setVisible(false);
+		}
+		
+		RootPanel.get("Details").setWidth("70%");
+		dataGrid.setWidth("100%", true);
+		
 		//CallBack um die Eigenschaften der gewünschten Person zu laden
 		projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new AsyncCallback<Partnerprofil>() {
 

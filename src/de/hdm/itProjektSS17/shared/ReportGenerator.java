@@ -1,10 +1,10 @@
 package de.hdm.itProjektSS17.shared;
 
+import java.util.Vector;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
-import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenReport;
@@ -34,7 +34,15 @@ public interface ReportGenerator extends RemoteService{
 
 	public abstract ProjektverflechtungenReport createProjektverflechtungenReport(Organisationseinheit o) throws IllegalArgumentException;
 	
-	public abstract FanIn fanInAnalyse(Organisationseinheit o) throws IllegalArgumentException;
+	public abstract FanIn fanInAnalyse() throws IllegalArgumentException;
+	
+	public Person getPersonById(int id) throws IllegalArgumentException;
+	
+	public Team getTeamById(int id) throws IllegalArgumentException;
+	
+	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException;
+	
+	public Vector<Organisationseinheit> getBewerberAufEigeneAusschreibungen(Organisationseinheit o) throws IllegalArgumentException;
 
 	
 }
