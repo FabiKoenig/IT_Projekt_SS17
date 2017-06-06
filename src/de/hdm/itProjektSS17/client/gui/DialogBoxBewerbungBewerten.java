@@ -232,7 +232,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	private class GetAusschreibungFromBewerbungCallback implements AsyncCallback<Ausschreibung>{
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Fehler");
+			Window.alert("Fehler. Versuchen Sie es erneut.");
 		}
 		@Override
 		public void onSuccess(Ausschreibung result) {
@@ -241,14 +241,20 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 			}
 		}	
 	
-	
 	private class GetProjektCallback implements AsyncCallback<Projekt>{
 				@Override
 				public void onFailure(Throwable caught) {
 				}
 				@Override
-				public void onSuccess(Projekt result) {		
+				public void onSuccess(Projekt result) {	
 					Bewerbung bewerbung = new Bewerbung();
+					if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.angenommen){
+						Window.alert("Der Bewerber wurde bereits angenommen!");
+					}
+					else if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.abgelehnt){
+						Window.alert("Der Bewerber wurde bereits abgelehnt!");
+					}
+					else{
 					bewerbung.setId(bewertungBewerbungHybrid.getBewerbungId());
 					bewerbung.setStatus(Bewerbungsstatus.angenommen);
 					projektmarktplatzverwaltung.saveBewerbung(bewerbung, new SaveBewerbungCallback());
@@ -260,11 +266,10 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					}catch(Exception e){
 						e.printStackTrace();
 					}
+				}
 			}
 		}
-	}
 	
-
 	class BeteiligungErstelltCallback implements AsyncCallback<Beteiligung>{
 		@Override
 		public void onFailure(Throwable caught) {
@@ -274,9 +279,11 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		@Override
 		public void onSuccess(Beteiligung result) {
 			Window.alert("Der Bewerber wurde angenommen!");
+			hide();
+			Navigation.reload();
 		}
-		
 	}
+}
 	
 	
 
