@@ -28,10 +28,10 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
-import de.hdm.itProjektSS17.client.AusschreibungenaufProjektForm;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
@@ -42,12 +42,14 @@ public class MeineProjektForm extends Showcase{
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	CellTable<Projekt> dataGrid = new CellTable<Projekt>();
+
 	
 	Button btn_projektBearbeiten = new Button("Projekt bearbeiten");
 	Button btn_projektAnlegen = new Button("Projekt anlegen");
 	Button btn_projektLoeschen = new Button("Projekt löschen");
 	Button btn_ausschreibungAnlegen = new Button("Ausschreibung anlegen");
 	Button btn_ausschreibungenAnzeigen = new Button("Ausschreibungen anzeigen");
+	Button btn_beteiligungAnzeigen = new Button("Beteiligung anzeigen");	
 
 	
 	protected String getHeadlineText(){
@@ -226,16 +228,34 @@ public class MeineProjektForm extends Showcase{
 			}
 		});
 		
+	btn_beteiligungAnzeigen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(selectionModel.getSelectedObject() != null){
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new BeteiligungaufProjektForm(selectionModel.getSelectedObject()));
+					
+				} else {
+					Window.alert("Bitte wähle zuerst eine Projekt aus.");
+				}
+				
+				
+				
+			}
+		});
+		
+		
 		
 		
 		dataGrid.setWidth("100%");
 		btn_projektAnlegen.setStylePrimaryName("navi-button");
 		btn_projektLoeschen.setStylePrimaryName("navi-button");
 		btn_projektBearbeiten.setStylePrimaryName("navi-button");
-
+		
 		btn_ausschreibungAnlegen.setStylePrimaryName("navi-button");
 		btn_ausschreibungenAnzeigen.setStylePrimaryName("navi-button");
-	
+		btn_beteiligungAnzeigen.setStylePrimaryName("navi-button");
 
 		
 		buttonPanel.add(btn_projektAnlegen);
@@ -243,6 +263,7 @@ public class MeineProjektForm extends Showcase{
 		buttonPanel.add(btn_projektLoeschen);
 		buttonPanel.add(btn_ausschreibungAnlegen);
 		buttonPanel.add(btn_ausschreibungenAnzeigen);
+		buttonPanel.add(btn_beteiligungAnzeigen);
 		this.setSpacing(8);
 		this.add(buttonPanel);
 		
@@ -264,7 +285,7 @@ public class MeineProjektForm extends Showcase{
 		}
 		
 	}
-	
+	 
 	private class GetProjektCallback implements AsyncCallback<Vector<Projekt>>{
 
 		@Override
