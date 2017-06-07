@@ -170,6 +170,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						Bewerbung b = new Bewerbung();
 						b.setId(bewertungBewerbungHybrid.getBewerbungId());
 						b.setAusschreibungId(bewertungBewerbungHybrid.getAusschreibungId());
+						b.setOrganisationseinheitId(bewertungBewerbungHybrid.getBewerberId());
 						projektmarktplatzverwaltung.getAusschreibungByBewerbung(b, new GetAusschreibungFromBewerbungCallback() {
 						});
 					}
@@ -271,14 +272,17 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						Window.alert("Der Bewerber wurde bereits abgelehnt!");
 					}
 					else{
+					bewerbung.setOrganisationseinheitId(bewertungBewerbungHybrid.getBewerberId());	
 					bewerbung.setId(bewertungBewerbungHybrid.getBewerbungId());
 					bewerbung.setStatus(Bewerbungsstatus.angenommen);
+					
+					
 					projektmarktplatzverwaltung.saveBewerbung(bewerbung, new SaveBewerbungCallback());
 					try{
 						Date date1 = result.getStartdatum();
 						Date date2 = result.getEnddatum();
 						int umfang = date2.compareTo(date1);
-						projektmarktplatzverwaltung.createBeteiligung(umfang, result.getStartdatum(), result.getEnddatum(), bewertungBewerbungHybrid.getBewertungId(), result.getId(), bewertungBewerbungHybrid.getBewertungId(), new BeteiligungErstelltCallback());
+						projektmarktplatzverwaltung.createBeteiligung(umfang, result.getStartdatum(), result.getEnddatum(), bewerbung.getOrganisationseinheitId(), result.getId(), bewertungBewerbungHybrid.getBewertungId(), new BeteiligungErstelltCallback());
 					}catch(Exception e){
 						e.printStackTrace();
 					}

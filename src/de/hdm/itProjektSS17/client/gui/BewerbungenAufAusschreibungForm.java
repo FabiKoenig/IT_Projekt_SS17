@@ -223,6 +223,9 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private int ausschreibungId;
 		private int projektId;
 		private int partnerprofilId;
+
+		private int bewerberId;
+
 		
 		public int getBewertungId() {
 			return bewertungId;
@@ -304,6 +307,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			this.projektId = projektId;
 		}
 
+
 		public int getPartnerprofilId() {
 			return partnerprofilId;
 		}
@@ -311,6 +315,16 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setPartnerprofilId(int partnerprofilId) {
 			this.partnerprofilId = partnerprofilId;
 		}
+
+		public int getBewerberId() {
+			return bewerberId;
+		}
+
+		public void setBewerberId(int bewerberId) {
+			this.bewerberId = bewerberId;
+		}
+		
+
 		
 	
 	}
