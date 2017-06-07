@@ -115,7 +115,6 @@ public class ReportEntry implements EntryPoint {
 //			Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("NavigatorReport").add(Logout);
-			RootPanel.get("NavigatorReport").clear();
 		    RootPanel.get("NavigatorReport").add(new NavigationReport());
 			
 		    

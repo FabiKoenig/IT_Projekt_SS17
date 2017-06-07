@@ -31,7 +31,7 @@ public interface ReportGeneratorAsync {
 
 	void createFanInFanOutReport(AsyncCallback<FanInFanOutReport> callback);
 
-	void createProjektverflechtungenReport(Organisationseinheit o, AsyncCallback<ProjektverflechtungenReport> callback);
+	void createProjektverflechtungenReport(int id, AsyncCallback<ProjektverflechtungenReport> callback);
 
 	void setPerson(AsyncCallback<Void> callback);
 

@@ -107,8 +107,13 @@ implements ReportGenerator{
 			Vector<Bewerbung> bewerbungen =  projektmarktplatzverwaltung.getBewerbungByForeignAusschreibungId(ausschreibung.getId());
 			
 				for (Bewerbung bewerbung : bewerbungen) {
+					if(bewerber.contains(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()))){
+						
+					}else{
+						bewerber.add(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()));
+					}
 					
-					bewerber.add(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()));
+					
 				}
 			}
 		return bewerber;
@@ -363,7 +368,7 @@ implements ReportGenerator{
 	
 	
 	
-	public AlleBeteiligungenEinesUsers alleBeteiligungenEinesUsers(Organisationseinheit o){
+	public AlleBeteiligungenEinesUsers alleBeteiligungenEinesUsers(int id){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
@@ -384,7 +389,7 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 
-		Vector<Beteiligung> alleBeteiligungen = projektmarktplatzverwaltung.getBeteiligungByForeignOrganisationseinheit(o);
+		Vector<Beteiligung> alleBeteiligungen = projektmarktplatzverwaltung.getBeteiligungByForeignOrganisationseinheit(projektmarktplatzverwaltung.getOrganisationseinheitById(id));
 		
 		for(Beteiligung b : alleBeteiligungen){
 			
@@ -415,7 +420,7 @@ implements ReportGenerator{
 	}
 	
 	
-	public AlleBewerbungenEinesUsers alleBewerbungenEinesUsers(Organisationseinheit o){
+	public AlleBewerbungenEinesUsers alleBewerbungenEinesUsers(int id){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
@@ -438,7 +443,7 @@ implements ReportGenerator{
 		result.addRow(headline);
 		
 		
-		Vector<Bewerbung> bewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(o);
+		Vector<Bewerbung> bewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(projektmarktplatzverwaltung.getOrganisationseinheitById(id));
 				
 		for(Bewerbung b : bewerbungen){
 			
@@ -471,7 +476,7 @@ implements ReportGenerator{
 	
 
 	@Override
-	public ProjektverflechtungenReport createProjektverflechtungenReport(Organisationseinheit o)
+	public ProjektverflechtungenReport createProjektverflechtungenReport(int id)
 			throws IllegalArgumentException {
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -488,8 +493,8 @@ implements ReportGenerator{
 		/*
 	       * Anlegen des jew. Teil-Reports und Hinzufügen zum Gesamt-Report.
 	       */
-	      result.addSubReport(this.alleBeteiligungenEinesUsers(o));
-	      result.addSubReport(this.alleBewerbungenEinesUsers(o));
+	      result.addSubReport(this.alleBeteiligungenEinesUsers(id));
+	      result.addSubReport(this.alleBewerbungenEinesUsers(id));
 		
 		
 		return result;

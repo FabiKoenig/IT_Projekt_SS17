@@ -344,8 +344,13 @@ public class StellenauschreibungForm extends Showcase {
 		btn_partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
+				if(selectionModel.getSelectedObject() != null){
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
+				} else{
+					Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
+				}
+				
 			}
 		});
 		

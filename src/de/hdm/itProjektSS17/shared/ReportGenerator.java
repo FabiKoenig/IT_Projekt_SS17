@@ -32,7 +32,7 @@ public interface ReportGenerator extends RemoteService{
 
 	public abstract FanInFanOutReport createFanInFanOutReport() throws IllegalArgumentException;
 
-	public abstract ProjektverflechtungenReport createProjektverflechtungenReport(Organisationseinheit o) throws IllegalArgumentException;
+	ProjektverflechtungenReport createProjektverflechtungenReport(int id);
 	
 	public abstract FanIn fanInAnalyse() throws IllegalArgumentException;
 	
