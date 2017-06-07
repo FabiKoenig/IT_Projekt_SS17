@@ -25,7 +25,7 @@ public class DialogBoxBewerbungstext extends DialogBox {
 	
 	public DialogBoxBewerbungstext(String text){
 		btn_zurueck.setStylePrimaryName("navi-button");
-		this.setText("Bewerbungstext anzeigen: ");
+		this.setText("Ihr Bewerbungstext");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		this.center();

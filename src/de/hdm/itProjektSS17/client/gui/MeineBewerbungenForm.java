@@ -151,7 +151,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
-		cellTable.addColumn(BewertungColumn, "B");
+		cellTable.addColumn(BewertungColumn, "Bewertung");
 	
 		
 		cellTable.setWidth("100%");
@@ -219,12 +219,33 @@ public class MeineBewerbungenForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBox db_Stellungnahme = new DialogBox();
+				final DialogBox db_Stellungnahme = new DialogBox();
 				TextArea txta_Stellungnahme = new TextArea();
 				FlexTable ft_Stellungname = new FlexTable();
-				Button ok_Stellungnahme = new Button();
+				Button ok_Stellungnahme = new Button("Zurück");
+				
+				txta_Stellungnahme.setText(selectionModel.getSelectedObject().getStellungnahme());
+				txta_Stellungnahme.setReadOnly(true);
+				txta_Stellungnahme.setCharacterWidth(70);
+				txta_Stellungnahme.setVisibleLines(25);	
+				
 				ft_Stellungname.setWidget(0, 0, txta_Stellungnahme);
 				ft_Stellungname.setWidget(1, 0, ok_Stellungnahme);
+				
+				ok_Stellungnahme.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						db_Stellungnahme.hide();
+					}
+				});
+				
+				db_Stellungnahme.setWidget(ft_Stellungname);
+				db_Stellungnahme.setText("Stellungnahme");
+				db_Stellungnahme.setAnimationEnabled(false);
+				db_Stellungnahme.setGlassEnabled(true);
+				db_Stellungnahme.center();
+				
 				
 			}
 		});
@@ -244,6 +265,7 @@ public class MeineBewerbungenForm extends Showcase{
 		private Bewerbungsstatus statusBewerbungsstatus;
 		private String Team;
 		private String Unternehmen;
+		private String stellungnahme;
 		
 		private Double bewertungWert;
 		
@@ -308,6 +330,13 @@ public class MeineBewerbungenForm extends Showcase{
 		public void setBewertungWert(Double bewertungWert) {
 			this.bewertungWert = bewertungWert;
 		}
+		public String getStellungnahme() {
+			return stellungnahme;
+		}
+		public void setStellungnahme(String stellungnahme) {
+			this.stellungnahme = stellungnahme;
+		}
+		
 		
 		
 	}
@@ -377,10 +406,12 @@ public class MeineBewerbungenForm extends Showcase{
 																	public void onSuccess(Bewertung result) {	
 																		if(result != null){	
 																		localHybrid.setBewertungWert(result.getWert());	
+																		localHybrid.setStellungnahme(result.getStellungnahme());;
 																		cellTable.setRowCount(hybrid.size(), true);
 																		cellTable.setRowData(0,hybrid);				
 																		}
 																		else{
+																			localHybrid.setStellungnahme("Keine Stellungnahme vorhanden");
 																			localHybrid.setBewertungWert(0.0);
 																			cellTable.setRowCount(hybrid.size(), true);
 																			cellTable.setRowData(0,hybrid);	
