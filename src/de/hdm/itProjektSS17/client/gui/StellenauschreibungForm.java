@@ -48,7 +48,7 @@ public class StellenauschreibungForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Stellenausschreibung";
+		return "Offene Stellenausschreibungen";
 	}
 
 	
@@ -211,6 +211,7 @@ public class StellenauschreibungForm extends Showcase {
 
 																				@Override
 																				public void onSuccess(Unternehmen result) {
+																					
 																					localHybrid.setUnternehmen(result.getName());
 																					Hybrid.add(localHybrid);
 																					cellTable.setRowCount(Hybrid.size(), true);
@@ -370,9 +371,13 @@ public class StellenauschreibungForm extends Showcase {
 		btn_partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
+				if (selectionModel.getSelectedObject() == null)
+				{
+					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus");
+				}else{
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
-			}
+				}}
 		});
 		
 		

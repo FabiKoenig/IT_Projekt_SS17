@@ -268,7 +268,7 @@ public class ProjektmarktplatzForm extends Showcase {
 				return object.getBezeichnung();
 			}
 		};
-		ct_eigeneProjektmarktplaetze.addColumn(ProjektmarktplatznameColumn_eigene, "Eigene Projektmarktplätze");
+		ct_eigeneProjektmarktplaetze.addColumn(ProjektmarktplatznameColumn_eigene, "Beigetretene Projektmarktplätze");
 	
 		//SingleSelectionModel anlegen um verschiedene Zeilen auszuwählen
 		
