@@ -130,8 +130,8 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		 */
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineAusschreibungenForm());
+				Navigation.reload();
+				
 				
 			}
 		});

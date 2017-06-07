@@ -4,13 +4,16 @@ import java.util.Vector;
 
 import org.cyberneko.html.HTMLScanner.CurrentEntity;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
@@ -43,12 +46,12 @@ public class Navigation extends StackPanel{
 	
 	//Anlegen der Hyperlinks
 	Hyperlink home = new Hyperlink();
+	Anchor reportLink = new Anchor("ReportGenerator");
 	
 	//Anlegen der Buttons
 	Button homeButton = new Button("Home");
 	Button agbButton = new Button("AGB");
 	Button impressumButton = new Button("Impressum");
-	Button testButton = new Button("TEST");
 	
 	Button ausschreibungenButton = new Button("Stellenausschreibungen");
 	Button projektmarktplaetzeButton = new Button("Projektmarktplätze");
@@ -60,6 +63,8 @@ public class Navigation extends StackPanel{
 	
 	Button personaldataButton = new Button("Persönliche Daten");
 	Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
+	
+	Button reportButton = new Button("Report Generator");
 	
 	
 	public Navigation(){
@@ -107,8 +112,10 @@ public class Navigation extends StackPanel{
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("navi-button");
+		einstellungenPanel.add(reportButton);
+		reportButton.setStylePrimaryName("navi-button");
+		reportButton.setWidth("200px");
 		einstellungenPanel.setSpacing(5);
-		einstellungenPanel.add(testButton);
 		
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
@@ -276,25 +283,14 @@ public class Navigation extends StackPanel{
 			}
 		});
 		
-		testButton.addClickHandler(new ClickHandler() {
+		reportButton.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				ProjektmarktplatzVerwaltungAsync proj = ClientsideSettings.getProjektmarktplatzVerwaltung();
-				proj.getAllAusschreibungen(new AsyncCallback<Vector<Ausschreibung>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Vector<Ausschreibung> result) {
-						Window.alert("HUHU " + result.size());
-					}
-				});
-
+				
+				reportLink.setHref(GWT.getHostPageBaseURL()+"ProjektmarktplatzReports.html");
+				Window.open(reportLink.getHref(), "_self", "");
+				
 			}
 		});
 

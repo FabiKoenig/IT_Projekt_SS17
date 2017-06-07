@@ -1,7 +1,10 @@
 package de.hdm.itProjektSS17.client.gui.report;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,14 +24,16 @@ public class NavigationReport extends StackPanel {
 	//Anlegen der Panels
 	VerticalPanel startseitePanel = new VerticalPanel();
 	VerticalPanel reportPanel = new VerticalPanel();
+	VerticalPanel einstellungenPanel = new VerticalPanel();
 	
 	
 	//Anlegen der Hyperlinks
 	Hyperlink home = new Hyperlink();
+	Anchor prokekoLink = new Anchor();
 	
 	//Anlegen der Buttons
+	Button prokekoButton = new Button("Prokeko");
 	Button homeButton = new Button("Home");
-	Button agbButton = new Button("AGB");
 	Button impressumButton = new Button("Impressum");
 	
 	Button showAusschreibungenButton = new Button("Alle Ausschreibungen");
@@ -46,9 +51,6 @@ public class NavigationReport extends StackPanel {
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
 		impressumButton.setStylePrimaryName("navi-button");
-		startseitePanel.add(agbButton);
-		agbButton.setWidth("200px");
-		agbButton.setStylePrimaryName("navi-button");
 		startseitePanel.setSpacing(5);
 	
 	//Zusammensetzen des reportPanels	
@@ -72,10 +74,18 @@ public class NavigationReport extends StackPanel {
 		showFanInFanOutAnalyseButton.setStylePrimaryName("navi-button");
 		reportPanel.setSpacing(5);
 		
+	//Zusammensetzung des EinstellungPanels
+		einstellungenPanel.add(prokekoButton);
+		prokekoButton.setWidth("200px");
+		prokekoButton.setStylePrimaryName("navi-button");
+		einstellungenPanel.setSpacing(5);
+		
+		
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
 		this.add(startseitePanel, "Startseite");
 		this.add(reportPanel, "Report Locator");
+		this.add(einstellungenPanel, "Einstellungen");
 		
 		
 //	Anlegen der ClickHandler
@@ -168,6 +178,16 @@ public class NavigationReport extends StackPanel {
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
 				currentClickEvent=event;
+			}
+		});
+		
+		prokekoButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+
+				prokekoLink.setHref(GWT.getHostPageBaseURL()+"IT_Projekt_SS17.html");
+				Window.open(prokekoLink.getHref(), "_self", "");
 			}
 		});
 	}
