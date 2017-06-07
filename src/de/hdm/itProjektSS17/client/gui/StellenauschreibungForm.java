@@ -42,6 +42,7 @@ public class StellenauschreibungForm extends Showcase {
 	Button btn_Text = new Button("Ausschreibungstext anzeigen");
 	
 	Button btn_partnerprofilAnzeigen = new Button("Partnerprofil anzeigen");
+	final Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
 	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
 	Ausschreibung localAusschreibung = new Ausschreibung();
 	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
@@ -104,9 +105,11 @@ public class StellenauschreibungForm extends Showcase {
 									}
 									@Override
 									public void onSuccess(Vector<Ausschreibung> result) {
-										final Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
+										
 										for(int i=0;i<result.size();i++){
+											
 											final Ausschreibung localAusschreibung = result.get(i);
+											final projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
 											projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new AsyncCallback<Projekt>() {
 
 												@Override
@@ -118,7 +121,7 @@ public class StellenauschreibungForm extends Showcase {
 												@Override
 												public void onSuccess(Projekt result) {
 													
-													final projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
+													
 													localHybrid.setProjektbezeichnung(result.getName());
 													localHybrid.setAusschreibungId(localAusschreibung.getId());
 													localHybrid.setBewerbungsfrist(localAusschreibung.getBewerbungsfrist());
@@ -144,6 +147,7 @@ public class StellenauschreibungForm extends Showcase {
 															
 															Person p = result;
 															if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+																
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																	
 																	localHybrid.setTeam("Kein Team");
@@ -222,10 +226,14 @@ public class StellenauschreibungForm extends Showcase {
 																	});
 																}
 															}
+															cellTable.setRowCount(Hybrid.size(), true);
+															cellTable.setRowData(0,Hybrid);
 														}
+														
 													});
-												}
+												} 
 											});
+											
 										}
 									}
 								});

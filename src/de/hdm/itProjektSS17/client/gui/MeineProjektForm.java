@@ -34,6 +34,7 @@ import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
+import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 
 public class MeineProjektForm extends Showcase{
@@ -59,7 +60,23 @@ public class MeineProjektForm extends Showcase{
 	protected void run() {		
 			
 
-		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
+//		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
+		
+		
+		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Projektmarktplatz result) {
+				projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new GetProjektCallback());
+				
+			}
+		});
 		
 		
 		btn_projektAnlegen.addClickHandler(new ClickHandler() {
@@ -76,7 +93,7 @@ public class MeineProjektForm extends Showcase{
 		}
 	});
 	
-		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
+//		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
 
 		
 		RootPanel.get("Details").setWidth("70%");
@@ -251,19 +268,6 @@ public class MeineProjektForm extends Showcase{
 		
 	}
 	
-	private class GetPersonCallback implements AsyncCallback<Person>{
-
-		@Override
-		public void onFailure(Throwable caught) {			
-		}
-
-		@Override
-		public void onSuccess(Person result) {
-			projektmarktplatzVerwaltung.getProjektByForeignPerson(result, new GetProjektCallback());
-			
-		}
-		
-	}
 	
 	private class GetProjektCallback implements AsyncCallback<Vector<Projekt>>{
 
