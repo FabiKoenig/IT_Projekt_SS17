@@ -204,6 +204,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private int bewertungId;
 		private int ausschreibungId;
 		private int projektId;
+		private int bewerberId;
 		
 		public int getBewertungId() {
 			return bewertungId;
@@ -283,6 +284,14 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 
 		public void setProjektId(int projektId) {
 			this.projektId = projektId;
+		}
+
+		public int getBewerberId() {
+			return bewerberId;
+		}
+
+		public void setBewerberId(int bewerberId) {
+			this.bewerberId = bewerberId;
 		}
 		
 		
