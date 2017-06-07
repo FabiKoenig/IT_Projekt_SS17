@@ -294,6 +294,7 @@ public class MeineBewerbungenForm extends Showcase{
 					}
 					@Override
 					public void onSuccess(Ausschreibung result) {
+						
 					final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
 					final Ausschreibung a = result;
 					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
@@ -307,9 +308,10 @@ public class MeineBewerbungenForm extends Showcase{
 
 						@Override
 						public void onSuccess(Projekt result) {
+							
 							// TODO Auto-generated method stub
-							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()!=result.getProjektmarktplatzId()){
-								
+							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
+								Window.alert("Test");
 								projektmarktplatzVerwaltung.getOrganisationseinheitById(a.getAusschreibenderId(), new AsyncCallback<Organisationseinheit>() { 
 									
 														@Override
@@ -320,8 +322,9 @@ public class MeineBewerbungenForm extends Showcase{
 									
 															@Override
 														public void onSuccess(Organisationseinheit result) {
-									
+																
 																if (result instanceof Person){
+																	
 																	Person localPerson = (Person) result;
 																	localHybrid.setAusschreibungsbezeichnername(localPerson.getNachname());
 															} else if(result instanceof Team){
