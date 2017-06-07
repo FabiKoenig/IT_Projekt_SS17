@@ -22,6 +22,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
+import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
@@ -165,7 +166,19 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		@Override
 		public void onSuccess(Projekt result) {
 			
+			int umfang = (int)( (result.getEnddatum().getTime() - result.getStartdatum().getTime()) / (1000 * 60 * 60 * 24) ) + 1;
+			projektmarktplatzVerwaltung.createBeteiligungProjektleiter(umfang, result.getStartdatum(), result.getEnddatum(), IdentityMarketChoice.getSelectedIdentityId(), result.getId(), new AsyncCallback<Beteiligung>() {
 
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("Die Beteiligung konnte nicht angelegt werden!");
+				}
+
+				@Override
+				public void onSuccess(Beteiligung result) {
+					Window.alert("Die Beteiligung wurde erfolgreich angelegt!");
+				}
+			});
 			Window.alert("Projekt erfolgreich hinzugefügt!");
 			hide();
 			Navigation.reload();

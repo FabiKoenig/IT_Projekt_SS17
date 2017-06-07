@@ -1522,5 +1522,21 @@ implements ProjektmarktplatzVerwaltung {
 		return unternehmenMapper.findAllUnternehmen();
 	}
 	
+	
+	public Beteiligung createBeteiligungProjektleiter(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException {
+		
+		Beteiligung b = new Beteiligung();
+		b.setId(1);
+		b.setUmfang(umfang);
+		b.setStartDatum(startdatum);
+		b.setEndDatum(enddatum);
+		b.setBeteiligterId(orgaId);
+		b.setProjektId(projektId);
+		
+		
+		return this.beteiligungMapper.insert(b);
+		
+	}
+	
 
 }

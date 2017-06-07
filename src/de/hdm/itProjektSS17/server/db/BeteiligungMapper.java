@@ -304,7 +304,7 @@ public class BeteiligungMapper {
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
+		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Beteiligter_Id, Projekt_Id) "
 		            + "VALUES ("
 		        	+ b.getId() 
 		        	+ "," 
@@ -313,9 +313,7 @@ public class BeteiligungMapper {
 		        	+ sdf.format(b.getStartDatum())
 		        	+ "','" 
 		        	+ sdf.format(b.getEndDatum())
-		        	+ "',"
-		            + b.getBewertungId() 
-		            + "," 
+		        	+ "'," 
 		            + b.getBeteiligterId() 
 		            + "," 
 		            + b.getProjektId()

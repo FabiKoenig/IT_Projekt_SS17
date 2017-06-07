@@ -99,7 +99,7 @@ public class MeineProjektForm extends Showcase{
 		}
 	});
 	
-//		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
+
 
 		
 		RootPanel.get("Details").setWidth("70%");
@@ -326,7 +326,7 @@ public class MeineProjektForm extends Showcase{
 					projekte.add(projekt);
 				}
 			}
-			
+			dataGrid.setVisibleRange(0, projekte.size());
 			dataGrid.setRowCount(projekte.size(), true);
 			dataGrid.setRowData(0, projekte);
 			
