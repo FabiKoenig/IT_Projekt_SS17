@@ -76,7 +76,8 @@ public class BeteiligungaufProjektForm extends Showcase {
 
 			@Override
 			public String getValue(BeteiligungProjektHybrid object) {
-				return String.valueOf(object.getUmfang());
+				Integer umfangTemp = object.getBeteiligungUmfang();
+				return umfangTemp.toString();
 			}
 		
 		};
