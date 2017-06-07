@@ -384,7 +384,7 @@ public class StellenauschreibungForm extends Showcase {
 					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus");
 				}else{
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
+				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId(), true));
 				}}
 		});
 		

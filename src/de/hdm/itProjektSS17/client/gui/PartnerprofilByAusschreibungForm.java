@@ -35,10 +35,10 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
-	public PartnerprofilByAusschreibungForm(int partnerprofilId){
+	public PartnerprofilByAusschreibungForm(int partnerprofilId, boolean hideEigenschaftHinzufuegenButton){
 		
 		
-		if(Navigation.getCurrentClickHandler().toString() == "de.hdm.itProjektSS17.client.gui.Navigation$7@71"){
+		if(hideEigenschaftHinzufuegenButton==true){
 			eigenschaftHinzufuegenButton.setVisible(false);
 			loeschenButton.setVisible(false);
 		}
@@ -157,7 +157,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
 
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false));
 						
 					}
 				});

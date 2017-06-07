@@ -11,8 +11,11 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -41,7 +44,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
 	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
-	//Button btn_bewerbungzur�ckziehen = new Button("Projektmarktplatz anlegen");
+	Button btn_stellungname = new Button ("Stellungnahme anzeigen");
 
 
 	
@@ -59,12 +62,14 @@ public class MeineBewerbungenForm extends Showcase{
 		//Stylen des Buttons
 		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
 		btn_bewerbungstext.setStylePrimaryName("navi-button");
+		btn_stellungname.setStylePrimaryName("navi-button");
 		
 		this.setSpacing(8);
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
 
 		panel_Bewerbung.add(btn_bewerbungstext);
+		panel_Bewerbung.add(btn_stellungname);
 		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
 	
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -200,7 +205,19 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		});
 		
-		
+		btn_stellungname.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				DialogBox db_Stellungnahme = new DialogBox();
+				TextArea txta_Stellungnahme = new TextArea();
+				FlexTable ft_Stellungname = new FlexTable();
+				Button ok_Stellungnahme = new Button();
+				ft_Stellungname.setWidget(0, 0, txta_Stellungnahme);
+				ft_Stellungname.setWidget(1, 0, ok_Stellungnahme);
+				
+			}
+		});
 		
 		this.add(cellTable);
 	}
@@ -332,8 +349,13 @@ public class MeineBewerbungenForm extends Showcase{
 																localHybrid.setBewerbungId(localBewerbung.getId());
 																localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
 																localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
-																localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
-																
+																if(localBewerbung.getBewerbungstext()=="null"){
+																	localHybrid.setBewerbungstext("Kein Text vorhanden");
+																}else if (localBewerbung.getBewerbungstext()==""){
+																	localHybrid.setBewerbungstext("Kein Text vorhanden");
+																}else{
+																	localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
+																}
 																Person p = result;
 																if(p.getId()!=IdentityMarketChoice.getUser().getId()){
 																	if(p.getTeamId()==null && p.getUnternehmenId()==null){

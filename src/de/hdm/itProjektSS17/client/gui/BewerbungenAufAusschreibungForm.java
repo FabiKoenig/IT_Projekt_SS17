@@ -43,6 +43,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 
 //	Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
+	Button partnerprofilAnzeigen = new Button("Partnerprofil des Bewerbers");
 	Button zurueckButton = new Button("Zurück");
 
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -133,7 +134,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		buttonPanel.add(zurueckButton);
 //		buttonPanel.add(bewerbungBewertenButton);
 //		buttonPanel.add(bewerberZusagenButton);
-
+		buttonPanel.add(partnerprofilAnzeigen);
 		buttonPanel.add(bewerbungBewertenButton);
 
 		
@@ -144,6 +145,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 //		bewerbungBewertenButton.setStylePrimaryName("navi-button");
 //		bewerberZusagenButton.setStylePrimaryName("navi-button");
 		bewerbungBewertenButton.setStylePrimaryName("navi-button");
+		partnerprofilAnzeigen.setStylePrimaryName("navi-button");
 		//bewerberZusagenButton.setStylePrimaryName("navi-button");
 		//texteAnzeigenButton.setStylePrimaryName("navi-button");
 
@@ -189,6 +191,22 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 				RootPanel.get("Details").add(new MeineAusschreibungenForm());				
 			}
 		});
+		
+		partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(selectionModel.getSelectedObject() != null){
+					int partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
+				
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, true));
+					
+					} else {
+						Window.alert("Bitte wähle zuerst eine Bewerbung aus.");
+				}
+			}
+		});
 	}
 	
 	
@@ -204,6 +222,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private int bewertungId;
 		private int ausschreibungId;
 		private int projektId;
+		private int partnerprofilId;
 		
 		public int getBewertungId() {
 			return bewertungId;
@@ -284,7 +303,14 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setProjektId(int projektId) {
 			this.projektId = projektId;
 		}
-		
+
+		public int getPartnerprofilId() {
+			return partnerprofilId;
+		}
+
+		public void setPartnerprofilId(int partnerprofilId) {
+			this.partnerprofilId = partnerprofilId;
+		}
 		
 	
 	}
@@ -333,6 +359,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 							String bewerber = ((Unternehmen) result).getName();
 							localHybrid.setBewerber(bewerber);
 						}	
+						localHybrid.setPartnerprofilId(result.getPartnerprofilId());
 						dataGrid.setRowCount(hybrid.size(), true);
 						dataGrid.setRowData(0,hybrid);
 					}

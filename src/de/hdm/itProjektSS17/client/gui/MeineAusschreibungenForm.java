@@ -40,7 +40,7 @@ public class MeineAusschreibungenForm extends Showcase{
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Button ausschreibungLoeschenButton = new Button("Löschen");
 	Button ausschreibungBearbeitenButton = new Button("Bearbeiten");
-	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
+	Button partnerprofilBearbeitenButton = new Button("Gefordertes Partnerprofil anzeigen");
 	Button bewerbungenAnzeigenButton = new Button("Bewerbungen anzeigen");
 	Button ausschreibungstextButton = new Button("Ausschreibungstext anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -309,7 +309,7 @@ public class MeineAusschreibungenForm extends Showcase{
 						partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
 					
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, false));
 					
 						clickhandler = this;
 						clickevent = event;
