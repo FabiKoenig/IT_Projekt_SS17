@@ -51,7 +51,7 @@ public class Projektmarktplatz implements EntryPoint {
 	private Button loginButton = new Button("Login");
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
-	private Label loginLabel = new Label("Bitte melde dich mit deinem Google Account an, um Zugang zu Projekto zu erhalten.");
+	private Label loginLabel = new Label("Bitte melde dich mit deinem Google Account an, um Zugang zu Prokeko zu erhalten.");
 	private Anchor signInLink= new Anchor("Login");
 	private Anchor signOutLink = new Anchor("Logout");
 	
