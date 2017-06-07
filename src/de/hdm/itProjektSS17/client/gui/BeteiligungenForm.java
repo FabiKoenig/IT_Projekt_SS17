@@ -186,15 +186,33 @@ public class BeteiligungenForm extends Showcase{
 			Window.alert("Beteiligung wurde gelöscht!");
 		}
 		
-	};
+	}
 	
-	private class BeteiligungProjektHybrid{
+	public static class BeteiligungProjektHybrid{
 		
-		int beteiligungId;
-		String projektBezeichnung;
-		int beteiligungUmfang;
-		Date startDatum;
-		Date endDatum;
+		private int beteiligungId;
+		private String projektBezeichnung;
+		private int beteiligungUmfang;
+		private Date startDatum;
+		private Date endDatum;
+		private int umfang;
+		private String beteiligter;
+		
+		public String getBeteiligter() {
+			return beteiligter;
+		}
+		
+		public void setBeteiligter(String beteiligter) {
+			this.beteiligter = beteiligter;
+		}
+		
+		public void setUmfang(int umfang) {
+			this.umfang = umfang;
+		}
+		
+		public int getUmfang() {
+			return umfang;
+		}
 		
 		public String getProjektBezeichnung() {
 			return projektBezeichnung;
