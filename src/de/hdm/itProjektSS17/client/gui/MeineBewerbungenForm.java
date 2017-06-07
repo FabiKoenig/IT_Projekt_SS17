@@ -130,6 +130,15 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		};
 		
+		TextColumn<ausschreibungBewerbungHybrid> BewertungColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+			
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+				double wert = object.getBewertungWert();
+				String stringWert = Double.toString(wert);
+				return stringWert;
+			}
+		};
 		
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
@@ -137,6 +146,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
+		cellTable.addColumn(BewertungColumn, "B");
 	
 		
 		cellTable.setWidth("100%");
@@ -218,6 +228,8 @@ public class MeineBewerbungenForm extends Showcase{
 		private String Team;
 		private String Unternehmen;
 		
+		private Double bewertungWert;
+		
 		public String getAnrede() {
 			return anrede;
 		}
@@ -273,6 +285,12 @@ public class MeineBewerbungenForm extends Showcase{
 		public void setUnternehmen(String unternehmen) {
 			Unternehmen = unternehmen;
 		}
+		public Double getBewertungWert() {
+			return bewertungWert;
+		}
+		public void setBewertungWert(Double bewertungWert) {
+			this.bewertungWert = bewertungWert;
+		}
 		
 		
 	}
@@ -291,8 +309,11 @@ public class MeineBewerbungenForm extends Showcase{
 			
 			for(int i=0;i<result.size();i++){
 				final Bewerbung localBewerbung = result.get(i);
+				final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+			
+				
 				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AsyncCallback<Ausschreibung>() {
-
+					
 					@Override
 					public void onFailure(Throwable caught) {
 						
@@ -301,7 +322,7 @@ public class MeineBewerbungenForm extends Showcase{
 					}
 					@Override
 					public void onSuccess(Ausschreibung result) {
-					final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+					//final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
 					final Ausschreibung a = result;
 					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
 					projektmarktplatzVerwaltung.getProjektById(result.getProjektId(), new AsyncCallback<Projekt>(){
@@ -327,6 +348,29 @@ public class MeineBewerbungenForm extends Showcase{
 									
 															@Override
 														public void onSuccess(Person result) {
+																
+																projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(localBewerbung, new AsyncCallback<Bewertung>() {
+																	
+																	@Override
+																	public void onFailure(Throwable caught) {
+																		Window.alert("Fehler: "+caught.toString());					
+																	}
+
+																	@Override
+																	public void onSuccess(Bewertung result) {	
+																		if(result != null){	
+																		localHybrid.setBewertungWert(result.getWert());	
+																		cellTable.setRowCount(hybrid.size(), true);
+																		cellTable.setRowData(0,hybrid);				
+																		}
+																		else{
+																			localHybrid.setBewertungWert(0.0);
+																			cellTable.setRowCount(hybrid.size(), true);
+																			cellTable.setRowData(0,hybrid);	
+																		}
+																	}
+																});
+																
 																localHybrid.setAnrede(result.getAnrede());
 																localHybrid.setAusschreibungsbezeichnername(result.getNachname());
 																localHybrid.setBewerbungId(localBewerbung.getId());
@@ -407,12 +451,16 @@ public class MeineBewerbungenForm extends Showcase{
 																						hybrid.add(localHybrid);
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
+																				
 																					}
 																				});
+																				
 																			}
 																		});
+																		
 																	}
 																}
+																
 															}
 														});
 													
@@ -427,5 +475,4 @@ public class MeineBewerbungenForm extends Showcase{
 							}
 	
 					 };
-
 	}
