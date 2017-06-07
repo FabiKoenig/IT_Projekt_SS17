@@ -60,7 +60,8 @@ public class MeineProjektForm extends Showcase{
 	protected void run() {		
 			
 
-//		projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback()); 
+		 
+		
 		
 		
 		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
@@ -73,7 +74,10 @@ public class MeineProjektForm extends Showcase{
 
 			@Override
 			public void onSuccess(Projektmarktplatz result) {
+			
+					
 				projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new GetProjektCallback());
+				
 				
 			}
 		});
@@ -279,14 +283,16 @@ public class MeineProjektForm extends Showcase{
 		@Override
 		public void onSuccess(Vector<Projekt> result) {
 			
+			Vector<Projekt> projekte = new Vector<>();
+			
 			for(Projekt projekt : result){
-				if(projekt.getProjektmarktplatzId()!=IdentityMarketChoice.getSelectedProjectMarketplaceId()){
-					result.remove(projekt);
+				if(projekt.getProjektleiterId() == IdentityMarketChoice.getSelectedIdentityId()){
+					projekte.add(projekt);
 				}
 			}
 			
-			dataGrid.setRowCount(result.size(), true);
-			dataGrid.setRowData(0, result);
+			dataGrid.setRowCount(projekte.size(), true);
+			dataGrid.setRowData(0, projekte);
 			
 		}
 		
