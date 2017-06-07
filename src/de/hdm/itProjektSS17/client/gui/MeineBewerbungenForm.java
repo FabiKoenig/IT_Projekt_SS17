@@ -311,7 +311,7 @@ public class MeineBewerbungenForm extends Showcase{
 							
 							// TODO Auto-generated method stub
 							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
-								Window.alert("Test");
+								
 								projektmarktplatzVerwaltung.getOrganisationseinheitById(a.getAusschreibenderId(), new AsyncCallback<Organisationseinheit>() { 
 									
 														@Override
