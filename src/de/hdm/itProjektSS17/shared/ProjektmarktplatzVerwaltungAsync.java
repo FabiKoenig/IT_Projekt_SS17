@@ -204,5 +204,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAusschreibungByBewerbung(Bewerbung b, AsyncCallback<Ausschreibung> callback);
 
+	void createBeteiligungProjektleiter(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
+			AsyncCallback<Beteiligung> callback);
+
 
 }
