@@ -62,12 +62,12 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setWidth("100%", true);
 		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
 		
-		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_projektBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
+		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_beteiligterBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
 
 			@Override
 			public String getValue(BeteiligungProjektHybrid object) {
 				// TODO Auto-generated method stub
-				return object.getProjektBezeichnung();
+				return object.getBeteiligter();
 			}
 		
 		};
@@ -102,7 +102,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 		};
 		
 		
-		dataGrid.addColumn(tc_beteiligungen_projektBez, "Beteiligter");
+		dataGrid.addColumn(tc_beteiligungen_beteiligterBez, "Beteiligter");
 		dataGrid.addColumn(tc_beteiligungen_Umfang, "Umfang");
 		dataGrid.addColumn(tc_beteiligungen_startDatum, "Startdatum");
 		dataGrid.addColumn(tc_beteiligungen_endDatum, "Enddatum");
@@ -195,14 +195,14 @@ public class BeteiligungaufProjektForm extends Showcase {
 					@Override
 					public void onSuccess(Organisationseinheit result) {
 						if(result instanceof Person){							
-							String beteiligter = ((Person) result).getVorname() + " " + ((Person) result).getNachname();
-							localHybrid.setBeteiligter(beteiligter);
+							String beteiligtePerson = ((Person) result).getVorname() + " " + ((Person) result).getNachname();
+							localHybrid.setBeteiligter(beteiligtePerson);
 						} else if(result instanceof Team){
-							String beteiligter = ((Team) result).getName();
-							localHybrid.setBeteiligter(beteiligter);
+							String beteiligtesTeam = ((Team) result).getName();
+							localHybrid.setBeteiligter(beteiligtesTeam);
 						} else if(result instanceof Unternehmen){					
-							String beteiligter = ((Unternehmen) result).getName();
-							localHybrid.setBeteiligter(beteiligter);
+							String beteiligtesUnternehmen = ((Unternehmen) result).getName();
+							localHybrid.setBeteiligter(beteiligtesUnternehmen);
 						}	
 
 						beteiligungen.add(localHybrid);
