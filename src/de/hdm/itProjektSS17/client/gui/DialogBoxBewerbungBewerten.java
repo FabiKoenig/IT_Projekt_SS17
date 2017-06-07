@@ -273,6 +273,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					else{
 					bewerbung.setId(bewertungBewerbungHybrid.getBewerbungId());
 					bewerbung.setStatus(Bewerbungsstatus.angenommen);
+					bewerbung.setBewerbungstext(bewertungBewerbungHybrid.getBewerbungstext());
 					projektmarktplatzverwaltung.saveBewerbung(bewerbung, new SaveBewerbungCallback());
 					try{
 						Date date1 = result.getStartdatum();
