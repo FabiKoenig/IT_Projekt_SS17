@@ -8,12 +8,15 @@ import java.util.Vector;
 
 import org.apache.jasper.tagplugins.jstl.core.If;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -24,6 +27,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -303,7 +307,7 @@ public class MeineProjektForm extends Showcase{
 //		@Override
 //		public void onSuccess(Person result) {
 //			projektmarktplatzVerwaltung.getProjektByForeignPerson(result, new GetProjektCallback());
-//																
+//			
 //		}
 //		
 //	}
@@ -326,7 +330,22 @@ public class MeineProjektForm extends Showcase{
 					projekte.add(projekt);
 				}
 			}
-			dataGrid.setVisibleRange(0, projekte.size());
+
+			
+			final ListDataProvider dataProvider = new ListDataProvider();
+			SimplePager pager;
+			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+			pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+			pager.setDisplay(dataGrid);
+			dataProvider.addDataDisplay(dataGrid);
+			dataProvider.setList(new ArrayList<Projekt>(projekte));
+			pager.setPageSize(20);
+			
+			HorizontalPanel hp_pager = new HorizontalPanel();
+			hp_pager.setWidth("100%");
+			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			hp_pager.add(pager);
+			add(hp_pager);
 			dataGrid.setRowCount(projekte.size(), true);
 			dataGrid.setRowData(0, projekte);
 			
