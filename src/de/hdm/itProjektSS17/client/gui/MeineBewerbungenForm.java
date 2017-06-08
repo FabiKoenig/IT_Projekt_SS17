@@ -34,6 +34,13 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
  */
 public class MeineBewerbungenForm extends Showcase{
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public MeineBewerbungenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
@@ -70,7 +77,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 		panel_Bewerbung.add(btn_bewerbungstext);
 		panel_Bewerbung.add(btn_stellungname);
-		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
+		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(identityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
 	
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	
@@ -140,11 +147,14 @@ public class MeineBewerbungenForm extends Showcase{
 			@Override
 			public String getValue(ausschreibungBewerbungHybrid object) {
 				double wert = object.getBewertungWert();
+				if(wert==0.0){
+					return "Noch nicht bewertet";
+				}
 				String stringWert = Double.toString(wert);
 				return stringWert;
 			}
 		};
-		
+
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
 		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
@@ -152,8 +162,8 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
 		cellTable.addColumn(BewertungColumn, "Bewertung");
-	
-		
+
+		cellTable.setColumnWidth(AusschreibungNameColumn, "5%");
 		cellTable.setWidth("100%");
 		
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
@@ -204,7 +214,7 @@ public class MeineBewerbungenForm extends Showcase{
 							@Override
 							public void onSuccess(Void result) {
 								Window.alert("Bewerbung wurde zurückgezogen!");
-								Navigation.reload();
+								navigation.reload();
 							}
 						});
 				}
@@ -382,7 +392,7 @@ public class MeineBewerbungenForm extends Showcase{
 						@Override
 						public void onSuccess(Projekt result) {
 							// TODO Auto-generated method stub
-							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
+							if (identityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
 								
 								projektmarktplatzVerwaltung.getPersonById(a.getAusschreibenderId(), new AsyncCallback<Person>() { 
 									
@@ -432,7 +442,7 @@ public class MeineBewerbungenForm extends Showcase{
 																	localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
 																}
 																Person p = result;
-																if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+																if(p.getId()!=identityMarketChoice.getUser().getId()){
 																	if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																		
 																		localHybrid.setTeam("Kein Team");

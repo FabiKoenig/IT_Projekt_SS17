@@ -321,12 +321,12 @@ implements ProjektmarktplatzVerwaltung {
 	 * Anlegen eines Person-Objekts.
 	 */
 	@Override
-	public Person createPerson(String vorname, String nachname, String anrede, 
-
+	public Person createPerson(String email, String vorname, String nachname, String anrede, 
 		String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException {
 				
 		Person p = new Person();
-		p.setId(1);
+		p.setId(0);
+		p.setEmail(email);
 		p.setVorname(vorname);
 		p.setNachname(nachname);
 		p.setAnrede(anrede);
@@ -1536,6 +1536,11 @@ implements ProjektmarktplatzVerwaltung {
 		
 		return this.beteiligungMapper.insertProjektleiter(b);
 		
+	}
+
+	@Override
+	public Vector<Person> getAllPersonen() throws IllegalArgumentException {
+		return this.personMapper.getAllPersonen();
 	}
 	
 

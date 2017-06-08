@@ -42,6 +42,14 @@ import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 
 public class MeineProjektForm extends Showcase{
+	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public MeineProjektForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
@@ -65,12 +73,7 @@ public class MeineProjektForm extends Showcase{
 	@Override
 	protected void run() {		
 			
-
-		 
-		
-		
-		
-		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
+		projektmarktplatzVerwaltung.getProjektmarktplatzById(identityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -94,7 +97,7 @@ public class MeineProjektForm extends Showcase{
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			DialogBoxProjektAnlegen dpa = new DialogBoxProjektAnlegen();
+			DialogBoxProjektAnlegen dpa = new DialogBoxProjektAnlegen(identityMarketChoice, navigation);
 			int left = Window.getClientWidth() / 3;
 			int top = Window.getClientHeight() / 8;
 			dpa.setPopupPosition(left, top);
@@ -172,7 +175,7 @@ public class MeineProjektForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBoxAusschreibungAnlegen daa = new DialogBoxAusschreibungAnlegen(selectionModel.getSelectedObject());
+				DialogBoxAusschreibungAnlegen daa = new DialogBoxAusschreibungAnlegen(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
 				int left = Window.getClientWidth() / 3;
 				int top = Window.getClientHeight() / 8;
 				daa.setPopupPosition(left, top);
@@ -192,7 +195,7 @@ public class MeineProjektForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				if(selectionModel.getSelectedObject() != null){
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new AusschreibungenaufProjektForm(selectionModel.getSelectedObject()));
+					RootPanel.get("Details").add(new AusschreibungenaufProjektForm(selectionModel.getSelectedObject(), navigation));
 					
 				} else {
 					Window.alert("Bitte wähle zuerst eine Projekt aus.");
@@ -214,7 +217,7 @@ public class MeineProjektForm extends Showcase{
 						}
 						else {
 						
-							DialogBoxProjektBearbeiten dpb = new DialogBoxProjektBearbeiten(selectionModel.getSelectedObject());
+							DialogBoxProjektBearbeiten dpb = new DialogBoxProjektBearbeiten(selectionModel.getSelectedObject(), navigation);
 							int left = Window.getClientWidth() / 3;
 							int top = Window.getClientHeight() / 8;
 							dpb.setPopupPosition(left, top);
@@ -236,7 +239,7 @@ public class MeineProjektForm extends Showcase{
 						public void onSuccess(Void result) {
 							
 							Window.alert("Das Löschen des Projektes war erfolgreich");
-							Navigation.reload();
+							navigation.reload();
 						}
 						
 						@Override
@@ -259,7 +262,7 @@ public class MeineProjektForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				if(selectionModel.getSelectedObject() != null){
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new BeteiligungaufProjektForm(selectionModel.getSelectedObject()));
+					RootPanel.get("Details").add(new BeteiligungaufProjektForm(selectionModel.getSelectedObject(), navigation));
 					
 				} else {
 					Window.alert("Bitte wähle zuerst eine Projekt aus.");
@@ -326,7 +329,7 @@ public class MeineProjektForm extends Showcase{
 			Vector<Projekt> projekte = new Vector<>();
 			
 			for(Projekt projekt : result){
-				if(projekt.getProjektleiterId() == IdentityMarketChoice.getSelectedIdentityId()){
+				if(projekt.getProjektleiterId() == identityMarketChoice.getSelectedIdentityId()){
 					projekte.add(projekt);
 				}
 			}

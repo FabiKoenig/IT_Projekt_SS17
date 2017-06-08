@@ -36,13 +36,15 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 	DateBox db_bewerbungsfrist = new DateBox();
 	Label lbl_ausschreibungstext = new Label("Ausschreibungstext: ");
 	TextArea txta_ausschreibungstext = new TextArea();
-	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel hp = new HorizontalPanel();
 	
-	public DialogBoxAusschreibungAnlegen(Projekt p) {
-		
+	public DialogBoxAusschreibungAnlegen(Projekt p, IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		final Projekt projekt = p;
 		this.setText("Ausschreibung anlegen...");
 		this.setAnimationEnabled(false);
@@ -117,7 +119,7 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		@Override
 		public void onSuccess(Partnerprofil result) {
 			
-			projektmarktplatzVerwaltung.createAusschreibung(txt_bezeichnung.getText(), db_bewerbungsfrist.getValue(), txta_ausschreibungstext.getText(), pro.getId(), IdentityMarketChoice.getSelectedIdentityId(), result.getId(), new AusschreibungAnlegenCallback());
+			projektmarktplatzVerwaltung.createAusschreibung(txt_bezeichnung.getText(), db_bewerbungsfrist.getValue(), txta_ausschreibungstext.getText(), pro.getId(), identityMarketChoice.getSelectedIdentityId(), result.getId(), new AusschreibungAnlegenCallback());
 
 		}
 		
@@ -136,7 +138,7 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		
 			Window.alert("Das Anlegen der Anschreibung war erfolgreich.");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 			
 		}
 		

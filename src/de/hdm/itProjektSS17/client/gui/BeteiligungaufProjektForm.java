@@ -41,9 +41,12 @@ public class BeteiligungaufProjektForm extends Showcase {
 	public Vector<BeteiligungProjektHybrid> beteiligungen = new Vector<BeteiligungProjektHybrid>();
 
 	Button btn_zurueck = new Button("Zurück");
+	Navigation navigation = null;
+	
 	private Projekt p ;
-	public BeteiligungaufProjektForm(Projekt P){
+	public BeteiligungaufProjektForm(Projekt P, Navigation navigation){
 		this.p = P ;
+		this.navigation=navigation;
 	}
 	
 	
@@ -136,8 +139,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineProjektForm());				
+				navigation.reload();			
 			}
 		});
 		

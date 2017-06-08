@@ -22,6 +22,8 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Person getPerson() throws IllegalArgumentException;
 	
+	public Vector<Person> getAllPersonen() throws IllegalArgumentException;
+	
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId) throws IllegalArgumentException;
 	
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext, int projektId, int ausschreibenderId, int partnerprofilId) throws IllegalArgumentException;
@@ -39,7 +41,7 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 			String ort, int partnerprofilId, Integer unternehmenId) throws IllegalArgumentException;
 
 	
-	public Person createPerson(String vorname, String nachname, String anrede, 
+	public Person createPerson(String email, String vorname, String nachname, String anrede, 
 			String strasse, String hausnr, int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId) throws IllegalArgumentException;
 	
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException;

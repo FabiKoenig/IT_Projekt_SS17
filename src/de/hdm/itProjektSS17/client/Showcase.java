@@ -2,6 +2,8 @@ package de.hdm.itProjektSS17.client;
 
 import com.google.gwt.user.client.ui.*;
 
+import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
+
 /**
  * Diese Klasse ist die Basisklasse aller Showcases. Jeder Showcase ist ein
  * VerticalPanel und lässt sich somit unter GWT entsprechend anordnen.
@@ -81,4 +83,5 @@ public void onLoad() {
    * Abstrakte Einschubmethode, die in den Subklassen zu realisieren ist.
    */
   protected abstract void run();
+  
 }

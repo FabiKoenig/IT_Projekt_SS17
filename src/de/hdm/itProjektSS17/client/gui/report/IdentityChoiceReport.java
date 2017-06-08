@@ -19,8 +19,6 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class IdentityChoiceReport extends FlexTable{
 
-	private static int currentLogin = 3;
-	private static IdentityChoiceReport navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
 	private static ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
@@ -28,7 +26,7 @@ public class IdentityChoiceReport extends FlexTable{
 	private static Team team;
 	private static Unternehmen unternehmen;
 	
-	private IdentityChoiceReport(int id){
+	public IdentityChoiceReport(int id){
 		
 		this.setWidget(1, 0, new Label("Nutze Identität von: "));		
 		this.setWidget(1, 1, ownOrgUnits);
@@ -47,14 +45,6 @@ public class IdentityChoiceReport extends FlexTable{
 			}
 		});
 		
-	}
-	
-	public static IdentityChoiceReport getNavigation(){
-		//Falls bis jetzt noch keine PMV Instanz bestand
-		if (navigation == null){
-			navigation = new IdentityChoiceReport(currentLogin);
-		}
-		return navigation;
 	}
 	
 	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
@@ -79,8 +69,8 @@ public class IdentityChoiceReport extends FlexTable{
 		}
 	
 		
-		public static Organisationseinheit getSelectedIdentityAsObject(){
-
+		public Organisationseinheit getSelectedIdentityAsObject(){
+			Window.alert("triggered");
 			if(person.getTeamId()!=null){
 				if(ownOrgUnits.getSelectedIndex()==0){
 					return person;
@@ -91,6 +81,7 @@ public class IdentityChoiceReport extends FlexTable{
 				}
 			}else if(person.getTeamId()==null){
 				if(ownOrgUnits.getSelectedIndex()==0){
+					Window.alert("triggered2");
 					return person;
 				}else if(ownOrgUnits.getSelectedIndex()==1){
 					return unternehmen;

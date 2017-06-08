@@ -28,6 +28,7 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 public class AusschreibungenaufProjektForm extends Showcase{
 
 	
+	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -35,6 +36,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	Vector<Ausschreibung> ausschreibung = new Vector<Ausschreibung>();
 	
 	Button btn_zurueck = new Button("Zurück");
+	Navigation navigation = null;
 	
 	private Projekt p;
 	
@@ -44,11 +46,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 
 	}
 	
-	public  AusschreibungenaufProjektForm(Projekt p) {
+	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation) {
 		this.p = p;
-		
-		
-		
+		this.navigation=navigation;	
 	}
 	
 	
@@ -73,22 +73,6 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			}
 		
 		}
-		
-	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-		}
-
-		@Override
-		public void onSuccess(Organisationseinheit result) {		
-			if (result != null) {
-				projektmarktplatzVerwaltung.getAusschreibungByForeignOrganisationseinheit(result, new GetAusschreibungenByOrgaCallback());
-			}			
-		}
-	
-	}
 	
 	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
 
@@ -191,8 +175,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineProjektForm());				
+				navigation.reload();
 			}
 		});
 		

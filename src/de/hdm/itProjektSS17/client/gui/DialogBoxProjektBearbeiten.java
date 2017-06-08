@@ -40,8 +40,10 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 	DateBox db_enddatum = new DateBox();
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel hp = new HorizontalPanel();
+	private Navigation navigation=null;
 	
-	public DialogBoxProjektBearbeiten(Projekt p) {
+	public DialogBoxProjektBearbeiten(Projekt p, Navigation navigation) {
+		this.navigation=navigation;
 		this.setText("Projekt bearbeiten");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
@@ -132,7 +134,7 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Das Projekt wurde erfolgreich gespeichert.");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 			
 		}
 		
