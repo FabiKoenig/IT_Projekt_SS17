@@ -105,6 +105,8 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			if(result != null){
 				//Anpassen der CellTable
 				
+				
+				
 				dataGrid.setRowCount(result.size(), true);
 				dataGrid.setRowData(0, result);
 			
