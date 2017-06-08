@@ -69,8 +69,13 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	ListBox lb_Bewertung = new ListBox();
 	String[] bewertungen = { "0,1", "0,2", "0,3", "0,4", "0,5", "0,6", "0,7", "0,8", "0,9", "1,0" };
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
 	//Konstruktor erstellen
-	public DialogBoxBewerbungBewerten(BewertungBewerbungHybrid bbh) {
+	public DialogBoxBewerbungBewerten(BewertungBewerbungHybrid bbh, IdentityMarketChoice identityMarketChoice, final Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		this.setText("Bewerbung bewerten");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
@@ -182,12 +187,12 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.abgelehnt){
 							Window.alert("Bewerber wurde bereits abgelehnt!");
 							hide();
-							Navigation.reload();
+							navigation.reload();
 						}
 						else if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.angenommen){
 							Window.alert("Der Bewerber wurde bereits angenommen!");
 							hide();
-							Navigation.reload();
+							navigation.reload();
 						}
 						else{
 						Bewerbung b = new Bewerbung();
@@ -196,7 +201,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						projektmarktplatzverwaltung.saveBewerbung(b, new SaveBewerbungCallback());
 						Window.alert("Der Bewerber wurde abgelehnt!");
 						hide();
-						Navigation.reload();
+						navigation.reload();
 						}
 					}
 				});
@@ -213,7 +218,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Die Bewertung wurde erfolgreich gespeichert.");
 			hide();		
-			Navigation.reload();
+			navigation.reload();
 		}
 	}
 	
@@ -227,7 +232,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Die Bewertung wurde erfolgreich gespeichert.");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 		}
 	}
 	
@@ -241,7 +246,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		public void onSuccess(Bewertung result) {
 			Window.alert("Die Bewertung wurde erfolgreich angelegt.");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 		}
 	}
 	
@@ -300,7 +305,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		public void onSuccess(Beteiligung result) {
 			Window.alert("Der Bewerber wurde angenommen!");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 		}
 	}
 }

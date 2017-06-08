@@ -23,9 +23,13 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
-	public DialogBoxUnternehmenHinzufuegen(Person person, Team team){
+	public DialogBoxUnternehmenHinzufuegen(Person person, Team team, IdentityMarketChoice identityMarketChoice, Navigation navigation){
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		this.center();
@@ -95,8 +99,8 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 		public void onSuccess(Void result) {
 			Window.alert("Das Unternehmen wurde erfolgreich übernommen.");
 			hide();
-			IdentityMarketChoice.getNavigation().reinitialize();
-			Navigation.reload();
+			identityMarketChoice.reinitialize();
+			navigation.reload();
 		}
 		
 	}

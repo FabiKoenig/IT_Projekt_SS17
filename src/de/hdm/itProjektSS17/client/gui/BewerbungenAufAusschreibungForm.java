@@ -45,12 +45,15 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
 	Button partnerprofilAnzeigen = new Button("Partnerprofil des Bewerbers");
 	Button zurueckButton = new Button("Zurück");
+	Navigation navigation = null;
+	private IdentityMarketChoice identityMarketChoice=null;
 
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
-	public BewerbungenAufAusschreibungForm(int ausschreibungId){
-		
+	public BewerbungenAufAusschreibungForm(int ausschreibungId, final Navigation navigation, final IdentityMarketChoice identityMarketChoice){
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		projektmarktplatzVerwaltung.getBewerbungByForeignAusschreibungId(ausschreibungId, new GetBewerbungenCallback());
@@ -161,7 +164,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		 */
 		bewerbungBewertenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject());
+				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
 				int left = Window.getClientWidth() / 3;
 				int top = Window.getClientHeight() / 8;
 				dbb.setPopupPosition(left, top);
@@ -187,8 +190,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineAusschreibungenForm());				
+				navigation.reload();				
 			}
 		});
 		
@@ -200,7 +202,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 					int partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
 				
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, true));
+					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, true, identityMarketChoice, navigation));
 					
 					} else {
 						Window.alert("Bitte wähle zuerst eine Bewerbung aus.");

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.Impressum;
+import de.hdm.itProjektSS17.client.gui.Navigation;
 import de.hdm.itProjektSS17.client.gui.StartseiteForm;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
 
@@ -43,7 +44,7 @@ public class NavigationReport extends StackPanel {
 	Button showProjektverflechtungenButton = new Button("Projektverflechtungen anzeigen");
 	Button showFanInFanOutAnalyseButton = new Button("Fan-in/Fan-out Analyse");
 	
-	public NavigationReport(){
+	public NavigationReport(final IdentityChoiceReport identityChoiceReport){
 	//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
@@ -91,8 +92,6 @@ public class NavigationReport extends StackPanel {
 //	Anlegen der ClickHandler
 		homeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(new StartseiteForm());
 				currentClickHandler=this;
@@ -102,8 +101,6 @@ public class NavigationReport extends StackPanel {
 		
 		impressumButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(new Impressum());
 			}
@@ -111,8 +108,6 @@ public class NavigationReport extends StackPanel {
 //		
 		showAusschreibungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcaseReport = new AlleAusschreibungenShowcase();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
@@ -135,9 +130,7 @@ public class NavigationReport extends StackPanel {
 //		
 		showAllBewerbungenFromUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new AlleBewerungenAufEigeneAusschreibungenShowcase();
+				Showcase showcaseReport = new AlleBewerungenAufEigeneAusschreibungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -147,9 +140,7 @@ public class NavigationReport extends StackPanel {
 		
 		showBewerbungenAusschreibungenFromUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new MeineBewerbungenShowcase();
+				Showcase showcaseReport = new MeineBewerbungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -159,9 +150,7 @@ public class NavigationReport extends StackPanel {
 		
 		showProjektverflechtungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new ProjektverflechtungenShowcase();
+				Showcase showcaseReport = new ProjektverflechtungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -171,8 +160,6 @@ public class NavigationReport extends StackPanel {
 		
 		showFanInFanOutAnalyseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcaseReport = new FanInFanOutShowcase();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);

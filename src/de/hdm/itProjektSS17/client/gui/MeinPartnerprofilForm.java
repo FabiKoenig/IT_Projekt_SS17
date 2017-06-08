@@ -34,6 +34,15 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class MeinPartnerprofilForm extends Showcase{
 
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public MeinPartnerprofilForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
+
+
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static int partnerprofilId = 0;
 	
@@ -57,7 +66,7 @@ public class MeinPartnerprofilForm extends Showcase{
 		dataGrid.setWidth("100%", true);
 		
 		//CallBack um die Eigenschaften der gewünschten Person zu laden
-		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
+		projektmarktplatzVerwaltung.getOrganisationseinheitById(identityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -118,7 +127,7 @@ public class MeinPartnerprofilForm extends Showcase{
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId);
+				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId, navigation, identityMarketChoice);
 				gg.center();
 				gg.show();
 			}
@@ -133,10 +142,7 @@ public class MeinPartnerprofilForm extends Showcase{
 					}
 					public void onSuccess(Void result) {
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
-						
-						Showcase showcase = new MeinPartnerprofilForm();
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(showcase);
+						navigation.reload();
 					}
 				});
 				
