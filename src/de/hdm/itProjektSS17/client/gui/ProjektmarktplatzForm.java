@@ -2,20 +2,26 @@ package de.hdm.itProjektSS17.client.gui;
 
 import de.hdm.itProjektSS17.client.Showcase;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.aria.client.SelectedValue;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -26,6 +32,7 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltung;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Person;
+import de.hdm.itProjektSS17.shared.bo.Projekt;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 public class ProjektmarktplatzForm extends Showcase {
@@ -217,8 +224,12 @@ public class ProjektmarktplatzForm extends Showcase {
 						}
 						if(result != null && projektmarktplaetzeGefiltert != null){
 							
+							
 							ct_fremdeProjektmarktplaetze.setRowData(0, projektmarktplaetzeGefiltert);
 							ct_fremdeProjektmarktplaetze.setRowCount(projektmarktplaetzeGefiltert.size(), true);
+							
+							
+							
 							ct_eigeneProjektmarktplaetze.setRowData(0, result);
 							ct_eigeneProjektmarktplaetze.setRowCount(result.size(), true);
 							}

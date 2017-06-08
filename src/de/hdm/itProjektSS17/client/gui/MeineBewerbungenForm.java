@@ -1,18 +1,24 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -405,27 +411,54 @@ public class MeineBewerbungenForm extends Showcase{
 																					public void onSuccess(Unternehmen result) {
 																						localHybrid.setUnternehmen(result.getName());
 																						hybrid.add(localHybrid);
+																						
+																						
+																		
+																						
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
+																						
+																						
 																					}
 																				});
+																				
+																				
 																			}
 																		});
+																		
 																	}
 																}
 															}
+															
 														});
 													
+								
 													}
 												}
 											});
+					
 										}
 						
 									});
 					
-								}	
+								}
+			final ListDataProvider dataProvider = new ListDataProvider();
+			SimplePager pager;
+			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+			pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+			pager.setDisplay(cellTable);
+			dataProvider.addDataDisplay(cellTable);
+			dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
+			pager.setPageSize(20);
+			
+			HorizontalPanel hp_pager = new HorizontalPanel();
+			hp_pager.setWidth("100%");
+			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			hp_pager.add(pager);
+			add(hp_pager);
 							}
 	
+							
 					 };
 
 	}
