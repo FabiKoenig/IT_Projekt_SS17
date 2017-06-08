@@ -191,15 +191,52 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						}
 						else{
 						Bewerbung b = new Bewerbung();
-						b.setId(bewertungBewerbungHybrid.getBewerbungId());
+						Bewertung bewertung = new Bewertung();
+						
 						b.setStatus(Bewerbungsstatus.abgelehnt);
+						b.setOrganisationseinheitId(bewertungBewerbungHybrid.getBewerberId());	
+						b.setId(bewertungBewerbungHybrid.getBewerbungId());
+						b.setBewerbungstext(bewertungBewerbungHybrid.getBewerbungstext());
+						b.setAusschreibungId(bewertungBewerbungHybrid.getAusschreibungId());
+						b.setErstellungsdatum(bewertungBewerbungHybrid.getErstellungsdatum());
 						projektmarktplatzverwaltung.saveBewerbung(b, new SaveBewerbungCallback());
-						Window.alert("Der Bewerber wurde abgelehnt!");
-						hide();
-						Navigation.reload();
+						
+						try{
+							//Bewertung aus Listbox ziehen und in double umwandeln
+									String numberString = lb_Bewertung.getSelectedItemText();
+									Double number = NumberFormat.getDecimalFormat().parse(numberString);
+									double number2 = number /10;
+									
+									bewertung.setWert(number2);
+									bewertungBewerbungHybrid.setBewertungWert(number2);
+									
+								
+							//Werte setzen
+								bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
+								bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
+								bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());
+								
+								projektmarktplatzverwaltung.createBewertung(new Date(), bewertung.getStellungnahme(), bewertung.getWert(), bewertung.getBewerbungId(), new AsyncCallback<Bewertung>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									Window.alert("Das Erstellen der Bewertung ist fehlgeschlagen!");
+								}
+
+								@Override
+								public void onSuccess(Bewertung result) {
+									Window.alert("Der Bewerber wurde abgelehnt!");
+									hide();		
+									Navigation.reload();
+								}
+							});
+						} catch (Exception e) {
+							e.getStackTrace();
 						}
+							
 					}
-				});
+				}
+			});
 	}			
 	
 
@@ -269,6 +306,7 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					bewertungBewerbungHybrid.setStartdatum(result.getStartdatum());
 					bewertungBewerbungHybrid.setEnddatum(result.getEnddatum());
 					bewertungBewerbungHybrid.setProjektId(result.getId());
+					
 					if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.angenommen){
 						Window.alert("Der Bewerber wurde bereits angenommen!");
 					}
@@ -279,6 +317,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					bewerbung.setOrganisationseinheitId(bewertungBewerbungHybrid.getBewerberId());	
 					bewerbung.setId(bewertungBewerbungHybrid.getBewerbungId());
 					bewerbung.setStatus(Bewerbungsstatus.angenommen);
+					bewerbung.setBewerbungstext(bewertungBewerbungHybrid.getBewerbungstext());
+					bewerbung.setAusschreibungId(bewertungBewerbungHybrid.getAusschreibungId());
+					bewerbung.setErstellungsdatum(bewertungBewerbungHybrid.getErstellungsdatum());
 					
 					
 					projektmarktplatzverwaltung.saveBewerbung(bewerbung, new SaveBewerbungCallback());
