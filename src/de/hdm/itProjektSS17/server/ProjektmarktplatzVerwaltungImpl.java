@@ -1534,7 +1534,7 @@ implements ProjektmarktplatzVerwaltung {
 		b.setProjektId(projektId);
 		
 		
-		return this.beteiligungMapper.insert(b);
+		return this.beteiligungMapper.insertProjektleiter(b);
 		
 	}
 	

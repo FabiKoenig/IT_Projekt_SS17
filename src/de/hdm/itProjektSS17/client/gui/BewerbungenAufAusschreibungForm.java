@@ -223,8 +223,10 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private int ausschreibungId;
 		private int projektId;
 		private int partnerprofilId;
-
+		private int umfang;
 		private int bewerberId;
+		private Date startdatum;
+		private Date enddatum;
 
 		
 		public int getBewertungId() {
@@ -323,6 +325,30 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setBewerberId(int bewerberId) {
 			this.bewerberId = bewerberId;
 		}
+
+		public int getUmfang() {
+			return umfang;
+		}
+
+		public void setUmfang(int umfang) {
+			this.umfang = umfang;
+		}
+
+		public Date getStartdatum() {
+			return startdatum;
+		}
+
+		public void setStartdatum(Date startdatum) {
+			this.startdatum = startdatum;
+		}
+
+		public Date getEnddatum() {
+			return enddatum;
+		}
+
+		public void setEnddatum(Date enddatum) {
+			this.enddatum = enddatum;
+		}
 		
 
 		
@@ -341,6 +367,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			for(int i=0;i<bewerbungen.size();i++){
 				
 				final BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
+				localHybrid.setBewerberId(bewerbungen.get(i).getOrganisationseinheitId());
 				
 				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.get(i), new AsyncCallback<Bewertung>() {
 					public void onFailure(Throwable caught) {

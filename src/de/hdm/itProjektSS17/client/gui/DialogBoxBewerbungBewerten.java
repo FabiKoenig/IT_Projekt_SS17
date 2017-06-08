@@ -265,6 +265,10 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				@Override
 				public void onSuccess(Projekt result) {	
 					Bewerbung bewerbung = new Bewerbung();
+					Bewertung bewertung = new Bewertung();
+					bewertungBewerbungHybrid.setStartdatum(result.getStartdatum());
+					bewertungBewerbungHybrid.setEnddatum(result.getEnddatum());
+					bewertungBewerbungHybrid.setProjektId(result.getId());
 					if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.angenommen){
 						Window.alert("Der Bewerber wurde bereits angenommen!");
 					}
@@ -281,11 +285,40 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					try{
 						Date date1 = result.getStartdatum();
 						Date date2 = result.getEnddatum();
-						int umfang = date2.compareTo(date1);
-						projektmarktplatzverwaltung.createBeteiligung(umfang, result.getStartdatum(), result.getEnddatum(), bewerbung.getOrganisationseinheitId(), result.getId(), bewertungBewerbungHybrid.getBewertungId(), new BeteiligungErstelltCallback());
-					}catch(Exception e){
-						e.printStackTrace();
+						int umfang = (int)( (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) ) + 1;
+						bewertungBewerbungHybrid.setUmfang(umfang);
+						//Bewertung aus Listbox ziehen und in double umwandeln
+							
+								String numberString = lb_Bewertung.getSelectedItemText();
+								Double number = NumberFormat.getDecimalFormat().parse(numberString);
+								double number2 = number /10;
+								
+								bewertung.setWert(number2);
+								bewertungBewerbungHybrid.setBewertungWert(number2);
+								
+							
+						//Werte setzen
+							bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
+							bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
+							bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());
+							
+							projektmarktplatzverwaltung.createBewertung(new Date(), bewertung.getStellungnahme(), bewertung.getWert(), bewertung.getBewerbungId(), new AsyncCallback<Bewertung>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Das Erstellen der Beteiligung ist Fehlgeschlagen!");
+							}
+
+							@Override
+							public void onSuccess(Bewertung result) {
+								
+								projektmarktplatzverwaltung.createBeteiligung(bewertungBewerbungHybrid.getUmfang(), bewertungBewerbungHybrid.getStartdatum(), bewertungBewerbungHybrid.getEnddatum(), bewertungBewerbungHybrid.getBewerberId(), bewertungBewerbungHybrid.getProjektId(), result.getId(), new BeteiligungErstelltCallback());
+							}
+						});
+					} catch (Exception e) {
+						e.getStackTrace();
 					}
+						
 				}
 			}
 		}
