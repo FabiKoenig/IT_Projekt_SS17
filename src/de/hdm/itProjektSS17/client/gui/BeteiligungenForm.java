@@ -69,7 +69,7 @@ public class BeteiligungenForm extends Showcase{
 			@Override
 			public String getValue(BeteiligungProjektHybrid object) {
 				Integer umfangTemp = object.getBeteiligungUmfang();
-				return umfangTemp.toString();
+				return umfangTemp.toString() + " Tage";
 			}
 		
 		};
