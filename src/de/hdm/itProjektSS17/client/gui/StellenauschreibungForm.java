@@ -32,6 +32,14 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 public class StellenauschreibungForm extends Showcase {
 
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public StellenauschreibungForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
+	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 //	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
 //	private static  Vector<Projekt> projekte = new Vector<>();
@@ -72,7 +80,7 @@ public class StellenauschreibungForm extends Showcase {
 		panel_Ausschreibung.add(btn_bewerben);
 		panel_Ausschreibung.add(btn_partnerprofilAnzeigen);
 		
-		projektmarktplatzVerwaltung.getProjektmarktplatzById(IdentityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
+		projektmarktplatzVerwaltung.getProjektmarktplatzById(identityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
 
 			 @Override
 				public void onFailure(Throwable caught) {
@@ -146,7 +154,7 @@ public class StellenauschreibungForm extends Showcase {
 															localHybrid.setAusschreibender(result.getNachname());
 															
 															Person p = result;
-															if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+															if(p.getId()!=identityMarketChoice.getUser().getId()){
 																
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																	
@@ -346,7 +354,7 @@ public class StellenauschreibungForm extends Showcase {
 				{
 					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus auf die Sie sich bewerben möchten");
 				}
-				projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new AsyncCallback<Vector<Bewerbung>>() {
+				projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(identityMarketChoice.getSelectedIdentityAsObject(), new AsyncCallback<Vector<Bewerbung>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -364,7 +372,7 @@ public class StellenauschreibungForm extends Showcase {
 						if(bereitsBeworben==true){
 							Window.alert("Sie haben sich bereits auf die Ausschreibung beworben! Bitte wählen Sie eine andere Ausschreibung!");
 						}else{
-							DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId());
+							DialogBoxBewerben text = new DialogBoxBewerben(selectionModel.getSelectedObject().getAusschreibungId(), identityMarketChoice, navigation);
 							int left = Window.getClientWidth() / 3;
 							int top = Window.getClientHeight() / 8;
 							text.setPopupPosition(left, top);
@@ -384,7 +392,7 @@ public class StellenauschreibungForm extends Showcase {
 					Window.alert("Bitte wählen Sie eine Stellenausschreibung aus");
 				}else{
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId()));
+				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId(), true, identityMarketChoice, navigation));
 				}}
 		});
 		

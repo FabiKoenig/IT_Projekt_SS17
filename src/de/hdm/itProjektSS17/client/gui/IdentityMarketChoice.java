@@ -32,21 +32,20 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
-	private static int currentLogin = 3;
-	private static IdentityMarketChoice navigation=null;
-	private static ListBox ownOrgUnits = new ListBox();
-	private static ListBox ownProjectMarkets = new ListBox();
+	private ListBox ownOrgUnits = new ListBox();
+	private ListBox ownProjectMarkets = new ListBox();
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
-	private static ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private static Person person;
-	private static Team team;
-	private static Unternehmen unternehmen;
-	private static Projektmarktplatz projektmarktplatz;
-	private static Vector<Projektmarktplatz> projektmarktplaetze;
+	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	private Person person;
+	private Team team;
+	private Unternehmen unternehmen;
+	private Vector<Projektmarktplatz> projektmarktplaetze;
+	private Navigation navigation;
+	private boolean isMarktplatzSet = false;
 	
 	
-	private IdentityMarketChoice (int id){
-		
+	public IdentityMarketChoice (int id, final Navigation navigation){
+		this.navigation=navigation;
 		this.setWidget(1, 0, new Label("Nutze Identität von: "));		
 		this.setWidget(1, 1, ownOrgUnits);
 		this.setStylePrimaryName("IdentityPanel");
@@ -62,7 +61,7 @@ public class IdentityMarketChoice extends FlexTable{
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				Navigation.reload();
+				navigation.reload();
 			}
 		});
 		
@@ -70,21 +69,13 @@ public class IdentityMarketChoice extends FlexTable{
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				Navigation.reload();
+				navigation.reload();
 			}
 		});
 		
 	}
 	
-	public static IdentityMarketChoice getNavigation(){
-		//Falls bis jetzt noch keine PMV Instanz bestand
-		if (navigation == null){
-			navigation = new IdentityMarketChoice(currentLogin);
-		}
-		return navigation;
-	}
-	
-	public static int getSelectedIndex(){
+	public int getSelectedIndex(){
 		
 		int selectedIdentity = ownOrgUnits.getSelectedIndex();
 		
@@ -92,7 +83,7 @@ public class IdentityMarketChoice extends FlexTable{
 	}
 	
 	//Gibt die Id einer Person, eines Teams oder eines Unternehmens zurück
-	public static int getSelectedIdentityId(){		
+	public int getSelectedIdentityId(){		
 		if(person.getTeamId()!=null){
 			if(ownOrgUnits.getSelectedIndex()==0){
 				return person.getId();
@@ -112,7 +103,7 @@ public class IdentityMarketChoice extends FlexTable{
 		return 0;
 	}
 	
-	public static Organisationseinheit getSelectedIdentityAsObject(){
+	public Organisationseinheit getSelectedIdentityAsObject(){
 
 		if(person.getTeamId()!=null){
 			if(ownOrgUnits.getSelectedIndex()==0){
@@ -133,7 +124,7 @@ public class IdentityMarketChoice extends FlexTable{
 		return null;
 	}
 	
-	public static int getSelectedProjectMarketplaceId(){
+	public int getSelectedProjectMarketplaceId(){
 		for(Projektmarktplatz p : projektmarktplaetze){
 			if(p.getBezeichnung()==ownProjectMarkets.getSelectedItemText()){
 				return p.getId();
@@ -142,44 +133,56 @@ public class IdentityMarketChoice extends FlexTable{
 		return 0;
 	}
 	
-	public static Person getUser(){
+	public Person getUser(){
 		return person;
 	}
 	
-	public static Team getTeamOfUser(){
+	public Team getTeamOfUser(){
 		return team;
 	}
 	
-	public static Unternehmen getUnternehmenOfUser(){
+	public Unternehmen getUnternehmenOfUser(){
 		return unternehmen;
 	}
 	
-	public static ListBox getOwnOrgUnits(){
+	public ListBox getOwnProjectMarkets(){
+		return ownProjectMarkets;
+	}
+	
+	public ListBox getOwnOrgUnits(){
 		return ownOrgUnits;
 	}
 	
-	public static void deactivateOrgUnits(){
+	public void deactivateOrgUnits(){
 		ownOrgUnits.setEnabled(false);
 	}
 	
-	public static void deactivateProjectMarkets(){
+	public void deactivateProjectMarkets(){
 		ownProjectMarkets.setEnabled(false);
 	}
 	
-	public static void activateOrgUnits(){
+	public void activateOrgUnits(){
 		ownOrgUnits.setEnabled(true);
 	}
 	
-	public static void activateProjectMarkets(){
+	public void activateProjectMarkets(){
 		ownProjectMarkets.setEnabled(true);
 	}
 	
-	public static void setOwnOrgUnitToZero(){
+	public void setOwnOrgUnitToZero(){
 		ownOrgUnits.setSelectedIndex(0);
 	}
 	
 	public void reinitialize(){
-		projektmarktplatzVerwaltung.getPersonById(currentLogin, new getUser());
+		projektmarktplatzVerwaltung.getPersonById(person.getId(), new getUser());
+	}
+	
+	private IdentityMarketChoice getThis(){
+		return this;
+	}
+	
+	public boolean getisMarktplatzSet(){
+		return isMarktplatzSet;
 	}
 	
 	
@@ -262,13 +265,19 @@ public class IdentityMarketChoice extends FlexTable{
 		@Override
 		public void onSuccess(Vector<Projektmarktplatz> result) {
 			if(result!=null){
-				for(Projektmarktplatz p : result){
+				if(result.isEmpty()){
+					ownProjectMarkets.addItem("Bitte einen Marktplatz hinzufügen!");
+					navigation.getProjektmarktplaetzeButton().click();
+					RootPanel.get("Navigator").clear();
+				}else{		
+					isMarktplatzSet=true;
+					for(Projektmarktplatz p : result){
 					ownProjectMarkets.addItem(p.getBezeichnung());
+					}
+					projektmarktplaetze = result;
+					RootPanel.get("Navigator").add(navigation);
 				}
-				projektmarktplaetze = result;
 			}
 		}
-		
 	}
-
 }

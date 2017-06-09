@@ -29,6 +29,17 @@ import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 public class ProjektmarktplatzForm extends Showcase {
+	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public ProjektmarktplatzForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+		identityMarketChoice.setOwnOrgUnitToZero();
+		identityMarketChoice.deactivateProjectMarkets();
+		identityMarketChoice.deactivateOrgUnits();
+	}
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static  Vector<Projektmarktplatz> projektmarktplaetzeGefiltert = new Vector<>();
@@ -74,16 +85,17 @@ public class ProjektmarktplatzForm extends Showcase {
 		btn_projektmarktplatzuebernehmen.setStylePrimaryName("navi-button");
 		
 		//Hinzufügen der Buttons zum Panel
+			panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
+			panel_projektmarktplatz.add(btn_projektmarktplatzTeilnahmeentfernen);
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
-		panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
 		panel_projektmarktplatz.add(btn_projektmarktplatzuebernehmen);
-		panel_projektmarktplatz.add(btn_projektmarktplatzTeilnahmeentfernen);
+
 		
 		btn_projektmarktplatzanlegen.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBoxProjektmarktplatzErstellen dbErstellen = new DialogBoxProjektmarktplatzErstellen();
+				DialogBoxProjektmarktplatzErstellen dbErstellen = new DialogBoxProjektmarktplatzErstellen(identityMarketChoice, navigation);
 				dbErstellen.center();
 				dbErstellen.show();		
 			}
@@ -100,8 +112,8 @@ public class ProjektmarktplatzForm extends Showcase {
 						@Override
 						public void onSuccess(Void result) {
 							Window.alert("Der Projektmarktplatz wurde erfolgreich gelöscht");
-							Navigation.reload();
-							IdentityMarketChoice.getNavigation().reinitialize();
+							navigation.reload();
+							identityMarketChoice.reinitialize();
 						}
 						
 						@Override
@@ -126,13 +138,13 @@ public class ProjektmarktplatzForm extends Showcase {
 				Projektmarktplatz selectedObject = ssm_fremdeProjektmarktplaetze.getSelectedObject();
 				
 				if (selectedObject != null) {
-					ClientsideSettings.getProjektmarktplatzVerwaltung().createTeilnahme(IdentityMarketChoice.getSelectedIdentityId(), selectedObject.getId(), new AsyncCallback<Void>() {
+					ClientsideSettings.getProjektmarktplatzVerwaltung().createTeilnahme(identityMarketChoice.getSelectedIdentityId(), selectedObject.getId(), new AsyncCallback<Void>() {
 						
 						@Override
 						public void onSuccess(Void result) {
 							Window.alert("Der Projektmarktplatz wurde erfolgreich zum eigenen Profil hinzugefügt!");
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
-							IdentityMarketChoice.getNavigation().reinitialize();
+							identityMarketChoice.reinitialize();
+							navigation.reload();
 						}
 						
 						@Override
@@ -158,14 +170,14 @@ public class ProjektmarktplatzForm extends Showcase {
 				
 				if (selectedObject != null) {
 					Person tempPerson = new Person();
-					tempPerson.setId(IdentityMarketChoice.getSelectedIdentityId());
+					tempPerson.setId(identityMarketChoice.getSelectedIdentityId());
 					ClientsideSettings.getProjektmarktplatzVerwaltung().deleteTeilnahme(tempPerson, selectedObject, new AsyncCallback<Void>() {
 
 						@Override
 						public void onSuccess(Void result) {
 							Window.alert("Teilnahme wurde erfolgreich aufgelöst!");
-							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
-							IdentityMarketChoice.getNavigation().reinitialize();
+							navigation.reload();
+							identityMarketChoice.reinitialize();
 						}
 						
 						@Override
@@ -196,7 +208,7 @@ public class ProjektmarktplatzForm extends Showcase {
 			public void onSuccess(Vector<Projektmarktplatz> result) {
 				
 				Person tempPerson = new Person();
-				tempPerson.setId(IdentityMarketChoice.getSelectedIdentityId());
+				tempPerson.setId(identityMarketChoice.getSelectedIdentityId());
 				projektmarktplaetzeGefiltert=result;
 				projektmarktplatzVerwaltung.getProjektmarktplaetzeByForeignPerson(tempPerson, new AsyncCallback<Vector<Projektmarktplatz>>() {
 				

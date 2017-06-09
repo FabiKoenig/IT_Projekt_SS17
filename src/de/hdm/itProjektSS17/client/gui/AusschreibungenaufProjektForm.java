@@ -1,4 +1,4 @@
-package de.hdm.itProjektSS17.client;
+package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Vector;
 
@@ -16,11 +16,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
-import de.hdm.itProjektSS17.client.gui.MeineAusschreibungenForm;
-import de.hdm.itProjektSS17.client.gui.MeineProjektForm;
-import de.hdm.itProjektSS17.client.gui.MeineAusschreibungenForm.GetAusschreibungenByOrgaCallback;
-import de.hdm.itProjektSS17.client.gui.MeineAusschreibungenForm.OrganisationseinheitCallback;
+import de.hdm.itProjektSS17.client.ClientsideSettings;
+import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
@@ -31,22 +28,83 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 public class AusschreibungenaufProjektForm extends Showcase{
 
 	
+	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Vector<Ausschreibung> ausschreibung = new Vector<Ausschreibung>();
+	
 	Button btn_zurueck = new Button("Zurück");
+	Navigation navigation = null;
 	
-	private Projekt p ;
+	private Projekt p;
 	
+	@Override	
 	protected String getHeadlineText() {
 		return "Auschreibungen zum Projekt";
 
 	}
 	
-	public  AusschreibungenaufProjektForm(Projekt p) {
+	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation) {
 		this.p = p;
+		this.navigation=navigation;	
+	}
+	
+	
+
+
+	
+	private class getProjekte implements AsyncCallback<Vector<Ausschreibung>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Fehler: " + caught.toString());
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Ausschreibung> result) {
+
+
+			dataGrid.setRowCount(result.size(), true);
+			dataGrid.setRowData(0, result);
+			
+			}
+		
+		}
+	
+	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
+			Window.alert("Fehler: "+ caught.toString());
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Ausschreibung> result) {
+			
+			if(result != null){
+				//Anpassen der CellTable
+				
+				
+				
+				dataGrid.setRowCount(result.size(), true);
+				dataGrid.setRowData(0, result);
+			
+			}
+		}	
+	}
+
+
+	
+
+
+	@Override
+	protected void run() {
+		//projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 		
 		RootPanel.get("Details").setWidth("70%");
@@ -117,81 +175,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineProjektForm());				
+				navigation.reload();
 			}
 		});
-		
-	}
-	
-	
-
-
-	
-	private class getProjekte implements AsyncCallback<Vector<Ausschreibung>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Fehler: " + caught.toString());
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Ausschreibung> result) {
-
-
-			dataGrid.setRowCount(result.size(), true);
-			dataGrid.setRowData(0, result);
-			
-			}
-		
-		}
-		
-	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-		}
-
-		@Override
-		public void onSuccess(Organisationseinheit result) {		
-			if (result != null) {
-				projektmarktplatzVerwaltung.getAusschreibungByForeignOrganisationseinheit(result, new GetAusschreibungenByOrgaCallback());
-			}			
-		}
-	
-	}
-	
-	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
-			Window.alert("Fehler: "+ caught.toString());
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Ausschreibung> result) {
-			
-			if(result != null){
-				//Anpassen der CellTable
-				
-				dataGrid.setRowCount(result.size(), true);
-				dataGrid.setRowData(0, result);
-			
-			}
-		}	
-	}
-
-
-	
-
-
-	@Override
-	protected void run() {
-		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 	}
 	

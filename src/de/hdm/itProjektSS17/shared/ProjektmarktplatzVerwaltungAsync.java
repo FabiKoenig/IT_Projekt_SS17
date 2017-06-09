@@ -47,8 +47,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void createUnternehmen(String name, String hausnummer, String ort, int plz, String strasse, Integer partnerprofilId, AsyncCallback<Unternehmen> callback);
 
-	void createPerson(String vorname, String nachname, String anrede, String strasse, String hausnr, int plz,
-			String ort, int partnerprofilId, Integer teamId, Integer unternehmenId,
+	void createPerson(String email, String vorname, String nachname, String anrede, String strasse, String hausnr,
+			int plz, String ort, int partnerprofilId, Integer teamId, Integer unternehmenId,
 			AsyncCallback<Person> callback);
 
 	void createProjektmarktplatz(String bezeichnung, AsyncCallback<Projektmarktplatz> callback);
@@ -203,6 +203,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void getAllUnternehmen(AsyncCallback<Vector<Unternehmen>> callback);
 
 	void getAusschreibungByBewerbung(Bewerbung b, AsyncCallback<Ausschreibung> callback);
+
+	void createBeteiligungProjektleiter(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
+			AsyncCallback<Beteiligung> callback);
+
+	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
 
 
 }

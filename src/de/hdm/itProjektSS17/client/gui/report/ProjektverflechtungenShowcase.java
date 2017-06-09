@@ -23,6 +23,12 @@ import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 
 public class ProjektverflechtungenShowcase extends Showcase{
 
+	private IdentityChoiceReport identityChoiceReport = null;
+	
+	public ProjektverflechtungenShowcase(IdentityChoiceReport identityChoiceReport) {
+		this.identityChoiceReport=identityChoiceReport;
+	}
+	
 	@Override
 	protected String getHeadlineText() {
 		return "Report für Projektverflechtungen";
@@ -43,7 +49,7 @@ public class ProjektverflechtungenShowcase extends Showcase{
 			final ListBox bewerberBox = new ListBox();
 			bewerberBox.addItem("Bitte wähle einen Bewerber aus");
 			
-			reportGenerator.getBewerberAufEigeneAusschreibungen(IdentityChoiceReport.getSelectedIdentityAsObject(), 
+			reportGenerator.getBewerberAufEigeneAusschreibungen(identityChoiceReport.getSelectedIdentityAsObject(), 
 					new AsyncCallback<Vector<Organisationseinheit>>() {
 
 						@Override

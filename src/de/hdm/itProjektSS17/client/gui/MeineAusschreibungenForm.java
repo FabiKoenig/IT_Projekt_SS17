@@ -40,14 +40,18 @@ public class MeineAusschreibungenForm extends Showcase{
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Button ausschreibungLoeschenButton = new Button("Löschen");
 	Button ausschreibungBearbeitenButton = new Button("Bearbeiten");
-	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
+	Button partnerprofilBearbeitenButton = new Button("Gefordertes Partnerprofil anzeigen");
 	Button bewerbungenAnzeigenButton = new Button("Bewerbungen anzeigen");
 	Button ausschreibungstextButton = new Button("Ausschreibungstext anzeigen");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
-	//Formate der Datebox
-	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
+	public MeineAusschreibungenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
 	
 	@Override
 	protected String getHeadlineText() {
@@ -60,7 +64,7 @@ public class MeineAusschreibungenForm extends Showcase{
 		dataGrid.setWidth("100%", true);
 		
 		//CallBack um die Ausschreibungen der gewünschten Person zu laden
-		projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
+		projektmarktplatzVerwaltung.getOrganisationseinheitById(identityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
@@ -163,10 +167,7 @@ public class MeineAusschreibungenForm extends Showcase{
 						@Override
 						public void onSuccess(Void result) {
 							Window.alert("Die Ausschreibung wurde erfolgreich gelöscht.");
-							
-							Showcase showcase = new MeineAusschreibungenForm();
-							RootPanel.get("Details").clear();
-							RootPanel.get("Details").add(showcase);
+							navigation.reload();
 						}
 						
 						@Override
@@ -280,8 +281,7 @@ public class MeineAusschreibungenForm extends Showcase{
 														Window.alert("Die Ausschreibung wurde erfolgreich bearbeitet.");
 														
 														ausschreibungBearbeitenDialogBox.hide();					
-														RootPanel.get("Details").clear();
-														RootPanel.get("Details").add(new MeineAusschreibungenForm());
+														navigation.reload();
 													}
 												});
 											} else{
@@ -309,7 +309,7 @@ public class MeineAusschreibungenForm extends Showcase{
 						partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
 					
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, false, identityMarketChoice, navigation));
 					
 						clickhandler = this;
 						clickevent = event;
@@ -327,9 +327,9 @@ public class MeineAusschreibungenForm extends Showcase{
 					
 					if(selectionModel.getSelectedObject() != null){
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
-						Navigation.setCurrentClickHandler(this);
-						Navigation.setCurrentClickEvent(event);
+						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId(), navigation, identityMarketChoice));
+						navigation.setCurrentClickHandler(this);
+						navigation.setCurrentClickEvent(event);
 						
 					} else {
 						Window.alert("Bitte wähle zuerst eine Ausschreibung aus.");
