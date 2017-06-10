@@ -72,48 +72,48 @@ public class Navigation extends StackPanel{
 		//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
-		homeButton.setStylePrimaryName("navi-button");
+		homeButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
-		impressumButton.setStylePrimaryName("navi-button");
+		impressumButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
-		agbButton.setStylePrimaryName("navi-button");
+		agbButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
 		
 		//Zusammensetzen des projektlocatorPanels
 		projektlocatorPanel.add(ausschreibungenButton);
 		ausschreibungenButton.setWidth("200px");
-		ausschreibungenButton.setStylePrimaryName("navi-button");
+		ausschreibungenButton.setStylePrimaryName("menu-btn");
 		projektlocatorPanel.add(projektmarktplaetzeButton);
 		projektmarktplaetzeButton.setWidth("200px");
-		projektmarktplaetzeButton.setStylePrimaryName("navi-button");
+		projektmarktplaetzeButton.setStylePrimaryName("menu-btn");
 		projektlocatorPanel.setSpacing(5);
 		
 		//Zusammensetzung des meineaktivitaetenPanels
 		meineaktivitaetenPanel.add(meineprojekteButton);
 		meineprojekteButton.setWidth("200px");
-		meineprojekteButton.setStylePrimaryName("navi-button");
+		meineprojekteButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meineausschreibungenButton);
 		meineausschreibungenButton.setWidth("200px");
-		meineausschreibungenButton.setStylePrimaryName("navi-button");
+		meineausschreibungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meinebewerbungenButton);
 		meinebewerbungenButton.setWidth("200px");
-		meinebewerbungenButton.setStylePrimaryName("navi-button");
+		meinebewerbungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meineBeteiligungenButton);
 		meineBeteiligungenButton.setWidth("200px");
-		meineBeteiligungenButton.setStylePrimaryName("navi-button");
+		meineBeteiligungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.setSpacing(5);
 		
 		//Zusammensezuung des einstellungenPanels
 		einstellungenPanel.add(personaldataButton);
 		personaldataButton.setWidth("200px");
-		personaldataButton.setStylePrimaryName("navi-button");
+		personaldataButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
-		eigenesprofilButton.setStylePrimaryName("navi-button");
+		eigenesprofilButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.add(reportButton);
-		reportButton.setStylePrimaryName("navi-button");
+		reportButton.setStylePrimaryName("menu-btn");
 		reportButton.setWidth("200px");
 		einstellungenPanel.setSpacing(5);
 		

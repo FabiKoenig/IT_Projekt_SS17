@@ -64,10 +64,9 @@
 	/*position: absolute; */
 	/*right: 0px; */
 	float: right;
-	background-color: #117ada;
 	position: absolute;
 	right: 20px;
-	top: 60px;
+	top: 80px;
 }
 
 html{
@@ -113,8 +112,23 @@ div#TopLevelFrame {
    
 }
 
+#Border{
+	
+	line-height:30px;
+    background-color:#eeeeee;
+    height: 100%;
+    min-height: 600px;
+    width:120px;
+    float:right;
+    padding:5px;
+    border-right: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+}
+
 
 #Details{
+	
 	width:auto;
     height:auto;
     float:left;
@@ -134,14 +148,13 @@ div#TopLevelFrame {
     margin: 0px auto;
 }
 
-#logo{
-	width
-	height
-	
-}
+
+
+
 
 #Trailer {
-	background-color:#117ada;
+	background-image: url("images/blue-background-9.png");
+	background-size: cover;
 	border-bottom: solid silver;
 	border-left: solid silver;
 	border-right: solid silver;
@@ -153,11 +166,13 @@ div#TopLevelFrame {
 
 
 #Header{
-	background-color:#117ada;
+	
+	background-image: url("images/blue-background-9.png");
+	background-size: cover;
     color:white;
     text-align:center;
     padding:2px;
-    height:120px;
+    height:140px;
     width:auto;	
     border-top:  solid silver;
     border-left: solid silver;
@@ -165,11 +180,12 @@ div#TopLevelFrame {
 }
 
 #HeaderReport{
-	background-color:#117ada;
+	background-image: url("images/blue-background-9.png");
+	background-size: cover;
     color:white;
     text-align:center;
     padding:2px;
-    height:120px;
+    height:140px;
     width:auto;	
     border-top:  solid silver;
     border-left: solid silver;
@@ -178,8 +194,9 @@ div#TopLevelFrame {
 
 #logo{
 	position: absolute;
-	top: 8px;
-	left: 22px;
+	top: 18px;
+	left: 30px;
+	
 }
 
 
@@ -187,6 +204,129 @@ div#TopLevelFrame {
 /**
 	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.
 */
+
+.cell-btn {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #f7f7f7);
+  background-image: -moz-linear-gradient(top, #ffffff, #f7f7f7);
+  background-image: -ms-linear-gradient(top, #ffffff, #f7f7f7);
+  background-image: -o-linear-gradient(top, #ffffff, #f7f7f7);
+  background-image: linear-gradient(to bottom, #ffffff, #f7f7f7);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #000000;
+  font-size: 15px;
+  padding: 8px 20px 8px 20px;
+  border: solid #e6e6e6 2px;
+  text-decoration: none;
+}
+
+.cell-btn:hover {
+  background: #deebff;
+  background-image: -webkit-linear-gradient(top, #deebff, #deebff);
+  background-image: -moz-linear-gradient(top, #deebff, #deebff);
+  background-image: -ms-linear-gradient(top, #deebff, #deebff);
+  background-image: -o-linear-gradient(top, #deebff, #deebff);
+  background-image: linear-gradient(to bottom, #deebff, #deebff);
+  text-decoration: none;
+}
+
+.menu-btn {
+ background: #ffffff;
+ background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+ background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+ -webkit-border-radius: 10;
+ -moz-border-radius: 10;
+ border-radius: 1px;
+ font-family: Arial;
+ color: #000000;
+ font-size: 15px;
+ border: solid #e3e3e3 1px;
+ text-decoration: none;
+ padding: 5px 15px 5px 15px;
+ margin-left: 11px;
+margin-right: 5px;
+}
+
+.menu-btn:hover {
+ background: #f2f7ff;
+ background-image: -webkit-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -moz-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -ms-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -o-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: linear-gradient(to bottom, #f2f7ff, #deebff);
+ text-decoration: none;
+} 
+
+.login-btn {
+ background: #ffffff;
+ background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+ background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+ -webkit-border-radius: 10;
+ -moz-border-radius: 10;
+ border-radius: 1px;
+ font-family: Arial;
+ color: #000000;
+ font-size: 15px;
+ border: solid #e3e3e3 1px;
+ text-decoration: none;
+ padding: 5px 15px 5px 15px;
+ margin-left: 11px;
+ margin-right: 5px;
+ position: absolute;
+ top: 30px;
+ right: 25px;
+}
+
+.login-btn:hover {
+ background: #f2f7ff;
+ background-image: -webkit-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -moz-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -ms-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -o-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: linear-gradient(to bottom, #f2f7ff, #deebff);
+ text-decoration: none;
+} 
+
+
+.Button-img-Image{
+	float: left;
+	margin-right: 5px;
+	margin-top: 2.5px;
+
+}
+
+.Button-img{
+	background-color: #FFF;
+	font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+	color: #000000;
+	font-size: small;
+	padding-left: 3px;
+	padding-bottom: 5px;
+	vertical-align: middle;
+	line-height: 29px;  
+	text-decoration: none;
+	text-align: rigth;
+	outline-color: #000000;
+	margin-right: 30px;
+	cursor: pointer;
+	cursor: hand;
+	-webkit-box-shadow: inset 0px 0px 3px 2px rgba(225,225,225,0.85);
+	-moz-box-shadow: inset 0px 0px 3px 2px rgba(225,225,225,0.85);
+	box-shadow: inset 0px 0px 3px 2px rgba(225,225,225,0.85);
+	border: 1px solid #8b8b8b;
+	border-radius: 1.5px;
+	-moz-border-radius: 1.5px;
+}
+
 .sendButton {
   display: block;
   font-size: 16pt;

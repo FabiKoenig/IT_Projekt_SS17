@@ -99,11 +99,11 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		tb_unternehmen.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		teamVerlassenButton.setStylePrimaryName("navi-button");
-		teamLoeschen.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		teamVerlassenButton.setStylePrimaryName("cell-btn");
+		teamLoeschen.setStylePrimaryName("cell-btn");
 		
 		//Setzen des SpeicherButtons
 		speichernButton.setVisible(false);
@@ -146,6 +146,7 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		
 		
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.

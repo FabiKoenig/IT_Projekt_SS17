@@ -119,7 +119,7 @@ public class BeteiligungenForm extends Showcase{
 		ct_beteiligungen.addColumn(tc_beteiligungen_startDatum, "Startdatum");
 		ct_beteiligungen.addColumn(tc_beteiligungen_endDatum, "Enddatum");
 		
-		btn_beteiligungLoeschen.setStylePrimaryName("navi-button");
+		btn_beteiligungLoeschen.setStylePrimaryName("cell-btn");
 		this.setSpacing(8);
 		this.add(btn_beteiligungLoeschen);
 		this.add(ct_beteiligungen);

@@ -277,13 +277,13 @@ public class MeineProjektForm extends Showcase{
 		
 		
 		dataGrid.setWidth("100%");
-		btn_projektAnlegen.setStylePrimaryName("navi-button");
-		btn_projektLoeschen.setStylePrimaryName("navi-button");
-		btn_projektBearbeiten.setStylePrimaryName("navi-button");
+		btn_projektAnlegen.setStylePrimaryName("cell-btn");
+		btn_projektLoeschen.setStylePrimaryName("cell-btn");
+		btn_projektBearbeiten.setStylePrimaryName("cell-btn");
 		
-		btn_ausschreibungAnlegen.setStylePrimaryName("navi-button");
-		btn_ausschreibungenAnzeigen.setStylePrimaryName("navi-button");
-		btn_beteiligungAnzeigen.setStylePrimaryName("navi-button");
+		btn_ausschreibungAnlegen.setStylePrimaryName("cell-btn");
+		btn_ausschreibungenAnzeigen.setStylePrimaryName("cell-btn");
+		btn_beteiligungAnzeigen.setStylePrimaryName("cell-btn");
 
 		
 		buttonPanel.add(btn_projektAnlegen);

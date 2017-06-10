@@ -82,6 +82,11 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		this.setText("Team erstellen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
+		unternehmenErstellenButton.setStylePrimaryName("cell-btn");
+		unternehmenHinzufuegenButton.setStylePrimaryName("cell-btn");
+		ok.setStylePrimaryName("cell-btn");
+		bt_unternehmenIsSet.setStylePrimaryName("cell-btn");
+		abbrechen.setStylePrimaryName("cell-btn");
 		
 		txt_teamname.getElement().setPropertyString("placeholder", "Teamname");
 

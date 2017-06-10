@@ -43,6 +43,8 @@ public class DialogBoxBewerben extends DialogBox {
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
+		btn_ok.setStylePrimaryName("cell-btn");
+		btn_abbrechen.setStylePrimaryName("cell-btn");
 		hp.add(btn_ok);
 		hp.add(btn_abbrechen);
 	

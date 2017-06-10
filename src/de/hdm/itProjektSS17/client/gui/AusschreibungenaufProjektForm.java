@@ -167,7 +167,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 		buttonPanel.add(btn_zurueck);
 		
-		btn_zurueck.setStylePrimaryName("navi-button");
+		btn_zurueck.setStylePrimaryName("cell-btn");
 	
 		//auf welche Variable bezogen
 		this.add(buttonPanel);

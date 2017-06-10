@@ -79,10 +79,10 @@ public class ProjektmarktplatzForm extends Showcase {
 		this.add(panel_projektmarktplatz);
 		
 		//Stylen der Buttons
-		btn_projektmarktplatzanlegen.setStylePrimaryName("navi-button");
-		btn_projektmarktplatzloeschen.setStylePrimaryName("navi-button");
-		btn_projektmarktplatzTeilnahmeentfernen.setStylePrimaryName("navi-button");
-		btn_projektmarktplatzuebernehmen.setStylePrimaryName("navi-button");
+		btn_projektmarktplatzanlegen.setStylePrimaryName("cell-btn");
+		btn_projektmarktplatzloeschen.setStylePrimaryName("cell-btn");
+		btn_projektmarktplatzTeilnahmeentfernen.setStylePrimaryName("cell-btn");
+		btn_projektmarktplatzuebernehmen.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der Buttons zum Panel
 			panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);

@@ -83,6 +83,8 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			}
 		});
 		
+		btn_abbrechen.setStylePrimaryName("cell-btn");
+		btn_ok.setStylePrimaryName("cell-btn");
 		txta_ausschreibungstext.setPixelSize(200, 200);
 		DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
 		db_bewerbungsfrist.setFormat(new DateBox.DefaultFormat(dateformat));

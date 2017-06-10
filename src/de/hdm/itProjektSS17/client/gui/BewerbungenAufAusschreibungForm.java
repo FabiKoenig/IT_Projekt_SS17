@@ -143,12 +143,12 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		
 		//Stylen der Buttons
-		zurueckButton.setStylePrimaryName("navi-button");
+		zurueckButton.setStylePrimaryName("cell-btn");
 
 //		bewerbungBewertenButton.setStylePrimaryName("navi-button");
 //		bewerberZusagenButton.setStylePrimaryName("navi-button");
-		bewerbungBewertenButton.setStylePrimaryName("navi-button");
-		partnerprofilAnzeigen.setStylePrimaryName("navi-button");
+		bewerbungBewertenButton.setStylePrimaryName("cell-btn");
+		partnerprofilAnzeigen.setStylePrimaryName("cell-btn");
 		//bewerberZusagenButton.setStylePrimaryName("navi-button");
 		//texteAnzeigenButton.setStylePrimaryName("navi-button");
 

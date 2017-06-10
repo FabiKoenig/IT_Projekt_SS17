@@ -71,14 +71,14 @@ public class StellenauschreibungForm extends Showcase {
 		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
 		cellTable.setLoadingIndicator(null);
 		
-		btn_Text.setStylePrimaryName("navi-button");
-		btn_bewerben.setStylePrimaryName("navi-button");
-		btn_partnerprofilAnzeigen.setStylePrimaryName("navi-button");
+		btn_Text.setStylePrimaryName("cell-btn");
+		btn_bewerben.setStylePrimaryName("cell-btn");
+		btn_partnerprofilAnzeigen.setStylePrimaryName("cell-btn");
 		
 		this.add(panel_Ausschreibung);
-		panel_Ausschreibung.add(btn_Text);
-		panel_Ausschreibung.add(btn_bewerben);
+		panel_Ausschreibung.add(btn_Text);		
 		panel_Ausschreibung.add(btn_partnerprofilAnzeigen);
+		panel_Ausschreibung.add(btn_bewerben);
 		
 		projektmarktplatzVerwaltung.getProjektmarktplatzById(identityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
 

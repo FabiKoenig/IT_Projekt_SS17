@@ -59,15 +59,19 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 			
 			Button bt_ja = new Button("Ja");
 			Button bt_nein = new Button("Nein");
+			bt_ja.setStylePrimaryName("cell-btn");
+			bt_nein.setStylePrimaryName("cell-btn");
 			vp.add(new Label("Das hinzugefügte Team wurde dem Unternehmen: " + result.getName() + " zugeordnet."));
 			vp.add(new Label("Wollen Sie zu diesem Unternehmen ebenfalls hinzugefügt werden?"));
 			
 			HorizontalPanel hp1 = new HorizontalPanel();
+			hp1.setSpacing(5);
 			hp1.add(bt_ja);
 			hp1.add(bt_nein);
 			
 			vp.add(hp1);
 			add(vp);
+			center();
 			
 			bt_ja.addClickHandler(new ClickHandler() {
 				

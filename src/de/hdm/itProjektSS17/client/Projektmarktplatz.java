@@ -133,7 +133,7 @@ public class Projektmarktplatz implements EntryPoint {
 			RootPanel.get("Navigator").add(loginButton);
 			
 			loginButton.setWidth("150px");
-			loginButton.setStylePrimaryName("projektmarktplatz-logout");
+			loginButton.setStylePrimaryName("login-btn");
 			loginButton.addClickHandler(new ClickHandler() {
 				
 				
@@ -171,7 +171,7 @@ public class Projektmarktplatz implements EntryPoint {
 		    //Erstellen Projektmarktzplatz Button
 		    
 		    Logout.setWidth("150px");
-		    Logout.setStylePrimaryName("projektmarktplatz-logout");
+		    Logout.setStylePrimaryName("login-btn");
 
 		    
 		   

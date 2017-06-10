@@ -136,11 +136,11 @@ public class MeineAusschreibungenForm extends Showcase{
 				buttonPanel.add(ausschreibungstextButton);
 				
 			//Style der Buttons
-				ausschreibungBearbeitenButton.setStylePrimaryName("navi-button");
-				ausschreibungLoeschenButton.setStylePrimaryName("navi-button");
-				partnerprofilBearbeitenButton.setStylePrimaryName("navi-button");
-				bewerbungenAnzeigenButton.setStylePrimaryName("navi-button");
-				ausschreibungstextButton.setStylePrimaryName("navi-button");
+				ausschreibungBearbeitenButton.setStylePrimaryName("cell-btn");
+				ausschreibungLoeschenButton.setStylePrimaryName("cell-btn");
+				partnerprofilBearbeitenButton.setStylePrimaryName("cell-btn");
+				bewerbungenAnzeigenButton.setStylePrimaryName("cell-btn");
+				ausschreibungstextButton.setStylePrimaryName("cell-btn");
 				
 			//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
 				this.setSpacing(8);

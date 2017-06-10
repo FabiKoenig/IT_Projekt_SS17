@@ -57,8 +57,8 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	//Hinzufügen der Buttons zum Buttonpanel
 	buttonPanel.add(speichernButton);
 	buttonPanel.add(abbrechenButton);
-	abbrechenButton.setStylePrimaryName("navi-button");
-	speichernButton.setStylePrimaryName("navi-button");
+	abbrechenButton.setStylePrimaryName("cell-btn");
+	speichernButton.setStylePrimaryName("cell-btn");
 	
 	//Hinzufügen der FlexTable zur DialogBox
 	dialogBoxPanel.setSpacing(8);

@@ -63,6 +63,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
+		btn_zurueck.setStylePrimaryName("cell-btn");
 		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
 		
 		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_beteiligterBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {

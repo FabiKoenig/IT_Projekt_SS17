@@ -52,6 +52,7 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 			this.setText("Unternehmen erstellen...");
 			this.setAnimationEnabled(false);
 			this.setGlassEnabled(true);
+			unternehmen_ok.setStylePrimaryName("cell-btn");
 
 			txt_unternehmenName.getElement().setPropertyString("placeholder", "Name des Unternehmens");
 			txt_ustrasse.getElement().setPropertyString("placeholder", "Straße");

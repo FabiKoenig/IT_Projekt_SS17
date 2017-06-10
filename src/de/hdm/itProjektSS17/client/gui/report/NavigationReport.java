@@ -48,37 +48,37 @@ public class NavigationReport extends StackPanel {
 	//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
-		homeButton.setStylePrimaryName("navi-button");
+		homeButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
-		impressumButton.setStylePrimaryName("navi-button");
+		impressumButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
 	
 	//Zusammensetzen des reportPanels	
 		reportPanel.add(showAusschreibungenButton);
 		showAusschreibungenButton.setWidth("200px");
-		showAusschreibungenButton.setStylePrimaryName("navi-button");
+		showAusschreibungenButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showAusschreibungMatchsPartnerprofilButton);
 		showAusschreibungMatchsPartnerprofilButton.setWidth("200px");
-		showAusschreibungMatchsPartnerprofilButton.setStylePrimaryName("navi-button");
+		showAusschreibungMatchsPartnerprofilButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showAllBewerbungenFromUserButton);
 		showAllBewerbungenFromUserButton.setWidth("200px");
-		showAllBewerbungenFromUserButton.setStylePrimaryName("navi-button");
+		showAllBewerbungenFromUserButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showBewerbungenAusschreibungenFromUserButton);
 		showBewerbungenAusschreibungenFromUserButton.setWidth("200px");
-		showBewerbungenAusschreibungenFromUserButton.setStylePrimaryName("navi-button");
+		showBewerbungenAusschreibungenFromUserButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showProjektverflechtungenButton);
 		showProjektverflechtungenButton.setWidth("200px");
-		showProjektverflechtungenButton.setStylePrimaryName("navi-button");
+		showProjektverflechtungenButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showFanInFanOutAnalyseButton);
 		showFanInFanOutAnalyseButton.setWidth("200px");
-		showFanInFanOutAnalyseButton.setStylePrimaryName("navi-button");
+		showFanInFanOutAnalyseButton.setStylePrimaryName("menu-btn");
 		reportPanel.setSpacing(5);
 		
 	//Zusammensetzung des EinstellungPanels
 		einstellungenPanel.add(prokekoButton);
 		prokekoButton.setWidth("200px");
-		prokekoButton.setStylePrimaryName("navi-button");
+		prokekoButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.setSpacing(5);
 		
 		

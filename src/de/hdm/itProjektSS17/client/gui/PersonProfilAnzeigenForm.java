@@ -117,11 +117,11 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		emailBox.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		teamButton.setStylePrimaryName("navi-button");
-		unternehmenButton.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		teamButton.setStylePrimaryName("cell-btn");
+		unternehmenButton.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der Inhalte der anredeListBox
 		anredeListBox.addItem("Herr");
@@ -185,6 +185,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		vpanel.add(ft_buttonPanel);
 		vpanel.add(ftable_form);
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {

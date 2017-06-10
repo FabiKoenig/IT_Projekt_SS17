@@ -96,10 +96,10 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		hp_Button.add(bewerberAblehnenButton);
 		
 		//Buttons stylen
-		speicherButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		bewerberAnnehmenButton.setStylePrimaryName("navi-button");
-		bewerberAblehnenButton.setStylePrimaryName("navi-button");
+		speicherButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		bewerberAnnehmenButton.setStylePrimaryName("cell-btn");
+		bewerberAblehnenButton.setStylePrimaryName("cell-btn");
 		
 		//Erstellen der FlexTable
 				ft_Bewerbung.setWidget(1, 0, lbl_Bewerber);

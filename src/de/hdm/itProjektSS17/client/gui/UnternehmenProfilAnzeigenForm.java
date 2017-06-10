@@ -87,11 +87,11 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		ortBox.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		unternehmenVerlassenButton.setStylePrimaryName("navi-button");
-		unternehmenLoeschen.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		unternehmenVerlassenButton.setStylePrimaryName("cell-btn");
+		unternehmenLoeschen.setStylePrimaryName("cell-btn");
 
 		
 		//Setzen des SpeicherButtons
@@ -130,6 +130,7 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		vpanel.add(ftable);
 		
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.

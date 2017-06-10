@@ -54,7 +54,8 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 		
 		
 		
-		
+		btn_abbrechen.setStylePrimaryName("cell-btn");
+		btn_speichern.setStylePrimaryName("cell-btn");
 		hp.add(btn_speichern);
 		hp.add(btn_abbrechen);
 		

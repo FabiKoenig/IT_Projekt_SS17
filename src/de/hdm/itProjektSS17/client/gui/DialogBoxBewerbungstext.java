@@ -24,7 +24,7 @@ public class DialogBoxBewerbungstext extends DialogBox {
 	Button btn_zurueck = new Button("Zurück");
 	
 	public DialogBoxBewerbungstext(String text){
-		btn_zurueck.setStylePrimaryName("navi-button");
+		btn_zurueck.setStylePrimaryName("cell-btn");
 		this.setText("Ihr Bewerbungstext");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);

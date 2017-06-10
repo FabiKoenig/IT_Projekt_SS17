@@ -117,9 +117,9 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		buttonPanel.add(loeschenButton);
 		
 		//Stylen der Buttons
-		zurueckButton.setStylePrimaryName("navi-button");
-		eigenschaftHinzufuegenButton.setStylePrimaryName("navi-button");
-		loeschenButton.setStylePrimaryName("navi-button");
+		zurueckButton.setStylePrimaryName("cell-btn");
+		eigenschaftHinzufuegenButton.setStylePrimaryName("cell-btn");
+		loeschenButton.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
 		this.setSpacing(8);

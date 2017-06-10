@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -118,14 +119,10 @@ public class MeinPartnerprofilForm extends Showcase{
 		buttonPanel.add(loeschenButton);
 		
 		//Stylen der Buttons
-		eigenschaftHinzufuegenButton.setStylePrimaryName("navi-button");
-		loeschenButton.setStylePrimaryName("navi-button");
-		
-		//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
+		eigenschaftHinzufuegenButton.setStylePrimaryName("cell-btn");
+		loeschenButton.setStylePrimaryName("cell-btn");
+	
 		this.setSpacing(8);
-		
-		
-		
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		

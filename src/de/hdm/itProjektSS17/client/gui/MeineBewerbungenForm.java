@@ -67,9 +67,9 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.setLoadingIndicator(null);
 		
 		//Stylen des Buttons
-		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
-		btn_bewerbungstext.setStylePrimaryName("navi-button");
-		btn_stellungname.setStylePrimaryName("navi-button");
+		btn_bewerbungloeschen.setStylePrimaryName("cell-btn");
+		btn_bewerbungstext.setStylePrimaryName("cell-btn");
+		btn_stellungname.setStylePrimaryName("cell-btn");
 		
 		this.setSpacing(8);
 		this.add(panel_Bewerbung);

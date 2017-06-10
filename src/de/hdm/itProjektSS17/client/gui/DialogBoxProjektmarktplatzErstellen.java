@@ -36,6 +36,8 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 		this.setGlassEnabled(true);
 		Button ok = new Button("OK");
 		Button abbrechen = new Button("Abbrechen");
+		ok.setStylePrimaryName("cell-btn");
+		abbrechen.setStylePrimaryName("cell-btn");
 		
 		ok.addClickHandler(new ClickHandler() {
 			
