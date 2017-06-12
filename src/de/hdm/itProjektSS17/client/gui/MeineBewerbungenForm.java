@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -67,7 +68,7 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	protected void run() {
 		
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
 		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
 		cellTable.setLoadingIndicator(null);
@@ -162,15 +163,17 @@ public class MeineBewerbungenForm extends Showcase{
 		};
 
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
+		//cellTable.setColumnWidth(AusschreibungNameColumn, 100, Unit.PT);
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
 		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
+		//cellTable.setColumnWidth(erstellungsdatumColumn, 80, Unit.PT);
 		cellTable.addColumn(statusColumn, "Status");
+		cellTable.setColumnWidth(statusColumn, 70, Unit.PT);
 		cellTable.addColumn(BewertungColumn, "Bewertung");
 
-		cellTable.setColumnWidth(AusschreibungNameColumn, "5%");
-		cellTable.setWidth("100%");
+		//cellTable.setWidth("70%");
 		
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
 		cellTable.setSelectionModel(selectionModel);	
