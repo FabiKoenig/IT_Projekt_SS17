@@ -88,7 +88,7 @@ div#TopLevelFrame {
 	
 	line-height:30px;
     background-color:#eeeeee;
-    height:100%;
+    height:610px;
     min-height: 600px;
     width:250px;
     float:left;
@@ -113,6 +113,20 @@ div#TopLevelFrame {
 }
 
 #Border{
+	
+	line-height:30px;
+    background-color:#eeeeee;
+    height: 610px;
+    min-height: 600px;
+    width:55px;
+    float:right;
+    padding:5px;
+    border-right: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+}
+
+#BorderReport{
 	
 	line-height:30px;
     background-color:#eeeeee;
@@ -403,6 +417,3 @@ margin-right: 5px;
 .gwt-StackPanel .gwt-StackPanelItem-selected {
     background-color: red;
 }
-
-
-

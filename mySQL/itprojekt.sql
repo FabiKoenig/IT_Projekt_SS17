@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 08. Jun 2017 um 17:01
--- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 5.6.30
+-- Erstellungszeit: 11. Mai 2017 um 10:15
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 7.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -37,6 +37,14 @@ CREATE TABLE `ausschreibung` (
   `Projekt_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `ausschreibung`
+--
+
+INSERT INTO `ausschreibung` (`Ausschreibung_Id`, `Bezeichnung`, `Bewerbungsfrist`, `Ausschreibungstext`, `Ausschreibungsstatus`, `Ausschreibender_Id`, `Partnerprofil_Id`, `Projekt_Id`) VALUES
+(1, 'Ausschreibung für Projekt A', '2017-05-10', 'Testtext', 'laufend', 6, 7, 1),
+(2, 'Ausschreibung für Projekt A', '2017-05-10', 'Testtext', 'besetzt', 5, 7, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -48,10 +56,17 @@ CREATE TABLE `beteiligung` (
   `Umfang` int(11) NOT NULL,
   `Startdatum` date NOT NULL,
   `Enddatum` date NOT NULL,
-  `Bewertung_Id` int(11) DEFAULT NULL,
+  `Bewertung_Id` int(11) NOT NULL,
   `Beteiligter_Id` int(11) NOT NULL,
   `Projekt_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `beteiligung`
+--
+
+INSERT INTO `beteiligung` (`Beteiligung_Id`, `Umfang`, `Startdatum`, `Enddatum`, `Bewertung_Id`, `Beteiligter_Id`, `Projekt_Id`) VALUES
+(1, 35, '2017-05-10', '2017-05-11', 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -68,6 +83,13 @@ CREATE TABLE `bewerbung` (
   `Bewerbungsstatus` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `bewerbung`
+--
+
+INSERT INTO `bewerbung` (`Bewerbung_Id`, `Bewerbungstext`, `Erstellungsdatum`, `Organisationseinheit_Id`, `Ausschreibung_Id`, `Bewerbungsstatus`) VALUES
+(1, 'Testtext', '2017-05-10', 3, 2, 'angenommen');
+
 -- --------------------------------------------------------
 
 --
@@ -80,6 +102,13 @@ CREATE TABLE `bewertung` (
   `Wert` double NOT NULL,
   `Bewerbung_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `bewertung`
+--
+
+INSERT INTO `bewertung` (`Bewertung_Id`, `Stellungnahme`, `Wert`, `Bewerbung_Id`) VALUES
+(1, 'Die Bewerbung war in Ordnung', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -109,6 +138,18 @@ CREATE TABLE `organisationseinheit` (
   `Partnerprofil_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `organisationseinheit`
+--
+
+INSERT INTO `organisationseinheit` (`Organisationseinheit_Id`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `Partnerprofil_Id`) VALUES
+(1, 'Musterstraße', '1', 12345, 'Musterstadt', 1),
+(2, 'Musterstraße', '1', 12345, 'Musterstadt', 2),
+(3, 'Musterstraße', '1', 12345, 'Musterstadt', 3),
+(4, 'Teststraße', '1', 54321, 'Teststadt', 4),
+(5, 'Teststraße', '1', 54321, 'Teststadt', 5),
+(6, 'Teststraße', '1', 54321, 'Teststadt', 6);
+
 -- --------------------------------------------------------
 
 --
@@ -121,6 +162,19 @@ CREATE TABLE `partnerprofil` (
   `Aenderungsdatum` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `partnerprofil`
+--
+
+INSERT INTO `partnerprofil` (`Partnerprofil_Id`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
+(1, '2017-05-10', NULL),
+(2, '2017-05-10', NULL),
+(3, '2017-05-10', NULL),
+(4, '2017-05-10', NULL),
+(5, '2017-05-10', NULL),
+(6, '2017-05-10', NULL),
+(7, '2017-05-10', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -129,13 +183,20 @@ CREATE TABLE `partnerprofil` (
 
 CREATE TABLE `person` (
   `Person_Id` int(11) NOT NULL,
-  `Email` varchar(60) NOT NULL,
   `Anrede` varchar(5) NOT NULL,
   `Vorname` varchar(30) NOT NULL,
   `Nachname` varchar(30) NOT NULL,
   `Unternehmen_Id` int(11) DEFAULT NULL,
   `Team_Id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `person`
+--
+
+INSERT INTO `person` (`Person_Id`, `Anrede`, `Vorname`, `Nachname`, `Unternehmen_Id`, `Team_Id`) VALUES
+(3, 'Herr', 'Max', 'Projektteilnehmer', 1, 2),
+(6, 'Frau', 'Melanie', 'Projektleiterin', 4, 5);
 
 -- --------------------------------------------------------
 
@@ -153,6 +214,13 @@ CREATE TABLE `projekt` (
   `Projektmarktplatz_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `projekt`
+--
+
+INSERT INTO `projekt` (`Projekt_Id`, `Startdatum`, `Enddatum`, `Name`, `Beschreibung`, `Projektleiter_Id`, `Projektmarktplatz_Id`) VALUES
+(1, '2017-05-10', '2017-05-11', 'Projekt A', 'Testprojekt', 6, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -163,6 +231,14 @@ CREATE TABLE `projektmarktplatz` (
   `Projektmarktplatz_Id` int(11) NOT NULL,
   `Bezeichnung` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `projektmarktplatz`
+--
+
+INSERT INTO `projektmarktplatz` (`Projektmarktplatz_Id`, `Bezeichnung`) VALUES
+(1, 'Projektmarktplatz A'),
+(2, 'Projektmarktplatz B');
 
 -- --------------------------------------------------------
 
@@ -176,6 +252,14 @@ CREATE TABLE `team` (
   `Unternehmen_Id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `team`
+--
+
+INSERT INTO `team` (`Team_Id`, `Name`, `Unternehmen_Id`) VALUES
+(2, 'Team A', 1),
+(5, 'Team B', 4);
+
 -- --------------------------------------------------------
 
 --
@@ -187,6 +271,14 @@ CREATE TABLE `teilnahme` (
   `Projektmarktplatz_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `teilnahme`
+--
+
+INSERT INTO `teilnahme` (`Person_Id`, `Projektmarktplatz_Id`) VALUES
+(3, 1),
+(3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -197,6 +289,14 @@ CREATE TABLE `unternehmen` (
   `Unternehmen_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `unternehmen`
+--
+
+INSERT INTO `unternehmen` (`Unternehmen_Id`, `Name`) VALUES
+(1, 'Unternehmen_A'),
+(4, 'Unternehmen_B');
 
 --
 -- Indizes der exportierten Tabellen

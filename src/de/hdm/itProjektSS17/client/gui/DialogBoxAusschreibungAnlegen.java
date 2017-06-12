@@ -40,18 +40,19 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 	private Navigation navigation=null;
 	
 	DatePicker datepicker = new DatePicker();
-	HorizontalPanel hp = new HorizontalPanel();
+	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	public DialogBoxAusschreibungAnlegen(Projekt p, IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 		final Projekt projekt = p;
-		this.setText("Ausschreibung anlegen...");
+		this.setText("Ausschreibung anlegen");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
+		this.center();
 		
-		hp.add(btn_ok);
-		hp.add(btn_abbrechen);
+		buttonPanel.add(btn_ok);
+		buttonPanel.add(btn_abbrechen);
 		
 		btn_ok.addClickHandler(new ClickHandler() {
 			
@@ -95,7 +96,7 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		ft_ausschreibungAnlegen.setWidget(2, 1, txta_ausschreibungstext);
 		ft_ausschreibungAnlegen.setWidget(3, 0, lbl_bewerbungsfrist);
 		ft_ausschreibungAnlegen.setWidget(3, 1, db_bewerbungsfrist);
-		ft_ausschreibungAnlegen.setWidget(6, 1, hp);
+		ft_ausschreibungAnlegen.setWidget(6, 1, buttonPanel);
 		
 		setWidget(ft_ausschreibungAnlegen);
 		
@@ -142,7 +143,17 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			hide();
 			navigation.reload();
 			
-		}
-		
+			
+//			DialogBox partnerprofilBox = new DialogBox();
+//			partnerprofilBox.setText("Fügen Sie der Ausschreibung noch ein gewünschtes Profil hinzu");
+//			partnerprofilBox.center();
+//			partnerprofilBox.setGlassEnabled(true);
+//			partnerprofilBox.setAnimationEnabled(false);
+//			partnerprofilBox.setSize("200", "400");
+//			partnerprofilBox.setWidget(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), false, identityMarketChoice, navigation));
+//			partnerprofilBox.show();
+			
+		}	
 	}
+	
 }

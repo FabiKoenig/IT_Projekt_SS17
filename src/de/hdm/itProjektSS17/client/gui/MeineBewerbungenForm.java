@@ -1,20 +1,27 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -61,7 +68,7 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	protected void run() {
 		
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
 		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
 		cellTable.setLoadingIndicator(null);
@@ -156,15 +163,17 @@ public class MeineBewerbungenForm extends Showcase{
 		};
 
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
+		//cellTable.setColumnWidth(AusschreibungNameColumn, 100, Unit.PT);
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
 		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
+		//cellTable.setColumnWidth(erstellungsdatumColumn, 80, Unit.PT);
 		cellTable.addColumn(statusColumn, "Status");
+		cellTable.setColumnWidth(statusColumn, 70, Unit.PT);
 		cellTable.addColumn(BewertungColumn, "Bewertung");
 
-		cellTable.setColumnWidth(AusschreibungNameColumn, "5%");
-		cellTable.setWidth("100%");
+		//cellTable.setWidth("70%");
 		
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
 		cellTable.setSelectionModel(selectionModel);	
@@ -512,12 +521,17 @@ public class MeineBewerbungenForm extends Showcase{
 																					public void onSuccess(Unternehmen result) {
 																						localHybrid.setUnternehmen(result.getName());
 																						hybrid.add(localHybrid);
+																						
+																						
+																		
+																						
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
-																				
+
 																					}
 																				});
 																				
+
 																			}
 																		});
 																		
@@ -525,17 +539,35 @@ public class MeineBewerbungenForm extends Showcase{
 																}
 																
 															}
+															
 														});
 													
+								
 													}
 												}
 											});
+					
 										}
 						
 									});
 					
-								}	
+								}
+			final ListDataProvider dataProvider = new ListDataProvider();
+			SimplePager pager;
+			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+			pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+			pager.setDisplay(cellTable);
+			dataProvider.addDataDisplay(cellTable);
+			dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
+			pager.setPageSize(5);
+			
+			HorizontalPanel hp_pager = new HorizontalPanel();
+			hp_pager.setWidth("100%");
+			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			hp_pager.add(pager);
+			add(hp_pager);
 							}
 	
+							
 					 };
 	}

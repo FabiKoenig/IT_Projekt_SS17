@@ -1,22 +1,27 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
-import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
@@ -62,6 +67,22 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 					}
 
 					public void onSuccess(Vector<Eigenschaft> result) {
+						
+						final ListDataProvider dataProvider = new ListDataProvider();
+						SimplePager pager;
+						SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+						pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+						pager.setDisplay(dataGrid);
+						dataProvider.addDataDisplay(dataGrid);
+						dataProvider.setList(new ArrayList<Eigenschaft>(result));
+						pager.setPageSize(20);
+						
+						HorizontalPanel hp_pager = new HorizontalPanel();
+						hp_pager.setWidth("100%");
+						hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+						hp_pager.add(pager);
+						add(hp_pager);
+						
 						dataGrid.setRowCount(result.size(), true);
 						dataGrid.setRowData(0, result);
 						
@@ -133,8 +154,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
-				
-				
+					
 			}
 		});
 		

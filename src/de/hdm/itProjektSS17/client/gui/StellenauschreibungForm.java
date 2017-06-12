@@ -1,19 +1,25 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -140,7 +146,7 @@ public class StellenauschreibungForm extends Showcase {
 												
 													projektmarktplatzVerwaltung.getPersonById(localAusschreibung.getAusschreibenderId(), new AsyncCallback<Person>() {
 
-														
+														public Person ausschreibender = null;
 														@Override
 														public void onFailure(Throwable caught) {
 															// TODO Auto-generated method stub
@@ -150,6 +156,7 @@ public class StellenauschreibungForm extends Showcase {
 													
 														@Override
 														public void onSuccess(Person result) {
+															ausschreibender = result;
 															localHybrid.setAnrede(result.getAnrede());
 															localHybrid.setAusschreibender(result.getNachname());
 															
@@ -157,7 +164,7 @@ public class StellenauschreibungForm extends Showcase {
 															if(p.getId()!=identityMarketChoice.getUser().getId()){
 																
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
-																	
+																
 																	localHybrid.setTeam("Kein Team");
 																	localHybrid.setUnternehmen("Kein Unternehmen");
 																	Hybrid.add(localHybrid);
@@ -184,6 +191,7 @@ public class StellenauschreibungForm extends Showcase {
 																	});
 																	
 																}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+																	
 																	
 																	projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
@@ -213,8 +221,15 @@ public class StellenauschreibungForm extends Showcase {
 
 																		@Override
 																		public void onSuccess(Team result) {
+																			
 																			localHybrid.setTeam(result.getName());
-																			projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+																			
+//																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																			
+																			
+																			projektmarktplatzVerwaltung.getUnternehmenById(ausschreibender.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
 																				@Override
 																				public void onFailure(Throwable caught) {
@@ -222,23 +237,38 @@ public class StellenauschreibungForm extends Showcase {
 																				}
 
 																				@Override
-																				public void onSuccess(Unternehmen result) {
+																				public void onSuccess(Unternehmen result) {					
 																					
 																					localHybrid.setUnternehmen(result.getName());
+																					
 																					Hybrid.add(localHybrid);
+																					
+																					
+																					
 																					cellTable.setRowCount(Hybrid.size(), true);
 																					cellTable.setRowData(0,Hybrid);
 																				}
 																			});
+																			
+																			
 																		}
 																	});
+																	
+																	
 																}
 															}
+															
+															
+															
 															cellTable.setRowCount(Hybrid.size(), true);
 															cellTable.setRowData(0,Hybrid);
+															
 														}
 														
+														
+														
 													});
+													
 												} 
 											});
 											
@@ -249,8 +279,25 @@ public class StellenauschreibungForm extends Showcase {
 						}
 					});
 					
+					final ListDataProvider dataProvider = new ListDataProvider();
+					SimplePager pager;
+					SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+					pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+					pager.setDisplay(cellTable);
+					dataProvider.addDataDisplay(cellTable);
+					dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
+					pager.setPageSize(10);
+					
+					HorizontalPanel hp_pager = new HorizontalPanel();
+					hp_pager.setWidth("100%");
+					hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+					hp_pager.add(pager);
+					add(hp_pager);	
 				}
+				
 		});
+		
+		
 
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -395,6 +442,7 @@ public class StellenauschreibungForm extends Showcase {
 				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId(), true, identityMarketChoice, navigation));
 				}}
 		});
+		
 		
 		
 		cellTable.setWidth("100%");

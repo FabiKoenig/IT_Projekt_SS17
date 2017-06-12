@@ -74,7 +74,6 @@ public class IdentityChoiceReport extends FlexTable{
 	
 		
 		public Organisationseinheit getSelectedIdentityAsObject(){
-			Window.alert("triggered");
 			if(person.getTeamId()!=null){
 				if(ownOrgUnits.getSelectedIndex()==0){
 					return person;

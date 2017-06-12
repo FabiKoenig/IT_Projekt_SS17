@@ -190,6 +190,14 @@ public interface ProjektmarktplatzVerwaltung extends RemoteService{
 	
 	public Vector<Unternehmen> getAllUnternehmen() throws IllegalArgumentException;
 
+
+
 	public Projekt getProjektbyAusschreibung(Ausschreibung a) throws IllegalArgumentException;
+
+
+	
+	public Vector<Eigenschaft> getEigenschaftenByForeignPartnerprofilId(int id) throws IllegalArgumentException;
+
+
 }
 

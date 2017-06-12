@@ -212,7 +212,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
 
+
 	void getProjektbyAusschreibung(Ausschreibung a, AsyncCallback<Projekt> callback);
+
+
+	void getEigenschaftenByForeignPartnerprofilId(int id, AsyncCallback<Vector<Eigenschaft>> callback);
 
 
 
