@@ -167,12 +167,13 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		 */
 		bewerbungBewertenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				if(selectionModel.getSelectedObject() == null){
+					Window.alert("Bitte wähle zuerst eine Bewerbung aus.");
+				} else{
 				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				dbb.setPopupPosition(left, top);
+				dbb.center();
 				dbb.show();
-				
+				}		
 			}
 		});
 		
@@ -193,7 +194,9 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				navigation.reload();				
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new MeineAusschreibungenForm(identityMarketChoice, navigation));
+//				navigation.reload();				
 			}
 		});
 		
