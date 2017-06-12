@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
@@ -25,6 +26,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.client.gui.BeteiligungenForm.BeteiligungProjektHybrid;
 import de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzufuegen.SetEigenschaftenCallback;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
@@ -37,8 +39,14 @@ public class MeineAusschreibungenForm extends Showcase{
 	private static ClickHandler clickhandler;
 	private static ClickEvent clickevent;
 	
-	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
+	CellTable<AusschreibungProjektHybrid> dataGrid = new CellTable<AusschreibungProjektHybrid>();
 	Button ausschreibungLoeschenButton = new Button("Löschen");
+	//Vector<Ausschreibung> ausschreibungen1 = new Vector<Ausschreibung>();
+	Vector <Projekt> projekt = new Vector <Projekt>();
+	AusschreibungProjektHybrid localhybrid;
+
+	Vector<AusschreibungProjektHybrid> hybrid = new Vector<>();
+	
 	Button ausschreibungBearbeitenButton = new Button("Bearbeiten");
 	Button partnerprofilBearbeitenButton = new Button("Partnerprofil anzeigen");
 	Button bewerbungenAnzeigenButton = new Button("Bewerbungen anzeigen");
@@ -64,20 +72,31 @@ public class MeineAusschreibungenForm extends Showcase{
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
+		//Hybridvektor benutzen
+		TextColumn<AusschreibungProjektHybrid> projektColumn = new TextColumn<AusschreibungProjektHybrid>(){
+
+			@Override
+			public String getValue(AusschreibungProjektHybrid object) {
+				return object.getProjektname();
+			}
+		};
+		
+		
+		
 			//Erstellen der TextColumns der CellTable
-				TextColumn<Ausschreibung> bezeichnungColumn = new TextColumn<Ausschreibung>(){
+				Column<AusschreibungProjektHybrid, ?> bezeichnungColumn = new TextColumn<AusschreibungProjektHybrid>(){
 
 					@Override
-					public String getValue(Ausschreibung object) {
+					public String getValue(AusschreibungProjektHybrid object) {
 						return object.getBezeichnung();
 					}
 				};
 				
 
-				TextColumn<Ausschreibung> bewerbungsfristColumn = new TextColumn<Ausschreibung>(){
+				TextColumn<AusschreibungProjektHybrid> bewerbungsfristColumn = new TextColumn<AusschreibungProjektHybrid>(){
 
 					@Override
-					public String getValue(Ausschreibung object) {
+					public String getValue(AusschreibungProjektHybrid object) {
 						return object.getBewerbungsfrist().toString();
 					}
 				};
@@ -102,14 +121,16 @@ public class MeineAusschreibungenForm extends Showcase{
 //					}
 //				};		
 		
-			// Hinzufügen der Spalten zu unserer CellTable
+			// Hinzufügen der Spalten zu unserer CellTable+
+				dataGrid.addColumn(projektColumn, "Projektname");
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
+				
 //				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
 				
 			// Anlegen des SingleSeletion Models
-				final SingleSelectionModel<Ausschreibung> selectionModel = new SingleSelectionModel<>();
+				final SingleSelectionModel<AusschreibungProjektHybrid> selectionModel = new SingleSelectionModel<>();
 				dataGrid.setSelectionModel(selectionModel);
 				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 					
@@ -155,10 +176,12 @@ public class MeineAusschreibungenForm extends Showcase{
 			ausschreibungLoeschenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					
-					Ausschreibung selectedAusschreibung = selectionModel.getSelectedObject();
+					AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
 					
 					if(selectionModel.getSelectedObject() != null){
-						projektmarktplatzVerwaltung.deleteAusschreibung(selectedAusschreibung, new AsyncCallback<Void>() {
+						Ausschreibung localAusschreibung = new Ausschreibung();
+						localAusschreibung.setId(selectedAusschreibung.getAusschreibungid());
+						projektmarktplatzVerwaltung.deleteAusschreibung(localAusschreibung, new AsyncCallback<Void>() {
 						
 						@Override
 						public void onSuccess(Void result) {
@@ -254,16 +277,36 @@ public class MeineAusschreibungenForm extends Showcase{
 									
 									speichernButton.addClickHandler(new ClickHandler() {
 										public void onClick(ClickEvent event) {
+//											
+//											
+//											AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
+//											
+//											if(selectionModel.getSelectedObject() != null){
+//												Ausschreibung localAusschreibung = new Ausschreibung();
+//												localAusschreibung.setId(selectedAusschreibung.getAusschreibungid());
+//												projektmarktplatzVerwaltung.deleteAusschreibung(localAusschreibung, new AsyncCallback<Void>() {
+//												
+//												@Override
+											
+											AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
 											
 											if(ausschreibungBezeichungBox.getText() != "" && ausschreibungstextBox.getText() != ""){
 												Ausschreibung bearbeiteteAusschreibung = new Ausschreibung();
-												bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
-												bearbeiteteAusschreibung.setAusschreibenderId(selectionModel.getSelectedObject().getAusschreibenderId());
+												
+												bearbeiteteAusschreibung.setId(selectedAusschreibung.getAusschreibungid());
+												bearbeiteteAusschreibung.setAusschreibenderId(selectedAusschreibung.getAusschreibenderid());
+												//bearbeiteteAusschreibung.setAusschreibungstext(selectedAusschreibung.getText());
+												//bearbeiteteAusschreibung.setBewerbungsfrist(selectedAusschreibung.getBewerbungsfrist());
+												bearbeiteteAusschreibung.setPartnerprofilId(selectedAusschreibung.getPartnerprofil());
+												bearbeiteteAusschreibung.setProjektId(selectedAusschreibung.getProjektid());
+												
+												//bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
+												//bearbeiteteAusschreibung.setAusschreibenderId(selectionModel.getSelectedObject().getAusschreibenderId());
 												bearbeiteteAusschreibung.setAusschreibungstext(ausschreibungstextBox.getText());
 												bearbeiteteAusschreibung.setBewerbungsfrist(ausschreibungBewerbungsfristBox.getValue());
 												bearbeiteteAusschreibung.setBezeichnung(ausschreibungBezeichungBox.getText());
-												bearbeiteteAusschreibung.setPartnerprofilId(selectionModel.getSelectedObject().getPartnerprofilId());
-												bearbeiteteAusschreibung.setProjektId(selectionModel.getSelectedObject().getProjektId());
+											//	bearbeiteteAusschreibung.setPartnerprofilId(selectionModel.getSelectedObject().getPartnerprofilId());
+												//bearbeiteteAusschreibung.setProjektId(selectionModel.getSelectedObject().getProjektId());
 												
 												projektmarktplatzVerwaltung.saveAusschreibung(bearbeiteteAusschreibung, new AsyncCallback<Void>() {
 													
@@ -305,8 +348,12 @@ public class MeineAusschreibungenForm extends Showcase{
 			partnerprofilBearbeitenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					
+					AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
+
 					if(selectionModel.getSelectedObject() != null){
-						partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
+						
+						//geändert
+						partnerprofilId = selectedAusschreibung.getPartnerprofilid();
 					
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId));
@@ -325,9 +372,13 @@ public class MeineAusschreibungenForm extends Showcase{
 			bewerbungenAnzeigenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					
+					AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
+
+					
 					if(selectionModel.getSelectedObject() != null){
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
+						RootPanel.get("Details").clear();						
+					//	RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getId()));
+						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectedAusschreibung.getAusschreibungid()));
 						Navigation.setCurrentClickHandler(this);
 						Navigation.setCurrentClickEvent(event);
 						
@@ -340,11 +391,15 @@ public class MeineAusschreibungenForm extends Showcase{
 			
 			ausschreibungstextButton.addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
+					AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
+
 					if (selectionModel.getSelectedObject() == null)
 					{
 						Window.alert("Bitte wählen Sie eine Stellenausschreibung aus");
 					}
-					DialogBoxAusschreibungstext text = new DialogBoxAusschreibungstext(selectionModel.getSelectedObject().getAusschreibungstext());
+					
+					DialogBoxAusschreibungstext text = new DialogBoxAusschreibungstext(selectedAusschreibung.getText());
+					//DialogBoxAusschreibungstext text = new DialogBoxAusschreibungstext(selectionModel.getSelectedObject().getAusschreibungstext());
 					int left = Window.getClientWidth() / 3;
 					int top = Window.getClientHeight() / 8;
 					text.setPopupPosition(left, top);
@@ -369,6 +424,7 @@ public class MeineAusschreibungenForm extends Showcase{
 		public void onSuccess(Organisationseinheit result) {		
 			if (result != null) {
 				projektmarktplatzVerwaltung.getAusschreibungByForeignOrganisationseinheit(result, new GetAusschreibungenByOrgaCallback());
+				
 			}			
 		}
 	
@@ -383,18 +439,46 @@ public class MeineAusschreibungenForm extends Showcase{
 			
 		}
 
-		@Override
 		public void onSuccess(Vector<Ausschreibung> result) {
-			
-			if(result != null){
-				//Anpassen der CellTable
 				
-				dataGrid.setRowCount(result.size(), true);
-				dataGrid.setRowData(0, result);
+			for (Ausschreibung ausschreibung : result) {
+				localhybrid = new AusschreibungProjektHybrid();
+				
+				localhybrid.setBezeichnung(ausschreibung.getBezeichnung());
+				localhybrid.setBewerbungsfrist(ausschreibung.getBewerbungsfrist());
+				projektmarktplatzVerwaltung.getProjektbyAusschreibung(ausschreibung, new getAusschreibungProjekte());
+				
+				
+
+			}
+				
+			
+				
 			
 			}
-		}	
+		
+
 	}
+	
+//	public class ProjektAusschreibungCallback implements AsyncCallback<Projekt>{
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			Window.alert("Fehler:");
+//			
+//		}
+//
+//		@Override
+//		public void onSuccess(Projekt result) {
+//			if(result!=null){
+//				
+//				projektmarktplatzVerwaltung.getProjektbyAusschreibung(result, callback);
+//			}
+//			
+//		}
+//		
+//		
+//	}
 
 	
 	public static int getPartnerprofilIdOfSelectedAusschreibung(){
@@ -407,5 +491,170 @@ public class MeineAusschreibungenForm extends Showcase{
 		return clickevent;
 	}
 	
+//	 private class getAusschreibungProjekte implements AsyncCallback<Vector<Ausschreibung>>{
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("Fehler: " + caught.toString());				
+//			}
+//
+//			public void onSuccess(Ausschreibung result) {
+//				
+//				//Warum gehts das hier obwohl in BeteiligungForm die Forschleife als ProjektVektor deklariert ist.?
+//				for(Ausschreibung ausschreibung : beteiligungen){
+//
+//					final AusschreibungProjektHybrid localHybrid = new AusschreibungProjektHybrid();
+//					
+//					if(result != null){
+//				
+//					localHybrid.setProjektname(.);
+//					hybrid.add(localHybrid);
+//											
+//					}
+//					dataGrid.setRowCount(result.size());
+//					dataGrid.setRowData(hybrid);
+//					
+//					
+//				}
+							
+	private class getAusschreibungProjekte implements AsyncCallback<Projekt>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+			Window.alert("Fehler: " + caught.toString());				
+		
+	}
+
+	@Override
+	public void onSuccess(Projekt result) {
+			
+			localhybrid.setProjektname(result.getName());
+			hybrid.add(localhybrid);
+			dataGrid.setRowCount(hybrid.size(), true);
+			dataGrid.setRowData(hybrid);
+		}
+		
+		
+		
+	}
+
+
 	
+	
+	
+			
+		
+		
+		
+	
+					
+				
+
+					
+				
+			
+
+
+		
+	 
+	 
+		public class AusschreibungProjektHybrid{
+			
+			private int projektid;
+			private String projektname;
+			private String bezeichnung;
+			private Date bewerbungsfrist;
+			private int ausschreibungid;
+			
+			private int ausschreibenderid;
+			private String Text;
+			private int partnerprofil;
+			private int partnerprofilid;
+			
+			
+			
+			
+			
+			public int getPartnerprofilid() {
+				return partnerprofilid;
+			}
+			public void setPartnerprofilid(int partnerprofilid) {
+				this.partnerprofilid = partnerprofilid;
+			}
+			
+			public int getPartnerprofil() {
+				return partnerprofil;
+			}
+			
+			public void setPartnerprofil(int partnerprofil) {
+				this.partnerprofil = partnerprofil;
+			}
+			
+			public void setText(String text) {
+				Text = text;
+			}
+			
+			public String getText() {
+				return Text;
+			}
+			
+			public void setAusschreibenderid(int ausschreibenderid) {
+				this.ausschreibenderid = ausschreibenderid;
+			}
+			
+			public int getAusschreibenderid() {
+				return ausschreibenderid;
+			}
+			
+			
+			public int getAusschreibungid() {
+				return ausschreibungid;
+			}
+			
+			public void setAusschreibungid(int ausschreibungid) {
+				this.ausschreibungid = ausschreibungid;
+			}
+			
+			public Date getBewerbungsfrist() {
+				return bewerbungsfrist;
+			}
+			
+			public void setBewerbungsfrist(Date bewerbungsfrist) {
+				this.bewerbungsfrist = bewerbungsfrist;
+			}
+			
+			public String getBezeichnung() {
+				return bezeichnung;
+			}
+			
+			 public void setBezeichnung(String bezeichnung) {
+				this.bezeichnung = bezeichnung;
+			}
+			
+			public int getProjektid() {
+				return projektid;
+			}
+			public void setProjektid(int projektid) {
+				this.projektid = projektid;
+			}
+			
+			public String getProjektname() {
+				return projektname;
+			}
+			
+			public void setProjektname(String projektname) {
+				this.projektname = projektname;
+			}
+			
+			
+			
+		}
+
+
 }
+
+
+
+
+
+

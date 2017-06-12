@@ -40,7 +40,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 	@Override	
 	protected String getHeadlineText() {
-		return "Auschreibungen zum Projekt";
+		return "Auschreibungen zum Projekt "+p.getName();
 
 	}
 	

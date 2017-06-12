@@ -191,11 +191,11 @@ public class BeteiligungenForm extends Showcase{
 	public static class BeteiligungProjektHybrid{
 		
 		private int beteiligungId;
-		private String projektBezeichnung;
-		private int beteiligungUmfang;
+		private int umfang;
 		private Date startDatum;
 		private Date endDatum;
-		private int umfang;
+		private String projektBezeichnung;
+		private int beteiligungUmfang;
 		private String beteiligter;
 		
 		public String getBeteiligter() {

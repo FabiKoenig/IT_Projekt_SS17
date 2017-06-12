@@ -19,7 +19,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class IdentityChoiceReport extends FlexTable{
 
-	private static int currentLogin = 3;
+	private static int currentLogin = 6;
 	private static IdentityChoiceReport navigation=null;
 	private static ListBox ownOrgUnits = new ListBox();
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
