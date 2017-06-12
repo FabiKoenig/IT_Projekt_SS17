@@ -202,7 +202,7 @@ implements ProjektmarktplatzVerwaltung {
 		
 		
 		
-		this.createPartnerprofil();
+//		this.createPartnerprofil();
 		
 		return this.ausschreibungMapper.insert(a); 
 	}
@@ -1168,7 +1168,8 @@ implements ProjektmarktplatzVerwaltung {
 	}
 	
 	/**
-	 * Gibt eine Ausschreibung zu dem übergebenen Partnerprofil-Objekt zurück.
+	 * @param Ein Partnerprofil-Obejekt
+	 * @return: Gibt eine Ausschreibung zu dem übergebenen Partnerprofil-Objekt zurück.
 	 */
 	@Override
 	public Ausschreibung getAusschreibungByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
@@ -1178,6 +1179,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Eigenschaft zu dem übergebenen Partnerprofil-Objekt zurück.
+	 * @param: Ein Partnerprofil-Objekt.
+	 * @return: Alle Eigenschaften eines Partnerprofil-Obejtks.
 	 */
 	@Override
 	public Vector<Eigenschaft> getEigenschaftByForeignPartnerprofil(Partnerprofil p) throws IllegalArgumentException {
@@ -1194,9 +1197,29 @@ implements ProjektmarktplatzVerwaltung {
 		return result;
 	}
 	
-
+	/**
+	 * Gibt alle Eigenschaften zu dem Partnerprofil-Objekt zurück, dessen ID übergeben worden ist.
+	 * @param: Eine ID eines Partnerprofil-Objekts.
+	 * @return: Alle Eigenschaften eines Partnerprofil-Obejtks.
+	 */
+	public Vector<Eigenschaft> getEigenschaftenByForeignPartnerprofilId(int id) throws IllegalArgumentException {
+		
+		Vector <Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		if(this.eigenschaftMapper != null ){
+			Vector<Eigenschaft> eigenschaft = this.eigenschaftMapper.findByForeignPartnerprofilId(id);
+			
+			if(eigenschaft != null){
+				result.addAll(eigenschaft);
+			}
+		}
+		return result;
+		
+	}
+	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Bewerbung-Objekts in die Datenbank.
+	 * @param: Ein Bewerbung-Objekt.
 	 */
 	@Override
 	public void saveBewerbung(Bewerbung b) throws IllegalArgumentException {
@@ -1206,6 +1229,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Projektmarktplatz-Objekts in die Datenbank.
+	 * @param: Ein Projektmarktplatz-Objekt.
 	 */
 	@Override
 	public void saveProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
@@ -1215,6 +1239,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Team-Objekts in die Datenbank.
+	 * @param: Ein Team-Objekt.
 	 */
 	@Override
 	public void saveTeam(Team t) throws IllegalArgumentException {
@@ -1224,6 +1249,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	/**
+	 * @param: Ein Eigenschaft-Objekt.
 	 * Schreibt Änderungen zu dem übergebenen Eigenschaft-Objekts in die Datenbank.
 	 */
 	@Override
@@ -1235,6 +1261,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Unternehmen-Objekts in die Datenbank.
+	 * @param: Ein Unternehmen-Objekt.
 	 */
 	@Override
 	public void saveUnternehmen(Unternehmen u) throws IllegalArgumentException {
@@ -1245,6 +1272,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Personen-Objekts in die Datenbank.
+	 * @param: Ein Person-Objekt.
 	 */
 	@Override
 	public void savePerson(Person p) throws IllegalArgumentException {
@@ -1255,6 +1283,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Beteiligung-Objekts in die Datenbank.
+	 * @param: Ein Beteiligung-Objekt.
 	 */
 	@Override
 	public void saveBeteiligung(Beteiligung b) throws IllegalArgumentException {
@@ -1265,6 +1294,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Bewertung-Objekts in die Datenbank.
+	 * @param: Ein Bewertung-Objekt.
 	 */
 	@Override
 	public void saveBewertung(Bewertung b) throws IllegalArgumentException {
@@ -1274,6 +1304,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Partnerprofil-Objekts in die Datenbank.
+	 * @param: Ein Partnerprofil-Objekt.
 	 */
 	@Override
 	public void savePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
@@ -1284,6 +1315,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Projekt-Objekts in die Datenbank.
+	 * @param: Ein Projekt-Objekt.
 	 */
 	@Override
 	public void saveProjekt(Projekt p) throws IllegalArgumentException {
@@ -1294,6 +1326,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Schreibt Änderungen zu dem übergebenen Ausschreibung-Objekts in die Datenbank.
+	 * @param: Ein Ausschreibung-Objekt.
 	 */
 	@Override
 	public void saveAusschreibung(Ausschreibung a) throws IllegalArgumentException {
@@ -1302,6 +1335,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	/**
 	 * Gibt alle Ausschreibungen zurück.
+	 * @return: Einen Vector mit allen Ausschreibungen die es in der Datenbank gibt.
 	 */
 	@Override
 	public Vector<Ausschreibung> getAllAusschreibungen() throws IllegalArgumentException {
@@ -1319,6 +1353,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Organisationseinheiten zurück.
+	 * @return: Alle Organisationeinheiten, die es in der Datenbank gibt.
 	 */
 	@Override
 	public Vector<Organisationseinheit> getAllOrganisationseinheiten() throws IllegalArgumentException {
@@ -1336,7 +1371,12 @@ implements ProjektmarktplatzVerwaltung {
 		return organisationseinheiten;
 	}
 
-	//Liefert ein Organisationseinheit anhand der übergebenen orgaId zurück
+
+	/**
+	 * Liefert ein Organisationseinheit anhand der übergebenen orgaId zurück.
+	 * @return: Liefert ein Organisationseinheit anhand der übergebenen orgaId zurück.
+	 * @param: Die ID einer Organisationseinheit.
+	 */
 	public Organisationseinheit getOrganisationseinheitById(int orgaId){
 		
 		Person p = personMapper.findById(orgaId);

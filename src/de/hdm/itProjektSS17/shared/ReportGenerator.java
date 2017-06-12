@@ -21,8 +21,6 @@ public interface ReportGenerator extends RemoteService{
 	
 	public void setPerson() throws IllegalArgumentException;
 	
-	public abstract AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Partnerprofil p) throws IllegalArgumentException;
-
 	public abstract AlleAusschreibungenReport createAlleAusschreibungenReport() throws IllegalArgumentException;
 
 	public abstract AlleBewerbungenAufEigeneAusschreibungenReport createAlleBewerbungenAufEigeneAusschreibungenReport(
@@ -43,6 +41,11 @@ public interface ReportGenerator extends RemoteService{
 	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException;
 	
 	public Vector<Organisationseinheit> getBewerberAufEigeneAusschreibungen(Organisationseinheit o) throws IllegalArgumentException;
+	
+	public Vector<Person> getAllPersonen() throws IllegalArgumentException;
+
+	AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Organisationseinheit o)
+			throws IllegalArgumentException;
 
 	
 }

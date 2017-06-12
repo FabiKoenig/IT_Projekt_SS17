@@ -154,8 +154,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
-				
-				
+					
 			}
 		});
 		

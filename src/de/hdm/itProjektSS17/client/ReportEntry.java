@@ -75,7 +75,7 @@ public class ReportEntry implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()){
-					projektmarktplatzVerwaltung.getAllPersonen(new AsyncCallback<Vector<Person>>() {
+					reportGenerator.getAllPersonen(new AsyncCallback<Vector<Person>>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
