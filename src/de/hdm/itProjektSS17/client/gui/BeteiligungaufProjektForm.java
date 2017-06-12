@@ -53,12 +53,11 @@ public class BeteiligungaufProjektForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Beteilgung des Projektes";
+		return "Beteiligung des Projektes";
 	}
 
 	@Override
 	protected void run() {
-		
 		
 
 		RootPanel.get("Details").setWidth("70%");
@@ -81,7 +80,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 			@Override
 			public String getValue(BeteiligungProjektHybrid object) {
 				Integer umfangTemp = object.getBeteiligungUmfang();
-				return umfangTemp.toString();
+				return umfangTemp.toString() + " Tage";
 			}
 		
 		};
@@ -175,11 +174,11 @@ public class BeteiligungaufProjektForm extends Showcase {
 			Window.alert("Fehler: " + caught.toString());
 			
 		}
-
+		
 		@Override
 		public void onSuccess(Vector<Beteiligung> result) {
 
-			
+	
 			for (Beteiligung beteiligung : result) {
 				final BeteiligungProjektHybrid localHybrid = new BeteiligungProjektHybrid();
 				
@@ -193,12 +192,14 @@ public class BeteiligungaufProjektForm extends Showcase {
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Das Anzeigen der Organisationseinheit ist fehlgeschlagen!");
-						
+		
 					}
 
 					@Override
 					public void onSuccess(Organisationseinheit result) {
-						if(result instanceof Person){							
+						if(result instanceof Person){
+						
+
 							String beteiligtePerson = ((Person) result).getVorname() + " " + ((Person) result).getNachname();
 							localHybrid.setBeteiligter(beteiligtePerson);
 						} else if(result instanceof Team){
@@ -207,6 +208,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 						} else if(result instanceof Unternehmen){					
 							String beteiligtesUnternehmen = ((Unternehmen) result).getName();
 							localHybrid.setBeteiligter(beteiligtesUnternehmen);
+							
 						}	
 
 						beteiligungen.add(localHybrid);
@@ -218,11 +220,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 				
 				
 			}
-			
-			
-
-			
-			
+				
 			}
 		
 		}

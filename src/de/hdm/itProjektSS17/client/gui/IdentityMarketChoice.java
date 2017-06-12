@@ -32,8 +32,10 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class IdentityMarketChoice extends FlexTable{
 	
+
 	private ListBox ownOrgUnits = new ListBox();
 	private ListBox ownProjectMarkets = new ListBox();
+
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private Person person;

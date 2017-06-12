@@ -68,6 +68,8 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void deleteAusschreibung(Ausschreibung a, AsyncCallback<Void> callback);
 
+	
+	
 	void deleteBeteiligung(Beteiligung b, AsyncCallback<Void> callback);
 
 	void deleteBewerbung(Bewerbung b, AsyncCallback<Void> callback);
@@ -207,7 +209,11 @@ public interface ProjektmarktplatzVerwaltungAsync {
 	void createBeteiligungProjektleiter(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId,
 			AsyncCallback<Beteiligung> callback);
 
+
 	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
+
+	void getProjektbyAusschreibung(Ausschreibung a, AsyncCallback<Projekt> callback);
+
 
 
 }
