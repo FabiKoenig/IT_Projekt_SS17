@@ -102,8 +102,7 @@ public class ProjektmarktplatzForm extends Showcase {
 			@Override
 			public void onClick(ClickEvent event) {
 				DialogBoxProjektmarktplatzErstellen dbErstellen = new DialogBoxProjektmarktplatzErstellen(identityMarketChoice, navigation);
-				dbErstellen.center();
-				dbErstellen.show();		
+				dbErstellen.center();	
 			}
 		});
 		

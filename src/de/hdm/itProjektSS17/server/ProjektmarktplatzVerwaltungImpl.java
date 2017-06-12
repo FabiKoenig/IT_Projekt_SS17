@@ -453,6 +453,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * @param a
 	 * @return Es wird ein Partnerprofil zu der übergebenen Ausschreibung zurückgegeben.
 	 */
+	@Override
 	public Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
 		
 		if (a != null && this.partnerprofilMapper != null) {
@@ -1581,7 +1582,6 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public Vector<Person> getAllPersonen() throws IllegalArgumentException {
 		return this.personMapper.getAllPersonen();
-	}
-	
+	}	
 
 }

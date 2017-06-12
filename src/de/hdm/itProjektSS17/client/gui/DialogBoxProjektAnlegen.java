@@ -79,8 +79,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			}
 			else {
 				projektmarktplatzVerwaltung.getPersonById(identityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
-				
-			
+		
 			}
 			
 		}
@@ -150,12 +149,10 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 			if (result != null) {
 				
-				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), identityMarketChoice.getSelectedProjectMarketplaceId(), new CreateProjektCallback());
-
-				
-				
+				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), identityMarketChoice.getSelectedProjectMarketplaceId(), new CreateProjektCallback());		
 			}
 		}
+		
 		
 	}
 	
@@ -169,7 +166,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 		@Override
 		public void onSuccess(Projekt result) {
-			
+			final Projekt p = result;
 			int umfang = (int)( (result.getEnddatum().getTime() - result.getStartdatum().getTime()) / (1000 * 60 * 60 * 24) ) + 1;
 			projektmarktplatzVerwaltung.createBeteiligungProjektleiter(umfang, result.getStartdatum(), result.getEnddatum(), identityMarketChoice.getSelectedIdentityId(), result.getId(), new AsyncCallback<Beteiligung>() {
 
@@ -180,12 +177,11 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 
 				@Override
 				public void onSuccess(Beteiligung result) {
-					Window.alert("Die Beteiligung wurde erfolgreich angelegt!");
+					Window.alert("Das Projekt " + "\"" +p.getName()+ "\"" + " Beteiligung wurde erfolgreich angelegt!");
+					hide();
+					navigation.reload();
 				}
 			});
-			Window.alert("Projekt erfolgreich hinzugefügt!");
-			hide();
-			navigation.reload();
 		}
 		
 	}

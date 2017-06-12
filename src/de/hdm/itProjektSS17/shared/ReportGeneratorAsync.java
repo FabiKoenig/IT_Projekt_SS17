@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
@@ -50,5 +51,7 @@ public interface ReportGeneratorAsync {
 			AsyncCallback<Vector<Organisationseinheit>> callback);
 
 	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
+
+	void getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o, AsyncCallback<Vector<Ausschreibung>> callback);
 
 }
