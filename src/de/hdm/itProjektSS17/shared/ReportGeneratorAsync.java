@@ -49,4 +49,6 @@ public interface ReportGeneratorAsync {
 	void getBewerberAufEigeneAusschreibungen(Organisationseinheit o,
 			AsyncCallback<Vector<Organisationseinheit>> callback);
 
+	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
+
 }

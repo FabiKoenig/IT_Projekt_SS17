@@ -96,6 +96,10 @@ implements ReportGenerator{
 		return projektmarktplatzverwaltung.getUnternehmenById(id);
 	}
 	
+	public Vector<Person> getAllPersonen() throws IllegalArgumentException{		
+		return projektmarktplatzverwaltung.getAllPersonen();	
+	}
+	
 	
 	public Vector<Organisationseinheit> getBewerberAufEigeneAusschreibungen(Organisationseinheit o) throws IllegalArgumentException{
 		
