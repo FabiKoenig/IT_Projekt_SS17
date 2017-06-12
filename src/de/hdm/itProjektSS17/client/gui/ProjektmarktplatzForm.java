@@ -39,10 +39,9 @@ public class ProjektmarktplatzForm extends Showcase {
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static  Vector<Projektmarktplatz> projektmarktplaetzeGefiltert = new Vector<>();
-	
+	private static Vector<Projektmarktplatz> beigetreteneProjektmarktplaetze = new Vector<>();
 	CellTable<Projektmarktplatz> ct_fremdeProjektmarktplaetze = new CellTable();
 	CellTable<Projektmarktplatz> ct_eigeneProjektmarktplaetze = new CellTable();
-	
 	
 	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
 	
@@ -215,6 +214,7 @@ public class ProjektmarktplatzForm extends Showcase {
 
 					@Override
 					public void onSuccess(Vector<Projektmarktplatz> result) {
+						beigetreteneProjektmarktplaetze = result;
 						for (Projektmarktplatz projektmarktplatz : result) {
 							for(int i=0; i<projektmarktplaetzeGefiltert.size(); i++){
 								if(projektmarktplaetzeGefiltert.get(i).getId()==projektmarktplatz.getId()){
@@ -271,6 +271,22 @@ public class ProjektmarktplatzForm extends Showcase {
 		
 		this.add(ct_fremdeProjektmarktplaetze);		
 		
+
+		final ListDataProvider dataProvider = new ListDataProvider();
+		SimplePager pager;
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+		pager.setDisplay(ct_fremdeProjektmarktplaetze);
+		dataProvider.addDataDisplay(ct_fremdeProjektmarktplaetze);
+		dataProvider.setList(new ArrayList<Projektmarktplatz>(projektmarktplaetzeGefiltert));
+		pager.setPageSize(10);
+		
+		HorizontalPanel hp_pager = new HorizontalPanel();
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		hp_pager.add(pager);
+		add(hp_pager);
+		
 		
 		TextColumn<Projektmarktplatz> ProjektmarktplatznameColumn_eigene = new TextColumn<Projektmarktplatz>() {
 			@Override
@@ -297,6 +313,21 @@ public class ProjektmarktplatzForm extends Showcase {
 		ct_eigeneProjektmarktplaetze.setWidth("100%");
 		
 		this.add(ct_eigeneProjektmarktplaetze);
+		
+		final ListDataProvider dataProvider1 = new ListDataProvider();
+		SimplePager pager1;
+		SimplePager.Resources pagerResources1 = GWT.create(SimplePager.Resources.class);
+		pager1 = new SimplePager(TextLocation.CENTER, pagerResources1, false, 0, true);
+		pager1.setDisplay(ct_eigeneProjektmarktplaetze);
+		dataProvider1.addDataDisplay(ct_eigeneProjektmarktplaetze);
+		dataProvider1.setList(new ArrayList<Projektmarktplatz>(beigetreteneProjektmarktplaetze));
+		pager1.setPageSize(10);
+		
+		HorizontalPanel hp_pager1 = new HorizontalPanel();
+		hp_pager1.setWidth("100%");
+		hp_pager1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		hp_pager1.add(pager1);
+		add(hp_pager1);
 		
 		}		
 		
