@@ -13,6 +13,7 @@ import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Beteiligung;
 import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 import de.hdm.itProjektSS17.shared.bo.Bewertung;
+import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
@@ -77,9 +78,24 @@ implements ReportGenerator{
 	}
 	
 	@Override
-	public AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Partnerprofil p)
+	public AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Organisationseinheit o)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAllAusschreibungen();
+		Partnerprofil referenzPartnerprofil = projektmarktplatzverwaltung.getPartnerprofilByForeignOrganisationseinheit(o);
+		Vector<Eigenschaft> referenzEigenschaften = projektmarktplatzverwaltung.getEigenschaftByForeignPartnerprofil(referenzPartnerprofil);	
+	
+		
+		
+		for (Ausschreibung ausschreibung : alleAusschreibungen) {
+			Vector<Eigenschaft> eigenschaftenDerAusschreibung = projektmarktplatzverwaltung.getEigenschaftenByForeignPartnerprofilId(ausschreibung.getPartnerprofilId());
+		}
+		
+		for (Eigenschaft eigenschaft : referenzEigenschaften) {
+			
+		}
+		
+		
 		return null;
 	}
 
@@ -310,7 +326,6 @@ implements ReportGenerator{
 			
 			Ausschreibung ausschreibung = projektmarktplatzverwaltung.getAusschreibungById(b.getAusschreibungId());
 			Person ausschreibender = projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId());
-			System.out.println(ausschreibender.getVorname() + ausschreibender.getNachname() + "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 			
 			// Eine leere Zeile anlegen.
 		      Row bewerbungRow = new Row();

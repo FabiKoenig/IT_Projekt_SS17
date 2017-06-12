@@ -140,7 +140,7 @@ public class StellenauschreibungForm extends Showcase {
 												
 													projektmarktplatzVerwaltung.getPersonById(localAusschreibung.getAusschreibenderId(), new AsyncCallback<Person>() {
 
-														
+														public Person ausschreibender = null;
 														@Override
 														public void onFailure(Throwable caught) {
 															// TODO Auto-generated method stub
@@ -150,6 +150,7 @@ public class StellenauschreibungForm extends Showcase {
 													
 														@Override
 														public void onSuccess(Person result) {
+															ausschreibender = result;
 															localHybrid.setAnrede(result.getAnrede());
 															localHybrid.setAusschreibender(result.getNachname());
 															
@@ -157,7 +158,7 @@ public class StellenauschreibungForm extends Showcase {
 															if(p.getId()!=identityMarketChoice.getUser().getId()){
 																
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
-																	
+																
 																	localHybrid.setTeam("Kein Team");
 																	localHybrid.setUnternehmen("Kein Unternehmen");
 																	Hybrid.add(localHybrid);
@@ -184,6 +185,7 @@ public class StellenauschreibungForm extends Showcase {
 																	});
 																	
 																}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
+																	
 																	
 																	projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
@@ -213,8 +215,15 @@ public class StellenauschreibungForm extends Showcase {
 
 																		@Override
 																		public void onSuccess(Team result) {
+																			
 																			localHybrid.setTeam(result.getName());
-																			projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+																			
+//																			Hybrid.add(localHybrid);
+																			cellTable.setRowCount(Hybrid.size(), true);
+																			cellTable.setRowData(0,Hybrid);
+																			
+																			
+																			projektmarktplatzVerwaltung.getUnternehmenById(ausschreibender.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
 																				@Override
 																				public void onFailure(Throwable caught) {
@@ -222,9 +231,10 @@ public class StellenauschreibungForm extends Showcase {
 																				}
 
 																				@Override
-																				public void onSuccess(Unternehmen result) {
+																				public void onSuccess(Unternehmen result) {					
 																					
 																					localHybrid.setUnternehmen(result.getName());
+																					
 																					Hybrid.add(localHybrid);
 																					cellTable.setRowCount(Hybrid.size(), true);
 																					cellTable.setRowData(0,Hybrid);
@@ -236,6 +246,7 @@ public class StellenauschreibungForm extends Showcase {
 															}
 															cellTable.setRowCount(Hybrid.size(), true);
 															cellTable.setRowData(0,Hybrid);
+															
 														}
 														
 													});
