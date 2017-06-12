@@ -396,6 +396,7 @@ public class MeineBewerbungenForm extends Showcase{
 								
 								projektmarktplatzVerwaltung.getPersonById(a.getAusschreibenderId(), new AsyncCallback<Person>() { 
 									
+														public Person ausschreibender = null;
 														@Override
 															public void onFailure(Throwable caught) {
 																// TODO Auto-generated method stub
@@ -404,6 +405,7 @@ public class MeineBewerbungenForm extends Showcase{
 									
 															@Override
 														public void onSuccess(Person result) {
+																ausschreibender = result;
 																
 																projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(localBewerbung, new AsyncCallback<Bewertung>() {
 																	
@@ -501,7 +503,9 @@ public class MeineBewerbungenForm extends Showcase{
 																			@Override
 																			public void onSuccess(Team result) {
 																				localHybrid.setTeam(result.getName());
-																				projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
+																				cellTable.setRowCount(hybrid.size(), true);
+																				cellTable.setRowData(0,hybrid);
+																				projektmarktplatzVerwaltung.getUnternehmenById(ausschreibender.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
 
 																					@Override
 																					public void onFailure(Throwable caught) {
