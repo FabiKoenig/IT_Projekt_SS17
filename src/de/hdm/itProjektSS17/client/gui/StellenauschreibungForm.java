@@ -286,7 +286,7 @@ public class StellenauschreibungForm extends Showcase {
 					pager.setDisplay(cellTable);
 					dataProvider.addDataDisplay(cellTable);
 					dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-					pager.setPageSize(20);
+					pager.setPageSize(10);
 					
 					HorizontalPanel hp_pager = new HorizontalPanel();
 					hp_pager.setWidth("100%");
