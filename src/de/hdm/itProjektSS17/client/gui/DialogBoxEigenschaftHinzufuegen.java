@@ -126,7 +126,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
 											RootPanel.get("Details").clear();
 											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, identityMarketChoice, navigation));
-											break;
+											
 										}
 									}
 									

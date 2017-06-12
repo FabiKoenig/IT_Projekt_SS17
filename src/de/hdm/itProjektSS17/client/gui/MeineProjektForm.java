@@ -175,13 +175,12 @@ public class MeineProjektForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBoxAusschreibungAnlegen daa = new DialogBoxAusschreibungAnlegen(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
-				int left = Window.getClientWidth() / 3;
-				int top = Window.getClientHeight() / 8;
-				daa.setPopupPosition(left, top);
+				
+				
 				if (selectionModel.getSelectedObject() != null) {
-					
+					DialogBoxAusschreibungAnlegen daa = new DialogBoxAusschreibungAnlegen(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
 					daa.show();
+					daa.center();
 				}
 				else {
 					Window.alert("Bitte wählen Sie ein Projekt zuerst aus, bevor Sie eine Ausschreibung anlegen möchten!");

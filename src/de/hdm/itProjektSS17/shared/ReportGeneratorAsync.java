@@ -21,7 +21,7 @@ public interface ReportGeneratorAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void createAlleAusschreibungeZuPartnerprofilReport(Partnerprofil p,
+	void createAlleAusschreibungeZuPartnerprofilReport(Organisationseinheit o,
 			AsyncCallback<AlleAusschreibungenZuPartnerprofilReport> callback);
 
 	void createAlleAusschreibungenReport(AsyncCallback<AlleAusschreibungenReport> callback);
@@ -48,5 +48,7 @@ public interface ReportGeneratorAsync {
 
 	void getBewerberAufEigeneAusschreibungen(Organisationseinheit o,
 			AsyncCallback<Vector<Organisationseinheit>> callback);
+
+	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
 
 }
