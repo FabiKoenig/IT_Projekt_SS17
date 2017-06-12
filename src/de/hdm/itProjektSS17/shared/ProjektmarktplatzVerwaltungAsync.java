@@ -218,6 +218,7 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getEigenschaftenByForeignPartnerprofilId(int id, AsyncCallback<Vector<Eigenschaft>> callback);
 
+	void getPartnerProfilByForeignAusschreibung(Ausschreibung a, AsyncCallback<Partnerprofil> callback);
 
 
 }

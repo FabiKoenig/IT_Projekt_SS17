@@ -1,5 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -26,8 +28,10 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 	private Projektmarktplatz pm = null;
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
+	private Vector<Projektmarktplatz> projektmarktplaetze = new Vector<Projektmarktplatz>();
 	
 	public DialogBoxProjektmarktplatzErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		projektmarktplatzVerwaltung.getAllProjektmarktplatz(new getAllProjektmarktplaetze());
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 		
@@ -43,8 +47,17 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				projektmarktplatzVerwaltung.createProjektmarktplatz(txt_pmName.getText(), new ProjektmarktplatzErstellenCallback());
-			
+				boolean choosable = true;
+				for(Projektmarktplatz projektmarktplatz : projektmarktplaetze){
+					if(projektmarktplatz.getBezeichnung().equals(txt_pmName.getText())){
+						choosable=false;
+					}
+				}
+				if(choosable==true){
+					projektmarktplatzVerwaltung.createProjektmarktplatz(txt_pmName.getText(), new ProjektmarktplatzErstellenCallback());
+				}else if(choosable==false){
+					Window.alert("Projektmarktplatz existiert bereits! Bitte einen anderen Namen wählen!");
+				}
 			}
 		});
 		
@@ -93,8 +106,20 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 			navigation.reload();
 			Window.alert("Neuer Projektmarktplatz wurde hinzugefügt!");
 			hide();
+		}		
+	}
+	
+	private class getAllProjektmarktplaetze implements AsyncCallback<Vector<Projektmarktplatz>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Bereits vorhandene Projektmarktplaetze konnte nicht geladen werden");
 		}
 
+		@Override
+		public void onSuccess(Vector<Projektmarktplatz> result) {
+			projektmarktplaetze=result;
+		}
 		
 	}
 		
