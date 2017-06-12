@@ -1,6 +1,7 @@
 package de.hdm.itProjektSS17.client.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.tools.admin.VerificationCodeReceiverRedirectUriException;
@@ -141,14 +142,31 @@ public class MeinPartnerprofilForm extends Showcase{
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
+				final Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
 				projektmarktplatzVerwaltung.deleteEigenschaft(selectedEigenschaft, new AsyncCallback<Void>() {
+					
 					public void onFailure(Throwable caught) {
 						Window.alert("Fehler: Die Eigenschaft konnte nicht gelöscht werden.");
 					}
 					public void onSuccess(Void result) {
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
-						navigation.reload();
+						projektmarktplatzVerwaltung.getPartnerprofilById(selectedEigenschaft.getPartnerprofilId(), new AsyncCallback<Partnerprofil>() {
+							
+							
+							@Override
+							public void onSuccess(Partnerprofil result) {
+								
+							result.setAenderungdatum(new Date());
+							navigation.reload();
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Fehler: Die Eigenschaft konnte nicht gelöscht werden.");
+								
+							}
+						});
+						
 					}
 				});
 				
