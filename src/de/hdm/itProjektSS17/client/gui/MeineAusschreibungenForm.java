@@ -68,7 +68,7 @@ public class MeineAusschreibungenForm extends Showcase{
 
 	@Override
 	protected void run() {
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		dataGrid.setWidth("100%", true);
 		
 		//CallBack um die Ausschreibungen der gewünschten Person zu laden

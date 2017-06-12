@@ -563,7 +563,7 @@ public class MeineBewerbungenForm extends Showcase{
 			pager.setDisplay(cellTable);
 			dataProvider.addDataDisplay(cellTable);
 			dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
-			pager.setPageSize(5);
+			pager.setPageSize(10);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");

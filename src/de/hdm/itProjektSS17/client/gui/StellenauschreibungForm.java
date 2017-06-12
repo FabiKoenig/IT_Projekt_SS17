@@ -72,7 +72,7 @@ public class StellenauschreibungForm extends Showcase {
 	protected void run() {
 		// TODO Auto-generated method stub
 		
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
 		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
 		cellTable.setLoadingIndicator(null);
@@ -286,7 +286,7 @@ public class StellenauschreibungForm extends Showcase {
 					pager.setDisplay(cellTable);
 					dataProvider.addDataDisplay(cellTable);
 					dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-					pager.setPageSize(10);
+					pager.setPageSize(8);
 					
 					HorizontalPanel hp_pager = new HorizontalPanel();
 					hp_pager.setWidth("100%");

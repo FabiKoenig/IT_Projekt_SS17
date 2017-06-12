@@ -109,7 +109,7 @@ public class MeineProjektForm extends Showcase{
 
 
 		
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		dataGrid.setWidth("100%", true);
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);

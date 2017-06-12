@@ -54,7 +54,7 @@ public class BeteiligungenForm extends Showcase{
 
 	@Override
 	protected void run() {
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		ct_beteiligungen.setWidth("100%", true);
 		beteiligungen.clear();
 		hybrid.clear();
