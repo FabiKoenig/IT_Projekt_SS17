@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
@@ -30,6 +29,14 @@ import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class BeteiligungenForm extends Showcase{
+
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public BeteiligungenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
 
 	private Button btn_beteiligungLoeschen = new Button("Beteiligung löschen");
 	private CellTable<BeteiligungProjektHybrid> ct_beteiligungen = new CellTable<>();
@@ -52,7 +59,7 @@ public class BeteiligungenForm extends Showcase{
 		beteiligungen.clear();
 		hybrid.clear();
 		Organisationseinheit oTemp = new Organisationseinheit();
-		oTemp.setId(IdentityMarketChoice.getSelectedIdentityId());
+		oTemp.setId(identityMarketChoice.getSelectedIdentityId());
 		projektmarktplatzVerwaltung.getBeteiligungByForeignOrganisationseinheit(oTemp, new BeteiligungenByOrganisationseinheitCallBack());
 		
 		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_projektBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
@@ -110,7 +117,7 @@ public class BeteiligungenForm extends Showcase{
 				Beteiligung beteiligungTemp = new Beteiligung();
 				beteiligungTemp.setId(ssm_beteiligungen.getSelectedObject().getBeteiligungId());
 				projektmarktplatzVerwaltung.deleteBeteiligung(beteiligungTemp, new BeteiligungLoeschenCallback());
-				Navigation.reload();
+				navigation.reload();
 			}
 		});
 
@@ -120,7 +127,7 @@ public class BeteiligungenForm extends Showcase{
 		ct_beteiligungen.addColumn(tc_beteiligungen_startDatum, "Startdatum");
 		ct_beteiligungen.addColumn(tc_beteiligungen_endDatum, "Enddatum");
 		
-		btn_beteiligungLoeschen.setStylePrimaryName("navi-button");
+		btn_beteiligungLoeschen.setStylePrimaryName("cell-btn");
 		this.setSpacing(8);
 		this.add(btn_beteiligungLoeschen);
 		this.add(ct_beteiligungen);
@@ -155,7 +162,7 @@ public class BeteiligungenForm extends Showcase{
 				//Window.alert("Beteiligung: " + Integer.toString(beteiligung.getId()));
 				for (Projekt projekt : result){
 					//Window.alert("Projekt: " + Integer.toString(projekt.getId()));
-					if(beteiligung.getProjektId()==projekt.getId() && projekt.getProjektmarktplatzId()!=IdentityMarketChoice.getSelectedProjectMarketplaceId()){
+					if(beteiligung.getProjektId()==projekt.getId() && projekt.getProjektmarktplatzId()!=identityMarketChoice.getSelectedProjectMarketplaceId()){
 					//	Window.alert(Integer.toString(projekt.getProjektmarktplatzId()) + Integer.toString(IdentityMarketChoice.getSelectedProjectMarketplaceId()));
 						beteiligungen.remove(beteiligung);
 					}

@@ -46,13 +46,17 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 
 //	Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
+	Button partnerprofilAnzeigen = new Button("Partnerprofil des Bewerbers");
 	Button zurueckButton = new Button("Zurück");
+	Navigation navigation = null;
+	private IdentityMarketChoice identityMarketChoice=null;
 
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	
-	public BewerbungenAufAusschreibungForm(int ausschreibungId){
-		
+	public BewerbungenAufAusschreibungForm(int ausschreibungId, final Navigation navigation, final IdentityMarketChoice identityMarketChoice){
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		projektmarktplatzVerwaltung.getBewerbungByForeignAusschreibungId(ausschreibungId, new GetBewerbungenCallback());
@@ -136,17 +140,18 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		buttonPanel.add(zurueckButton);
 //		buttonPanel.add(bewerbungBewertenButton);
 //		buttonPanel.add(bewerberZusagenButton);
-
+		buttonPanel.add(partnerprofilAnzeigen);
 		buttonPanel.add(bewerbungBewertenButton);
 
 		
 		
 		//Stylen der Buttons
-		zurueckButton.setStylePrimaryName("navi-button");
+		zurueckButton.setStylePrimaryName("cell-btn");
 
 //		bewerbungBewertenButton.setStylePrimaryName("navi-button");
 //		bewerberZusagenButton.setStylePrimaryName("navi-button");
-		bewerbungBewertenButton.setStylePrimaryName("navi-button");
+		bewerbungBewertenButton.setStylePrimaryName("cell-btn");
+		partnerprofilAnzeigen.setStylePrimaryName("cell-btn");
 		//bewerberZusagenButton.setStylePrimaryName("navi-button");
 		//texteAnzeigenButton.setStylePrimaryName("navi-button");
 
@@ -162,7 +167,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		 */
 		bewerbungBewertenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject());
+				DialogBoxBewerbungBewerten dbb = new DialogBoxBewerbungBewerten(selectionModel.getSelectedObject(), identityMarketChoice, navigation);
 				int left = Window.getClientWidth() / 3;
 				int top = Window.getClientHeight() / 8;
 				dbb.setPopupPosition(left, top);
@@ -188,8 +193,23 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineAusschreibungenForm());				
+				navigation.reload();				
+			}
+		});
+		
+		partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(selectionModel.getSelectedObject() != null){
+					int partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
+				
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, true, identityMarketChoice, navigation));
+					
+					} else {
+						Window.alert("Bitte wähle zuerst eine Bewerbung aus.");
+				}
 			}
 		});
 	}
@@ -207,6 +227,12 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		private int bewertungId;
 		private int ausschreibungId;
 		private int projektId;
+		private int partnerprofilId;
+		private int umfang;
+		private int bewerberId;
+		private Date startdatum;
+		private Date enddatum;
+
 		
 		public int getBewertungId() {
 			return bewertungId;
@@ -287,7 +313,49 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void setProjektId(int projektId) {
 			this.projektId = projektId;
 		}
+
+
+		public int getPartnerprofilId() {
+			return partnerprofilId;
+		}
+
+		public void setPartnerprofilId(int partnerprofilId) {
+			this.partnerprofilId = partnerprofilId;
+		}
+
+		public int getBewerberId() {
+			return bewerberId;
+		}
+
+		public void setBewerberId(int bewerberId) {
+			this.bewerberId = bewerberId;
+		}
+
+		public int getUmfang() {
+			return umfang;
+		}
+
+		public void setUmfang(int umfang) {
+			this.umfang = umfang;
+		}
+
+		public Date getStartdatum() {
+			return startdatum;
+		}
+
+		public void setStartdatum(Date startdatum) {
+			this.startdatum = startdatum;
+		}
+
+		public Date getEnddatum() {
+			return enddatum;
+		}
+
+		public void setEnddatum(Date enddatum) {
+			this.enddatum = enddatum;
+		}
 		
+
 		
 	
 	}
@@ -304,6 +372,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			for(int i=0;i<bewerbungen.size();i++){
 				
 				final BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
+				localHybrid.setBewerberId(bewerbungen.get(i).getOrganisationseinheitId());
 				
 				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.get(i), new AsyncCallback<Bewertung>() {
 					public void onFailure(Throwable caught) {
@@ -336,6 +405,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 							String bewerber = ((Unternehmen) result).getName();
 							localHybrid.setBewerber(bewerber);
 						}	
+						localHybrid.setPartnerprofilId(result.getPartnerprofilId());
 						dataGrid.setRowCount(hybrid.size(), true);
 						dataGrid.setRowData(0,hybrid);
 					}

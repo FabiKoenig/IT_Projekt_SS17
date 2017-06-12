@@ -65,55 +65,55 @@ public class Navigation extends StackPanel{
 	Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
 	
 	Button reportButton = new Button("Report Generator");
-	
+	IdentityMarketChoice identityMarketChoice = null;
 	
 	public Navigation(){
 		
 		//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
-		homeButton.setStylePrimaryName("navi-button");
+		homeButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
-		impressumButton.setStylePrimaryName("navi-button");
+		impressumButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
-		agbButton.setStylePrimaryName("navi-button");
+		agbButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
 		
 		//Zusammensetzen des projektlocatorPanels
 		projektlocatorPanel.add(ausschreibungenButton);
 		ausschreibungenButton.setWidth("200px");
-		ausschreibungenButton.setStylePrimaryName("navi-button");
+		ausschreibungenButton.setStylePrimaryName("menu-btn");
 		projektlocatorPanel.add(projektmarktplaetzeButton);
 		projektmarktplaetzeButton.setWidth("200px");
-		projektmarktplaetzeButton.setStylePrimaryName("navi-button");
+		projektmarktplaetzeButton.setStylePrimaryName("menu-btn");
 		projektlocatorPanel.setSpacing(5);
 		
 		//Zusammensetzung des meineaktivitaetenPanels
 		meineaktivitaetenPanel.add(meineprojekteButton);
 		meineprojekteButton.setWidth("200px");
-		meineprojekteButton.setStylePrimaryName("navi-button");
+		meineprojekteButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meineausschreibungenButton);
 		meineausschreibungenButton.setWidth("200px");
-		meineausschreibungenButton.setStylePrimaryName("navi-button");
+		meineausschreibungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meinebewerbungenButton);
 		meinebewerbungenButton.setWidth("200px");
-		meinebewerbungenButton.setStylePrimaryName("navi-button");
+		meinebewerbungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.add(meineBeteiligungenButton);
 		meineBeteiligungenButton.setWidth("200px");
-		meineBeteiligungenButton.setStylePrimaryName("navi-button");
+		meineBeteiligungenButton.setStylePrimaryName("menu-btn");
 		meineaktivitaetenPanel.setSpacing(5);
 		
 		//Zusammensezuung des einstellungenPanels
 		einstellungenPanel.add(personaldataButton);
 		personaldataButton.setWidth("200px");
-		personaldataButton.setStylePrimaryName("navi-button");
+		personaldataButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
-		eigenesprofilButton.setStylePrimaryName("navi-button");
+		eigenesprofilButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.add(reportButton);
-		reportButton.setStylePrimaryName("navi-button");
+		reportButton.setStylePrimaryName("menu-btn");
 		reportButton.setWidth("200px");
 		einstellungenPanel.setSpacing(5);
 		
@@ -128,8 +128,8 @@ public class Navigation extends StackPanel{
 		//Clickhandler für den Impressum-Button
 		impressumButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new Impressum());
 			}
@@ -137,8 +137,8 @@ public class Navigation extends StackPanel{
 		
 		agbButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.deactivateOrgUnits();
 				Showcase showcase = new AGB();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
@@ -150,37 +150,37 @@ public class Navigation extends StackPanel{
 
 				currentClickHandler=this;
 				currentClickEvent=event;
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.activateOrgUnits();
 				//Auslesen des Index, der in der ListBox der agierenden Organisationseinheit ausgewählt ist
-				Organisationseinheit selectedIdentity = IdentityMarketChoice.getSelectedIdentityAsObject();
+				Organisationseinheit selectedIdentity = identityMarketChoice.getSelectedIdentityAsObject();
 				//Window.alert(selectedIdentity.toString());
 				//Falls der Index 0 ist, dann ist es eine Person und es wird die PersonProfilAnzeigenForm geladen
 				if(selectedIdentity instanceof Person){
-					Showcase showcase = new PersonProfilAnzeigenForm();
+					Showcase showcase = new PersonProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
 				//Falls der Index 1 ist, dann ist ein Team aktiv und es wird die TeamProfilAnzeigenForm geladen.	
 				}else if(selectedIdentity instanceof Team){
-					Showcase showcase = new TeamProfilAnzeigenForm();
+					Showcase showcase = new TeamProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
 				//Falls der Index 2 ist, dann ist ein Unternehmen aktiv und es wird die UnternehmenProfilAnzeigenForm geladen.
 				}else if(selectedIdentity instanceof Unternehmen){
-					Showcase showcase = new UnternehmenProfilAnzeigenForm();
+					Showcase showcase = new UnternehmenProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 				}
-			}
+			} 
 		});
 		
 		eigenesprofilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
-				Showcase showcase = new MeinPartnerprofilForm();
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.activateOrgUnits();
+				Showcase showcase = new MeinPartnerprofilForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -190,11 +190,10 @@ public class Navigation extends StackPanel{
 		
 		meineprojekteButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
-				IdentityMarketChoice.activateProjectMarkets();
-				IdentityMarketChoice.setOwnOrgUnitToZero();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcase = new MeineProjektForm();
+				identityMarketChoice.activateProjectMarkets();
+				identityMarketChoice.setOwnOrgUnitToZero();
+				identityMarketChoice.deactivateOrgUnits();
+				Showcase showcase = new MeineProjektForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -205,9 +204,9 @@ public class Navigation extends StackPanel{
 		meinebewerbungenButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.activateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
-				Showcase showcase = new MeineBewerbungenForm();
+				identityMarketChoice.activateProjectMarkets();
+				identityMarketChoice.activateOrgUnits();
+				Showcase showcase = new MeineBewerbungenForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -217,9 +216,9 @@ public class Navigation extends StackPanel{
 		
 		ausschreibungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.activateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
-				Showcase showcase = new StellenauschreibungForm();
+				identityMarketChoice.activateProjectMarkets();
+				identityMarketChoice.activateOrgUnits();
+				Showcase showcase = new StellenauschreibungForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -229,10 +228,10 @@ public class Navigation extends StackPanel{
 		
 		projektmarktplaetzeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.setOwnOrgUnitToZero();
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcase = new ProjektmarktplatzForm();
+				identityMarketChoice.setOwnOrgUnitToZero();
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.deactivateOrgUnits();
+				Showcase showcase = new ProjektmarktplatzForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -243,9 +242,8 @@ public class Navigation extends StackPanel{
 		homeButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				
+				identityMarketChoice.deactivateProjectMarkets();
+				identityMarketChoice.deactivateOrgUnits();				
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new StartseiteForm());
 				currentClickHandler=this;
@@ -257,9 +255,9 @@ public class Navigation extends StackPanel{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.activateProjectMarkets();
-				IdentityMarketChoice.activateOrgUnits();
-				Showcase showcase = new BeteiligungenForm();
+				identityMarketChoice.activateProjectMarkets();
+				identityMarketChoice.activateOrgUnits();
+				Showcase showcase = new BeteiligungenForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -271,10 +269,10 @@ public class Navigation extends StackPanel{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.setOwnOrgUnitToZero();
-				IdentityMarketChoice.deactivateOrgUnits();
-				IdentityMarketChoice.deactivateProjectMarkets();
-				Showcase showcase = new MeineAusschreibungenForm();
+				identityMarketChoice.setOwnOrgUnitToZero();
+				identityMarketChoice.deactivateOrgUnits();
+				identityMarketChoice.deactivateProjectMarkets();
+				Showcase showcase = new MeineAusschreibungenForm(identityMarketChoice, getNavigation());
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 				currentClickHandler=this;
@@ -296,24 +294,41 @@ public class Navigation extends StackPanel{
 
 	}
 	
-	public static ClickHandler getCurrentClickHandler() {
+
+
+	public ClickHandler getCurrentClickHandler() {
 		return currentClickHandler;
 	}
 
-	public static ClickEvent getCurrentClickEvent() {
+	public ClickEvent getCurrentClickEvent() {
 		return currentClickEvent;
 	}
 
-	public static void setCurrentClickHandler(ClickHandler c){
+	public void setCurrentClickHandler(ClickHandler c){
 		currentClickHandler = c;
 	}
-	public static void setCurrentClickEvent(ClickEvent e){
+	public void setCurrentClickEvent(ClickEvent e){
 		currentClickEvent = e;
 	}
 
-	public static void reload(){
+	public void reload(){
 		currentClickHandler.onClick(currentClickEvent);
 	}
+	
+	public Navigation getNavigation(){
+		return this;
+	}
+	public IdentityMarketChoice getIdentityMarketChoice(){
+		return identityMarketChoice;
+	}
+	public void setIdentityMarketChoice(IdentityMarketChoice identityMarketChoice){
+		this.identityMarketChoice=identityMarketChoice;
+	}
+
+	public Button getProjektmarktplaetzeButton() {
+		return projektmarktplaetzeButton;
+	}
+	
 	
 	
 }

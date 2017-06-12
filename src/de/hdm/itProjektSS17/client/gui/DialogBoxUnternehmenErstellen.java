@@ -43,11 +43,16 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 		
 		private Vector<Unternehmen> allUnternehmen = new Vector();
 		
-		public DialogBoxUnternehmenErstellen(){
-			
+		private IdentityMarketChoice identityMarketChoice=null;
+		private Navigation navigation=null;
+		
+		public DialogBoxUnternehmenErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation){
+			this.identityMarketChoice=identityMarketChoice;
+			this.navigation=navigation;
 			this.setText("Unternehmen erstellen...");
 			this.setAnimationEnabled(false);
 			this.setGlassEnabled(true);
+			unternehmen_ok.setStylePrimaryName("cell-btn");
 
 			txt_unternehmenName.getElement().setPropertyString("placeholder", "Name des Unternehmens");
 			txt_ustrasse.getElement().setPropertyString("placeholder", "Straße");
@@ -128,7 +133,7 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 								@Override
 								public void onSuccess(Unternehmen result) {
 									final Unternehmen erstelltesUnternehmen = result;
-									Person user = (Person) IdentityMarketChoice.getSelectedIdentityAsObject();
+									Person user = (Person) identityMarketChoice.getSelectedIdentityAsObject();
 									user.setUnternehmenId(result.getId());
 									
 									projektmarktplatzverwaltung.savePerson(user, new AsyncCallback<Void>() {
@@ -142,8 +147,8 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 										public void onSuccess(Void result) {
 											Window.alert("Unternehmen " +erstelltesUnternehmen.getName() + " wurde erfolgreich erstellt!");
 											PersonProfilAnzeigenForm.getDb_Unternehmen().hide();
-											IdentityMarketChoice.getNavigation().reinitialize();
-											Navigation.reload();
+											identityMarketChoice.reinitialize();
+											navigation.reload();
 											hide();
 										}
 									});

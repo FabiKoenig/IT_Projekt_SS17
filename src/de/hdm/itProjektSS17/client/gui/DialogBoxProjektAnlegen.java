@@ -43,15 +43,19 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	DateBox db_enddatum = new DateBox();
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel hp = new HorizontalPanel();
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
-	public DialogBoxProjektAnlegen() {
-
+	public DialogBoxProjektAnlegen(final IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+	this.navigation=navigation;
+	this.identityMarketChoice=identityMarketChoice;
 	
 	this.setText("Projekt anlegen...");
 	this.setAnimationEnabled(false);
 	this.setGlassEnabled(true);
 	
-
+	btn_ok.setStylePrimaryName("cell-btn");
+	btn_abbrechen.setStylePrimaryName("cell-btn");
 	hp.add(btn_ok);
 	hp.add(btn_abbrechen);
 	
@@ -74,7 +78,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 				Window.alert("Bitte geben Sie eine Beschreibung für Ihr Projekt ein.");
 			}
 			else {
-				projektmarktplatzVerwaltung.getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
+				projektmarktplatzVerwaltung.getPersonById(identityMarketChoice.getSelectedIdentityId(), new GetPersonCallback());
 				
 			
 			}
@@ -146,7 +150,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			
 			if (result != null) {
 				
-				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), IdentityMarketChoice.getSelectedProjectMarketplaceId(), new CreateProjektCallback());
+				projektmarktplatzVerwaltung.createProjekt(db_startdatum.getValue(), db_enddatum.getValue(), txt_projektname.getText(), txta_beschreibung.getText(), result.getId(), identityMarketChoice.getSelectedProjectMarketplaceId(), new CreateProjektCallback());
 
 				
 				
@@ -167,7 +171,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		public void onSuccess(Projekt result) {
 			
 			int umfang = (int)( (result.getEnddatum().getTime() - result.getStartdatum().getTime()) / (1000 * 60 * 60 * 24) ) + 1;
-			projektmarktplatzVerwaltung.createBeteiligungProjektleiter(umfang, result.getStartdatum(), result.getEnddatum(), IdentityMarketChoice.getSelectedIdentityId(), result.getId(), new AsyncCallback<Beteiligung>() {
+			projektmarktplatzVerwaltung.createBeteiligungProjektleiter(umfang, result.getStartdatum(), result.getEnddatum(), identityMarketChoice.getSelectedIdentityId(), result.getId(), new AsyncCallback<Beteiligung>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -181,7 +185,7 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 			});
 			Window.alert("Projekt erfolgreich hinzugefügt!");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 		}
 		
 	}

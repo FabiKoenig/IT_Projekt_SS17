@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.client.gui.IdentityMarketChoice;
 import de.hdm.itProjektSS17.client.gui.Impressum;
+import de.hdm.itProjektSS17.client.gui.Navigation;
 import de.hdm.itProjektSS17.client.gui.StartseiteForm;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
 
@@ -43,41 +44,41 @@ public class NavigationReport extends StackPanel {
 	Button showProjektverflechtungenButton = new Button("Projektverflechtungen anzeigen");
 	Button showFanInFanOutAnalyseButton = new Button("Fan-in/Fan-out Analyse");
 	
-	public NavigationReport(){
+	public NavigationReport(final IdentityChoiceReport identityChoiceReport){
 	//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
-		homeButton.setStylePrimaryName("navi-button");
+		homeButton.setStylePrimaryName("menu-btn");
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
-		impressumButton.setStylePrimaryName("navi-button");
+		impressumButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
 	
 	//Zusammensetzen des reportPanels	
 		reportPanel.add(showAusschreibungenButton);
 		showAusschreibungenButton.setWidth("200px");
-		showAusschreibungenButton.setStylePrimaryName("navi-button");
+		showAusschreibungenButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showAusschreibungMatchsPartnerprofilButton);
 		showAusschreibungMatchsPartnerprofilButton.setWidth("200px");
-		showAusschreibungMatchsPartnerprofilButton.setStylePrimaryName("navi-button");
+		showAusschreibungMatchsPartnerprofilButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showAllBewerbungenFromUserButton);
 		showAllBewerbungenFromUserButton.setWidth("200px");
-		showAllBewerbungenFromUserButton.setStylePrimaryName("navi-button");
+		showAllBewerbungenFromUserButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showBewerbungenAusschreibungenFromUserButton);
 		showBewerbungenAusschreibungenFromUserButton.setWidth("200px");
-		showBewerbungenAusschreibungenFromUserButton.setStylePrimaryName("navi-button");
+		showBewerbungenAusschreibungenFromUserButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showProjektverflechtungenButton);
 		showProjektverflechtungenButton.setWidth("200px");
-		showProjektverflechtungenButton.setStylePrimaryName("navi-button");
+		showProjektverflechtungenButton.setStylePrimaryName("menu-btn");
 		reportPanel.add(showFanInFanOutAnalyseButton);
 		showFanInFanOutAnalyseButton.setWidth("200px");
-		showFanInFanOutAnalyseButton.setStylePrimaryName("navi-button");
+		showFanInFanOutAnalyseButton.setStylePrimaryName("menu-btn");
 		reportPanel.setSpacing(5);
 		
 	//Zusammensetzung des EinstellungPanels
 		einstellungenPanel.add(prokekoButton);
 		prokekoButton.setWidth("200px");
-		prokekoButton.setStylePrimaryName("navi-button");
+		prokekoButton.setStylePrimaryName("menu-btn");
 		einstellungenPanel.setSpacing(5);
 		
 		
@@ -91,8 +92,6 @@ public class NavigationReport extends StackPanel {
 //	Anlegen der ClickHandler
 		homeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(new StartseiteForm());
 				currentClickHandler=this;
@@ -102,8 +101,6 @@ public class NavigationReport extends StackPanel {
 		
 		impressumButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(new Impressum());
 			}
@@ -111,8 +108,6 @@ public class NavigationReport extends StackPanel {
 //		
 		showAusschreibungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcaseReport = new AlleAusschreibungenShowcase();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
@@ -135,9 +130,7 @@ public class NavigationReport extends StackPanel {
 //		
 		showAllBewerbungenFromUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new AlleBewerungenAufEigeneAusschreibungenShowcase();
+				Showcase showcaseReport = new AlleBewerungenAufEigeneAusschreibungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -147,9 +140,7 @@ public class NavigationReport extends StackPanel {
 		
 		showBewerbungenAusschreibungenFromUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new MeineBewerbungenShowcase();
+				Showcase showcaseReport = new MeineBewerbungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -159,9 +150,7 @@ public class NavigationReport extends StackPanel {
 		
 		showProjektverflechtungenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
-				Showcase showcaseReport = new ProjektverflechtungenShowcase();
+				Showcase showcaseReport = new ProjektverflechtungenShowcase(identityChoiceReport);
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);
 				currentClickHandler=this;
@@ -171,8 +160,6 @@ public class NavigationReport extends StackPanel {
 		
 		showFanInFanOutAnalyseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				IdentityMarketChoice.deactivateProjectMarkets();
-				IdentityMarketChoice.deactivateOrgUnits();
 				Showcase showcaseReport = new FanInFanOutShowcase();
 				RootPanel.get("DetailsReport").clear();
 				RootPanel.get("DetailsReport").add(showcaseReport);

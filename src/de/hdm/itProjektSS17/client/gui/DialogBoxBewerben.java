@@ -30,16 +30,21 @@ public class DialogBoxBewerben extends DialogBox {
 	Button btn_abbrechen = new Button("Abbrechen");
 	Label lbl_bewerbungstext = new Label("Bewerbungstext: ");
 	TextArea txta_bewerbungstext = new TextArea();
-	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
 	HorizontalPanel hp = new HorizontalPanel();
-	public DialogBoxBewerben(final int ausschreibungsId)
+	public DialogBoxBewerben(final int ausschreibungsId, final IdentityMarketChoice identityMarketChoice, Navigation navigation)
 	{
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		this.ausschreibungsId=ausschreibungsId;
 		this.setText("Bewerbung anlegen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
+		btn_ok.setStylePrimaryName("cell-btn");
+		btn_abbrechen.setStylePrimaryName("cell-btn");
 		hp.add(btn_ok);
 		hp.add(btn_abbrechen);
 	
@@ -52,7 +57,7 @@ public class DialogBoxBewerben extends DialogBox {
 				if (txta_bewerbungstext.getText().isEmpty()) {
 					Window.alert("Bitte geben Sie einen Bewerbungstextstext für die Stellenausschreibung an!");
 				}
-				projektmarktplatzVerwaltung.createBewerbung(txta_bewerbungstext.getText(), IdentityMarketChoice.getSelectedIdentityId(), ausschreibungsId, new BewerbungAnlegenCallback());
+				projektmarktplatzVerwaltung.createBewerbung(txta_bewerbungstext.getText(), identityMarketChoice.getSelectedIdentityId(), ausschreibungsId, new BewerbungAnlegenCallback());
 			}
 			
 		});
@@ -86,7 +91,7 @@ public class DialogBoxBewerben extends DialogBox {
 			
 			Window.alert("Das Einreichen der Bewerbung war erfolgreich.");
 			hide();
-			Navigation.reload();
+			navigation.reload();
 
 		}
 

@@ -30,6 +30,7 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 public class AusschreibungenaufProjektForm extends Showcase{
 
 	
+	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -37,6 +38,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	Vector<Ausschreibung> ausschreibung = new Vector<Ausschreibung>();
 	
 	Button btn_zurueck = new Button("Zurück");
+	Navigation navigation = null;
 	
 	private Projekt p;
 	
@@ -46,11 +48,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 
 	}
 	
-	public  AusschreibungenaufProjektForm(Projekt p) {
+	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation) {
 		this.p = p;
-		
-		
-		
+		this.navigation=navigation;	
 	}
 	
 	
@@ -90,8 +90,33 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			}
 		
 		}
-		
+
 	
+	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
+			Window.alert("Fehler: "+ caught.toString());
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Ausschreibung> result) {
+			
+			if(result != null){
+				//Anpassen der CellTable
+				
+				
+				
+				dataGrid.setRowCount(result.size(), true);
+				dataGrid.setRowData(0, result);
+			
+			}
+		}	
+	}
+
+
 
 	
 
@@ -161,7 +186,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 		buttonPanel.add(btn_zurueck);
 		
-		btn_zurueck.setStylePrimaryName("navi-button");
+		btn_zurueck.setStylePrimaryName("cell-btn");
 	
 		//auf welche Variable bezogen
 		this.add(buttonPanel);
@@ -169,8 +194,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineProjektForm());				
+				navigation.reload();
 			}
 		});
 		

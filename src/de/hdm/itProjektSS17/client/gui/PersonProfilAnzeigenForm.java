@@ -23,8 +23,16 @@ import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class PersonProfilAnzeigenForm extends Showcase{
-
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public PersonProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+		user= (Person) identityMarketChoice.getSelectedIdentityAsObject();
+	}
+
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable_form = new FlexTable();
 	private FlexTable ftable_team = new FlexTable();
@@ -61,6 +69,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	private TextBox hausnrBox = new TextBox();
 	private TextBox plzBox = new TextBox();
 	private TextBox ortBox = new TextBox();
+	private TextBox emailBox = new TextBox();
 	
 	//Erstellen der Label
 	private Label anredeLabel = new Label("Anrede");
@@ -70,10 +79,11 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	private Label hausnrLabel = new Label("Hausnummer");
 	private Label plzLabel = new Label("Postleitzahl");
 	private Label ortLabel = new Label("Ort");
+	private Label emailLabel = new Label("Google-Mail");
 	
 
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	private Person user = (Person) IdentityMarketChoice.getSelectedIdentityAsObject();
+	private Person user;
 	
 	@Override
 	protected String getHeadlineText() {
@@ -94,6 +104,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		hausnrBox.setText(user.getHausnummer());
 		plzBox.setText(Integer.toString(user.getPlz()));
 		ortBox.setText(user.getOrt());
+		emailBox.setText(user.getEmail());
 		
 		//Setzen der Boxen auf ReadOnly
 		anredeBox.setReadOnly(true);
@@ -103,39 +114,43 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		hausnrBox.setReadOnly(true);
 		plzBox.setReadOnly(true);
 		ortBox.setReadOnly(true);
+		emailBox.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		teamButton.setStylePrimaryName("navi-button");
-		unternehmenButton.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		teamButton.setStylePrimaryName("cell-btn");
+		unternehmenButton.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der Inhalte der anredeListBox
 		anredeListBox.addItem("Herr");
 		anredeListBox.addItem("Frau");
 			
 		// Befüllen der FlexTable
-		ftable_form.setWidget(0, 1, anredeBox);
-		ftable_form.setWidget(0, 0, anredeLabel);
-
-		ftable_form.setWidget(1, 1, vnameBox);
-		ftable_form.setWidget(1, 0, vnameLabel);
-
-		ftable_form.setWidget(2, 1, nnameBox);
-		ftable_form.setWidget(2, 0, nnameLabel);
-
-		ftable_form.setWidget(3, 1, strasseBox);
-		ftable_form.setWidget(3, 0, strasseLabel);
-
-		ftable_form.setWidget(4, 1, hausnrBox);
-		ftable_form.setWidget(4, 0, hausnrLabel);
+		ftable_form.setWidget(0, 1, emailBox);
+		ftable_form.setWidget(0, 0, emailLabel);
 		
-		ftable_form.setWidget(5, 1, plzBox);
-		ftable_form.setWidget(5, 0, plzLabel);
+		ftable_form.setWidget(1, 1, anredeBox);
+		ftable_form.setWidget(1, 0, anredeLabel);
 
-		ftable_form.setWidget(6, 1, ortBox);
-		ftable_form.setWidget(6, 0, ortLabel);
+		ftable_form.setWidget(2, 1, vnameBox);
+		ftable_form.setWidget(2, 0, vnameLabel);
+
+		ftable_form.setWidget(3, 1, nnameBox);
+		ftable_form.setWidget(3, 0, nnameLabel);
+
+		ftable_form.setWidget(4, 1, strasseBox);
+		ftable_form.setWidget(4, 0, strasseLabel);
+
+		ftable_form.setWidget(5, 1, hausnrBox);
+		ftable_form.setWidget(5, 0, hausnrLabel);
+		
+		ftable_form.setWidget(6, 1, plzBox);
+		ftable_form.setWidget(6, 0, plzLabel);
+
+		ftable_form.setWidget(7, 1, ortBox);
+		ftable_form.setWidget(7, 0, ortLabel);
 
 
 		/**
@@ -170,6 +185,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		vpanel.add(ft_buttonPanel);
 		vpanel.add(ftable_form);
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {
@@ -181,7 +197,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 //				dbppb.show();
 				
 				//Setzen der ListBox anstelle der TextBox
-				ftable_form.setWidget(0, 1, anredeListBox);
+				ftable_form.setWidget(1, 1, anredeListBox);
 				//Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
 				anredeBox.setReadOnly(false);
 				vnameBox.setReadOnly(false);
@@ -206,14 +222,14 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				teamButton.setVisible(false);
 				unternehmenButton.setVisible(false);
-				Navigation.reload();	
+				navigation.reload();	
 			}
 		});
 		
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
-				getPersonById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
+				getPersonById(identityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
 
 			}
 		});
@@ -222,7 +238,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBoxTeamErstellen db_TeamErstellen = new DialogBoxTeamErstellen();
+				DialogBoxTeamErstellen db_TeamErstellen = new DialogBoxTeamErstellen(identityMarketChoice, navigation);
 				db_TeamErstellen.show();
 				db_TeamErstellen.center();
 			}
@@ -232,7 +248,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				DialogBoxUnternehmenErstellen db_unternehmenErstellen = new DialogBoxUnternehmenErstellen();
+				DialogBoxUnternehmenErstellen db_unternehmenErstellen = new DialogBoxUnternehmenErstellen(identityMarketChoice, navigation);
 				db_unternehmenErstellen.show();
 				db_unternehmenErstellen.center();
 			}
@@ -307,8 +323,8 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			Window.alert("Das Profil wurde erfolgreich aktualisiert.");
 			db_team.hide();
 			db_unternehmen.hide();
-			IdentityMarketChoice.getNavigation().reinitialize();
-			Navigation.reload();
+			identityMarketChoice.reinitialize();
+			navigation.reload();
 		}
 		
 	}
@@ -365,7 +381,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 						projektmarktplatzVerwaltung.savePerson(personTemp, new PersonSpeichernCallback());
 						if(chosenTeam.getUnternehmenId()!=null){
 							
-							DialogBoxUnternehmenHinzufuegen db_unternehmenHinzufuegen = new DialogBoxUnternehmenHinzufuegen(personTemp, chosenTeam);
+							DialogBoxUnternehmenHinzufuegen db_unternehmenHinzufuegen = new DialogBoxUnternehmenHinzufuegen(personTemp, chosenTeam, identityMarketChoice, navigation);
 							db_unternehmenHinzufuegen.show();
 							
 						}

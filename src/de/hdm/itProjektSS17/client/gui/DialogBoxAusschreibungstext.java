@@ -34,7 +34,7 @@ public class DialogBoxAusschreibungstext extends DialogBox{
 		ft_ausschreibungstext.setWidget(0, 0, txta_ausschreibungsstext);
 		ft_ausschreibungstext.setWidget(1, 0, btn_zurueck);
 
-		
+		btn_zurueck.setStylePrimaryName("cell-btn");
 		vp.add(ft_ausschreibungstext);
 		vp.add(btn_zurueck);
 		setWidget(vp);

@@ -69,13 +69,24 @@ public class DialogBoxTeamErstellen extends DialogBox {
 	private Vector<Team> allTeams = new Vector();
 	private Vector<Unternehmen> allUnternehmen = new Vector();
 	
-	public DialogBoxTeamErstellen() {
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	
+	public DialogBoxTeamErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		projektmarktplatzverwaltung.getAllTeams(new getAllTeams());
 		projektmarktplatzverwaltung.getAllUnternehmen(new getAllUnternehmen());
 
 		this.setText("Team erstellen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
+		unternehmenErstellenButton.setStylePrimaryName("cell-btn");
+		unternehmenHinzufuegenButton.setStylePrimaryName("cell-btn");
+		ok.setStylePrimaryName("cell-btn");
+		bt_unternehmenIsSet.setStylePrimaryName("cell-btn");
+		abbrechen.setStylePrimaryName("cell-btn");
 		
 		txt_teamname.getElement().setPropertyString("placeholder", "Teamname");
 
@@ -289,7 +300,7 @@ public class DialogBoxTeamErstellen extends DialogBox {
 				@Override
 				public void onSuccess(Team result) {
 					final Team erstelltes_team = result;
-					final Person user = (Person) IdentityMarketChoice.getSelectedIdentityAsObject();
+					final Person user = (Person) identityMarketChoice.getSelectedIdentityAsObject();
 					user.setTeamId(result.getId());
 					projektmarktplatzverwaltung.savePerson(user, new AsyncCallback<Void>() {
 
@@ -302,13 +313,13 @@ public class DialogBoxTeamErstellen extends DialogBox {
 						public void onSuccess(Void result) {
 							Window.alert("Team " +erstelltes_team.getName() + " wurde erfolgreich erstellt!");
 							PersonProfilAnzeigenForm.getDb_Team().hide();
-							IdentityMarketChoice.getNavigation().reinitialize();
-							Navigation.reload();
+							identityMarketChoice.reinitialize();
+							navigation.reload();
 							hide();
 							
 							if(erstelltes_team.getUnternehmenId()!=null){
 							
-								DialogBoxUnternehmenHinzufuegen db_unternehmenHinzufuegen = new DialogBoxUnternehmenHinzufuegen(user, erstelltes_team);
+								DialogBoxUnternehmenHinzufuegen db_unternehmenHinzufuegen = new DialogBoxUnternehmenHinzufuegen(user, erstelltes_team, identityMarketChoice, navigation);
 								db_unternehmenHinzufuegen.show();
 								
 							}

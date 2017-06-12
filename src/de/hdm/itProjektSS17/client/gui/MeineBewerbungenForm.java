@@ -16,9 +16,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -37,6 +40,13 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
  */
 public class MeineBewerbungenForm extends Showcase{
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public MeineBewerbungenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+	}
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
@@ -47,7 +57,7 @@ public class MeineBewerbungenForm extends Showcase{
 
 	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
 	Button btn_bewerbungstext = new Button ("Bewerbungstext anzeigen");
-	//Button btn_bewerbungzur�ckziehen = new Button("Projektmarktplatz anlegen");
+	Button btn_stellungname = new Button ("Stellungnahme anzeigen");
 
 
 	
@@ -63,15 +73,17 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.setLoadingIndicator(null);
 		
 		//Stylen des Buttons
-		btn_bewerbungloeschen.setStylePrimaryName("navi-button");
-		btn_bewerbungstext.setStylePrimaryName("navi-button");
+		btn_bewerbungloeschen.setStylePrimaryName("cell-btn");
+		btn_bewerbungstext.setStylePrimaryName("cell-btn");
+		btn_stellungname.setStylePrimaryName("cell-btn");
 		
 		this.setSpacing(8);
 		this.add(panel_Bewerbung);
 		panel_Bewerbung.add(btn_bewerbungloeschen);
 
 		panel_Bewerbung.add(btn_bewerbungstext);
-		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(IdentityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
+		panel_Bewerbung.add(btn_stellungname);
+		projektmarktplatzVerwaltung.getBewerbungByForeignOrganisationseinheit(identityMarketChoice.getSelectedIdentityAsObject(), new BewerbungAnzeigenCallback());
 	
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	
@@ -136,15 +148,28 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		};
 		
-		
+		TextColumn<ausschreibungBewerbungHybrid> BewertungColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
+			
+			@Override
+			public String getValue(ausschreibungBewerbungHybrid object) {
+				double wert = object.getBewertungWert();
+				if(wert==0.0){
+					return "Noch nicht bewertet";
+				}
+				String stringWert = Double.toString(wert);
+				return stringWert;
+			}
+		};
+
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
 		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		cellTable.addColumn(statusColumn, "Status");
-	
-		
+		cellTable.addColumn(BewertungColumn, "Bewertung");
+
+		cellTable.setColumnWidth(AusschreibungNameColumn, "5%");
 		cellTable.setWidth("100%");
 		
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
@@ -195,7 +220,7 @@ public class MeineBewerbungenForm extends Showcase{
 							@Override
 							public void onSuccess(Void result) {
 								Window.alert("Bewerbung wurde zurückgezogen!");
-								Navigation.reload();
+								navigation.reload();
 							}
 						});
 				}
@@ -206,7 +231,40 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		});
 		
-		
+		btn_stellungname.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				final DialogBox db_Stellungnahme = new DialogBox();
+				TextArea txta_Stellungnahme = new TextArea();
+				FlexTable ft_Stellungname = new FlexTable();
+				Button ok_Stellungnahme = new Button("Zurück");
+				
+				txta_Stellungnahme.setText(selectionModel.getSelectedObject().getStellungnahme());
+				txta_Stellungnahme.setReadOnly(true);
+				txta_Stellungnahme.setCharacterWidth(70);
+				txta_Stellungnahme.setVisibleLines(25);	
+				
+				ft_Stellungname.setWidget(0, 0, txta_Stellungnahme);
+				ft_Stellungname.setWidget(1, 0, ok_Stellungnahme);
+				
+				ok_Stellungnahme.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						db_Stellungnahme.hide();
+					}
+				});
+				
+				db_Stellungnahme.setWidget(ft_Stellungname);
+				db_Stellungnahme.setText("Stellungnahme");
+				db_Stellungnahme.setAnimationEnabled(false);
+				db_Stellungnahme.setGlassEnabled(true);
+				db_Stellungnahme.center();
+				
+				
+			}
+		});
 		
 		this.add(cellTable);
 	}
@@ -223,6 +281,9 @@ public class MeineBewerbungenForm extends Showcase{
 		private Bewerbungsstatus statusBewerbungsstatus;
 		private String Team;
 		private String Unternehmen;
+		private String stellungnahme;
+		
+		private Double bewertungWert;
 		
 		public String getAnrede() {
 			return anrede;
@@ -279,6 +340,19 @@ public class MeineBewerbungenForm extends Showcase{
 		public void setUnternehmen(String unternehmen) {
 			Unternehmen = unternehmen;
 		}
+		public Double getBewertungWert() {
+			return bewertungWert;
+		}
+		public void setBewertungWert(Double bewertungWert) {
+			this.bewertungWert = bewertungWert;
+		}
+		public String getStellungnahme() {
+			return stellungnahme;
+		}
+		public void setStellungnahme(String stellungnahme) {
+			this.stellungnahme = stellungnahme;
+		}
+		
 		
 		
 	}
@@ -297,8 +371,11 @@ public class MeineBewerbungenForm extends Showcase{
 			
 			for(int i=0;i<result.size();i++){
 				final Bewerbung localBewerbung = result.get(i);
+				final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+			
+				
 				projektmarktplatzVerwaltung.getAusschreibungById(result.get(i).getAusschreibungId(), new AsyncCallback<Ausschreibung>() {
-
+					
 					@Override
 					public void onFailure(Throwable caught) {
 						
@@ -307,7 +384,7 @@ public class MeineBewerbungenForm extends Showcase{
 					}
 					@Override
 					public void onSuccess(Ausschreibung result) {
-					final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
+					//final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
 					final Ausschreibung a = result;
 					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
 					projektmarktplatzVerwaltung.getProjektById(result.getProjektId(), new AsyncCallback<Projekt>(){
@@ -321,7 +398,7 @@ public class MeineBewerbungenForm extends Showcase{
 						@Override
 						public void onSuccess(Projekt result) {
 							// TODO Auto-generated method stub
-							if (IdentityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
+							if (identityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
 								
 								projektmarktplatzVerwaltung.getPersonById(a.getAusschreibenderId(), new AsyncCallback<Person>() { 
 									
@@ -333,15 +410,45 @@ public class MeineBewerbungenForm extends Showcase{
 									
 															@Override
 														public void onSuccess(Person result) {
+																
+																projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(localBewerbung, new AsyncCallback<Bewertung>() {
+																	
+																	@Override
+																	public void onFailure(Throwable caught) {
+																		Window.alert("Fehler: "+caught.toString());					
+																	}
+
+																	@Override
+																	public void onSuccess(Bewertung result) {	
+																		if(result != null){	
+																		localHybrid.setBewertungWert(result.getWert());	
+																		localHybrid.setStellungnahme(result.getStellungnahme());;
+																		cellTable.setRowCount(hybrid.size(), true);
+																		cellTable.setRowData(0,hybrid);				
+																		}
+																		else{
+																			localHybrid.setStellungnahme("Keine Stellungnahme vorhanden");
+																			localHybrid.setBewertungWert(0.0);
+																			cellTable.setRowCount(hybrid.size(), true);
+																			cellTable.setRowData(0,hybrid);	
+																		}
+																	}
+																});
+																
 																localHybrid.setAnrede(result.getAnrede());
 																localHybrid.setAusschreibungsbezeichnername(result.getNachname());
 																localHybrid.setBewerbungId(localBewerbung.getId());
 																localHybrid.setErstellungsdatum(localBewerbung.getErstellungsdatum());
 																localHybrid.setStatusBewerbungsstatus(localBewerbung.getStatus());
-																localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
-																
+																if(localBewerbung.getBewerbungstext()=="null"){
+																	localHybrid.setBewerbungstext("Kein Text vorhanden");
+																}else if (localBewerbung.getBewerbungstext()==""){
+																	localHybrid.setBewerbungstext("Kein Text vorhanden");
+																}else{
+																	localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
+																}
 																Person p = result;
-																if(p.getId()!=IdentityMarketChoice.getUser().getId()){
+																if(p.getId()!=identityMarketChoice.getUser().getId()){
 																	if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																		
 																		localHybrid.setTeam("Kein Team");
@@ -417,17 +524,17 @@ public class MeineBewerbungenForm extends Showcase{
 																						
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
-																						
-																						
+
 																					}
 																				});
 																				
-																				
+
 																			}
 																		});
 																		
 																	}
 																}
+																
 															}
 															
 														});
@@ -460,5 +567,4 @@ public class MeineBewerbungenForm extends Showcase{
 	
 							
 					 };
-
 	}

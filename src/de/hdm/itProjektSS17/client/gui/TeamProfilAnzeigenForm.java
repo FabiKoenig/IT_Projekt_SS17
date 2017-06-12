@@ -25,6 +25,16 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class TeamProfilAnzeigenForm extends Showcase{
 
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public TeamProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+		user = identityMarketChoice.getUser();
+		team = (Team) identityMarketChoice.getSelectedIdentityAsObject();
+	}
+
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	private VerticalPanel vpanel = new VerticalPanel();
@@ -59,8 +69,8 @@ public class TeamProfilAnzeigenForm extends Showcase{
 	private MultiWordSuggestOracle oracle_unternehmen= new MultiWordSuggestOracle();
 	private SuggestBox sb_unternehmen = new SuggestBox(oracle_unternehmen);
 	
-	private Person user = IdentityMarketChoice.getUser();
-	private Team team = (Team) IdentityMarketChoice.getSelectedIdentityAsObject();
+	private Person user; 
+	private Team team; 
 	private Unternehmen unternehmenOfTeam = null;
 		
 	@Override
@@ -89,11 +99,11 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		tb_unternehmen.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		teamVerlassenButton.setStylePrimaryName("navi-button");
-		teamLoeschen.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		teamVerlassenButton.setStylePrimaryName("cell-btn");
+		teamLoeschen.setStylePrimaryName("cell-btn");
 		
 		//Setzen des SpeicherButtons
 		speichernButton.setVisible(false);
@@ -136,6 +146,7 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		
 		
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
@@ -164,7 +175,7 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Navigation.reload();
+				navigation.reload();
 			}
 		});
 		
@@ -185,9 +196,9 @@ public class TeamProfilAnzeigenForm extends Showcase{
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("Beziehung wurde aufgelöst!");
-						IdentityMarketChoice.getNavigation().reinitialize();
-						IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
-						Navigation.reload();
+						identityMarketChoice.reinitialize();
+						identityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+						navigation.reload();
 					}
 				
 				});
@@ -218,9 +229,9 @@ public class TeamProfilAnzeigenForm extends Showcase{
 							@Override
 							public void onSuccess(Void result) {
 								Window.alert("Team: "+team.getName()+" wurde gelöscht und die Beziehung wurde aufgelöst!");
-								IdentityMarketChoice.getNavigation().reinitialize();
-								IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
-								Navigation.reload();
+								identityMarketChoice.reinitialize();
+								identityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+								navigation.reload();
 							}
 							
 						});
@@ -297,7 +308,7 @@ public class TeamProfilAnzeigenForm extends Showcase{
 						team.setStrasse(strasseBox.getText());
 						team.setUnternehmenId(0);
 						ClientsideSettings.getProjektmarktplatzVerwaltung().saveTeam(team, new TeamSpeichernCallback());	
-						Navigation.reload();
+						navigation.reload();
 					}else if(chosenUnternehmen==null){
 						Window.alert("Gewähltes Unternehmen exisitert nicht! Bitte validen Eintrag angeben.");
 					}else{
@@ -308,7 +319,7 @@ public class TeamProfilAnzeigenForm extends Showcase{
 						team.setStrasse(strasseBox.getText());
 						team.setUnternehmenId(chosenUnternehmen.getId());
 						ClientsideSettings.getProjektmarktplatzVerwaltung().saveTeam(team, new TeamSpeichernCallback());
-						Navigation.reload();
+						navigation.reload();
 					}
 				}
 			});

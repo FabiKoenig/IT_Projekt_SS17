@@ -304,6 +304,57 @@ public class BeteiligungMapper {
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Bewertung_Id, Beteiligter_Id, Projekt_Id) "
+		            + "VALUES ("
+		        	+ b.getId() 
+		        	+ "," 
+		        	+ b.getUmfang() 
+		        	+ ",'" 
+		        	+ sdf.format(b.getStartDatum())
+		        	+ "','" 
+		        	+ sdf.format(b.getEndDatum())
+		        	+ "'," 
+		        	+ b.getBewertungId()
+		        	+ ","
+		            + b.getBeteiligterId() 
+		            + "," 
+		            + b.getProjektId()
+		            + ")");
+		      }
+		    }
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+
+		    return b;
+		  
+	  }
+	  
+	  public Beteiligung insertProjektleiter(Beteiligung b){
+		  
+		    Connection con = DBConnection.connection();
+
+		    try {
+		      Statement stmt = con.createStatement();
+
+		      /*
+		       * Zunächst schauen wir nach, welches der momentan höchste
+		       * Primärschlüsselwert ist.
+		       */
+		      ResultSet rs = stmt.executeQuery("SELECT MAX(Beteiligung_Id) AS maxid "
+		          + "FROM beteiligung ");
+
+		      // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		      if (rs.next()) {
+		        /*
+		         * c erhält den bisher maximalen, nun um 1 inkrementierten
+		         * Primärschlüssel.
+		         */
+		        b.setId(rs.getInt("maxid") + 1);
+
+		        stmt = con.createStatement();
+
+		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		        stmt.executeUpdate("INSERT INTO beteiligung (Beteiligung_Id, Umfang, `Startdatum`, `Enddatum`, Beteiligter_Id, Projekt_Id) "
 		            + "VALUES ("
 		        	+ b.getId() 
@@ -314,6 +365,7 @@ public class BeteiligungMapper {
 		        	+ "','" 
 		        	+ sdf.format(b.getEndDatum())
 		        	+ "'," 
+		        	
 		            + b.getBeteiligterId() 
 		            + "," 
 		            + b.getProjektId()

@@ -38,12 +38,14 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 	Button eigenschaftHinzufuegenButton = new Button("Eigenschaft hinzufügen");
 	Button zurueckButton = new Button("Zurück");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
-	
-	public PartnerprofilByAusschreibungForm(int partnerprofilId){
+	public PartnerprofilByAusschreibungForm(int partnerprofilId, boolean hideEigenschaftHinzufuegenButton, final IdentityMarketChoice identityMarketChoice, final Navigation navigation){
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		
-		
-		if(Navigation.getCurrentClickHandler().toString() == "de.hdm.itProjektSS17.client.gui.Navigation$7@71"){
+		if(hideEigenschaftHinzufuegenButton==true){
 			eigenschaftHinzufuegenButton.setVisible(false);
 			loeschenButton.setVisible(false);
 		}
@@ -136,9 +138,9 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		buttonPanel.add(loeschenButton);
 		
 		//Stylen der Buttons
-		zurueckButton.setStylePrimaryName("navi-button");
-		eigenschaftHinzufuegenButton.setStylePrimaryName("navi-button");
-		loeschenButton.setStylePrimaryName("navi-button");
+		zurueckButton.setStylePrimaryName("cell-btn");
+		eigenschaftHinzufuegenButton.setStylePrimaryName("cell-btn");
+		loeschenButton.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der CellTable und des ButtonPanels zu unserem Showcase
 		this.setSpacing(8);
@@ -151,7 +153,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		 */
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Navigation.reload();
+				navigation.reload();
 				
 				
 			}
@@ -160,7 +162,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung());
+				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), navigation, identityMarketChoice);
 				gg.center();
 				gg.show();
 		
@@ -178,7 +180,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
 
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, identityMarketChoice, navigation));
 						
 					}
 				});

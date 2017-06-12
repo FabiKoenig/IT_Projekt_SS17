@@ -19,6 +19,12 @@ import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 
 public class MeineBewerbungenShowcase extends Showcase{
 
+	private IdentityChoiceReport identityChoiceReport = null;
+	
+	public MeineBewerbungenShowcase(IdentityChoiceReport identityChoiceReport) {
+		this.identityChoiceReport=identityChoiceReport;
+	}
+	
 	@Override
 	protected String getHeadlineText() {
 		return "Report für meine Bewerbungen";
@@ -34,7 +40,7 @@ public class MeineBewerbungenShowcase extends Showcase{
 			
 		
 
-		reportGenerator.createAlleBewerbungenMitAusschreibungenReport(IdentityChoiceReport.getSelectedIdentityAsObject(), 
+		reportGenerator.createAlleBewerbungenMitAusschreibungenReport(identityChoiceReport.getSelectedIdentityAsObject(), 
 				new AsyncCallback<AlleBewerbungenMitAusschreibungenReport>() {
 			
 			@Override

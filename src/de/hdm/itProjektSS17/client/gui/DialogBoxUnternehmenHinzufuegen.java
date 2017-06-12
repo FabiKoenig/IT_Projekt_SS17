@@ -23,9 +23,13 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 	
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
-	public DialogBoxUnternehmenHinzufuegen(Person person, Team team){
+	public DialogBoxUnternehmenHinzufuegen(Person person, Team team, IdentityMarketChoice identityMarketChoice, Navigation navigation){
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		this.center();
@@ -55,15 +59,19 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 			
 			Button bt_ja = new Button("Ja");
 			Button bt_nein = new Button("Nein");
+			bt_ja.setStylePrimaryName("cell-btn");
+			bt_nein.setStylePrimaryName("cell-btn");
 			vp.add(new Label("Das hinzugefügte Team wurde dem Unternehmen: " + result.getName() + " zugeordnet."));
 			vp.add(new Label("Wollen Sie zu diesem Unternehmen ebenfalls hinzugefügt werden?"));
 			
 			HorizontalPanel hp1 = new HorizontalPanel();
+			hp1.setSpacing(5);
 			hp1.add(bt_ja);
 			hp1.add(bt_nein);
 			
 			vp.add(hp1);
 			add(vp);
+			center();
 			
 			bt_ja.addClickHandler(new ClickHandler() {
 				
@@ -95,8 +103,8 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 		public void onSuccess(Void result) {
 			Window.alert("Das Unternehmen wurde erfolgreich übernommen.");
 			hide();
-			IdentityMarketChoice.getNavigation().reinitialize();
-			Navigation.reload();
+			identityMarketChoice.reinitialize();
+			navigation.reload();
 		}
 		
 	}

@@ -40,10 +40,12 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	TextBox eigenschaftWertBox = new TextBox();
 	Button abbrechenButton = new Button("Abbrechen");
 	Button speichernButton = new Button("Speichern");
+	private Navigation navigation=null;
+	private IdentityMarketChoice identityMarketChoice=null;
 	
-	
-	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId){
-	
+	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId, Navigation navigation, IdentityMarketChoice identityMarketChoice){
+	this.navigation=navigation;
+	this.identityMarketChoice=identityMarketChoice;
 	this.partnerpId = partnerprofilId;	
 		
 	//Erstellen der FlexTable
@@ -55,8 +57,8 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	//Hinzufügen der Buttons zum Buttonpanel
 	buttonPanel.add(speichernButton);
 	buttonPanel.add(abbrechenButton);
-	abbrechenButton.setStylePrimaryName("navi-button");
-	speichernButton.setStylePrimaryName("navi-button");
+	abbrechenButton.setStylePrimaryName("cell-btn");
+	speichernButton.setStylePrimaryName("cell-btn");
 	
 	//Hinzufügen der FlexTable zur DialogBox
 	dialogBoxPanel.setSpacing(8);
@@ -119,11 +121,12 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 									for (Organisationseinheit organisationseinheit : result) {
 										if(organisationseinheit.getPartnerprofilId() == partnerpId){
 											RootPanel.get("Details").clear();
-											RootPanel.get("Details").add(new MeinPartnerprofilForm());
+											RootPanel.get("Details").add(new MeinPartnerprofilForm(identityMarketChoice, navigation));
 											break;		
 										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
 											RootPanel.get("Details").clear();
-											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
+											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, identityMarketChoice, navigation));
+											break;
 										}
 									}
 									

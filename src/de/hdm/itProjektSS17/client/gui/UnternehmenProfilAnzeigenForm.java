@@ -20,6 +20,17 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 public class UnternehmenProfilAnzeigenForm extends Showcase{
 
 
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
+	
+	public UnternehmenProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
+		user = identityMarketChoice.getUser();
+		unternehmen = (Unternehmen) identityMarketChoice.getSelectedIdentityAsObject();
+	}
+
+
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -46,8 +57,8 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 	private Label plzLabel = new Label("Postleitzahl");
 	private Label ortLabel = new Label("Ort");
 	
-	private Person user = IdentityMarketChoice.getUser();
-	private Unternehmen unternehmen = (Unternehmen) IdentityMarketChoice.getSelectedIdentityAsObject();
+	private Person user; 
+	private Unternehmen unternehmen; 
 	
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
@@ -63,7 +74,7 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		try {
 			
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
-			.getUnternehmenById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilAnzeigenCallback());
+			.getUnternehmenById(identityMarketChoice.getSelectedIdentityId(), new ProfilAnzeigenCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,11 +87,11 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		ortBox.setReadOnly(true);
 		
 		//Stylen der Buttons
-		bearbeitenButton.setStylePrimaryName("navi-button");
-		speichernButton.setStylePrimaryName("navi-button");
-		abbrechenButton.setStylePrimaryName("navi-button");
-		unternehmenVerlassenButton.setStylePrimaryName("navi-button");
-		unternehmenLoeschen.setStylePrimaryName("navi-button");
+		bearbeitenButton.setStylePrimaryName("cell-btn");
+		speichernButton.setStylePrimaryName("cell-btn");
+		abbrechenButton.setStylePrimaryName("cell-btn");
+		unternehmenVerlassenButton.setStylePrimaryName("cell-btn");
+		unternehmenLoeschen.setStylePrimaryName("cell-btn");
 
 		
 		//Setzen des SpeicherButtons
@@ -119,6 +130,7 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		vpanel.add(ftable);
 		
 		this.add(vpanel);
+		this.setSpacing(8);
 		
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
@@ -145,14 +157,14 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Navigation.reload();
+				navigation.reload();
 			}
 		});
 		
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
-				getUnternehmenById(IdentityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
+				getUnternehmenById(identityMarketChoice.getSelectedIdentityId(), new ProfilBearbeitenCallback());
 			}
 		});
 		
@@ -173,9 +185,9 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("Beziehung wurde aufgelöst!");
-						IdentityMarketChoice.getNavigation().reinitialize();
-						IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
-						Navigation.reload();
+						identityMarketChoice.reinitialize();
+						identityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+						navigation.reload();
 					}
 				
 				});
@@ -206,9 +218,9 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 							@Override
 							public void onSuccess(Void result) {
 								Window.alert("Unternehmen: "+unternehmen.getName()+" wurde gelöscht und die Beziehung wurde aufgelöst!");
-								IdentityMarketChoice.getNavigation().reinitialize();
-								IdentityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
-								Navigation.reload();
+								identityMarketChoice.reinitialize();
+								identityMarketChoice.getOwnOrgUnits().setSelectedIndex(0);
+								navigation.reload();
 							}
 							
 						});
@@ -256,10 +268,6 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 
 			
 			ClientsideSettings.getProjektmarktplatzVerwaltung().saveUnternehmen(result, new UnternehmenSpeichernCallback());
-		
-			Showcase showcase = new UnternehmenProfilAnzeigenForm();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(showcase);
 			
 		}
 		
@@ -274,7 +282,7 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		@Override
 		public void onSuccess(Void result) {
 			Window.alert("Das Profil wurde erfolgreich geändert.");
-			
+			navigation.reload();
 		}
 		
 	}

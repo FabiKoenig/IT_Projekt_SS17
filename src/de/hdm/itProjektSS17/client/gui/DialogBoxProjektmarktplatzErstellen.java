@@ -24,15 +24,20 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 	private Label lbl_pmName = new Label("Name des Marktplatzes: ");
 	private TextBox txt_pmName = new TextBox();
 	private Projektmarktplatz pm = null;
+	private IdentityMarketChoice identityMarketChoice=null;
+	private Navigation navigation=null;
 	
-	public DialogBoxProjektmarktplatzErstellen() {
-
+	public DialogBoxProjektmarktplatzErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
+		this.identityMarketChoice=identityMarketChoice;
+		this.navigation=navigation;
 		
 		this.setText("Projektmarktplatz erstellen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		Button ok = new Button("OK");
 		Button abbrechen = new Button("Abbrechen");
+		ok.setStylePrimaryName("cell-btn");
+		abbrechen.setStylePrimaryName("cell-btn");
 		
 		ok.addClickHandler(new ClickHandler() {
 			
@@ -70,7 +75,7 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 
 		@Override
 		public void onSuccess(Projektmarktplatz result) {
-			projektmarktplatzVerwaltung.createTeilnahme(IdentityMarketChoice.getSelectedIdentityId(), result.getId(), new pmZuPersonHinzufuegenCallback());
+			projektmarktplatzVerwaltung.createTeilnahme(identityMarketChoice.getSelectedIdentityId(), result.getId(), new pmZuPersonHinzufuegenCallback());
 		}
 		
 	}
@@ -84,8 +89,8 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 
 		@Override
 		public void onSuccess(Void result) {
-			Navigation.reload();
-			IdentityMarketChoice.getNavigation().reinitialize();
+			identityMarketChoice.reinitialize();
+			navigation.reload();
 			Window.alert("Neuer Projektmarktplatz wurde hinzugefügt!");
 			hide();
 		}
