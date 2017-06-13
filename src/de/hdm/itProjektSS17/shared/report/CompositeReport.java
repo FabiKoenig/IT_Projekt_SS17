@@ -3,8 +3,7 @@ package de.hdm.itProjektSS17.shared.report;
 import java.util.Vector;
 
 /**
- * (TODO)
- * @author Fabian
+ * Zusammengesetzter Report, welcher aus mehreren Teil-/Sub-Reports bestehen kann.
  *
  */
 
