@@ -572,6 +572,9 @@ public class MeineBewerbungenForm extends Showcase{
 			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			hp_pager.add(pager);
 			add(hp_pager);
+			
+			cellTable.setRowCount(hybrid.size(), true);
+			cellTable.setRowData(0,hybrid);
 							}
 	
 							

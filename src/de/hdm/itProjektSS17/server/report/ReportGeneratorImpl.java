@@ -695,7 +695,29 @@ implements ReportGenerator{
 	}
 	
 	@Override
-	public Vector<Ausschreibung> getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o){
+	public AlleAusschreibungenZuPartnerprofilReport getAusschreibungByMatchingPartnerprofilOfOrganisationseinheitReport(Organisationseinheit o){
+		
+		
+		if(this.getProjektmarktplatzVerwaltung()== null){
+			return null;
+			
+			}
+			
+			AlleAusschreibungenZuPartnerprofilReport result = new AlleAusschreibungenZuPartnerprofilReport();
+			
+			result.setTitel("");
+			result.setErstellungsdatum(new Date());
+			
+			
+			Row headline = new Row();
+			headline.addColum(new Column("Bezeichnung"));
+			headline.addColum(new Column("Ausschreibender"));
+			headline.addColum(new Column("Ausschreibungstext"));
+			headline.addColum(new Column("Bewerbungsfrist"));
+			
+			
+			result.addRow(headline);
+			
 
 		Vector<Ausschreibung> matchingAusschreibungen = new Vector<Ausschreibung>();
 		Partnerprofil partnerprofil = projektmarktplatzverwaltung.getPartnerprofilByForeignOrganisationseinheit(o);
@@ -730,7 +752,22 @@ implements ReportGenerator{
 			}
 		}
 	
-		return matchingAusschreibungen;
+		for (Ausschreibung ausschreibung : matchingAusschreibungen) {
+			
+			 Row ausschreibungRow = new Row();
+			 
+			 ausschreibungRow.addColum(new Column(ausschreibung.getBezeichnung()));
+			 ausschreibungRow.addColum(new Column(projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId()).getVorname() + " " 
+			 + projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId()).getNachname()));
+			 ausschreibungRow.addColum(new Column(ausschreibung.getAusschreibungstext()));
+			 ausschreibungRow.addColum(new Column(ausschreibung.getBewerbungsfrist().toString()));
+			 
+			 result.addRow(ausschreibungRow);
+			 
+		}
+		
+		
+		return result;
 	}
 	
 //	public class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{

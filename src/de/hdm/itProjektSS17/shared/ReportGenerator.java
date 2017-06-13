@@ -47,5 +47,5 @@ public interface ReportGenerator extends RemoteService{
 	AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Organisationseinheit o)
 			throws IllegalArgumentException;
 
-	public Vector<Ausschreibung> getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException;
+	public AlleAusschreibungenZuPartnerprofilReport getAusschreibungByMatchingPartnerprofilOfOrganisationseinheitReport(Organisationseinheit o) throws IllegalArgumentException;
 }

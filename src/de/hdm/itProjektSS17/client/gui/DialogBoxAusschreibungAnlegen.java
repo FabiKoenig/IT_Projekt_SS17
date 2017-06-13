@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -142,17 +143,9 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			Window.alert("Das Anlegen der Anschreibung war erfolgreich.");
 			hide();
 			navigation.reload();
-			Window.alert("Partnerprofil Id: "+ result.getPartnerprofilId());
 			
-			
-			DialogBox partnerprofilBox = new DialogBox();
-			partnerprofilBox.setText("Fügen Sie der Ausschreibung noch ein gewünschtes Profil hinzu");
-			partnerprofilBox.setGlassEnabled(true);
-			partnerprofilBox.setAnimationEnabled(false);
-			partnerprofilBox.setSize("200", "400");
-			partnerprofilBox.setWidget(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), partnerprofilBox, false, false, identityMarketChoice, navigation));
-			partnerprofilBox.show();
-			partnerprofilBox.center();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), true, false, identityMarketChoice, navigation));
 			
 		}	
 	}
