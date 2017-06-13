@@ -134,7 +134,7 @@ public class MeinPartnerprofilForm extends Showcase{
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId, null, true, navigation, identityMarketChoice);
+				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(partnerprofilId, false, navigation, identityMarketChoice);
 				gg.center();
 				gg.show();
 			}

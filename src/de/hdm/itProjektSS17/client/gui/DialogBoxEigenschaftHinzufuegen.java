@@ -2,7 +2,6 @@ package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Date;
 import java.util.Vector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -15,7 +14,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.client.Showcase;
 import de.hdm.itProjektSS17.client.gui.MeinPartnerprofilForm.GetEigenschaftenCallback;
@@ -43,13 +41,11 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	Button speichernButton = new Button("Speichern");
 	private Navigation navigation=null;
 	private IdentityMarketChoice identityMarketChoice=null;
-	private Boolean showFormafter = null;
 	
-	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId, final DialogBox dbox, boolean showFormAfter, Navigation navigation, IdentityMarketChoice identityMarketChoice){
+	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId, boolean afterAnlegen, final Navigation navigation, final IdentityMarketChoice identityMarketChoice){
 	this.navigation=navigation;
 	this.identityMarketChoice=identityMarketChoice;
 	this.partnerpId = partnerprofilId;	
-	this.showFormafter = showFormAfter;
 		
 	//Erstellen der FlexTable
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 1, eigenschaftNameBox);
@@ -72,6 +68,59 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	this.setAnimationEnabled(false);
 	this.center();
 	
+	
+	
+	if(afterAnlegen==true){
+		speichernButton.setVisible(false);
+		Button saveButton = new Button("Speichern");
+		saveButton.setStylePrimaryName("cell-btn");
+		buttonPanel.add(saveButton);
+		
+		saveButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new AsyncCallback<Partnerprofil>() {
+
+					public void onFailure(Throwable caught) {
+						Window.alert("Die Eigenschaft konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.");
+					}
+
+					@Override
+					public void onSuccess(Partnerprofil result) {
+						final Partnerprofil partnerprofil = result;
+						if(eigenschaftNameBox.getText()!= "" && eigenschaftWertBox.getText()!= ""){
+							
+							projektmarktplatzVerwaltung.createEigenschaft(eigenschaftNameBox.getText(), eigenschaftWertBox.getText(), 
+									result.getId(), new AsyncCallback<Eigenschaft>() {
+										public void onFailure(Throwable caught) {
+											Window.alert("Fehler: Das anlegen der Eigenschaft ist fehlgeschlagen.");
+										}
+										public void onSuccess(Eigenschaft result) {
+											Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
+											hide();
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, true, false, identityMarketChoice, navigation));
+											
+											partnerprofil.setAenderungdatum(new Date());
+											projektmarktplatzVerwaltung.savePartnerprofil(partnerprofil, new AsyncCallback<Void>() {
+												public void onFailure(Throwable caught) {
+													Window.alert("Fehler: "+caught.getMessage());
+												}
+
+												@Override
+												public void onSuccess(Void result) {
+												}
+											});
+										}
+									});
+								}
+							}
+						});	
+					}
+				});
+			}
+	
+	
+	
 	/**
 	 * CLICK-HANDLER
 	 */
@@ -84,14 +133,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	speichernButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-			if(showFormafter == true){
 			projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new SetEigenschaftenCallback());
-			} else if(showFormafter == false){
-				projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new SetEigenschaftenCallback());
-				dbox.hide();
-				dbox.center();
-				dbox.show();
-			}
 			
 		}
 	});
@@ -113,18 +155,13 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 		
 			projektmarktplatzVerwaltung.createEigenschaft(eigenschaftNameBox.getText(), eigenschaftWertBox.getText(), 
 					result.getId(), new AsyncCallback<Eigenschaft>() {
-					
-				public void onFailure(Throwable caught) {
+						public void onFailure(Throwable caught) {
 							Window.alert("Fehler: Das anlegen der Eigenschaft ist fehlgeschlagen.");
 						}
 						public void onSuccess(Eigenschaft result) {
-							
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
-							
 							hide();
 							
-							
-							if(showFormafter == true){
 							// Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
 							// Je nachdem wird die entsprechende Form geladen.
 							projektmarktplatzVerwaltung.getAllOrganisationseinheiten(new AsyncCallback<Vector<Organisationseinheit>>() {
@@ -134,27 +171,26 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 								public void onSuccess(Vector<Organisationseinheit> result) {
 									
 									for (Organisationseinheit organisationseinheit : result) {
-										
 										if(organisationseinheit.getPartnerprofilId() == partnerpId){
-											navigation.reload();
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new MeinPartnerprofilForm(identityMarketChoice, navigation));
 											break;		
 										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
 											RootPanel.get("Details").clear();
-											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), null, true, false, identityMarketChoice, navigation));
+											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, false, identityMarketChoice, navigation));
 											
 										}
 									}
 									
 								}
 							});
-						}
+							
 //							RootPanel.get("Details").clear();
 //							RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
 //							
 //							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 			});
-			result.setAenderungdatum(new Date());
 		} else{
 			Window.alert("Sie müssen einen Namen und einen Wert eintragen.");
 		}	

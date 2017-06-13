@@ -208,7 +208,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 					int partnerprofilId = selectionModel.getSelectedObject().getPartnerprofilId();
 				
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, null,  true, true, identityMarketChoice, navigation));
+					RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, false, true, identityMarketChoice, navigation));
 					
 					} else {
 						Window.alert("Bitte wähle zuerst eine Bewerbung aus.");

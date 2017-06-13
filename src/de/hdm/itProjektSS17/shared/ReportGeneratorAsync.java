@@ -59,6 +59,7 @@ public interface ReportGeneratorAsync {
 
 	void getAllPersonen(AsyncCallback<Vector<Person>> callback);
 
-	void getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o, AsyncCallback<Vector<Ausschreibung>> callback);
+	void getAusschreibungByMatchingPartnerprofilOfOrganisationseinheitReport(Organisationseinheit o,
+			AsyncCallback<AlleAusschreibungenZuPartnerprofilReport> callback);
 
 }
