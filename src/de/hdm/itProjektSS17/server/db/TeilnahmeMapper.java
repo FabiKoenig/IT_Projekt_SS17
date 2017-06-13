@@ -62,6 +62,11 @@ public class TeilnahmeMapper{
 		    return;
 	  }
 	  
+	  /**
+	   * 
+	   * @param pe
+	   * @param pr
+	   */
 	  public void delete(Person pe, Projektmarktplatz pr){
 		  
 		    Connection con = DBConnection.connection();
@@ -85,6 +90,11 @@ public class TeilnahmeMapper{
 		    return;
 	  }
 	  
+	  /**
+	   * 
+	   * @param pe
+	   * @return Vector mit allen projektmarktplätzen auf der sich die übergebene Person pe befindet
+	   */
 	  public Vector<Projektmarktplatz> findRelatedProjektMarktplaetze(Person pe){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
@@ -113,6 +123,11 @@ public class TeilnahmeMapper{
 	        return pr;
 	  }
 	  
+	  /**
+	   * 
+	   * @param pr
+	   * @return Vector mit allen Personen die sich auf dem übergebenen Projektmarktplatz pr befinden
+	   */
 	  public Vector<Person> findRelatedPersonen(Projektmarktplatz pr){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();

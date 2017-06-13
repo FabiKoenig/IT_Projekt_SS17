@@ -77,17 +77,36 @@ implements ReportGenerator{
 		return this.projektmarktplatzverwaltung;
 	}
 	
+	/**
+	 * @param Organisationseinheit o
+	 * @return Alle Ausschreibungen zum Partnerprofil der übergebenen Organisationseinheit
+	 */
 	@Override
 	public AlleAusschreibungenZuPartnerprofilReport createAlleAusschreibungeZuPartnerprofilReport(Organisationseinheit o)
 			throws IllegalArgumentException {
 		
+		/**
+		 * @return Vector mit allen Ausschreibungen
+		 */
 		Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAllAusschreibungen();
+		/**
+		 * @param o
+		 * @return Partnerprofil zur übergebenen Organisationseinheit o
+		 */
 		Partnerprofil referenzPartnerprofil = projektmarktplatzverwaltung.getPartnerprofilByForeignOrganisationseinheit(o);
+		/**
+		 * @param referenzPartnerprofil
+		 * @return Vector mit allen Eigenschaft zu dem übergebenen Partnerprofil
+		 */
 		Vector<Eigenschaft> referenzEigenschaften = projektmarktplatzverwaltung.getEigenschaftByForeignPartnerprofil(referenzPartnerprofil);	
 	
 		
 		
 		for (Ausschreibung ausschreibung : alleAusschreibungen) {
+			/**
+			 * @param id des partnerprofil, welches aus dem Ausschreibungs-Objekt gelesen wird
+			 * @return Vector mit allen Eigenschaften zu dem übergenen Partneprofil
+			 */
 			Vector<Eigenschaft> eigenschaftenDerAusschreibung = projektmarktplatzverwaltung.getEigenschaftenByForeignPartnerprofilId(ausschreibung.getPartnerprofilId());
 		}
 		
@@ -99,37 +118,73 @@ implements ReportGenerator{
 		return null;
 	}
 
+	/**
+	 * @param id 
+	 * @return Person-Objekt zur übergebenen id
+	 */
 	public Person getPersonById(int id) throws IllegalArgumentException {
 		return projektmarktplatzverwaltung.getPersonById(id);
 	}
 	
-	
+	/**
+	 * @param id
+	 * @return Team zur übergebnen id
+	 */
 	public Team getTeamById(int id) throws IllegalArgumentException{
 		return projektmarktplatzverwaltung.getTeamById(id);
 	}
 	
+	/**
+	 * @param id
+	 * @return Unternehmen zur übergebenen Id
+	 */
 	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException{
 		return projektmarktplatzverwaltung.getUnternehmenById(id);
 	}
 	
+	/**
+	 * @return Vector mit allen Personen
+	 */
 	public Vector<Person> getAllPersonen() throws IllegalArgumentException{		
 		return projektmarktplatzverwaltung.getAllPersonen();	
 	}
 	
-	
+	/**
+	 * @param Organisationseinheit o
+	 * @return Vector mit allen Organisationseinheiten(Bewerber) die sich auf die Ausschreibungen der übergebnen Organisationseinheit o beworben haben
+	 */
 	public Vector<Organisationseinheit> getBewerberAufEigeneAusschreibungen(Organisationseinheit o) throws IllegalArgumentException{
 		
 		Vector<Organisationseinheit> bewerber = new Vector<Organisationseinheit>();
+		
+		/**
+		 * @param Organisationseinheit o
+		 * @return Vector mit allen Ausschreibung zu dem übergebenen Organisationseinheit-Objekt
+		 */
 		Vector<Ausschreibung> meineAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(o);
 		
 		for (Ausschreibung ausschreibung : meineAusschreibungen) {
 			
+			/**
+			 * @param id der Ausschreibung, welche aus dem Ausschreibung-Objekt gelesen wird
+			 * @return Vector mit allen Bewerbungen zur übergebenen Ausschreibung 
+			 */
 			Vector<Bewerbung> bewerbungen =  projektmarktplatzverwaltung.getBewerbungByForeignAusschreibungId(ausschreibung.getId());
 			
 				for (Bewerbung bewerbung : bewerbungen) {
+					/**
+					 * 
+					 * @param id der Organisationseinheit, welche aus der jeweiligen Bewerbung gelesen wird
+					 * @return Organisationseinheit-Objekt
+					 */
 					if(bewerber.contains(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()))){
 						
 					}else{
+						/**
+						 * 
+						 * @param id der Organisationseinheit, welche aus der jeweiligen Bewerbung gelesen wird
+						 * @return Organisationseinheit-Objekt
+						 */
 						bewerber.add(projektmarktplatzverwaltung.getOrganisationseinheitById(bewerbung.getOrganisationseinheitId()));
 					}
 					
@@ -139,6 +194,12 @@ implements ReportGenerator{
 		return bewerber;
 	}
 	
+	/**
+	 * Erstellt einen Report mit allen Ausschreibung. Hierzu werden alle Column wie z.B. Ausschreibender, Bezeichnung etc.
+	 * gesetzt und befüllt 
+	 *
+	 * @return AusschreibungReport  
+	 */
 	@Override
 	public AlleAusschreibungenReport createAlleAusschreibungenReport() throws IllegalArgumentException {
 		
@@ -164,7 +225,9 @@ implements ReportGenerator{
 		result.addRow(headline);
 		
 		
-		
+		/**
+		 * @return Vector mit allen Ausschreibungen
+		 */
 		Vector<Ausschreibung> alleAusschreibungen = this.projektmarktplatzverwaltung.getAllAusschreibungen();
 	
 		for(Ausschreibung a : alleAusschreibungen){
@@ -175,8 +238,15 @@ implements ReportGenerator{
 		   /**
 		    * prüfen, ob der Ausschreibene eine Person, Team oder Unternehmen ist.
 		    * Erste Spalte: Je nachdem wird der Name des Ausschreibenden gesetzt
+		    * @param Id der Organisationseinheit, die aus dem Ausschreibungsobjekt gelesen wird
+		    * @return Organisationseinheit-Objekt anhand der übergebenen Id
 		    */
 		      Organisationseinheit ausschreibender = projektmarktplatzverwaltung.getOrganisationseinheitById(a.getAusschreibenderId());
+		      
+		      /**
+		       * @param Id der Projekts, die aus dem Ausschreibungsobjekt gelesen wird.
+		       * @return Projekt-Objekt anhand der übergebenen Id
+		       */
 		      Projekt zugehoerigesProjekt = projektmarktplatzverwaltung.getProjektById(a.getProjektId());
 		      
 		      
@@ -219,13 +289,21 @@ implements ReportGenerator{
 	
 
 	
-	
+	/**
+	 * 
+	 * @param ausschreibungId
+	 * @return Report mit allen Bewerbungen auf die übergebene Ausschreibung
+	 */
 	public AlleBewerbungenAufEineAusschreibungDesUsers AlleBewerbungenAufEineAusschreibungDesUser(int ausschreibungId){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
 			return null;
 		}
 		
+		/**
+		 * @param ausschreibungID
+		 * @return Ausschreibung anhand der übergebenen ausschreibundId
+		 */
 		Ausschreibung ausschreibung = projektmarktplatzverwaltung.getAusschreibungById(ausschreibungId);
 		
 		
@@ -246,7 +324,10 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 		
-		
+		/**
+		 * @param ausschreibungId
+		 * @return Bewerbung-Objekt anhand der übergebenen ausschreibungID
+		 */
 		Vector<Bewerbung> bewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignAusschreibungId(ausschreibungId);
 		
 		for(Bewerbung b : bewerbungen){
@@ -257,6 +338,8 @@ implements ReportGenerator{
 		   /**
 		    * prüfen, ob der Ausschreibene eine Person, Team oder Unternehmen ist.
 		    * Erste Spalte: Je nachdem wird der Name des Ausschreibenden gesetzt
+		    * @param organisationseinheitId zum jeweiligen Bewerbungs-Objekt
+		    * @return Organisationseinheit-Objekt anhand der übergebenen Id
 		    */
 		      
 		      Organisationseinheit bewerber = projektmarktplatzverwaltung.getOrganisationseinheitById(b.getOrganisationseinheitId());
@@ -289,7 +372,10 @@ implements ReportGenerator{
 		return result;
 	}
 	
-
+	/**
+	 * @param Organisationseinheit o
+	 * @return Alle Bewerbungen mit den dazugehörigen Auscchreibungen zu der übergebenen Organisationseinheit o
+	 */
 	@Override
 	public AlleBewerbungenMitAusschreibungenReport createAlleBewerbungenMitAusschreibungenReport(Organisationseinheit o)
 			throws IllegalArgumentException {
@@ -320,11 +406,24 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 
+		/**
+		 * @param Organisationseinheit o
+		 * @return Vector mit allen Bewerbungen zu der übergebenen Organisationseinheit
+		 */
 		Vector<Bewerbung> alleEigeneBewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(o);
 		
 		for(Bewerbung b : alleEigeneBewerbungen){
 			
+			/**
+			 * @param id zu Ausschreibung-Objekt, welche aus dem jeweiligen Bewerbungs-Objekt gelesen wird
+			 * @return Ausschreibung-Objekt
+			 */
 			Ausschreibung ausschreibung = projektmarktplatzverwaltung.getAusschreibungById(b.getAusschreibungId());
+			
+			/**
+			 * @param id einer Person, die aus dem Ausschreibungs-Objekt gelesen wird
+			 * @return Person-Objekt anhand der übergebenen id
+			 */
 			Person ausschreibender = projektmarktplatzverwaltung.getPersonById(ausschreibung.getAusschreibenderId());
 			
 			// Eine leere Zeile anlegen.
@@ -357,6 +456,10 @@ implements ReportGenerator{
 		return result;
 	}
 
+	/**
+	 * @param Organisationseinheit o
+	 * @return Report mit allen Bewerbungen auf eigene Ausschreibungen der übergebenen Organisationseinheit o
+	 */
 	public AlleBewerbungenAufEigeneAusschreibungenReport createAlleBewerbungenAufEigeneAusschreibungenReport(
 			Organisationseinheit o) throws IllegalArgumentException {
 		
@@ -370,6 +473,9 @@ implements ReportGenerator{
 		
 		result.setErstellungsdatum(new Date());
 		
+		/**
+		 * @return Vector mit allen Ausschreibungen
+		 */
 		Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAllAusschreibungen();
 		
 		for(Ausschreibung a: alleAusschreibungen){
@@ -387,6 +493,11 @@ implements ReportGenerator{
 	
 	
 	
+	/**
+	 * 
+	 * @param id
+	 * @return Alle Beteiligungen eines Users
+	 */
 	public AlleBeteiligungenEinesUsers alleBeteiligungenEinesUsers(int id){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -408,10 +519,18 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 
+		/**
+		 * @param Organisationseinheit-Objekt, welches man aus der übergebnen id erhählt
+		 * @return Vector mit allen Beteiligungen der übergebenen Organisationseinheit
+		 */
 		Vector<Beteiligung> alleBeteiligungen = projektmarktplatzverwaltung.getBeteiligungByForeignOrganisationseinheit(projektmarktplatzverwaltung.getOrganisationseinheitById(id));
 		
 		for(Beteiligung b : alleBeteiligungen){
 			
+			/**
+			 * @param id eines Projekt-Objekts, welches aus dem jeweiligen Beteiligungs-Objekt gelesen wird
+			 * @return Projekt-Objekt, anhand der übergebnen id
+			 */
 			Projekt projekt = projektmarktplatzverwaltung.getProjektById(b.getProjektId());
 			
 			// Eine leere Zeile anlegen.
@@ -439,6 +558,11 @@ implements ReportGenerator{
 	}
 	
 	
+	/**
+	 * 
+	 * @param id
+	 * @return Alle Bewerbungen eines Users
+	 */
 	public AlleBewerbungenEinesUsers alleBewerbungenEinesUsers(int id){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -461,11 +585,18 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 		
-		
+		/**
+		 * @param Organisationseinheit-Objekt, welches man über die übergebene id erhählt
+		 * @return Vector mit allen Bewerbungen der übergebenen Organisationseinheit
+		 */
 		Vector<Bewerbung> bewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(projektmarktplatzverwaltung.getOrganisationseinheitById(id));
 				
 		for(Bewerbung b : bewerbungen){
 			
+			/**
+			 * @param id einer Ausschreibung, welches man anhand der jeweiligen Bewerung b ausliest
+			 * @return Ausschreibung-Objekt, zu der übergebnen id
+			 */
 			Ausschreibung empfangendeAusschreibung = projektmarktplatzverwaltung.getAusschreibungById(b.getAusschreibungId());
 			
 			
@@ -493,7 +624,10 @@ implements ReportGenerator{
 		return result;		
 	}
 	
-
+	/**
+	 * @param id
+	 * @return Report mit allen Projektverflectungen
+	 */
 	@Override
 	public ProjektverflechtungenReport createProjektverflechtungenReport(int id)
 			throws IllegalArgumentException {
@@ -521,6 +655,9 @@ implements ReportGenerator{
 	
 	
 
+	/**
+	 * @return Alle Bewerbungen mit deren jeweiligen Status
+	 */
 	public FanIn fanInAnalyse() throws IllegalArgumentException {
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -545,7 +682,9 @@ implements ReportGenerator{
 		result.addRow(headline);
 		
 		
-		
+		/**
+		 * @return Vector mit allen Organisationseinheiten
+		 */
 		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
 		
 		for (Organisationseinheit orga : alleOrganisationseinheiten) {
@@ -554,7 +693,11 @@ implements ReportGenerator{
 			Vector<Bewerbung> abgelehnteBewerbungen = new Vector<Bewerbung>();
 			Vector<Bewerbung> angenommeneBewerbungen = new Vector<Bewerbung>();
 			
-			//Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
+			/**
+			 * Es werden alle Bewerbungen der gegebenen Organisationseinheit in einen Vector geschrieben
+			 * @param Organisationseinheit-Objekt orga
+			 * @return Vector mit allen Bewerbungen zu dem jeweils übergebenen Organisationseinheit-Objekts
+			 */
 			Vector<Bewerbung> alleBewerbungen = projektmarktplatzverwaltung.getBewerbungByForeignOrganisationseinheit(orga);
 			
 			for(Bewerbung b: alleBewerbungen){
@@ -594,7 +737,10 @@ implements ReportGenerator{
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @return Alle Ausschreibungen mit deren jeweiligen Status
+	 */
 	public FanOut fanOutAnalyse(){
 		
 		if(this.getProjektmarktplatzVerwaltung()== null){
@@ -619,7 +765,9 @@ implements ReportGenerator{
 		
 		result.addRow(headline);
 		
-		
+		/**
+		 * @return Vector mit allen Organisationseinheiten
+		 */
 		Vector<Organisationseinheit> alleOrganisationseinheiten = projektmarktplatzverwaltung.getAllOrganisationseinheiten();
 		
 	
@@ -629,6 +777,10 @@ implements ReportGenerator{
 			Vector<Ausschreibung> abgebrocheneAusschreibungen = new Vector<Ausschreibung>();
 			Vector<Ausschreibung> laufendeAusschreibungen = new Vector<Ausschreibung>();
 			
+			/**
+			 * @param Organisationseinheit-Objekt orga
+			 * @return Ausschreibung-Objekt zu dem jeweils übergebenen Organisationseinheit-Objekt
+			 */
 			Vector<Ausschreibung> alleAusschreibungen = projektmarktplatzverwaltung.getAusschreibungByForeignOrganisationseinheit(orga);
 				
 
@@ -667,6 +819,9 @@ implements ReportGenerator{
 	}
 	
 	
+	/**
+	 * @return FanInFanOut Report
+	 */
 	@Override
 	public FanInFanOutReport createFanInFanOutReport() throws IllegalArgumentException {
 		
@@ -687,26 +842,50 @@ implements ReportGenerator{
 		return result;
 	}
 
-
+	
 	@Override
 	public void setPerson() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	
+	/**
+	 * @param Organisationseinheit o
+	 * @return Vector/Report mit allen Ausschreibungen deren Partnerprofil zu dem der übergebenen Organisationseinheit passen.
+	 */
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o){
 
 		Vector<Ausschreibung> matchingAusschreibungen = new Vector<Ausschreibung>();
+		/**
+		 * @param Organisationseinheit o
+		 * @return Partnerprofil, zu der übergebnen Organisationseinheit
+		 */
 		Partnerprofil partnerprofil = projektmarktplatzverwaltung.getPartnerprofilByForeignOrganisationseinheit(o);
+		/**
+		 * @param partnerprofil
+		 * @return Vector mit allen Eigenschaften zum übergebenen Partnerprofil
+		 */
 		Vector<Eigenschaft> eigenschaften = projektmarktplatzverwaltung.getEigenschaftByForeignPartnerprofil(partnerprofil);
+		/**
+		 * @return Vector mit allen Ausschreibungen
+		 */
 		Vector<Ausschreibung> allAusschreibungen = projektmarktplatzverwaltung.getAllAusschreibungen();
 		System.out.println("Menge aller Ausschreibungen: "+allAusschreibungen.size());
 		
 		for(Ausschreibung ausschreibung : allAusschreibungen){
 			System.out.println("");
+			/**
+			 * @param Ausschreibung-Objekt ausschreibung
+			 * @return Partnerprofil zu der jeweils übergebnen Ausschreibung
+			 */
 			Partnerprofil partnerprofilOfAusschreibung = projektmarktplatzverwaltung.getPartnerProfilByForeignAusschreibung(ausschreibung);
 			System.out.println("Hole Partnerprofil mit der Id: "+partnerprofilOfAusschreibung.getId());
+			/**
+			 * @param id, welche aus dem partnerprofilOfAusschreibung-Objekt gelesen wird
+			 * @return Vector mit allen Eigenschaften zu dem übergebnen Partnerprofil
+			 */
 			Vector<Eigenschaft> eigenschaftenOfAusschreibung = projektmarktplatzverwaltung.getEigenschaftenByForeignPartnerprofilId(partnerprofilOfAusschreibung.getId());
 			System.out.println("Menge der Eigenschaften zu diesem Partnerprofil: "+eigenschaftenOfAusschreibung.size());
 			if(eigenschaften.size()==eigenschaftenOfAusschreibung.size()){
@@ -719,7 +898,16 @@ implements ReportGenerator{
 						}
 					}
 				}
+				/**
+				 * @param id eines Projekts, welches aus dem jeweiligen auschreibungs-Objekt gelesen wird
+				 * @return Projekt-Objekt, anhand de rübergebenen id
+				 */
 				Projekt projektOfAusschreibung = projektmarktplatzverwaltung.getProjektById(ausschreibung.getProjektId());
+				
+				/**
+				 * @param id eines Person-Objekts, welches aus dem übergebenen Projekt-Objekt gelesen wird
+				 * @return Person-Objekt
+				 */
 				Person projektleiterOfProjekt = this.getPersonById(projektOfAusschreibung.getProjektleiterId());
 				if(matchCounter==eigenschaften.size()){
 					if(projektleiterOfProjekt.getPartnerprofilId()!=partnerprofil.getId()){

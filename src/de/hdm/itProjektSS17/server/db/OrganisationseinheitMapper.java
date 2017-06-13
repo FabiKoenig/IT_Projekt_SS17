@@ -35,9 +35,11 @@ public class OrganisationseinheitMapper {
 		  }
 	
 	
-	/*Suche einer Organisationseinheit durch eine eindeutige ID(Primärschlüssel).
+	/**Suche einer Organisationseinheit durch eine eindeutige ID(Primärschlüssel).
 	 *Die Organisationseinheit mit der übergebenen ID wird zurückgegeben.
-	 */
+	 *@param id
+	 *@return Organisationseinheit zur übergebenen Id
+	 **/
 	protected Organisationseinheit findById(int id){
 
 		Connection con = DBConnection.connection();
@@ -112,9 +114,12 @@ public class OrganisationseinheitMapper {
 	
 	
 	
-	/*Durch die insert-Methode kann eine neue Organisationseinheit in die Datenbank geschrieben werden.
+	/**
+	 *Durch die insert-Methode kann eine neue Organisationseinheit in die Datenbank geschrieben werden.
 	 *Die id des Projekts wird überprüft und im Verlauf der Methode ggf. angepasst.
-	 */
+	 *@param o
+	 *@return Übergebenes Organisationseinheit-Objekt o wird in DB geschrieben
+	 **/
 	protected int insert(Organisationseinheit o){
 		 
 	    Connection con = DBConnection.connection();
@@ -158,11 +163,13 @@ public class OrganisationseinheitMapper {
 
 	
 	
-	/*Durch die update-Methode kann ein Objekt wiederholt in die Datenbank geschrieben und verändert/ angepasst werden.
+	/**
+	 *Durch die update-Methode kann ein Objekt wiederholt in die Datenbank geschrieben und verändert/ angepasst werden.
 	 *Übergeben wird das Organisationseinheit-Objekt welches nochmals in die Datenbank geschrieben wird.
 	 *Return wird das übergebene Objekt.
-	 * 
-	 */
+	 *@param Organisationseinehit
+	 *@return übergebenes Organisationseinheit-Objekt wird überschrieben
+	 **/
 	protected int update(Organisationseinheit o){
 		
 		Connection con = DBConnection.connection();
@@ -188,9 +195,12 @@ public class OrganisationseinheitMapper {
 	
 	
 	
-	/*Durch die delete- Methode kann ein Organisationseinheit Objekt in der Datenbank gelöscht werden.
+	/**
+	 *Durch die delete- Methode kann ein Organisationseinheit Objekt in der Datenbank gelöscht werden.
 	 *Gelöscht wird das übergebene Objekt.
-	 */
+	 *@param Organisationseinheit o
+	 *
+	 **/
 	protected void delete(Organisationseinheit o){
 		 Connection con = DBConnection.connection();
 

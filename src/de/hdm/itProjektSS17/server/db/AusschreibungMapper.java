@@ -259,6 +259,10 @@ public class AusschreibungMapper {
 		  
 	  }
 	  
+	  /**
+	   * 
+	   * @return Alle Ausschreibung-Objekte
+	   */
 	  public Vector<Ausschreibung> findAllAusschreibungen(){
 			Connection con = DBConnection.connection();
 			
@@ -298,7 +302,7 @@ public class AusschreibungMapper {
 	   * übergebenen Objekts geprüft und ggf. berichtigt.
 	   * @param a das zu speichernde <code>Ausschreibung</code>-Objekt, jedoch mit ggf. korrigiertem Primärschlüssel 
 	   * <code>Ausschreibung_Id</code>.
-	   * @return .
+	   * @return Ausschreibung Obejkt a wird in die DB geschrieben
 	   */
 	  public Ausschreibung insert(Ausschreibung a){
 		
