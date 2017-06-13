@@ -59,7 +59,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Beteiligung des Projektes";
+		return "Beteiligung des Projektes "+p.getName();
 	}
 
 	@Override
