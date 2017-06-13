@@ -164,6 +164,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines Eigenschaft-Objekts.
+	 * @param name, wert, partnerprofilId
+	 * @return Das Eigenschaft-Objekt wird in die DB geschrieben
 	 */
 	@Override
 	public Eigenschaft createEigenschaft(String name, String wert, int partnerprofilId)
@@ -187,6 +189,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen einer neuer Ausschreibung.
+	 * @param bezeichnung, bewerbungsfrist, ausschreibungstext, projektId, ausschreibenderId, partnerprofilId
+	 * @return Das Ausschreibungs-Objekt wird in die DB geschrieben.
 	 */
 	@Override
 	public Ausschreibung createAusschreibung(String bezeichnung, Date bewerbungsfrist, String ausschreibungstext,
@@ -202,8 +206,6 @@ implements ProjektmarktplatzVerwaltung {
 		a.setPartnerprofilId(partnerprofilId);
 		a.setStatus(Ausschreibungsstatus.laufend);
 		
-		
-		
 //		this.createPartnerprofil();
 		
 		return this.ausschreibungMapper.insert(a); 
@@ -212,6 +214,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellung eines neuen Partnerprofils
+	 * @return Das (noch leere) Partnerprofil-Objekt wird erstellt und in die DB geschrieben
 	 */
 	public Partnerprofil createPartnerprofil() throws IllegalArgumentException {
 		
@@ -227,6 +230,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines neuen Bewerbung-Objekts.
+	 * @param bewerbungstext, orgaId, ausschreibungId
+	 * @return Das Bewerbungsobjekt wird erstellt und in die DB geschrieben
 	 */
 	public Bewerbung createBewerbung(String bewerbungstext, int orgaId, int ausschreibungId) throws IllegalArgumentException{
 		Bewerbung b = new Bewerbung();
@@ -240,6 +245,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines neuen Projekt-Objekts.
+	 * @param startdatum, enddatum, name, beschreibung, personId, projektmarktplatzId
+	 * @return Das erstellte Projek-Objekt wird in die Datenbank geschrieben
 	 */
 	@Override
 	public Projekt createProjekt(Date startdatum, Date enddatum, String name, String beschreibung, int personId,
@@ -260,6 +267,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen einer neuen Bewertung.
+	 * @param erstellungsdatum, stellungnahme, wert, berwerbungId
+	 * @return das Bewertungs-Objekt wird in die DB geschrieben
 	 */
 	@Override
 	public Bewertung createBewertung(Date erstellungsdatum, String stellungnahme, double wert, int bewerbungId)
@@ -276,6 +285,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellen eines neuen Team-Objekts.
+	 * @param name, strasse, hausnr, plz, ort, partnerprofilId, unternehmenId
+	 * @return Das erstelle Team-Objekt wird in die DB geschrieben.
 	 */
 	@Override
 	public Team createTeam(String name, String strasse, String hausnr, int plz, 
@@ -298,6 +309,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines Unternehmen-Objekts.
+	 * @param name, hausnummer, ort, plz, strasse, partnerprofilId
+	 * @return das erstellte Unternehmen-Objekt wird in die DB geschrieben.
 	 */
 	@Override
 
@@ -321,6 +334,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines Person-Objekts.
+	 * @param email, vorname, nachname, anrede, strasse, hausnr, plz, ort, partnerprofilId, teamId, unternehmenId
+	 * @return Das erstellte Personen-Objekt wird in die DB geschrieben
 	 */
 	@Override
 	public Person createPerson(String email, String vorname, String nachname, String anrede, 
@@ -345,6 +360,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**Anlegen eines Projektmarktplatzes und zuweisen der ersten Person zu diesem Marktplatz.
 	 * Die zugewiesene, erste Person ist automatisch immer diejenige, die den Marktplatz erstellt hat.
+	 * @param bezeichnung
+	 * @return Das erstellte Projektmarktplatz-Objekt wird in die Datenbank geschrieben
 	 */
 	@Override
 	public Projektmarktplatz createProjektmarktplatz(String bezeichnung) throws IllegalArgumentException {
@@ -359,6 +376,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellung einer neuen Beteiligung.
+	 * @param umfang, startdatum, enddatum, orgaId, projektId, bewertungId
+	 * @return Die erstellte Beteiligung wird in die DB geschrieben
 	 */
 	@Override
 	public Beteiligung createBeteiligung(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId, int bewertungId)
@@ -380,6 +399,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Anlegen eines neuen Teilnahme-Objekts.
+	 * @param orgaId, projektmarktplatzId
 	 */
 	@Override
 	public void createTeilnahme(int orgaId, int projmarktplatzId) throws IllegalArgumentException {
@@ -390,6 +410,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellen eines neuen Arbeitsverhältnisses zwischen einer Person und einem Unternehmen.
+	 * @param unternehenId, personId
 	 */
 	@Override
 	public void createArbeitsverhaeltnis(int unternehmenId, int personId) throws IllegalArgumentException {
@@ -407,6 +428,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellen einer Zugehörigkeit zwischen einem Team und einem Unternehmen.
+	 * @param unternehmenId, teamId
 	 */
 	@Override
 	public void createZugehoerigkeit(int unternehmenId, int teamId) throws IllegalArgumentException {
@@ -420,6 +442,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Erstellung einer Mitgliedschaft von einer Person in einem Team.
+	 * @param teamId, personId
 	 */
 	@Override
 	public void createMitgliedschaft(int teamId, int personId) throws IllegalArgumentException {
@@ -431,7 +454,8 @@ implements ProjektmarktplatzVerwaltung {
 
 	
 	/**
-	 * Löscung eines Ausschreibung-Objekts inkl. den dazugehörigen Bewerbungen.
+	 * Löschung eines Ausschreibung-Objekts inkl. den dazugehörigen Bewerbungen.
+	 * @param a
 	 */
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
@@ -470,6 +494,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschen eines Eigenschafts-Objekts.
+	 * @param e
 	 */
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
@@ -480,6 +505,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschung eines Partnerprofils-Objekts inkl. der dazugehörigen Eigenschaften.
+	 * @param p
 	 */
 	public void deletePartnerprofil(Partnerprofil p) throws IllegalArgumentException {
 		Vector<Eigenschaft> e = this.getEigenschaftByForeignPartnerprofil(p);
@@ -495,6 +521,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschung eines Bewerbung-Objekts inkl. der dazugehörigen Bewertung.
+	 * @param b
 	 */
 	@Override
 	public void deleteBewerbung(Bewerbung b) throws IllegalArgumentException {
@@ -511,6 +538,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschung eines Projekt-Objekts inkl. der dazugehörigen Ausschreibungen und deren Partnerprofile.
+	 * @param p
 	 */
 	@Override
 	public void deleteProjekt(Projekt p) throws IllegalArgumentException {
@@ -533,6 +561,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschung eines Bewertung-Objekts inkl. der dazugehörigen Beteiligung.
+	 * @param b
 	 */
 	@Override
 	public void deleteBewertung(Bewertung b) throws IllegalArgumentException {
@@ -549,6 +578,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschung eines Team-Objekts inkl. aller Abhängigkeiten.
+	 * @param t
 	 */
 	@Override
 	public void deleteTeam(Team t) throws IllegalArgumentException {
@@ -571,6 +601,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löschen eines Unternehmen-Objekts inkl. aller Abhängigkeiten.
+	 * @param u
 	 */
 	@Override
 	public void deleteUnternehmen(Unternehmen u) throws IllegalArgumentException {
@@ -633,6 +664,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Lösung einer Person inkl. aller Abhängigkeiten.
+	 * @param p
 	 */
 	@Override
 	public void deletePerson(Person p) throws IllegalArgumentException {
@@ -723,7 +755,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * 
-	 * @param p
+	 * @param Person p, über die ein Team zurückgegeben werden soll
 	 * @return Gibt ein Team anhand der übergebenen Person zurück.
 	 */
 	private Team getTeamByForeignPerson(Person p) {
@@ -740,7 +772,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * 
-	 * @param p
+	 * @param Person p
 	 * @return Gibt alle Projektmakrtplätze zurück, auf denen die übergebene Person teilnimmt.
 	 * @throws IllegalArgumentException
 	 */
@@ -762,6 +794,7 @@ implements ProjektmarktplatzVerwaltung {
 
 	/**
 	 * Löschen des übergebenen Projektmarktplatzes inkl. der sich daraufbefindenen Projekte und Teilnahmen von Personen.
+	 * @param Projektmarktplatz p
 	 */
 	@Override
 	public void deleteProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
@@ -782,7 +815,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * 
-	 * @param p
+	 * @param Projektmarktplatz p
 	 * @return Gibt alle Personen auf dem übergebenen Projektmarktplatz zurück.
 	 */
 	public Vector<Person> getRelatedPersonen(Projektmarktplatz p){
@@ -793,6 +826,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löscht das übergebene Beteiligungs-Objekt.
+	 * @param Beteiligung b
 	 */
 	@Override
 	public void deleteBeteiligung(Beteiligung b) throws IllegalArgumentException {
@@ -803,6 +837,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löscht die Teilnahme der übergebenen Person auf dem übergebenen Projektmarktplatz.
+	 * @param Person po, Projektmartkplatz p
 	 */
 	@Override
 	public void deleteTeilnahme(Person po, Projektmarktplatz p) throws IllegalArgumentException {
@@ -813,6 +848,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löscht das Arbeitsverhältnis zwischen einem Unternehmen und der übergebenen Person.
+	 * @param Person p
 	 */
 	@Override
 	public void deleteArbeitsverhaeltnis(Person p) throws IllegalArgumentException {
@@ -824,6 +860,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löscht die Zugehörigkeit zwischen einem Unternehmen und des übergebenen Team-Objekts.
+	 * @param Team t
 	 */
 	@Override
 	public void deleteZugehoerigkeit(Team t) throws IllegalArgumentException {
@@ -834,6 +871,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Löscht die Mitgliedschaft zwischen einem Team und der übergebenen Person.
+	 * @param Person p
 	 */
 	@Override
 	public void deleteMitgliedschaft(Person p) throws IllegalArgumentException {
@@ -845,6 +883,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt eine Ausschreibung anhand der übergebenen Id zurück.
+	 * @param id einer Ausschreibung
+	 * @return Ausschreibungs-Objekt zur übergebenen id
 	 */
 	@Override
 	public Ausschreibung getAusschreibungById(int id) throws IllegalArgumentException {	
@@ -854,6 +894,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Unternehmen anhand der übergebenen Id zurück.
+	 * @param id eines Unternehmens
+	 * @return Unternehmen-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Unternehmen getUnternehmenById(int id) throws IllegalArgumentException {
@@ -863,6 +905,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Team anhand der übergebenen Id zurück.
+	 * @param id eines Teams
+	 * @return Team-Objekt anhand der übergebenen Id
 	 */
 	@Override
 	public Team getTeamById(int id) throws IllegalArgumentException {
@@ -872,6 +916,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Person anhand der übergebenen Id zurück.
+	 * @param id einer Person
+	 * @return Person-Objekt zur übergebenen id
 	 */
 	@Override
 	public Person getPersonById(int id) throws IllegalArgumentException {
@@ -881,6 +927,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt einen Projektmarktplatz anhand der übergebenen Id zurück.
+	 * @param id
+	 * @return Projektmarktplatz-Objekt zur übergebenen Id.
 	 */
 	@Override
 	public Projektmarktplatz getProjektmarktplatzById(int id) throws IllegalArgumentException {
@@ -890,6 +938,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Projekt anhand der übergebenen Id zurück.
+	 * @param id eines Projekts
+	 * @return Projekt-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Projekt getProjektById(int id) throws IllegalArgumentException {
@@ -899,6 +949,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt eine Beteiligung anhand der übergebenen Id zurück.
+	 * @param id einer Beteiligung
+	 * @return Beteiligung-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Beteiligung getBeteiligungById(int id) throws IllegalArgumentException {
@@ -908,6 +960,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt eine Bewertung anhand der übergebenen Id zurück.
+	 * @param id einer Bewertung
+	 * @return Bewertungs-Objekt zur übergebenen Id.
 	 */
 	@Override
 	public Bewertung getBewertungById(int id) throws IllegalArgumentException {
@@ -917,6 +971,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt eine Bewerbung anhand der übergebenen Id zurück.
+	 * @param id zu einer Bewerbung
+	 * @return Bewerbungs-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Bewerbung getBewerbungById(int id) throws IllegalArgumentException {
@@ -926,6 +982,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Partnerprofil anhand der übergebenen Id zurück.
+	 * @param id eines Partnerprofils
+	 * @return Partnerprofil-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Partnerprofil getPartnerprofilById(int id) throws IllegalArgumentException {
@@ -935,6 +993,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt ein Eigenschafts-Objekt anhand der übergebenen Id zurück.
+	 * @param id einer Eigenschaft
+	 * @return Eigenschaft-Objekt zur übergebenen Id
 	 */
 	@Override
 	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException {
@@ -944,6 +1004,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Ausschreibungen die von der übergebenen Organisationseinheit erstellt wurden zurück.
+	 * @param Organisationseinheit o
+	 * @return Vector mit allen Ausschreibungen zu einer Organisationseinheit
 	 */
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignOrganisationseinheit(Organisationseinheit o)
@@ -962,6 +1024,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt die Organisationseinheit zu dem übergebenen Partnerprofil-Objekt zurück.
+	 * @param Partnerprofil p
+	 * @return Gibt ein Unternehmen, ein Team oder eine Person anhand des übergebenen Partnerprofils zurück
 	 */
 	@Override
 	public Organisationseinheit getOrganisationseinheitByForeignPartnerprofil(Partnerprofil p){
@@ -993,6 +1057,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Personen in dem übergebenen Team zurück.
+	 * @param Team t
+	 * @return Vector mit allem Personen die dem übergebenen Team zugehörig sind
 	 */
 	@Override
 	public Vector<Person> getPersonByForeignTeam(Team t) throws IllegalArgumentException {
@@ -1002,6 +1068,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Personen in dem übergebenen Unternehmen zurück
+	 * @param Unternehmen u
+	 * @return Vector mit allem Personen die dem übergebenen Unternehmen zugehörig sind
 	 */
 	@Override
 	public Vector<Person> getPersonByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
@@ -1011,6 +1079,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Beteiligungen des übergebenen Organisationseinheit-Objekts zurück.
+	 * @param Organisationseinheit o
+	 * @return Vector mit allen Beteiligungen der übergebenen Organisationseinheit 
 	 */
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignOrganisationseinheit(Organisationseinheit o)
@@ -1031,6 +1101,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Beteiligungen von dem übergebenen Projekt zurück.
+	 * @param Projekt p
+	 * @return Vector mit allen Beteiligungen des übergebenen Projekts
 	 */
 	@Override
 	public Vector<Beteiligung> getBeteiligungByForeignProjekt(Projekt p) throws IllegalArgumentException {
@@ -1040,6 +1112,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt die Beteiligung zu dem übergebenen Bewertungs-Objekt zurück.
+	 * @param Bewertung b
+	 * @return Beteiligung-Objekt zur übergebenen Bewertung
 	 */
 	@Override
 	public Beteiligung getBeteiligungByForeignBewertung(Bewertung b) throws IllegalArgumentException {
@@ -1049,6 +1123,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Personen die sich auf dem übergebenen Projektmarktplatz befinden zurück.
+	 * @param Projektmarktplatz p
+	 * @return Vector mit allen Personen die zu dem übergebenen Projektmarktplatz gehören
 	 */
 	@Override
 	public Vector<Person> getPersonenByForeignProjektmarktplatz(Projektmarktplatz p){
@@ -1068,6 +1144,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Projekte die sich auf dem übergebenen Projektmarktplatz befinden zurück.
+	 * @param Projektmarktplatz p
+	 * @return Vector mit allen Projekten auf dem übergebenen Projektmarktpatz
 	 */
 	@Override
 	public Vector<Projekt> getProjektByForeignProjektmarktplatz(Projektmarktplatz p) throws IllegalArgumentException {
@@ -1077,6 +1155,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Projekte der übergebenen Person zurück.
+	 * @param Person p
+	 * @return Vector mit allen Projekten die zur übergebenen Person gehören.
 	 */
 	@Override
 	public Vector<Projekt> getProjektByForeignPerson(Person p) throws IllegalArgumentException {
@@ -1099,6 +1179,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt eine Bewertung zu der übergebenen Bewerbung zurück.
+	 * @param Bewerbung b
+	 * @return Bewertung-Objekt zur übergebenen Bewerbung
 	 */
 	@Override
 	public Bewertung getBewertungByForeignBewerbung(Bewerbung b) throws IllegalArgumentException {
@@ -1114,6 +1196,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Liefert einen Vector mit Bewerbungen anhand des übergebenen Organisationseinheit-Objekts.
+	 * @param Organisationseinheit o
+	 * @return Vector mit allen Bewerbungen der übergebenen Organisationseinheit
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignOrganisationseinheit(Organisationseinheit o) throws IllegalArgumentException {
@@ -1134,6 +1218,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Liefert einen Vector mit Bewerbungen anhand des �bergebenen Ausschreibung-Objekts.
+	 * @param Ausschreibung a
+	 * @return Vector mit allen Bewerbungen auf die übergebene Ausschreibung
 	 */
 	@Override
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibung(Ausschreibung a) throws IllegalArgumentException {
@@ -1154,7 +1240,7 @@ implements ProjektmarktplatzVerwaltung {
 	/**
 	 * Liefert einen Vector mit Bewerbungen anhand der AusschreibungId
 	 * @param id
-	 * @return
+	 * @return Vector mit allen Bewerbungen zur übergebenen AusschfreibungId
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Bewerbung> getBewerbungByForeignAusschreibungId(int id) throws IllegalArgumentException {
@@ -1171,7 +1257,7 @@ implements ProjektmarktplatzVerwaltung {
 	}
 	
 	/**
-	 * @param Ein Partnerprofil-Obejekt
+	 * @param Ein Partnerprofil-Obejekt p
 	 * @return: Gibt eine Ausschreibung zu dem übergebenen Partnerprofil-Objekt zurück.
 	 */
 	@Override
@@ -1182,7 +1268,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Eigenschaft zu dem übergebenen Partnerprofil-Objekt zurück.
-	 * @param: Ein Partnerprofil-Objekt.
+	 * @param: Ein Partnerprofil-Objekt p
 	 * @return: Alle Eigenschaften eines Partnerprofil-Obejtks.
 	 */
 	@Override
@@ -1399,7 +1485,10 @@ implements ProjektmarktplatzVerwaltung {
 	}
 	
 	
-	//Methode um alle Projektmarktplätze aus der Datenbank auszugeben
+	/**
+	 * Methode um alle Projektmarktplätze aus der Datenbank auszugeben
+	 * @return Vector it allen Projektmarktplätzen
+	 */
 	public Vector<Projektmarktplatz> getAllProjektmarktplatz(){
 		
 		Vector<Projektmarktplatz> projektmarktplatz = projektmarktplatzMapper.findAll();
@@ -1409,6 +1498,8 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Gibt alle Ausschreibungen zu dem übergebenen Projekt-Objekt zurück.
+	 * @param Projekt p
+	 * @return Vector mit allen Ausschreibungen zu dem übergebenen Projekt
 	 */
 	@Override
 	public Vector<Ausschreibung> getAusschreibungByForeignProjekt(Projekt p) throws IllegalArgumentException {
@@ -1437,6 +1528,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * Wenn der erste Operand zuweisungskompatibel mit dem zweiten Operand ist, wird aus dem Organisationseinheit-Objekt
 	 * die Partnerprofil-Id ausgelesen, mit welcher das zugehörige Partnerprofil ausgelesen und zurückgegeben werden kann.
 	 * 
+	 * @param Organisationseinheit o
 	 * @return das Partnerprofil-Objekt, das dem übergebenen Organisationseinheit-Objekt zugeordnet ist.
 	 */
 	@Override
@@ -1458,7 +1550,7 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Auslesen des Unternehmens für ein übergebenes Organisationseinheit-Objekt.
-	 * 
+	 * @param Organisationseinheit o
 	 * @return ein Unternehmen-Objekt, das entweder einer Person oder einem Team zugeordnet ist. 
 	 */
 
@@ -1490,22 +1582,27 @@ implements ProjektmarktplatzVerwaltung {
 	
 	/**
 	 * Setzen der Person, für die dieser Projektmarktplatz tätig ist.
+	 * @param Person p
 	 */
-	
 	@Override
 	public void setPerson(Person p) throws IllegalArgumentException {
 		this.person = p;
 		
 	}
+	
 	/**
 	 * Auslesen der Person, für die dieser Projektmarktplatz tätig ist.
+	 * @return Person-Objekt
 	 */
-
 	@Override
 	public Person getPerson() throws IllegalArgumentException {
 		return this.person;
 	}
 
+	/**
+	 * @param Unternehmen u
+	 * @return Vector mit allen Teams des übergebenen Unternehmens
+	 */
 	@Override
 	public Vector<Team> getTeamByForeignUnternehmen(Unternehmen u) throws IllegalArgumentException {
 		
@@ -1524,20 +1621,10 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 	
-	public Person getPersonByIdTest(int id){
-		Person p = new Person();
-		p.setAnrede("Herr");
-		p.setId(1);
-		p.setNachname("Koenig");
-		p.setVorname("Fabian");
-		p.setStrasse("Kernerstrasse");
-		p.setHausnummer("33a");
-		p.setOrt("Stuttgart");
-		p.setPlz(1234);
-		
-		return p;
-	}
-
+	/**
+	 * @param Vector bt mit Beteiligungen
+	 * @return Vector mit allen Projekten zu den jeweiligen Beteiligungen
+	 */
 	@Override
 	public Vector<Projekt> getProjekteByBeteiligungen(Vector<Beteiligung> bt) throws IllegalArgumentException {
 		
@@ -1550,22 +1637,36 @@ implements ProjektmarktplatzVerwaltung {
 		return projekte;
 	}
 
+	/**
+	 * @param Bewerbung b
+	 * @return Ausschreibungsobjekt zur übergebenen Bewerbung b
+	 */
 	public Ausschreibung getAusschreibungByBewerbung(Bewerbung b) throws IllegalArgumentException {
 		Ausschreibung a = this.getAusschreibungById(b.getAusschreibungId());
 		return a;
 	}
 	
+	/**
+	 * @return Vector mit allen Teams
+	 */
 	@Override
 	public Vector<Team> getAllTeams() throws IllegalArgumentException {
 		return teamMapper.findAllTeam();
 	}
 
+	/**
+	 * @return Vector mit allen Unternehmen
+	 */
 	@Override
 	public Vector<Unternehmen> getAllUnternehmen() throws IllegalArgumentException {
 		return unternehmenMapper.findAllUnternehmen();
 	}
 	
-	
+	/**
+	 * Methode zum erstellen einer Beteiligung für einen Projektleiter
+	 * @param umfang, startdatum, enddatum, orgaId, projektId
+	 * @return Beteiligung-Objekt das in die DB geschrieben wird
+	 */
 	public Beteiligung createBeteiligungProjektleiter(int umfang, Date startdatum, Date enddatum, int orgaId, int projektId) throws IllegalArgumentException {
 		
 		Beteiligung b = new Beteiligung();
@@ -1581,8 +1682,10 @@ implements ProjektmarktplatzVerwaltung {
 		
 	}
 
+	/**
+	 * @return Vector mit allen Personen
+	 */
 	@Override
-
 	public Vector<Person> getAllPersonen() throws IllegalArgumentException {
 
 		return this.personMapper.getAllPersonen();}

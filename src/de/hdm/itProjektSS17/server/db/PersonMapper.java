@@ -282,7 +282,7 @@ public class PersonMapper extends OrganisationseinheitMapper{
 	  }
 	  
 	  /**
-	   *  TODO
+	   * 
 	   * @param p
 	   * @return Uebergebenes Objekt als neue Entitaet in die Datenbank schreiben.
 	   */
@@ -331,6 +331,10 @@ public class PersonMapper extends OrganisationseinheitMapper{
 		  
 	  }
 	  
+	  /**
+	   * 
+	   * @return Vector mit allen Personen
+	   */
 	  public Vector<Person> getAllPersonen(){
 			Connection con = DBConnection.connection();
 			
