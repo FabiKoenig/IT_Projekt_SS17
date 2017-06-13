@@ -526,22 +526,23 @@ public class MeineBewerbungenForm extends Showcase{
 																						localHybrid.setUnternehmen(result.getName());
 																						hybrid.add(localHybrid);
 																						
-																						
+																					
 																		
 																						
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
 
+																						
 																					}
 																				});
 																				
 
 																			}
 																		});
-																		
+																	
 																	}
 																}
-																
+															
 															}
 															
 														});
@@ -554,7 +555,8 @@ public class MeineBewerbungenForm extends Showcase{
 										}
 						
 									});
-					
+
+				
 								}
 			final ListDataProvider dataProvider = new ListDataProvider();
 			SimplePager pager;
@@ -563,7 +565,7 @@ public class MeineBewerbungenForm extends Showcase{
 			pager.setDisplay(cellTable);
 			dataProvider.addDataDisplay(cellTable);
 			dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
-			pager.setPageSize(10);
+			pager.setPageSize(5);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
@@ -574,4 +576,5 @@ public class MeineBewerbungenForm extends Showcase{
 	
 							
 					 };
+					 
 	}
