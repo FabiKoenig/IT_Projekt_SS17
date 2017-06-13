@@ -142,16 +142,17 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			Window.alert("Das Anlegen der Anschreibung war erfolgreich.");
 			hide();
 			navigation.reload();
+			Window.alert("Partnerprofil Id: "+ result.getPartnerprofilId());
 			
 			
-//			DialogBox partnerprofilBox = new DialogBox();
-//			partnerprofilBox.setText("Fügen Sie der Ausschreibung noch ein gewünschtes Profil hinzu");
-//			partnerprofilBox.center();
-//			partnerprofilBox.setGlassEnabled(true);
-//			partnerprofilBox.setAnimationEnabled(false);
-//			partnerprofilBox.setSize("200", "400");
-//			partnerprofilBox.setWidget(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), false, identityMarketChoice, navigation));
-//			partnerprofilBox.show();
+			DialogBox partnerprofilBox = new DialogBox();
+			partnerprofilBox.setText("Fügen Sie der Ausschreibung noch ein gewünschtes Profil hinzu");
+			partnerprofilBox.setGlassEnabled(true);
+			partnerprofilBox.setAnimationEnabled(false);
+			partnerprofilBox.setSize("200", "400");
+			partnerprofilBox.setWidget(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), partnerprofilBox, false, false, identityMarketChoice, navigation));
+			partnerprofilBox.show();
+			partnerprofilBox.center();
 			
 		}	
 	}

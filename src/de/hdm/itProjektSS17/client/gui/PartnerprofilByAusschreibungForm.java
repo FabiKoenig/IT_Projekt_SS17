@@ -14,6 +14,7 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,17 +42,51 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
-	public PartnerprofilByAusschreibungForm(int partnerprofilId, boolean hideEigenschaftHinzufuegenButton, final IdentityMarketChoice identityMarketChoice, final Navigation navigation){
+	
+	public PartnerprofilByAusschreibungForm(final int partnerprofilId, final DialogBox dbox, boolean bigsize, boolean hideEigenschaftHinzufuegenButton, final IdentityMarketChoice identityMarketChoice, final Navigation navigation){
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 		
+		/**
+		 * 
+		 */
 		if(hideEigenschaftHinzufuegenButton==true){
 			eigenschaftHinzufuegenButton.setVisible(false);
 			loeschenButton.setVisible(false);
 		}
 		
+		/**
+		 * 
+		 */
+		if(bigsize == true){
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
+		} else{
+			zurueckButton.setVisible(false);
+			eigenschaftHinzufuegenButton.setVisible(false);
+		
+			Button addEigenschaftButton = new Button("Eigenschaft hinzufügen");
+			Button okButton = new Button("OK");
+			okButton.setStylePrimaryName("cell-btn");	
+			addEigenschaftButton.setStylePrimaryName("cell-btn");
+			buttonPanel.add(okButton);
+			buttonPanel.add(addEigenschaftButton);
+			
+			okButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					dbox.hide();
+				}
+			});	
+			
+			addEigenschaftButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					DialogBoxEigenschaftHinzufuegen ddbox = new DialogBoxEigenschaftHinzufuegen(partnerprofilId, dbox, false, navigation, identityMarketChoice);
+					Button okButton = new Button("OK");
+					ddbox.center();
+					ddbox.show();
+				}
+			});
+		}
 		
 		//CallBack um die Eigenschaften der gewünschten Person zu laden
 		projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new AsyncCallback<Partnerprofil>() {
@@ -161,7 +196,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), navigation, identityMarketChoice);
+				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), null, true, navigation, identityMarketChoice);
 				gg.center();
 				gg.show();
 		
@@ -179,7 +214,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
 
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, identityMarketChoice, navigation));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), null, true,  false, identityMarketChoice, navigation));
 						
 					}
 				});

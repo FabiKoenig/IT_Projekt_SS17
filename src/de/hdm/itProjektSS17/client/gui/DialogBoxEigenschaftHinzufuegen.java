@@ -43,11 +43,13 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	Button speichernButton = new Button("Speichern");
 	private Navigation navigation=null;
 	private IdentityMarketChoice identityMarketChoice=null;
+	private Boolean showFormafter = null;
 	
-	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId, Navigation navigation, IdentityMarketChoice identityMarketChoice){
+	public DialogBoxEigenschaftHinzufuegen(final int partnerprofilId, final DialogBox dbox, boolean showFormAfter, Navigation navigation, IdentityMarketChoice identityMarketChoice){
 	this.navigation=navigation;
 	this.identityMarketChoice=identityMarketChoice;
 	this.partnerpId = partnerprofilId;	
+	this.showFormafter = showFormAfter;
 		
 	//Erstellen der FlexTable
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 1, eigenschaftNameBox);
@@ -82,7 +84,14 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	speichernButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
+			if(showFormafter == true){
 			projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new SetEigenschaftenCallback());
+			} else if(showFormafter == false){
+				projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new SetEigenschaftenCallback());
+				dbox.hide();
+				dbox.center();
+				dbox.show();
+			}
 			
 		}
 	});
@@ -114,6 +123,8 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 							
 							hide();
 							
+							
+							if(showFormafter == true){
 							// Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
 							// Je nachdem wird die entsprechende Form geladen.
 							projektmarktplatzVerwaltung.getAllOrganisationseinheiten(new AsyncCallback<Vector<Organisationseinheit>>() {
@@ -129,14 +140,14 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 											break;		
 										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
 											RootPanel.get("Details").clear();
-											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, identityMarketChoice, navigation));
+											RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), null, true, false, identityMarketChoice, navigation));
 											
 										}
 									}
 									
 								}
 							});
-							
+						}
 //							RootPanel.get("Details").clear();
 //							RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
 //							

@@ -404,7 +404,7 @@ public class MeineAusschreibungenForm extends Showcase{
 						partnerprofilId = selectedAusschreibung.getPartnerprofilid();
 					
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, false, identityMarketChoice, navigation));
+						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, null, true, false, identityMarketChoice, navigation));
 					
 						clickhandler = this;
 						clickevent = event;
