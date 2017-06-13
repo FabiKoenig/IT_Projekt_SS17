@@ -19,6 +19,10 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class IdentityChoiceReport extends FlexTable{
 
+
+	private static int currentLogin = 6;
+	private static IdentityChoiceReport navigation=null;
+
 	private static ListBox ownOrgUnits = new ListBox();
 	private FlexCellFormatter cellFormatter = this.getFlexCellFormatter();
 	private static ReportGeneratorAsync reportgenerator = ClientsideSettings.getReportGenerator();
@@ -80,7 +84,6 @@ public class IdentityChoiceReport extends FlexTable{
 				}
 			}else if(person.getTeamId()==null){
 				if(ownOrgUnits.getSelectedIndex()==0){
-					Window.alert("triggered2");
 					return person;
 				}else if(ownOrgUnits.getSelectedIndex()==1){
 					return unternehmen;

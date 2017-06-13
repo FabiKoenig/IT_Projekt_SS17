@@ -1,5 +1,6 @@
 package de.hdm.itProjektSS17.client.gui;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -103,11 +104,14 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 		
 			projektmarktplatzVerwaltung.createEigenschaft(eigenschaftNameBox.getText(), eigenschaftWertBox.getText(), 
 					result.getId(), new AsyncCallback<Eigenschaft>() {
-						public void onFailure(Throwable caught) {
+					
+				public void onFailure(Throwable caught) {
 							Window.alert("Fehler: Das anlegen der Eigenschaft ist fehlgeschlagen.");
 						}
 						public void onSuccess(Eigenschaft result) {
+							
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
+							
 							hide();
 							
 							// Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
@@ -119,9 +123,9 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 								public void onSuccess(Vector<Organisationseinheit> result) {
 									
 									for (Organisationseinheit organisationseinheit : result) {
+										
 										if(organisationseinheit.getPartnerprofilId() == partnerpId){
-											RootPanel.get("Details").clear();
-											RootPanel.get("Details").add(new MeinPartnerprofilForm(identityMarketChoice, navigation));
+											navigation.reload();
 											break;		
 										} else if (organisationseinheit.getPartnerprofilId() != partnerpId){
 											RootPanel.get("Details").clear();
@@ -139,6 +143,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 //							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
 						}
 			});
+			result.setAenderungdatum(new Date());
 		} else{
 			Window.alert("Sie müssen einen Namen und einen Wert eintragen.");
 		}	

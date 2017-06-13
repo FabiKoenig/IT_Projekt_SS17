@@ -54,7 +54,7 @@ public class BeteiligungenForm extends Showcase{
 
 	@Override
 	protected void run() {
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		ct_beteiligungen.setWidth("100%", true);
 		beteiligungen.clear();
 		hybrid.clear();
@@ -77,7 +77,7 @@ public class BeteiligungenForm extends Showcase{
 			@Override
 			public String getValue(BeteiligungProjektHybrid object) {
 				Integer umfangTemp = object.getBeteiligungUmfang();
-				return umfangTemp.toString();
+				return umfangTemp.toString() + " Tage";
 			}
 		
 		};
@@ -190,7 +190,7 @@ public class BeteiligungenForm extends Showcase{
 			pager.setDisplay(ct_beteiligungen);
 			dataProvider.addDataDisplay(ct_beteiligungen);
 			dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(hybrid));
-			pager.setPageSize(20);
+			pager.setPageSize(5);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
@@ -221,11 +221,11 @@ public class BeteiligungenForm extends Showcase{
 	public static class BeteiligungProjektHybrid{
 		
 		private int beteiligungId;
-		private String projektBezeichnung;
-		private int beteiligungUmfang;
+		private int umfang;
 		private Date startDatum;
 		private Date endDatum;
-		private int umfang;
+		private String projektBezeichnung;
+		private int beteiligungUmfang;
 		private String beteiligter;
 		
 		public String getBeteiligter() {

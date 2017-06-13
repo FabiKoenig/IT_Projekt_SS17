@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import org.apache.xalan.trace.PrintTraceListener;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itProjektSS17.server.db.*;
@@ -453,6 +455,7 @@ implements ProjektmarktplatzVerwaltung {
 	 * @param a
 	 * @return Es wird ein Partnerprofil zu der übergebenen Ausschreibung zurückgegeben.
 	 */
+	@Override
 	public Partnerprofil getPartnerProfilByForeignAusschreibung(Ausschreibung a) {
 		
 		if (a != null && this.partnerprofilMapper != null) {
@@ -1579,9 +1582,18 @@ implements ProjektmarktplatzVerwaltung {
 	}
 
 	@Override
+
 	public Vector<Person> getAllPersonen() throws IllegalArgumentException {
-		return this.personMapper.getAllPersonen();
+
+		return this.personMapper.getAllPersonen();}
+
+	public Projekt getProjektbyAusschreibung(Ausschreibung a) throws IllegalArgumentException {
+		
+		
+		
+			Projekt p = this.getProjektById(a.getProjektId());
+			return p;
+
 	}
-	
 
 }

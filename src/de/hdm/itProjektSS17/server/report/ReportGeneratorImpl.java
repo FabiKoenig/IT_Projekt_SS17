@@ -694,6 +694,45 @@ implements ReportGenerator{
 		
 	}
 	
+	@Override
+	public Vector<Ausschreibung> getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(Organisationseinheit o){
+
+		Vector<Ausschreibung> matchingAusschreibungen = new Vector<Ausschreibung>();
+		Partnerprofil partnerprofil = projektmarktplatzverwaltung.getPartnerprofilByForeignOrganisationseinheit(o);
+		Vector<Eigenschaft> eigenschaften = projektmarktplatzverwaltung.getEigenschaftByForeignPartnerprofil(partnerprofil);
+		Vector<Ausschreibung> allAusschreibungen = projektmarktplatzverwaltung.getAllAusschreibungen();
+		System.out.println("Menge aller Ausschreibungen: "+allAusschreibungen.size());
+		
+		for(Ausschreibung ausschreibung : allAusschreibungen){
+			System.out.println("");
+			Partnerprofil partnerprofilOfAusschreibung = projektmarktplatzverwaltung.getPartnerProfilByForeignAusschreibung(ausschreibung);
+			System.out.println("Hole Partnerprofil mit der Id: "+partnerprofilOfAusschreibung.getId());
+			Vector<Eigenschaft> eigenschaftenOfAusschreibung = projektmarktplatzverwaltung.getEigenschaftenByForeignPartnerprofilId(partnerprofilOfAusschreibung.getId());
+			System.out.println("Menge der Eigenschaften zu diesem Partnerprofil: "+eigenschaftenOfAusschreibung.size());
+			if(eigenschaften.size()==eigenschaftenOfAusschreibung.size()){
+				System.out.println("Menge der Eigenschaften passt");
+				int matchCounter = 0;
+				for(int i=0;i<eigenschaften.size();i++){
+					for(Eigenschaft fremdeEigenschaft : eigenschaftenOfAusschreibung){
+						if(eigenschaften.get(i).getName().equals(fremdeEigenschaft.getName()) && eigenschaften.get(i).getWert().equals(fremdeEigenschaft.getWert())){
+							matchCounter++;
+						}
+					}
+				}
+				Projekt projektOfAusschreibung = projektmarktplatzverwaltung.getProjektById(ausschreibung.getProjektId());
+				Person projektleiterOfProjekt = this.getPersonById(projektOfAusschreibung.getProjektleiterId());
+				if(matchCounter==eigenschaften.size()){
+					if(projektleiterOfProjekt.getPartnerprofilId()!=partnerprofil.getId()){
+						System.out.println("Partnerprofil passt, füge zur Menge hinzu!");
+						matchingAusschreibungen.add(ausschreibung);
+					}
+				}
+			}
+		}
+	
+		return matchingAusschreibungen;
+	}
+	
 //	public class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
 //
 //		/**

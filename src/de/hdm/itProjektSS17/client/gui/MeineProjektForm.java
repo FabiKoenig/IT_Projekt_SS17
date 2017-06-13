@@ -109,7 +109,7 @@ public class MeineProjektForm extends Showcase{
 
 
 		
-		RootPanel.get("Details").setWidth("70%");
+		RootPanel.get("Details").setWidth("75%");
 		dataGrid.setWidth("100%", true);
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -341,7 +341,7 @@ public class MeineProjektForm extends Showcase{
 			pager.setDisplay(dataGrid);
 			dataProvider.addDataDisplay(dataGrid);
 			dataProvider.setList(new ArrayList<Projekt>(projekte));
-			pager.setPageSize(20);
+			pager.setPageSize(10);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");

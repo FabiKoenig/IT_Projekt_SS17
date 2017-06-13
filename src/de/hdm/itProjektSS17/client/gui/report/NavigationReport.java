@@ -115,19 +115,17 @@ public class NavigationReport extends StackPanel {
 				currentClickEvent=event;
 			}
 		});
-//		
-//		showAusschreibungMatchsPartnerprofilButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				IdentityMarketChoice.deactivateProjectMarkets();
-//				IdentityMarketChoice.deactivateOrgUnits();
-//				ShowcaseReport showcaseReport = new AusschreibungMatchsPartnerprofilFormReport();
-//				RootPanel.get("DetailsReport").clear();
-//				RootPanel.get("DetailsReport").add(showcaseReport);
-//				currentClickHandler=this;
-//				currentClickEvent=event;
-//			}
-//		});
-//		
+		
+		showAusschreibungMatchsPartnerprofilButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Showcase showcaseReport = new AusschreibungenZuPartnerprofilShowcase(identityChoiceReport);
+				RootPanel.get("DetailsReport").clear();
+				RootPanel.get("DetailsReport").add(showcaseReport);
+				currentClickHandler=this;
+				currentClickEvent=event;
+			}
+		});
+		
 		showAllBewerbungenFromUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Showcase showcaseReport = new AlleBewerungenAufEigeneAusschreibungenShowcase(identityChoiceReport);
