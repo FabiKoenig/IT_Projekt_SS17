@@ -53,6 +53,9 @@ public class Projektmarktplatz implements EntryPoint {
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung;
 	private LoginServiceAsync loginService;
 	
+	/**
+	 * Deklarierung von Gui-Elementen
+	 */
 	final Button Logout = new Button("Logout");
 	private Button loginButton = new Button("Login");
 	private LoginInfo loginInfo = null;
@@ -75,6 +78,10 @@ public class Projektmarktplatz implements EntryPoint {
 		
 		//Überprüfen des Login-Status
 		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
+		/**
+		 * @param GWT.getHostPageBaseURL
+		 * @return LoginInfo
+		 */
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			
 			
@@ -89,6 +96,10 @@ public class Projektmarktplatz implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()){
+					
+					/**
+					 * @return Vector mit allen Personen
+					 */
 					projektmarktplatzVerwaltung.getAllPersonen(new AsyncCallback<Vector<Person>>() {
 
 						@Override
@@ -100,14 +111,24 @@ public class Projektmarktplatz implements EntryPoint {
 						public void onSuccess(Vector<Person> result) {
 							boolean isUserRegistered = false;
 							for (Person person : result) {
+								/**
+								 * Überprüfung ob User bereits registriert ist
+								 */
 								if(person.getEmail()==loginInfo.getEmailAddress()){
 									isUserRegistered = true;
+									/**
+									 * Falls User registriert ist wird der Projektmarktplatz geladen
+									 * @param id des jeweiligen Person-Objekts
+									 */
 									loadProjektmarktplatz(person.getId());
 									break;
 								}
 							}
 							if(isUserRegistered==false){
 								RootPanel.get("Details").clear();
+								/**
+								 * Falls User noch nicht registriert ist wird der User zu RegistrierenForm weitergeleitetj
+								 */
 								RootPanel.get("Details").add(new RegistrierenForm());							
 							}
 						}
@@ -123,7 +144,9 @@ public class Projektmarktplatz implements EntryPoint {
 	}
 	
 	
-	
+	/**
+	 * Methode die die Login-Seite läd
+	 */
 		private void loadLogin(){
 			
 			loginLabel.setStylePrimaryName("startseite_label");
@@ -152,7 +175,10 @@ public class Projektmarktplatz implements EntryPoint {
 		}
 	
 		
-	
+	/**
+	 * Methode die den Projektmarktplatz läd sobald User eingeloggt ist.
+	 * @param personId
+	 */
 		private void loadProjektmarktplatz(int personId){
 			//Erstellen des Logout-Links
 			signOutLink.setHref(loginInfo.getLogoutUrl());

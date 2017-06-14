@@ -211,7 +211,7 @@ public class ProjektMapper {
 	   * übergebenen Objekts geprüft und ggf. berichtigt.
 	   * @param p das zu speichernde <code>Projekt</code>-Objekt, jedoch mit ggf. korrigiertem Primärschlüssel 
 	   * <code>Projekt_Id</code>.
-	   * @return .
+	   * @return 
 	   */
 	  public Projekt insert(Projekt p){
 		

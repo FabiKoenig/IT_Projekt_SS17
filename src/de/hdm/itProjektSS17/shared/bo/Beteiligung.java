@@ -14,8 +14,11 @@ import java.util.Date;
 public class Beteiligung extends BusinessObject {
 
 	/**
+	 *
 	 * Umfang der Tage, an dem eine Organisationseinheit an einem Projekt beteiligt ist.
 	 */
+
+	
 	private int umfang = 0;
 	/**
 	 * Datum, an dem die Beteiligung beginnt.
@@ -26,15 +29,15 @@ public class Beteiligung extends BusinessObject {
 	 */
 	private Date endDatum = null;
 	/**
-	 * Fremdschlüsselbeziehung zum jeweiligen Projekt.
+	 * Fremdschlï¿½sselbeziehung zum jeweiligen Projekt.
 	 */
 	private int projektId = 0;
 	/**
-	 * Fremdschlüsselbeziehung zur jeweiligen Organisationseinheit.
+	 * Fremdschlï¿½sselbeziehung zur jeweiligen Organisationseinheit.
 	 */
 	private int beteiligterId = 0;
 	/**
-	 * Fremdschlüsselbeziehung zur jeweiligen Bewertung.
+	 * Fremdschlï¿½sselbeziehung zur jeweiligen Bewertung.
 	 */
 	private int bewertungId = 0;
 	
@@ -89,48 +92,48 @@ public class Beteiligung extends BusinessObject {
 	}
 	
 	/**
-	 * Auslesen des Fremdschlüssels des dazugehörigen Projekts.
-	 * @return der Fremdschlüssel
+	 * Auslesen des Fremdschlï¿½ssels des dazugehï¿½rigen Projekts.
+	 * @return der Fremdschlï¿½ssel
 	 */
 	public int getProjektId() {
 		return projektId;
 	}
 	
 	/**
-	 * Setzen des Fremdschlüssels des dazugehörigen Projekts.
-	 * @param der Fremdschlüssel
+	 * Setzen des Fremdschlï¿½ssels des dazugehï¿½rigen Projekts.
+	 * @param der Fremdschlï¿½ssel
 	 */
 	public void setProjektId(int projektId) {
 		this.projektId = projektId;
 	}
 	
 	/**
-	 * Auslesen des Fremdschlüssels der dazugehörigen Organisationseinheit.
-	 * @return der Fremdschlüssel
+	 * Auslesen des Fremdschlï¿½ssels der dazugehï¿½rigen Organisationseinheit.
+	 * @return der Fremdschlï¿½ssel
 	 */
 	public int getBeteiligterId() {
 		return beteiligterId;
 	}
 	
 	/**
-	 * Setzen des Fremdschlüssels der dazugehörigen Organisationseinheit.
-	 * @param der Fremdschlüssel
+	 * Setzen des Fremdschlï¿½ssels der dazugehï¿½rigen Organisationseinheit.
+	 * @param der Fremdschlï¿½ssel
 	 */
 	public void setBeteiligterId(int beteiligterId) {
 		this.beteiligterId = beteiligterId;
 	}
 	
 	/**
-	 * Auslesen des Fremdschlüssels der dazugehörigen Bewertung.
-	 * @return der Fremdschlüssel
+	 * Auslesen des Fremdschlï¿½ssels der dazugehï¿½rigen Bewertung.
+	 * @return der Fremdschlï¿½ssel
 	 */
 	public int getBewertungId() {
 		return bewertungId;
 	}
 	
 	/**
-	 * Setzen des Fremdschlüssels der dazugehörigen Bewertung.
-	 * @param der Fremdschlüssel
+	 * Setzen des Fremdschlï¿½ssels der dazugehï¿½rigen Bewertung.
+	 * @param der Fremdschlï¿½ssel
 	 */
 	public void setBewertungId(int bewertungId) {
 		this.bewertungId = bewertungId;

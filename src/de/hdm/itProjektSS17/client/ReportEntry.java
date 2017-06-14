@@ -38,6 +38,9 @@ public class ReportEntry implements EntryPoint {
 	private ReportGeneratorAsync reportGenerator;
 	private LoginServiceAsync loginService;
 	
+	/**
+	 * Deklarierung der GWT-Widgets
+	 **/
 	final Button Logout = new Button("Logout");
 	private Button loginButton = new Button("Login");
 	private LoginInfo loginInfo = null;
@@ -60,8 +63,11 @@ public class ReportEntry implements EntryPoint {
 		this.loginService = ClientsideSettings.getLoginService();
 		this.projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
-		//Überprüfen des Login-Status
-		//LoginServiceAsync loginService = GWT.create(LoginService.class); 
+		/**Überprüfen des Login-Status
+		*LoginServiceAsync loginService = GWT.create(LoginService.class); 
+		*@param GWT.getHostPageBaseURL
+		*@return LoginInfo
+		**/
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 
 			@Override
@@ -75,6 +81,9 @@ public class ReportEntry implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()){
+					/**
+					 * @return Vector mit allen Personen
+					 */
 					reportGenerator.getAllPersonen(new AsyncCallback<Vector<Person>>() {
 
 						@Override
@@ -86,13 +95,23 @@ public class ReportEntry implements EntryPoint {
 						public void onSuccess(Vector<Person> result) {
 							boolean isUserRegistered = false;
 							for (Person person : result) {
+								/**
+								 * Prüfen ob User bereits eingeloggt ist
+								 */
 								if(person.getEmail()==loginInfo.getEmailAddress()){
 									isUserRegistered = true;
+									/**
+									 * Falls User bereits eingeloggt ist wird der loadReportGenerator aufgerufen 
+									 * @param id der jeweiligen Person
+									 */
 									loadReportGenerator(person.getId());
 									break;
 								}
 							}
 							if(isUserRegistered==false){
+								/**
+								 * Falls User noch nicht registriert ist, wird die RegistrierenForm aufgerufen
+								 */
 								RootPanel.get("Details").clear();
 								RootPanel.get("Details").add(new RegistrierenForm());							
 							}
@@ -109,7 +128,9 @@ public class ReportEntry implements EntryPoint {
 	}
 	
 	
-	
+	/**
+	 * Methode die die Login-Seite läd
+	 */
 		private void loadLogin(){
 			
 			loginPanel.setSpacing(20);
@@ -132,7 +153,9 @@ public class ReportEntry implements EntryPoint {
 			});
 		}
 	
-	
+		/**
+		 * Methode die den ReportGenerator lädt
+		 */
 		private void loadReportGenerator(int personId){
 			
 			//Erstellen des Logout-Links
@@ -169,7 +192,12 @@ public class ReportEntry implements EntryPoint {
 		    
 		    ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		}
-					
+		
+	/**	
+	 * RegistierungForm
+	 * @author Tim
+	 *
+	 */
 	private class RegistrierenForm extends Showcase{
 
 		
@@ -274,6 +302,11 @@ public class ReportEntry implements EntryPoint {
 		
 		}
 		
+		/**
+		 * Form zum Anlegen eines Users
+		 * @author Tim
+		 *
+		 */
 		private class UserAnlegenCallback implements AsyncCallback<Partnerprofil>{
 			@Override
 			public void onFailure(Throwable caught) {
@@ -287,6 +320,10 @@ public class ReportEntry implements EntryPoint {
 				if(plzBox.getText().isEmpty()==false){
 					plz=Integer.parseInt(plzBox.getText());
 				}
+				/**
+				 * @param Text aus der emailBox, vnameBox, nnameBox, anredeListBox, strasseBox, hausnrBox, plz, ortBox,PatnerprofilId, UnternehmenId und Team Id
+				 * @return Person-Objekt wird erstellt
+				 */
 				projektmarktplatzVerwaltung.createPerson(emailBox.getText(), vnameBox.getText(), nnameBox.getText(), 
 						anredeListBox.getSelectedItemText(), strasseBox.getText(), hausnrBox.getText(), plz, 
 						ortBox.getText(), result.getId(), new Integer(0), new Integer(0), new AsyncCallback<Person>() {

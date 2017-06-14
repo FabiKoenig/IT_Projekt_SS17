@@ -12,15 +12,20 @@ public class Projektmarktplatz extends BusinessObject {
 	   * Bezeichnung des Projektmarktplatzes
 	   */
 	private String bezeichnung = "";
+	
+	
 	/**
-	   * Auslesen der Bezeichnung
-	   */
+	 * 
+	 * @return bezeichnung
+	 */
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
+	
 	/**
-	   * Setzen der Bezeichnung
-	   */
+	 * 
+	 * @param bezeichnung
+	 */
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}

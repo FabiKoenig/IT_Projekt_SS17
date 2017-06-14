@@ -172,12 +172,18 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 		//ClickHandler für BewerberAnnehmenButton anlegen		
 				bewerberAnnehmenButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
+						if(txta_Stellungnahme.getText().isEmpty() ){
+							Window.alert("Bitte geben Sie zuerst eine Stellungnahme ab!");
+						}
+						else{	
+						
 						Bewerbung b = new Bewerbung();
 						b.setId(bewertungBewerbungHybrid.getBewerbungId());
 						b.setAusschreibungId(bewertungBewerbungHybrid.getAusschreibungId());
 						b.setOrganisationseinheitId(bewertungBewerbungHybrid.getBewerberId());
 						projektmarktplatzverwaltung.getAusschreibungByBewerbung(b, new GetAusschreibungFromBewerbungCallback() {
 						});
+					}
 					}
 				});
 				

@@ -17,7 +17,14 @@ import de.hdm.itProjektSS17.shared.report.FanIn;
 import de.hdm.itProjektSS17.shared.report.FanInFanOutReport;
 import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
-
+/**
+ * Das asynchrone Gegenstück des Interface {@link ReportGenerator}. Es wird
+ * semiautomatisch durch das Google Plugin erstellt und gepflegt. Daher erfolgt
+ * hier keine weitere Dokumentation. Für weitere Informationen siehe das
+ * synchrone Interface {@link ReportGenerator}.
+ * 
+ * @author thies
+ */
 public interface ReportGeneratorAsync {
 
 	void init(AsyncCallback<Void> callback);

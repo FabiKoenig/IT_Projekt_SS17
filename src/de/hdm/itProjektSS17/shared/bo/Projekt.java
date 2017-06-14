@@ -42,64 +42,72 @@ public class Projekt extends BusinessObject{
 	 */
 	private int projektleiterId = 0;
 	
-	 /**
-	   * Auslesen des Startdatum.
-	   */
+	/**
+	 * 
+	 * @return startdatum
+	 */
 	public Date getStartdatum(){
 		return startdatum;
 	}
 	
 	/**
-	   * Setzen des Startdatum.
-	   */
+	 * 
+	 * @param startdatum
+	 */
 	public void setStartdatum(Date startdatum){
 		this.startdatum = startdatum;
 	}
 	
 	 /**
-	   * Auslesen des Enddatum.
-	   */
+	  * 
+	  * @return
+	  */
 	public Date getEnddatum() {
 		return enddatum;
 	}
 	
 	/**
-	   * Setzen des Enddatum.
-	   */
+	 * 
+	 * @param enddatum
+	 */
 	public void setEnddatum(Date enddatum) {
 		this.enddatum = enddatum;
 	}
 	
-	 /**
-	   * Auslesen des Namen.
-	   */
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	   * Setzen des Namen.
-	   */
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	/**
-	   * Auslesen der Beschreibung.
-	   */
+	 * 
+	 * @return beschreibung
+	 */
 	public String getBeschreibung() {
 		return beschreibung;
 	}
 	
 	/**
-	   * Setzen der Beschreibung.
-	   */
+	 * 
+	 * @param beschreibung
+	 */
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
 
 	/**
-	 * @return Gibt den Fremdschl�ssel projektmarktplatzId zur�ck.
+	 * @return projektmarktplatzId - Gibt den Fremdschl�ssel projektmarktplatzId zur�ck.
 	 */
 	public int getProjektmarktplatzId() {
 		return projektmarktplatzId;
@@ -113,7 +121,7 @@ public class Projekt extends BusinessObject{
 	}
 
 	/**
-	 * @return Gibt den Fremdschl�ssel projektleiterId zur�ck.
+	 * @return projektleiterId - Gibt den Fremdschl�ssel projektleiterId zur�ck.
 	 */
 	public int getProjektleiterId() {
 		return projektleiterId;

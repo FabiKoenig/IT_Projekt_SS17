@@ -7,13 +7,17 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.itProjektSS17.client.LoginInfo;
 import de.hdm.itProjektSS17.shared.LoginService;
 
+/**
+ * Servlet, das den Login über die GoogleAccountsAPI verwaltet.
+ */
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param requestUri
+	 * @return loginInfo
+	 */
 	@Override
 	public LoginInfo login(String requestUri) {
 		

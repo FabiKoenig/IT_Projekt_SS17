@@ -176,6 +176,7 @@ public class BewerbungMapper {
     /**
      * @param ausschreibungId
      * @return Liefert alle Bewerbung-Objekte anhand des uebergebenen Beziehungs-Objektes aus der Datenbank zurueck.
+     * 
      */
     public Vector<Bewerbung> findByForeignAusschreibungId(int ausschreibungId){
         // DB-Verbindung holen

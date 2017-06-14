@@ -330,6 +330,11 @@ public class BeteiligungMapper {
 		  
 	  }
 	  
+	  /**
+	   * 
+	   * @param b
+	   * @return Das übergebenen Beteilung-Objekt b wird in die DB geschrieben
+	   */
 	  public Beteiligung insertProjektleiter(Beteiligung b){
 		  
 		    Connection con = DBConnection.connection();
