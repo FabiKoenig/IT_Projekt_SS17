@@ -40,7 +40,7 @@ public class Bewertung extends BusinessObject{
 	
 	/**
 	 * 
-	 * @return
+	 * @return stellungnahme
 	 */
 	
 	public String getStellungnahme() {
