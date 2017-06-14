@@ -2,11 +2,13 @@ package de.hdm.itProjektSS17.shared.report;
 
 import java.util.Vector;
 
+/**
+ * Klasse stellte die Menge einzelner Absätze dar, welche als Unterabschnitte in einem Vector
+ * gespeichert werden.
+ */
 public class CompositeParagraph extends Paragraph{
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -16,69 +16,55 @@ import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
+import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
+import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 
 public class AusschreibungenZuPartnerprofilShowcase extends Showcase{
 
 	private IdentityChoiceReport identityChoiceReport = null;
-	ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
-	private CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
-	private VerticalPanel vp = new VerticalPanel();
 	
-	public AusschreibungenZuPartnerprofilShowcase(IdentityChoiceReport identityChoiceReport){
-		this.identityChoiceReport=identityChoiceReport;		
+	public AusschreibungenZuPartnerprofilShowcase(IdentityChoiceReport identityChoiceReport) {
+		this.identityChoiceReport = identityChoiceReport;
 	}
 	
+	
+	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Alle Ausschreibungen, die exakt zu meinem Profil passen.";
+		return "Alle Ausschreibungen, die exakt zu meinem Partnerprofil passen";
 	}
 
 	@Override
 	protected void run() {
-		//append("Kleiner Drecksack");
-		Organisationseinheit o = identityChoiceReport.getSelectedIdentityAsObject();
-		reportGenerator.getAusschreibungByMatchingPartnerprofilOfOrganisationseinheit(o, new GetMatchingAusschreibungen());
-		dataGrid.setWidth("100%");
 		
-		TextColumn<Ausschreibung> bezeichnungColumn = new TextColumn<Ausschreibung>(){
+		final Showcase showcase = this;
+		
+		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
+		
+		reportGenerator.getAusschreibungByMatchingPartnerprofilOfOrganisationseinheitReport(identityChoiceReport.getSelectedIdentityAsObject(), new AsyncCallback<AlleAusschreibungenZuPartnerprofilReport>() {
 
 			@Override
-			public String getValue(Ausschreibung object) {
-				return object.getBezeichnung();
+			public void onFailure(Throwable caught) {
+				Window.alert("Fehler: " + caught.toString());
+				
 			}
-		};
-		
-
-		TextColumn<Ausschreibung> bewerbungsfristColumn = new TextColumn<Ausschreibung>(){
 
 			@Override
-			public String getValue(Ausschreibung object) {
-				return object.getBewerbungsfrist().toString();
+			public void onSuccess(AlleAusschreibungenZuPartnerprofilReport result) {
+				
+				if(result!= null){
+					
+				HTMLReportWriter writer = new HTMLReportWriter();
+				
+				writer.process(result);
+				
+				showcase.append(writer.getReportText());
+				
+				}
 			}
-		};
-		
-		dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
-		dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
-		this.add(dataGrid);
-	}
-		
-	private class GetMatchingAusschreibungen implements AsyncCallback<Vector<Ausschreibung>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Ausschreibung> result) {
-			if(result != null){
-				//Anpassen der CellTable
-				dataGrid.setRowCount(result.size(), true);
-				dataGrid.setRowData(0, result);
-			}
-		}
+		});
 		
 	}
+
 
 }
