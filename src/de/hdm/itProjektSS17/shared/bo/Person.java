@@ -23,23 +23,51 @@ public class Person extends Organisationseinheit {
 	 * Realisierung der Beziehung zu einem Unternehmen durch einen Fremdschl�ssel
 	 */
 	private Integer unternehmenId = null;
-
-
+	
+	/**
+	 * 
+	 * @return anrede
+	 */
 	public String getAnrede() {
 		return anrede;
 	}
+	
+	/**
+	 * 
+	 * @param anrede
+	 */
 	public void setAnrede(String anrede) {
 		this.anrede = anrede;
 	}
+	
+	/**
+	 * 
+	 * @return vorname
+	 */
 	public String getVorname() {
 		return vorname;
 	}
+	
+	/**
+	 * 
+	 * @param vorname
+	 */
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNachname() {
 		return nachname;
 	}
+	
+	/**
+	 * 
+	 * @param nachname
+	 */
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
@@ -77,10 +105,18 @@ public class Person extends Organisationseinheit {
 			this.unternehmenId = unternehmenId;
 		}
 	}
-	
+	/**
+	 * 
+	 * @return email
+	 */
 	public String getEmail() {
 		return email;
 	}
+	
+	/**
+	 * 
+	 * @param email
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}

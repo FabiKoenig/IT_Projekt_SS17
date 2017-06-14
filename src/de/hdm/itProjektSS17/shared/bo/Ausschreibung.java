@@ -34,84 +34,116 @@ public class Ausschreibung extends BusinessObject{
 	
 	private int ausschreibenderId = 0;
 	
-	
+	/**
+	 * 
+	 * @return ausschreibungstext
+	 */
 	
 	public String getAusschreibungstext() {
 		return ausschreibungstext;
 	}
-
+	/**
+	 * 
+	 * @return bezeichnung
+	 */
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
-
+	/**
+	 * 
+	 * @param bezeichnung
+	 */
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
-
+	
+	/**
+	 * 
+	 * @return bewerbungsfrist
+	 */
 	public Date getBewerbungsfrist() {
 		return bewerbungsfrist;
 	}
-
+	
+	/**
+	 * 
+	 * @param bewerbungsfrist
+	 */
 	public void setBewerbungsfrist(Date bewerbungsfrist) {
 		this.bewerbungsfrist = bewerbungsfrist;
 	}
 
+	/**
+	 * 
+	 * @param ausschreibungstext
+	 */
+	
 	public void setAusschreibungstext(String ausschreibungstext) {
 		this.ausschreibungstext = ausschreibungstext;
 	}
-
+	
 	/**
-	 * @return Gibt den Fremdschlï¿½ssel projektId zurï¿½ck.
+	 * 
+	 * @return
 	 */
 	public int getProjektId() {
 		return projektId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlï¿½ssel projektId.
+	 * 
+	 * @param projektId
 	 */
 	public void setProjektId(int projektId) {
 		this.projektId = projektId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlï¿½ssel partnerprofilId zurï¿½ck.
+	 * 
+	 * @return partnerprofilId
 	 */
 	public int getPartnerprofilId() {
 		return partnerprofilId;
 	}
 
+	
 	/**
-	 * @param Setzt den Fremdschlï¿½ssel partnerprofilId.
+	 * 
+	 * @param partnerprofilId
 	 */
 	public void setPartnerprofilId(int partnerprofilId) {
 		this.partnerprofilId = partnerprofilId;
 	}
 
 	/**
-	 * @return Gibt den Fremdschlï¿½ssel partnerprofilId zurï¿½ck.
-	 */
+	 * 
+	 * @return ausschreibenderId
+	 */	
 	public int getAusschreibenderId() {
 		return ausschreibenderId;
 	}
 
 	/**
-	 * @param Setzt den Fremdschlï¿½ssel ausschreibenderId.
+	 * 
+	 * @param ausschreibenderId
 	 */
 	public void setAusschreibenderId(int ausschreibenderId) {
 		this.ausschreibenderId = ausschreibenderId;
 	}
 
+	
 	/**
-	 * @return Gibt den Ausschreibungsstatus als enum Ausschreibungsstatus zurück
+	 * @return status
 	 */
+	
 	public Ausschreibungsstatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * @param Setzt den Ausschreibungsstatus anhand eines enum Ausschreibungsstatus
-	 */
+	 * 
+	 * @param status
+	 */	
 	public void setStatus(Ausschreibungsstatus status) {
 		this.status = status;
 	}

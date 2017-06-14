@@ -3,21 +3,22 @@ package de.hdm.itProjektSS17.shared.bo;
 import java.util.Date;
 /**
  * Realisierung eines Partnerprofils. Ein Partnerprofil besitzt ein Erstellungsdatum 
- * und ein Änderungsdatum.
+ * und ein ï¿½nderungsdatum.
  * 
  * @author Tom Alender
  * @version 1.0
  */
 public class Partnerprofil extends BusinessObject {
 	
-	
 	private static final long serialVersionUID = 1L;
+	
 	/**
 	   * Datum der Erstellung des Partnerprofils
 	   */
 	private Date erstellungsdatum = new Date();
+	
 	/**
-	   * Datum der Änderung des Partnerprofils
+	   * Datum der ï¿½nderung des Partnerprofils
 	   */
 	private Date aenderungdatum = null;
 	
@@ -25,26 +26,33 @@ public class Partnerprofil extends BusinessObject {
 	//private int AusschreibungsID = 0;
 	
 	/**
-	   * Auslesen des Erstellungsdatums
-	   */
+	 * 
+	 * @return erstellungsdatum
+	 */
 	public Date getErstellungsdatum() {
 		return erstellungsdatum;
 	}
+	
 	/**
-	   * Setzen des Erstellungsdatums
-	   */
+	 * 
+	 * @param erstellungsdatum
+	 */
 	public void setErstellungsdatum(Date erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
+	
 	/**
-	   * Auslesen des Aenderungsdatums
-	   */
+	 * 
+	 * @return aenderungdatum
+	 */
 	public Date getAenderungdatum() {
 		return aenderungdatum;
 	}
+	
 	/**
-	   * Setzen des Aenderungsdatums
-	   */
+	 * 
+	 * @param aenderungdatum
+	 */
 	public void setAenderungdatum(Date aenderungdatum) {
 		this.aenderungdatum = aenderungdatum;
 	}

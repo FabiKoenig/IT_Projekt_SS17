@@ -11,16 +11,24 @@ public class Team extends Organisationseinheit{
 	 */
 	private Integer unternehmenId = null;
 	
+	/**
+	 * 
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	
+	/**
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	/**
-	 * @return Gibt den Fremdschl�ssel unternehmenId zur�ck.
+	 * @return unternehmenId - Gibt den Fremdschl�ssel unternehmenId zur�ck.
 	 */
 	public Integer getUnternehmenId() {
 		return unternehmenId;

@@ -10,10 +10,18 @@ public class Unternehmen extends Organisationseinheit {
 	
 	private String name;
 
+	/**
+	 * 
+	 * @returnname
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

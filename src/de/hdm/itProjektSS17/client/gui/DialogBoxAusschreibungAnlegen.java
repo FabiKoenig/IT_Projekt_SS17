@@ -139,7 +139,7 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		@Override
 		public void onSuccess(Ausschreibung result) {
 		
-			Window.alert("Das Anlegen der Anschreibung war erfolgreich.");
+			Window.alert("Das Anlegen der Ausschreibung war erfolgreich.");
 			hide();
 			navigation.reload();
 			Window.alert("Partnerprofil Id: "+ result.getPartnerprofilId());
