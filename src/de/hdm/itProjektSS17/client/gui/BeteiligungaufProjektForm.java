@@ -37,8 +37,9 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 
 public class BeteiligungaufProjektForm extends Showcase {
-
+	SimplePager pager;
 	
+	HorizontalPanel hp_pager = new HorizontalPanel();
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -64,8 +65,8 @@ public class BeteiligungaufProjektForm extends Showcase {
 
 	@Override
 	protected void run() {
-		
-
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		btn_zurueck.setStylePrimaryName("cell-btn");
@@ -141,6 +142,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 	
 		this.add(buttonPanel);
 		this.add(dataGrid);
+		this.add(hp_pager);
 		
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
@@ -221,19 +223,19 @@ public class BeteiligungaufProjektForm extends Showcase {
 						
 						
 						final ListDataProvider dataProvider = new ListDataProvider();
-						SimplePager pager;
-						SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-						pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+						
+					
+						
 						pager.setDisplay(dataGrid);
 						dataProvider.addDataDisplay(dataGrid);
 						dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(beteiligungen));
-						pager.setPageSize(20);
+						pager.setPageSize(1);
 						
-						HorizontalPanel hp_pager = new HorizontalPanel();
+						
 						hp_pager.setWidth("100%");
 						hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 						hp_pager.add(pager);
-						add(hp_pager);
+						
 						
 						
 						dataGrid.setRowCount(beteiligungen.size(), true);
