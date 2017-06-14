@@ -35,8 +35,16 @@ import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 
-
+/**
+ * @see de.hdm.itProjektSS17.client.client.showcase;
+ * @author Tim
+ *
+ */
 public class BeteiligungaufProjektForm extends Showcase {
+	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	SimplePager pager;
 	
 	HorizontalPanel hp_pager = new HorizontalPanel();
@@ -56,22 +64,42 @@ public class BeteiligungaufProjektForm extends Showcase {
 		this.navigation=navigation;
 	}
 	
-	
+	/**
+	 * HeadlineText returnen mit dem übergebenen Projekt
+	 * @return String, Projekt
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Beteiligung des Projektes "+p.getName();
 	}
 
+	/**
+	 * Nachdem alles vorbereitet ist wird die run-Methode gestartet. Diese ist eine abstrakte Methode
+	 * in der die Subklassen implemntiert werden.
+     */
 	@Override
 	protected void run() {
+		
+		/**
+		 * Pager anlegen
+		 */
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
+		
 		btn_zurueck.setStylePrimaryName("cell-btn");
+	
+		/**
+		 * Methode um Beteiligungen zu übergebnen Projekt zu erhalten, neuer CallBack wird aufgerufen.
+		 * @param Projekt
+		 */
 		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
 		
+		/**
+		 * TextColumns anlegen und der Celltable hinzufügen
+		 */
 		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_beteiligterBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
 
 			@Override
@@ -121,6 +149,10 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setWidth("100%");
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
+		
+		/**
+		 * SingleSelectionModel für die Klasse anlegen und der Celltable hinzufügen.
+		 **/
 		final SingleSelectionModel<BeteiligungProjektHybrid> selectionModel = new SingleSelectionModel<>();
 		
 		dataGrid.setSelectionModel(selectionModel);	
@@ -156,25 +188,12 @@ public class BeteiligungaufProjektForm extends Showcase {
 		
 	}
 	
-	
-	
-//	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-//		}
-//
-//		@Override
-//		public void onSuccess(Organisationseinheit result) {		
-//			if (result != null) {
-//				projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(result, new ););
-//			}			
-//		}
-//	
-//	}
-	
-
+/**
+ * Bei erfolgreichem Callback wird ein Vector mit Beteiligungen als result zurückgibt.
+ * 
+ * @author Tim
+ *
+ */
 	private class getBeteiligung implements AsyncCallback<Vector<Beteiligung>>{
 
 		@Override
@@ -186,7 +205,10 @@ public class BeteiligungaufProjektForm extends Showcase {
 		@Override
 		public void onSuccess(Vector<Beteiligung> result) {
 
-	
+	/**
+	 * Vector mit Beteiligungen wird durchgegangen und jeweils deren verschiedene Attribute in das Objekt localHybrid
+	 * gesetzt.
+	 */
 			for (Beteiligung beteiligung : result) {
 				final BeteiligungProjektHybrid localHybrid = new BeteiligungProjektHybrid();
 				
@@ -195,6 +217,10 @@ public class BeteiligungaufProjektForm extends Showcase {
 				localHybrid.setStartDatum(beteiligung.getStartDatum());
 				localHybrid.setEndDatum(beteiligung.getEndDatum());
 
+				/**
+				 * Bei erfolgreichem Callback wird die Organisationseinheit zu der übergebenen Beteiligung als
+				 * result zurückgegeben
+				 */
 				projektmarktplatzVerwaltung.getOrganisationseinheitById(beteiligung.getBeteiligterId(), new AsyncCallback<Organisationseinheit>() {
 
 					@Override
@@ -205,9 +231,12 @@ public class BeteiligungaufProjektForm extends Showcase {
 
 					@Override
 					public void onSuccess(Organisationseinheit result) {
+						/**
+						 * Prüfung ob die Organisationseinheit eine Person, ein Team oder ein Unternehmen ist.
+						 * In Abhängingkeit, welche Art von Organisationseinheit das result ist werden die
+						 * jeweiligen Attribute gesetzt.
+						 */
 						if(result instanceof Person){
-						
-
 							String beteiligtePerson = ((Person) result).getVorname() + " " + ((Person) result).getNachname();
 							localHybrid.setBeteiligter(beteiligtePerson);
 						} else if(result instanceof Team){
@@ -218,14 +247,19 @@ public class BeteiligungaufProjektForm extends Showcase {
 							localHybrid.setBeteiligter(beteiligtesUnternehmen);
 							
 						}	
-
+						
+						/**
+						 * Das localHybrid-Objekt wird dem Vector hinzugefügt
+						 */
 						beteiligungen.add(localHybrid);
 						
 						
 						final ListDataProvider dataProvider = new ListDataProvider();
 						
 					
-						
+						/**
+						 * Pager konfigurieren und dem Panel hinzifügen
+						 */
 						pager.setDisplay(dataGrid);
 						dataProvider.addDataDisplay(dataGrid);
 						dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(beteiligungen));
@@ -237,7 +271,9 @@ public class BeteiligungaufProjektForm extends Showcase {
 						hp_pager.add(pager);
 						
 						
-						
+						/**
+						 * Die Daten werden in der Celltable gesetzt.
+						 */
 						dataGrid.setRowCount(beteiligungen.size(), true);
 						dataGrid.setRowData(0, beteiligungen);
 					}

@@ -29,7 +29,11 @@ import de.hdm.itProjektSS17.shared.ReportGeneratorAsync;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.bo.Person;
 
-
+/**
+ * Entry-Point Klasse
+ * @author Tim
+ *
+ */
 
 public class ReportEntry implements EntryPoint {
 
@@ -170,11 +174,6 @@ public class ReportEntry implements EntryPoint {
 		    RootPanel.get("NavigatorReport").add(Logout);
 		    RootPanel.get("NavigatorReport").add(new NavigationReport(identityChoiceReport));
 			
-		    
-		    //TopPanel für Logut
-//		    VerticalPanel topPanel = new VerticalPanel();
-//		    RootPanel.get("Header").add(topPanel);
-		    //Erstellen Projektmarktzplatz Button
 		    
 		    Logout.setWidth("150px");
 		    Logout.setStylePrimaryName("login-btn");

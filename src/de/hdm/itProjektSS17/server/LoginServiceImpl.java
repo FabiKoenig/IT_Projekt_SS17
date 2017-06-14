@@ -15,6 +15,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Überprüfen ob User eingeloogt ist
 	 * @param requestUri
 	 * @return loginInfo
 	 */

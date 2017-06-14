@@ -27,6 +27,11 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Ausschreibung;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
+/**
+ * @see de.hdm.itProjektSS17.client.client.showcase;
+ * @author Tim
+ *
+ */
 public class AusschreibungenaufProjektForm extends Showcase{
 
 	
@@ -47,7 +52,10 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 	private Projekt p;
 	
-	
+	/**
+	 * HeadlineText returnen
+	 * @return String
+	 */
 	@Override	
 	protected String getHeadlineText() {
 		return "Auschreibungen zum Projekt "+p.getName();
@@ -113,8 +121,12 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		}
 
-
-
+	
+	/**
+	 * Nachdem alles vorbereitet ist wird die run-Methode gestartet. Diese ist eine abstrakte Methode
+	 * in der die Subklassen implemntiert werden.
+     */
+	 
 	@Override
 	protected void run() {
 	
@@ -158,6 +170,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		}
 	};
 	
+	/**
+	 * TextColumns der celltable hinzufügen
+	 */
 		dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 		dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 		dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
@@ -165,10 +180,15 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 		dataGrid.setWidth("100%");
 		
-		//was ist des?
+		/**
+		 * SingleSelectionModel anlegen um Datensätze in der Tabelle zu makieren und der Celltable hinzufügen
+		 */
 		final SingleSelectionModel<Ausschreibung> selectionModel = new SingleSelectionModel<>();
 		dataGrid.setSelectionModel(selectionModel);	
 		
+		/**
+		 * SelectionChangeEvent-Handler anlegen
+		 */
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 		
 			@Override
@@ -184,10 +204,12 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		btn_zurueck.setStylePrimaryName("cell-btn");
 	
-		//auf welche Variable bezogen
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		
+		/**
+		 * Click-Handler für zurück Button anlegen.
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
