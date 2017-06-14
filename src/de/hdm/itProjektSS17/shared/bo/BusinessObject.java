@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Die Klasse <code>BusinessObject</code> stellt die Basisklasse aller in diesem
- * Projekt für die Umsetzung des Fachkonzepts relevanten Klassen dar.
+ * Projekt fï¿½r die Umsetzung des Fachkonzepts relevanten Klassen dar.
  *  
  * @author Michael Geiselmann
  * @version 1.0
@@ -37,6 +37,7 @@ public abstract class BusinessObject implements Serializable {
 	/**
 	 * Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 	 */
+		
 	public String toString(){
 		return this.getClass().getName() + " #" + this.id;
 	}
@@ -64,7 +65,7 @@ public abstract class BusinessObject implements Serializable {
 	}
 	
 	/**
-	 * Erzeugen einer ganzen Zahl, die für das <code>BusinessObject</code> charakteristisch ist.
+	 * Erzeugen einer ganzen Zahl, die fï¿½r das <code>BusinessObject</code> charakteristisch ist.
 	 */
 	public int hashCode(){
 		

@@ -23,34 +23,75 @@ public class Organisationseinheit extends BusinessObject {
 	
 	
 	
-	
+	/**
+	 * 
+	 * @return strasse
+	 */
 	
 	public String getStrasse() {
 		return strasse;
 	}
+	
+	/**
+	 * 
+	 * @param strasse
+	 */
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	
 	public String getHausnummer() {
 		return hausnummer;
 	}
+	
+	/**
+	 * 
+	 * @param hausnummer
+	 */
 	public void setHausnummer(String hausnummer) {
 		this.hausnummer = hausnummer;
 	}
+	
+	/**
+	 * 
+	 * @return plz 
+	 */
+	
 	public int getPlz() {
 		return plz;
 	}
+	
+	/**
+	 * 
+	 * @param plz
+	 */
 	public void setPlz(int plz) {
 		this.plz = plz;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	
 	public String getOrt() {
 		return Ort;
 	}
+	
+	/**
+	 * 
+	 * @param ort
+	 */
 	public void setOrt(String ort) {
 		Ort = ort;
 	}
 	/**
-	 * @return Gibt den Fremdschl�ssel partnerprofilId zur�ck.
+	 * @return partnerprofilId - Gibt den Fremdschl�ssel partnerprofilId zur�ck.
 	 */
 	public Integer getPartnerprofilId() {
 		return partnerprofilId;
