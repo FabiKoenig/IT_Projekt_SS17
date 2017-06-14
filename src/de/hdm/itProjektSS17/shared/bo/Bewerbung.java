@@ -40,9 +40,19 @@ public class Bewerbung extends BusinessObject{
 	private Bewerbungsstatus status = Bewerbungsstatus.laufend;
 	
 	
+	/**
+	 * 
+	 * @param status
+	 */
+	
 	public void setStatus(Bewerbungsstatus status) {
 		this.status = status;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	
 	public Bewerbungsstatus getStatus() {
 		return status;

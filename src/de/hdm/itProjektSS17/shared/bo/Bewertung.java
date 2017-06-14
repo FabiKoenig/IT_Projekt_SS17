@@ -15,12 +15,20 @@ public class Bewertung extends BusinessObject{
 	
 	private Date erstellungsdatum = new Date();
 
+	/**
+	 * 
+	 * @return erstellungsdatum
+	 */
 	
-
 	public Date getErstellungsdatum() {
 		return erstellungsdatum;
 	}
-
+	
+	/**
+	 * 
+	 * @param erstellungsdatum
+	 */
+	
 	public void setErstellungsdatum(Date erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
@@ -30,18 +38,38 @@ public class Bewertung extends BusinessObject{
 	 */
 	private int bewerbungId = 0;
 	
+	/**
+	 * 
+	 * @return
+	 */
+	
 	public String getStellungnahme() {
 		return stellungnahme;
 	}
 
+	/**
+	 * 
+	 * @param stellungnahme
+	 */
+	
 	public void setStellungnahme(String stellungnahme) {
 		this.stellungnahme = stellungnahme;
 	}
-
+	
+	/**
+	 * 
+	 * @return wert
+	 */
+	
 	public double getWert() {
 		return wert;
 	}
 
+	/**
+	 * 
+	 * @param wert
+	 */
+	
 	public void setWert(double wert) {
 		this.wert = wert;
 	}
