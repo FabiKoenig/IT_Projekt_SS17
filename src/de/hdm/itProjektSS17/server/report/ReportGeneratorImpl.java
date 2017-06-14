@@ -50,13 +50,15 @@ implements ReportGenerator{
 	private ProjektmarktplatzVerwaltung projektmarktplatzverwaltung = null;
 	
 	/**
-	 * TODO
+	 * 
 	 * @throws IllegalArgumentException
 	 */
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 	}
 	
-	
+	/**
+	 * Initialisierung der Impl
+	 */
 	public void init() throws IllegalArgumentException{
 		/**
 		 * 
@@ -957,51 +959,5 @@ implements ReportGenerator{
 		
 		return result;
 	}
-	
-//	public class AlleBewerbungenAufEineAusschreibungDesUsers extends SimpleReport{
-//
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		
-//	}
-	
-//	public class AlleBeteiligungenEinesUsers extends SimpleReport{
-//
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		
-//	}
-
-//	public class AlleBewerbungenEinesUsers extends SimpleReport{
-//
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		
-//	}
-	
-//	public class FanIn extends SimpleReport {
-//
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		
-//	}
-//	
-//	public class FanOut extends SimpleReport {
-//
-//		/**
-//		 * 
-//		 */
-//		private static final long serialVersionUID = 1L;
-//		
-//	}
-	
 	
 }
