@@ -60,6 +60,7 @@ public class Projektmarktplatz implements EntryPoint {
 	private Button loginButton = new Button("Login");
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
+	private Label loginLabel1 = new Label("Herzlich Willkommen auf Prokeko");
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google Account an, um Zugang zu Prokeko zu erhalten.");
 	private Anchor signInLink= new Anchor("Login");
 	private Anchor signOutLink = new Anchor("Logout");
@@ -148,11 +149,15 @@ public class Projektmarktplatz implements EntryPoint {
 	 */
 		private void loadLogin(){
 			
-			loginPanel.setSpacing(20);
+			loginLabel.setStylePrimaryName("startseite_label");
+			loginLabel1.setStylePrimaryName("willkommen_label");
+			loginPanel.setSpacing(10);
+			loginPanel.add(loginLabel1);
 			loginPanel.add(loginLabel);
-			loginPanel.add(loginButton);
+//			loginPanel.add(loginButton);
 			signInLink.setHref(loginInfo.getLoginUrl());
-			RootPanel.get("Details").add(loginLabel);
+
+			RootPanel.get("Details").add(loginPanel);
 			RootPanel.get("Navigator").add(loginButton);
 			
 			loginButton.setWidth("150px");

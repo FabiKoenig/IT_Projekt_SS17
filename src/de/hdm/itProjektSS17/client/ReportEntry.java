@@ -142,7 +142,7 @@ public class ReportEntry implements EntryPoint {
 			
 			
 			loginButton.setWidth("150px");
-			loginButton.setStylePrimaryName("projektmarktplatz-logout");
+			loginButton.setStylePrimaryName("login-btn");
 			loginButton.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -177,7 +177,7 @@ public class ReportEntry implements EntryPoint {
 		    //Erstellen Projektmarktzplatz Button
 		    
 		    Logout.setWidth("150px");
-		    Logout.setStylePrimaryName("projektmarktplatz-logout");
+		    Logout.setStylePrimaryName("login-btn");
 
 		  
 		   

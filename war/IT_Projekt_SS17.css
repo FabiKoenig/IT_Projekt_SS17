@@ -235,6 +235,8 @@ div#TopLevelFrame {
   padding: 8px 20px 8px 20px;
   border: solid #e6e6e6 2px;
   text-decoration: none;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .cell-btn:hover {
