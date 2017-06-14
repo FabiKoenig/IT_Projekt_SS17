@@ -218,5 +218,4 @@ public interface ProjektmarktplatzVerwaltungAsync {
 
 	void getPartnerProfilByForeignAusschreibung(Ausschreibung a, AsyncCallback<Partnerprofil> callback);
 
-
 }
