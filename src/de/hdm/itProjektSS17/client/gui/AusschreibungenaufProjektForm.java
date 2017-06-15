@@ -33,14 +33,20 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
+	/**
+	 * Deklaration der globalen Variablen und Objekte
+	 */
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
+	Button btn_zurueck = new Button("Zurück");
+	
+	Navigation navigation = null;
 	Vector<Ausschreibung> ausschreibung = new Vector<Ausschreibung>();
 	
-	Button btn_zurueck = new Button("Zurück");
-	Navigation navigation = null;
+	
 	
 	private Projekt p;
+	
 	
 	@Override	
 	protected String getHeadlineText() {
@@ -48,6 +54,11 @@ public class AusschreibungenaufProjektForm extends Showcase{
 
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param navigation
+	 */
 	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation) {
 		this.p = p;
 		this.navigation=navigation;	
@@ -56,7 +67,12 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 
 
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * der einen Vector von Ausschreibung als result zurück gibt.
+	 * @author Tim
+	 *
+	 */
 	private class getProjekte implements AsyncCallback<Vector<Ausschreibung>>{
 
 		@Override
@@ -65,9 +81,15 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			
 		}
 
+		/**
+		 * Vector mit Ausschreibung werden als result zurück gegeben
+		 */
 		@Override
 		public void onSuccess(Vector<Ausschreibung> result) {
 
+			/**
+			 * Pager erstellen und zum Panel hinzufügen
+			 */
 			final ListDataProvider dataProvider = new ListDataProvider();
 			SimplePager pager;
 			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -91,49 +113,23 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		}
 
-	
-	private class GetAusschreibungenByOrgaCallback implements AsyncCallback<Vector<Ausschreibung>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Fehler: Die Ausschreibungen konnten nicht geladen werden.");
-			Window.alert("Fehler: "+ caught.toString());
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Ausschreibung> result) {
-			
-			if(result != null){
-				//Anpassen der CellTable
-				
-				
-				
-				dataGrid.setRowCount(result.size(), true);
-				dataGrid.setRowData(0, result);
-			
-			}
-		}	
-	}
-
-
-
-	
 
 
 	@Override
 	protected void run() {
-		//projektmarktplatzVerwaltung.getOrganisationseinheitById(IdentityMarketChoice.getSelectedIdentityId(), new OrganisationseinheitCallback());
-		
-		
+	
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		projektmarktplatzVerwaltung.getAusschreibungByForeignProjekt(p, new getProjekte());
-		
+	
+		/**
+		 * Anlegen der TextColumns für die cellTable
+		 */
 		TextColumn<Ausschreibung> ausschreibungstextColumn = new TextColumn<Ausschreibung>(){
+		
 			
 		public String getValue(Ausschreibung object){
-			return object.getAusschreibungstext();
+		return object.getAusschreibungstext();
 		}
 	};
 		

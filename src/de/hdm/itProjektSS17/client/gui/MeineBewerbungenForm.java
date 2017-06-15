@@ -40,6 +40,8 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
  *
  */
 public class MeineBewerbungenForm extends Showcase{
+	HorizontalPanel hp_pager = new HorizontalPanel();
+	SimplePager pager;
 	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
@@ -67,6 +69,8 @@ public class MeineBewerbungenForm extends Showcase{
 	}
 	
 	protected void run() {
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		
 		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
@@ -170,7 +174,7 @@ public class MeineBewerbungenForm extends Showcase{
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		//cellTable.setColumnWidth(erstellungsdatumColumn, 80, Unit.PT);
 		cellTable.addColumn(statusColumn, "Status");
-		cellTable.setColumnWidth(statusColumn, 70, Unit.PT);
+		cellTable.setColumnWidth(statusColumn, 80, Unit.PT);
 		cellTable.addColumn(BewertungColumn, "Bewertung");
 
 		//cellTable.setWidth("70%");
@@ -234,6 +238,8 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		});
 		
+		
+		
 		btn_stellungname.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -270,6 +276,10 @@ public class MeineBewerbungenForm extends Showcase{
 		});
 		
 		this.add(cellTable);
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		this.add(hp_pager);
+		
 	}
 
 	private class ausschreibungBewerbungHybrid{
@@ -371,6 +381,8 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		@Override
 		public void onSuccess(Vector<Bewerbung> result) {
+			
+
 			
 			for(int i=0;i<result.size();i++){
 				final Bewerbung localBewerbung = result.get(i);
@@ -495,9 +507,27 @@ public class MeineBewerbungenForm extends Showcase{
 																				localHybrid.setTeam("Kein Team");
 																				localHybrid.setUnternehmen(result.getName());
 																				hybrid.add(localHybrid);
+																				
+																				final ListDataProvider dataProvider = new ListDataProvider();
+																				
+																																						pager.setDisplay(cellTable);
+																				dataProvider.addDataDisplay(cellTable);
+																				dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
+																				pager.setPageSize(2);
+																				
+																				
+																				
+																				
+																				
+																				
+																				
 																				cellTable.setRowCount(hybrid.size(), true);
 																				cellTable.setRowData(0,hybrid);
+																				
+																				
+
 																			}
+																			
 																		});
 																		
 																	}else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
@@ -512,6 +542,8 @@ public class MeineBewerbungenForm extends Showcase{
 																			@Override
 																			public void onSuccess(Team result) {
 																				localHybrid.setTeam(result.getName());
+																				
+																				
 																				cellTable.setRowCount(hybrid.size(), true);
 																				cellTable.setRowData(0,hybrid);
 																				projektmarktplatzVerwaltung.getUnternehmenById(ausschreibender.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
@@ -529,6 +561,7 @@ public class MeineBewerbungenForm extends Showcase{
 																					
 																		
 																						
+																						
 																						cellTable.setRowCount(hybrid.size(), true);
 																						cellTable.setRowData(0,hybrid);
 
@@ -536,42 +569,33 @@ public class MeineBewerbungenForm extends Showcase{
 																					}
 																				});
 																				
+																				
 
 																			}
 																		});
-																	
+																		
+
 																	}
+																	
 																}
-															
+																hp_pager.add(pager);
 															}
 															
 														});
 													
 								
+														
 													}
 												}
 											});
 					
 										}
-						
 									});
 
 				
 								}
-			final ListDataProvider dataProvider = new ListDataProvider();
-			SimplePager pager;
-			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-			pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-			pager.setDisplay(cellTable);
-			dataProvider.addDataDisplay(cellTable);
-			dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
-			pager.setPageSize(5);
-			
-			HorizontalPanel hp_pager = new HorizontalPanel();
-			hp_pager.setWidth("100%");
-			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-			hp_pager.add(pager);
-			add(hp_pager);
+		
+
 			
 			cellTable.setRowCount(hybrid.size(), true);
 			cellTable.setRowData(0,hybrid);
@@ -579,5 +603,7 @@ public class MeineBewerbungenForm extends Showcase{
 	
 							
 					 };
+					 
+					 
 					 
 	}

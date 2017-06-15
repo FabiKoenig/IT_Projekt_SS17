@@ -1,20 +1,26 @@
 package de.hdm.itProjektSS17.client.gui;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -22,6 +28,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
@@ -33,6 +40,8 @@ import de.hdm.itProjektSS17.shared.bo.*;
 
 public class MeineAusschreibungenForm extends Showcase{
 
+	SimplePager pager;
+	HorizontalPanel hp_pager = new HorizontalPanel();
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private static Vector<Ausschreibung> ausschreibungen = new Vector<>();
 	private static int partnerprofilId = 0;
@@ -68,6 +77,10 @@ public class MeineAusschreibungenForm extends Showcase{
 
 	@Override
 	protected void run() {
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		RootPanel.get("Details").setWidth("75%");
 		dataGrid.setWidth("100%", true);
 		
@@ -116,12 +129,28 @@ public class MeineAusschreibungenForm extends Showcase{
 									public void onSuccess(Projekt result) {
 										localhybrid.setProjektname(result.getName());
 										hybrid.add(localhybrid);
+										
+										
 										dataGrid.setRowCount(hybrid.size(), true);
 										dataGrid.setRowData(hybrid);	
+										final ListDataProvider dataProvider = new ListDataProvider();
+										
+										
+										
+										pager.setDisplay(dataGrid);
+										dataProvider.addDataDisplay(dataGrid);
+										dataProvider.setList(new ArrayList<AusschreibungProjektHybrid>(hybrid));
+										pager.setPageSize(1);
+										
+										
+									
+										
+										
 									}
 								});
 
 								}
+							hp_pager.add(pager);
 						}
 					});
 				}
@@ -221,6 +250,7 @@ public class MeineAusschreibungenForm extends Showcase{
 				this.setSpacing(8);
 				this.add(buttonPanel);
 				this.add(dataGrid);
+				this.add(hp_pager);
 				
 				
 			/**

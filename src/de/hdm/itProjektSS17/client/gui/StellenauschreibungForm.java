@@ -38,6 +38,9 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 public class StellenauschreibungForm extends Showcase {
 
+	HorizontalPanel hp_pager = new HorizontalPanel();
+	SimplePager pager;
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
@@ -71,6 +74,12 @@ public class StellenauschreibungForm extends Showcase {
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
+		
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		
 		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
@@ -258,6 +267,15 @@ public class StellenauschreibungForm extends Showcase {
 																}
 															}
 															
+															final ListDataProvider dataProvider = new ListDataProvider();
+															
+															pager.setDisplay(cellTable);
+															dataProvider.addDataDisplay(cellTable);
+															dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
+															pager.setPageSize(2);
+															
+															
+															
 															
 															
 															cellTable.setRowCount(Hybrid.size(), true);
@@ -268,10 +286,9 @@ public class StellenauschreibungForm extends Showcase {
 														
 														
 													});
-													
 												} 
 											});
-											
+											hp_pager.add(pager);
 										}
 									}
 								});
@@ -279,20 +296,7 @@ public class StellenauschreibungForm extends Showcase {
 						}
 					});
 					
-					final ListDataProvider dataProvider = new ListDataProvider();
-					SimplePager pager;
-					SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-					pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-					pager.setDisplay(cellTable);
-					dataProvider.addDataDisplay(cellTable);
-					dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-					pager.setPageSize(8);
-					
-					HorizontalPanel hp_pager = new HorizontalPanel();
-					hp_pager.setWidth("100%");
-					hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-					hp_pager.add(pager);
-					add(hp_pager);	
+				
 				}
 				
 		});
@@ -449,6 +453,9 @@ public class StellenauschreibungForm extends Showcase {
 		
 		this.setSpacing(8);
 		this.add(cellTable);
+		
+		this.add(hp_pager);	
+
 	}
 
 	
