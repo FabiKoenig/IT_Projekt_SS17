@@ -30,6 +30,9 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class BeteiligungenForm extends Showcase{
 
+	/**
+	 * GUI-Elemente und globale Variablen und Objekte deklarieren.
+	 */
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
@@ -46,22 +49,43 @@ public class BeteiligungenForm extends Showcase{
 	private Vector<BeteiligungProjektHybrid> hybrid = new Vector<BeteiligungProjektHybrid>();
 	private BeteiligungProjektHybrid selectedObject = new BeteiligungProjektHybrid();
 	
+	/**
+	 * Headlinetext returnen
+	 * @return String
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Meine Beteiligungen";
 	}
 
+	/**
+	 * Nachdem alles vorbereitet ist wird die run-Methode gestartet. Diese ist eine abstrakte Methode
+	 * in der die Subklassen implemntiert werden.
+     */
 	@Override
 	protected void run() {
+		/**
+		 * RootPanel wird auf 75% gesetzt, davon soll die Celltable 100% sein.
+		 * Vector beteiligungen und hybrid werden gecleart.
+		 * Organisationseinheit-Objekt wird erstellt und die ausgewählte Id gesetzt.
+		 */
 		RootPanel.get("Details").setWidth("75%");
 		ct_beteiligungen.setWidth("100%", true);
 		beteiligungen.clear();
 		hybrid.clear();
 		Organisationseinheit oTemp = new Organisationseinheit();
 		oTemp.setId(identityMarketChoice.getSelectedIdentityId());
+		
+		/**
+		 * Methode um die Beteiligungen der ausgewählten Organisationseinheit zu erhalten.
+		 * Neuer CallBack wird hierzu aufgerufen.
+		 */
 		projektmarktplatzVerwaltung.getBeteiligungByForeignOrganisationseinheit(oTemp, new BeteiligungenByOrganisationseinheitCallBack());
 		
+		/**
+		 * Erstellen der TextColumns
+		 */
 		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_projektBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
 
 			@Override
@@ -102,8 +126,10 @@ public class BeteiligungenForm extends Showcase{
 		
 		};
 		
+		/**
+		 * Butten Click-Handler hinzugügen
+		 */
 		btn_beteiligungLoeschen.addClickHandler(new ClickHandler() {
-			
 			@Override
 			public void onClick(ClickEvent event) {
 				
@@ -111,9 +137,13 @@ public class BeteiligungenForm extends Showcase{
 		});
 
 		btn_beteiligungLoeschen.addClickHandler(new ClickHandler() {
-			
 			@Override
 			public void onClick(ClickEvent event) {
+				/**
+				 * Neues Beteilung-Objekt erstellen und die Id des ausgewählten Objekts setzen.
+				 * Dieses Objekt wird dann zum löschen übergeben.
+				 * Neuer Callback wird erstellt.
+				 */
 				Beteiligung beteiligungTemp = new Beteiligung();
 				beteiligungTemp.setId(ssm_beteiligungen.getSelectedObject().getBeteiligungId());
 				projektmarktplatzVerwaltung.deleteBeteiligung(beteiligungTemp, new BeteiligungLoeschenCallback());
@@ -121,6 +151,9 @@ public class BeteiligungenForm extends Showcase{
 			}
 		});
 
+		/**
+		 * TextColumns zur Celltable hinzufügen
+		 */
 		ct_beteiligungen.setSelectionModel(ssm_beteiligungen);
 		ct_beteiligungen.addColumn(tc_beteiligungen_projektBez, "Beteiligung bei");
 		ct_beteiligungen.addColumn(tc_beteiligungen_Umfang, "Umfang");
@@ -133,6 +166,11 @@ public class BeteiligungenForm extends Showcase{
 		this.add(ct_beteiligungen);
 	}
 	
+	/**
+	 * Bei erfolgreichem Callback wird ein Vector mit Beteiligungen als result zurückgeliefert.
+	 * @author Tim
+	 *
+	 */
 	private class BeteiligungenByOrganisationseinheitCallBack implements AsyncCallback<Vector<Beteiligung>>{
 
 		@Override
@@ -142,12 +180,21 @@ public class BeteiligungenForm extends Showcase{
 
 		@Override
 		public void onSuccess(Vector<Beteiligung> result) {
-			
+			/**
+			 * Das result mit Beteiligungen werden dem Vector <code>beteiligungen</code> hinzugefügt
+			 * Zu den Beteiligungen sollen die Projekte übergeben werden, hierzu wird das result übergeben und ein
+			 * neuer Callback erstellt.
+			 */
 			beteiligungen.addAll(result);
 			projektmarktplatzVerwaltung.getProjekteByBeteiligungen(result, new ProjektByBeteiligungCallBack());
 		}
 	}
 	
+	/**
+	 * Bei erfolgreichem Callback wird ein Vector mit Projekten als result zurückgeliefert.
+	 * @author Tim
+	 *
+	 */
 	private class ProjektByBeteiligungCallBack implements AsyncCallback<Vector<Projekt>>{
 
 		@Override
@@ -155,15 +202,18 @@ public class BeteiligungenForm extends Showcase{
 			Window.alert("Projekte konnten nicht geladen werden");
 		}
 
+		/**
+		 * Der <code>beteiligungen</code> Vector und der Vector <code>result</code> werden durchgegangen.
+		 * Dabei wird überprüft ob sich das Projekt auf dem ausgwählten Projektmarktplatz befindet. Falls dies
+		 * diese nicht auf dem ausgewhählten Projektmarktplatz sind werden diese removed.
+		 * Zu allen Beteiligungen die sich auf dem Projektmarktplatz befinden werden die jeweiligen Attribute gesetzt und
+		 * dem <code>hybrid</code> Vector hinzugefügt.
+		 */
 		@Override
 		public void onSuccess(Vector<Projekt> result) {
-			//Window.alert(Integer.toString(beteiligungen.size()));
 			for (Beteiligung beteiligung : beteiligungen) {
-				//Window.alert("Beteiligung: " + Integer.toString(beteiligung.getId()));
 				for (Projekt projekt : result){
-					//Window.alert("Projekt: " + Integer.toString(projekt.getId()));
-					if(beteiligung.getProjektId()==projekt.getId() && projekt.getProjektmarktplatzId()!=identityMarketChoice.getSelectedProjectMarketplaceId()){
-					//	Window.alert(Integer.toString(projekt.getProjektmarktplatzId()) + Integer.toString(IdentityMarketChoice.getSelectedProjectMarketplaceId()));
+					if(beteiligung.getProjektId()==projekt.getId() && projekt.getProjektmarktplatzId()!=identityMarketChoice.getSelectedProjectMarketplaceId()){					//	Window.alert(Integer.toString(projekt.getProjektmarktplatzId()) + Integer.toString(IdentityMarketChoice.getSelectedProjectMarketplaceId()));
 						beteiligungen.remove(beteiligung);
 					}
 				}
@@ -183,11 +233,17 @@ public class BeteiligungenForm extends Showcase{
 				hybrid.add(localHybrid);
 			}
 			
+<<<<<<< HEAD
 			
 			
 			ct_beteiligungen.setRowData(hybrid);
 			ct_beteiligungen.setRowCount(hybrid.size(), true);
 			
+=======
+			/**
+			 * Konfiguration den Pager und hinzufügen zum Panel.
+			 */
+>>>>>>> refs/heads/master
 			final ListDataProvider dataProvider = new ListDataProvider();
 			SimplePager pager;
 			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -202,9 +258,23 @@ public class BeteiligungenForm extends Showcase{
 			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			hp_pager.add(pager);
 			add(hp_pager);
+<<<<<<< HEAD
+=======
+			
+			/**
+			 * <code>hybrid</code> in die celltable setzen.
+			 */
+			ct_beteiligungen.setRowData(hybrid);
+			ct_beteiligungen.setRowCount(hybrid.size(), true);
+>>>>>>> refs/heads/master
 		}
 	}
 	
+	/**
+	 * Bei erfolgreichem Callbacl wird eine Meldung ausgegeben, dass die Beteiligung gelöscht wurde.
+	 * @author Tim
+	 *
+	 */
 	private class BeteiligungLoeschenCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -220,8 +290,16 @@ public class BeteiligungenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * Anlegen einer Hybrid Klasse für Beteiligung und Projekt
+	 * @author Tim
+	 *
+	 */
 	public static class BeteiligungProjektHybrid{
 		
+		/**
+		 * Anlegen der Variablen
+		 */
 		private int beteiligungId;
 		private int umfang;
 		private Date startDatum;
@@ -230,49 +308,106 @@ public class BeteiligungenForm extends Showcase{
 		private int beteiligungUmfang;
 		private String beteiligter;
 		
+		/**
+		 * Getter und setter Methoden
+		 * 
+		 * @return beteiligter
+		 */
 		public String getBeteiligter() {
 			return beteiligter;
 		}
 		
+		/**
+		 * 
+		 * @param beteiligter
+		 */
 		public void setBeteiligter(String beteiligter) {
 			this.beteiligter = beteiligter;
 		}
 		
+		/**
+		 * 
+		 * @param umfang
+		 */
 		public void setUmfang(int umfang) {
 			this.umfang = umfang;
 		}
 		
+		/**
+		 * 
+		 * @return int umfang
+		 */
 		public int getUmfang() {
 			return umfang;
 		}
 		
+		/**
+		 * 
+		 * @return String projektBezeichnung
+		 */
 		public String getProjektBezeichnung() {
 			return projektBezeichnung;
 		}
+		/**
+		 * 
+		 * @param projektBezeichnung
+		 */
 		public void setProjektBezeichnung(String projektBezeichnung) {
 			this.projektBezeichnung = projektBezeichnung;
 		}
+		/**
+		 * 
+		 * @return int beteiligungUmfang
+		 */
 		public int getBeteiligungUmfang() {
 			return beteiligungUmfang;
 		}
+		/**
+		 * 
+		 * @param beteiligungUmfang
+		 */
 		public void setBeteiligungUmfang(int beteiligungUmfang) {
 			this.beteiligungUmfang = beteiligungUmfang;
 		}
+		/***
+		 * 
+		 * @return Date startDatum
+		 */
 		public Date getStartDatum() {
 			return startDatum;
 		}
+		/**
+		 * 
+		 * @param startDatum
+		 */
 		public void setStartDatum(Date startDatum) {
 			this.startDatum = startDatum;
 		}
+		/**
+		 * 
+		 * @return Date endDatum
+		 */
 		public Date getEndDatum() {
 			return endDatum;
 		}
+		/**
+		 * 
+		 * @param endDatum
+		 */
 		public void setEndDatum(Date endDatum) {
 			this.endDatum = endDatum;
 		}
+		/**
+		 * 
+		 * @return int beteiligungId
+		 */
 		public int getBeteiligungId() {
 			return beteiligungId;
 		}
+		/**
+		 * 
+		 * @param beteiligungId
+		 */
 		public void setBeteiligungId(int beteiligungId) {
 			this.beteiligungId = beteiligungId;
 		}
