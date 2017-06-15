@@ -181,7 +181,7 @@ public class MeineAusschreibungenForm extends Showcase{
 				dataGrid.addColumn(projektColumn, "Projektname");
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
-				
+								
 //				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
 				
