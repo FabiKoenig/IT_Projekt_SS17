@@ -37,25 +37,36 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 
 public class BeteiligungaufProjektForm extends Showcase {
-	SimplePager pager;
 	
-	HorizontalPanel hp_pager = new HorizontalPanel();
+	
+	/**
+	 * Anlegen von GUI-Elementen und globalen Variablen 
+	 */
+	private SimplePager pager;	
+	private Navigation navigation = null;
+	private HorizontalPanel hp_pager = new HorizontalPanel();
+	private HorizontalPanel buttonPanel = new HorizontalPanel();
+	private Button btn_zurueck = new Button("Zurück");
+	private CellTable<BeteiligungProjektHybrid> dataGrid = new CellTable<BeteiligungProjektHybrid>();
+	private Vector<Beteiligung> ausschreibung = new Vector<Beteiligung>();
+	private Projekt p ;
+	public Vector<BeteiligungProjektHybrid> beteiligungen = new Vector<BeteiligungProjektHybrid>();
+	
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungAsync abrufen.
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
-	HorizontalPanel buttonPanel = new HorizontalPanel();
-	CellTable<BeteiligungProjektHybrid> dataGrid = new CellTable<BeteiligungProjektHybrid>();
-	Vector<Beteiligung> ausschreibung = new Vector<Beteiligung>();
-	public Vector<BeteiligungProjektHybrid> beteiligungen = new Vector<BeteiligungProjektHybrid>();
-
-	Button btn_zurueck = new Button("Zurück");
-	Navigation navigation = null;
 	
-	private Projekt p ;
+	/**
+	 * Konstruktor, dem ein Projekt und eine Instanz der navigation übergeben wird 
+	 * @param Projekt-Objekt
+	 * @param navigation, Instanz der Navigation
+	 */
 	public BeteiligungaufProjektForm(Projekt P, Navigation navigation){
 		this.p = P ;
 		this.navigation=navigation;
 	}
-	
 	
 	@Override
 	protected String getHeadlineText() {

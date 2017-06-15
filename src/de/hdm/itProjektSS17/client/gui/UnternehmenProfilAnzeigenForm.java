@@ -17,12 +17,35 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
+/**
+ * Diese Klasse erbt von der Klasse Showcase. Sie stellt einen Form bereit, 
+ * mit der das Profil eines Unternehmens angezeigt werden kann.
+ * 
+ * @author Fabian
+ *
+ */
+
 public class UnternehmenProfilAnzeigenForm extends Showcase{
 
 
+	/**
+	 * Setzen der Navigation und der IdentityMarketChoice, die über den Konstruktor gesetzt werden.
+	 */
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Anlegen von globalen Variablen
+	 */
+	private Person user; 
+	private Unternehmen unternehmen; 
+	
+	
+	/**
+	 * Konstruktor, dem eine Instanz der Klasse IdentityMarketChoice und der Navigation mitgegeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public UnternehmenProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -31,48 +54,64 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 	}
 
 
+	/**
+	 * Anlegen der Panels und der FlexTable
+	 */
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	
-	//Erstellen der Buttons
-	Button bearbeitenButton = new Button("Bearbeiten");
-	Button speichernButton = new Button("Speichern");
-	Button abbrechenButton = new Button("Abbrechen");
-	Button unternehmenVerlassenButton = new Button("Unternehmen verlassen");
-	Button unternehmenLoeschen = new Button("Unternehmen löschen");
+	/**
+	 * Anlegen der Buttons
+	 */
+	private Button bearbeitenButton = new Button("Bearbeiten");
+	private Button speichernButton = new Button("Speichern");
+	private Button abbrechenButton = new Button("Abbrechen");
+	private Button unternehmenVerlassenButton = new Button("Unternehmen verlassen");
+	private Button unternehmenLoeschen = new Button("Unternehmen löschen");
 	
-	//Erstellen der Text- bzw. ListBoxen
+	/**
+	 * Erstellen der Text- bzw. ListBoxen
+	 */
 	private TextBox unternehmenNameBox = new TextBox();
 	private TextBox strasseBox = new TextBox();
 	private TextBox hausnrBox = new TextBox();
 	private TextBox plzBox = new TextBox();
 	private TextBox ortBox = new TextBox();
 	
-	
-	//Erstellen der Label
+	/**
+	 * Erstellen der Label
+	 */
 	private Label unternehmenNameLabel = new Label("Firmenname");
 	private Label strasseLabel = new Label("Straße");
 	private Label hausnrLabel = new Label("Hausnummer");
 	private Label plzLabel = new Label("Postleitzahl");
 	private Label ortLabel = new Label("Ort");
 	
-	private Person user; 
-	private Unternehmen unternehmen; 
+
 	
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
+	/**
+	 * Setzen der Headline.
+	 * Diese Methode wird von der Superklasse vorgegeben und setzt für dieses GUI Element eine Überschrift.
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Meine Unternehmensdaten";
 	}
 
+	/**
+	 * Diese Methode wird ausgeführt, wenn die Form angezeigt wird.
+	 */
 	@Override
 	protected void run() {
 		
 		try {
-			
+			/**
+			 * Hier wird der Callback aufgerufen, um das Unternehmen-Objekt abzurufen.
+			 */
 			ClientsideSettings.getProjektmarktplatzVerwaltung()
 			.getUnternehmenById(identityMarketChoice.getSelectedIdentityId(), new ProfilAnzeigenCallback());
 		} catch (Exception e) {
@@ -126,41 +165,54 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		buttonPanel.add(unternehmenLoeschen);
 		buttonPanel.add(abbrechenButton);
 
+		/**
+		 * Hinzufügen der GUI-Elemente zu den Panels
+		 * und stylen der Elemente
+		 */
 		vpanel.add(buttonPanel);
-		vpanel.add(ftable);
-		
+		vpanel.add(ftable);		
 		this.add(vpanel);
 		this.setSpacing(8);
 		
 		
-		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		/**
+		 * ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		 */
 		bearbeitenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {				
 				
-				//Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
+				/**
+				 * Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
+				 */
 				unternehmenNameBox.setReadOnly(false);
 				strasseBox.setReadOnly(false);
 				hausnrBox.setReadOnly(false);
 				plzBox.setReadOnly(false);
 				ortBox.setReadOnly(false);
 				
-				//Setzen des SpeicherButtons auf Visible
+				/**
+				 * Setzen der Buttons auf Visible
+				 */
 				speichernButton.setVisible(true);
 				abbrechenButton.setVisible(true);
 				unternehmenVerlassenButton.setVisible(true);
 				unternehmenLoeschen.setVisible(true);
-				//Setzen des BearbeitenButtons auf NotVisible
 				bearbeitenButton.setVisible(false);
 			}
 		});
 		
-		
+		/**
+		 * ClickHandler zum Abbrechen. Die Navigation wird neu geladen.
+		 */
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
 			}
 		});
 		
+		/**
+		 * ClickHandler zum speichern, falls Änderungen gemacht wurden.
+		 */
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
@@ -168,6 +220,9 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * ClickHandler um einem beigetretenen Unternehmen zu verlassen.
+		 */
 		unternehmenVerlassenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -194,10 +249,16 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * ClickHandler um ein beigetretenem Unternehmen zu löschen.
+		 */
 		unternehmenLoeschen.addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onClick(ClickEvent event) {				
+			public void onClick(ClickEvent event) {	
+				/**
+				 * Die Änderung wird in dem Personen-Objekt gespeichert.
+				 */
 				user.setUnternehmenId(0);
 				projektmarktplatzVerwaltung.savePerson(user, new AsyncCallback<Void>() {
 
@@ -208,6 +269,9 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 
 					@Override
 					public void onSuccess(Void result) {
+						/**
+						 * Das zu löschende Unternehmen wird gelöscht.
+						 */
 						projektmarktplatzVerwaltung.deleteUnternehmen(unternehmen, new AsyncCallback<Void>() {
 
 							@Override
@@ -231,6 +295,12 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 		});
 	}
 	
+	/**
+	 * CallBack um die Daten aus einem Unternehmen-Objekt zu lesen und in die TextBoxen, die in einer FlexTable angeordnet sind
+	 * zu schreiben.
+	 * @author Fabian
+	 *
+	 */
 	private class ProfilAnzeigenCallback implements AsyncCallback<Unternehmen> {
 
 		@Override
@@ -250,6 +320,13 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 			
 		}
 	}
+	
+	/**
+	 * CallBack um ein Profil zu bearbeiten. Die Inhalte werden aus den TextBoxen gelesen, 
+	 * das anschliessend zum speichern übergeben wird.
+	 * @author Fabian
+	 *
+	 */
 	private class ProfilBearbeitenCallback implements AsyncCallback<Unternehmen>{
 
 		@Override
@@ -267,23 +344,21 @@ public class UnternehmenProfilAnzeigenForm extends Showcase{
 			result.setStrasse(strasseBox.getText());
 
 			
-			ClientsideSettings.getProjektmarktplatzVerwaltung().saveUnternehmen(result, new UnternehmenSpeichernCallback());
-			
-		}
-		
-	}
-	
-	
-	private class UnternehmenSpeichernCallback implements AsyncCallback<Void>{
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Das Profil konnte nicht gespeichert werden.");
-		}
-		@Override
-		public void onSuccess(Void result) {
-			Window.alert("Das Profil wurde erfolgreich geändert.");
-			navigation.reload();
-		}
-		
+			ClientsideSettings.getProjektmarktplatzVerwaltung().saveUnternehmen(result, new AsyncCallback<Void>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("Das Profil konnte nicht gespeichert werden.");
+					
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					Window.alert("Das Profil wurde erfolgreich geändert.");
+					navigation.reload();
+					
+				}
+			});	
+		}	
 	}
 }
