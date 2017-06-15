@@ -183,6 +183,11 @@ public class BeteiligungenForm extends Showcase{
 				hybrid.add(localHybrid);
 			}
 			
+			
+			
+			ct_beteiligungen.setRowData(hybrid);
+			ct_beteiligungen.setRowCount(hybrid.size(), true);
+			
 			final ListDataProvider dataProvider = new ListDataProvider();
 			SimplePager pager;
 			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -190,16 +195,13 @@ public class BeteiligungenForm extends Showcase{
 			pager.setDisplay(ct_beteiligungen);
 			dataProvider.addDataDisplay(ct_beteiligungen);
 			dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(hybrid));
-			pager.setPageSize(5);
+			pager.setPageSize(1);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
 			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			hp_pager.add(pager);
 			add(hp_pager);
-			
-			ct_beteiligungen.setRowData(hybrid);
-			ct_beteiligungen.setRowCount(hybrid.size(), true);
 		}
 	}
 	
