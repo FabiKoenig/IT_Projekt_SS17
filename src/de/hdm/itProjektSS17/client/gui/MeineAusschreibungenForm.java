@@ -210,6 +210,8 @@ public class MeineAusschreibungenForm extends Showcase{
 				dataGrid.addColumn(projektColumn, "Projektname");
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
+				dataGrid.setEmptyTableWidget(new Label("Es sind keine eigenen Ausschreibungen vorhanden"));
+				dataGrid.setLoadingIndicator(null);
 				
 //				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
@@ -268,6 +270,8 @@ public class MeineAusschreibungenForm extends Showcase{
 						AusschreibungProjektHybrid selectedAusschreibung = selectionModel.getSelectedObject();
 						Ausschreibung localAusschreibung = new Ausschreibung();
 						localAusschreibung.setId(selectedAusschreibung.getAusschreibungid());
+						localAusschreibung.setPartnerprofilId(selectedAusschreibung.getPartnerprofilid());
+						localAusschreibung.setBezeichnung(selectedAusschreibung.getBezeichnung());
 						projektmarktplatzVerwaltung.deleteAusschreibung(localAusschreibung, new AsyncCallback<Void>() {
 						
 						@Override
