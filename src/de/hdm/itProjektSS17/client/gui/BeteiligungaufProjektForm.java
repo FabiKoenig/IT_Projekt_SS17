@@ -229,7 +229,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 						pager.setDisplay(dataGrid);
 						dataProvider.addDataDisplay(dataGrid);
 						dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(beteiligungen));
-						pager.setPageSize(1);
+						pager.setPageSize(20);
 						
 						
 						hp_pager.setWidth("100%");

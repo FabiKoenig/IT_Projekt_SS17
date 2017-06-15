@@ -251,7 +251,7 @@ public class BeteiligungenForm extends Showcase{
 			pager.setDisplay(ct_beteiligungen);
 			dataProvider.addDataDisplay(ct_beteiligungen);
 			dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(hybrid));
-			pager.setPageSize(1);
+			pager.setPageSize(20);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");

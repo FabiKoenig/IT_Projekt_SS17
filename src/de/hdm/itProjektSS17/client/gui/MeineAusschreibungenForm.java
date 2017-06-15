@@ -140,7 +140,7 @@ public class MeineAusschreibungenForm extends Showcase{
 										pager.setDisplay(dataGrid);
 										dataProvider.addDataDisplay(dataGrid);
 										dataProvider.setList(new ArrayList<AusschreibungProjektHybrid>(hybrid));
-										pager.setPageSize(1);
+										pager.setPageSize(10);
 										
 										
 									

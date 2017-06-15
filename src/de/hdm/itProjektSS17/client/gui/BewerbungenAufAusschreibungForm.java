@@ -435,7 +435,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			pager.setDisplay(dataGrid);
 			dataProvider.addDataDisplay(dataGrid);
 			dataProvider.setList(new ArrayList<BewertungBewerbungHybrid>(hybrid));
-			pager.setPageSize(1);
+			pager.setPageSize(20);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
