@@ -233,17 +233,17 @@ public class BeteiligungenForm extends Showcase{
 				hybrid.add(localHybrid);
 			}
 			
-<<<<<<< HEAD
+
 			
 			
 			ct_beteiligungen.setRowData(hybrid);
 			ct_beteiligungen.setRowCount(hybrid.size(), true);
 			
-=======
+
 			/**
 			 * Konfiguration den Pager und hinzufügen zum Panel.
 			 */
->>>>>>> refs/heads/master
+
 			final ListDataProvider dataProvider = new ListDataProvider();
 			SimplePager pager;
 			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -258,15 +258,7 @@ public class BeteiligungenForm extends Showcase{
 			hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			hp_pager.add(pager);
 			add(hp_pager);
-<<<<<<< HEAD
-=======
-			
-			/**
-			 * <code>hybrid</code> in die celltable setzen.
-			 */
-			ct_beteiligungen.setRowData(hybrid);
-			ct_beteiligungen.setRowCount(hybrid.size(), true);
->>>>>>> refs/heads/master
+
 		}
 	}
 	
