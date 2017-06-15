@@ -22,18 +22,33 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung;
 
 public class DialogBoxBewerben extends DialogBox {
 	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
-	final int ausschreibungsId;
 	FlexTable ft_Bewerben = new FlexTable();
+		
 	Button btn_ok = new Button("Bewerbung einreichen");
 	Button btn_abbrechen = new Button("Abbrechen");
+	
 	Label lbl_bewerbungstext = new Label("Bewerbungstext: ");
 	TextArea txta_bewerbungstext = new TextArea();
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
+	final int ausschreibungsId;
 	
 	HorizontalPanel hp = new HorizontalPanel();
+	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param ausschreibungsId
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
+	
 	public DialogBoxBewerben(final int ausschreibungsId, final IdentityMarketChoice identityMarketChoice, Navigation navigation)
 	{
 		this.identityMarketChoice=identityMarketChoice;
@@ -43,12 +58,16 @@ public class DialogBoxBewerben extends DialogBox {
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
-		btn_ok.setStylePrimaryName("cell-btn");
-		btn_abbrechen.setStylePrimaryName("cell-btn");
+		
+		/**
+		 * Hinzufügen der Buttons zum Horizontal Panel
+		 */
 		hp.add(btn_ok);
 		hp.add(btn_abbrechen);
 	
-		
+		/**
+		 * Anlegen der Clickhandler des Ok-Button
+		 */
 		btn_ok.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -69,15 +88,24 @@ public class DialogBoxBewerben extends DialogBox {
 				hide();
 			}
 		});
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
+		btn_ok.setStylePrimaryName("cell-btn");
+		btn_abbrechen.setStylePrimaryName("cell-btn");
 		txta_bewerbungstext.setPixelSize(200, 200);
 		ft_Bewerben.setWidget(1, 0, lbl_bewerbungstext);
 		ft_Bewerben.setWidget(1, 1, txta_bewerbungstext);
 		ft_Bewerben.setWidget(6, 1, hp);
 		setWidget(ft_Bewerben);
 	}
-	
-
-
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird eine Bewerbung als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	class BewerbungAnlegenCallback implements AsyncCallback<Bewerbung> {
 
 		@Override

@@ -164,7 +164,6 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		public String getValue(Ausschreibung object){
 			
-			//Michi Fragen wegen Enum
 			return object.getStatus().toString();
 		
 		}
