@@ -35,25 +35,32 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	/**
+	 * GUI-Elemente und globale Variablen und Objekte deklarieren.
+	 * 
+	 */
+	CellTable<BewertungBewerbungHybrid> dataGrid = new CellTable<BewertungBewerbungHybrid>();
 	
 	Vector<BewertungBewerbungHybrid> hybrid = new Vector<BewertungBewerbungHybrid>();
-	CellTable<BewertungBewerbungHybrid> dataGrid = new CellTable<BewertungBewerbungHybrid>();
 	Vector<Bewerbung> bewerbungen = new Vector<Bewerbung>();
 	Vector <String> bewerber = new Vector<String>();
 	Vector<Bewertung> bewertungen = new Vector<Bewertung>();
 	Bewertung bewertung = null;
-	//String bewerber = null;
 
-//	Button bewerberZusagenButton = new Button("Bewerber annehmen");
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
 	Button partnerprofilAnzeigen = new Button("Partnerprofil des Bewerbers");
 	Button zurueckButton = new Button("Zurück");
 	Navigation navigation = null;
-	private IdentityMarketChoice identityMarketChoice=null;
+	private IdentityMarketChoice identityMarketChoice;
 
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
-	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param ausschreibungId
+	 * @param navigation
+	 * @param identityMarketChoice
+	 */
 	public BewerbungenAufAusschreibungForm(int ausschreibungId, final Navigation navigation, final IdentityMarketChoice identityMarketChoice){
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -62,16 +69,9 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		projektmarktplatzVerwaltung.getBewerbungByForeignAusschreibungId(ausschreibungId, new GetBewerbungenCallback());
 		
 		
-		//Erstellen der TextColumns der CellTable
-//		TextColumn<BewertungBewerbungHybrid> bewerbungstextColumn = new TextColumn<BewertungBewerbungHybrid>(){
-//
-//			@Override
-//			public String getValue(BewertungBewerbungHybrid object) {
-//				return object.getBewerbungstext();
-//			}
-//		};
-//		
-		
+		/**
+		 * TextColumns anlegen und der Celltable hinzufügen		
+		 */
 		TextColumn<BewertungBewerbungHybrid> erstellungsdatumColumn = new TextColumn<BewertungBewerbungHybrid>(){
 
 			@Override
@@ -87,15 +87,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 				return object.getBewerbungsstatus().toString();
 			}
 		};
-		
-//		TextColumn<BewertungBewerbungHybrid> stellungsnahmeColumn = new TextColumn<BewertungBewerbungHybrid>(){
-//
-//			@Override
-//			public String getValue(BewertungBewerbungHybrid object) {
-//				return object.getStellungsnahme();
-//			}
-//		};
-		
+				
 		TextColumn<BewertungBewerbungHybrid> bewertungsWertColumn = new TextColumn<BewertungBewerbungHybrid>(){
 
 			@Override
@@ -114,46 +106,32 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			}
 		};
 		
+		
 		dataGrid.addColumn(bewerberColumn, "Bewerber");
-		//dataGrid.addColumn(bewerbungstextColumn, "Bewerbungstext");
 		dataGrid.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
 		dataGrid.addColumn(bewerbungsstatusColumn, "Bewerbungsstatus");
-		//dataGrid.addColumn(stellungsnahmeColumn, "Stellungsnahme");
 		dataGrid.addColumn(bewertungsWertColumn, "Bewertung");
-		
 		dataGrid.setWidth("100%");
-		
+		/**
+		 * Anlegen der SingleSelection der CellTable
+		 */
 		final SingleSelectionModel<BewertungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
 		dataGrid.setSelectionModel(selectionModel);	
-		
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-		
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-	
-			}
-		});
-		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
-		//Hinzufügen der Buttons zum ButtonPanel
+		/**
+		 * Hinzufügen der Buttons zum ButtonPanel
+		 */
 		buttonPanel.add(zurueckButton);
-//		buttonPanel.add(bewerbungBewertenButton);
-//		buttonPanel.add(bewerberZusagenButton);
 		buttonPanel.add(partnerprofilAnzeigen);
 		buttonPanel.add(bewerbungBewertenButton);
 
-		
-		
-		//Stylen der Buttons
+		/**
+		 * Stylen des Buttons
+		 */
 		zurueckButton.setStylePrimaryName("cell-btn");
-
-//		bewerbungBewertenButton.setStylePrimaryName("navi-button");
-//		bewerberZusagenButton.setStylePrimaryName("navi-button");
 		bewerbungBewertenButton.setStylePrimaryName("cell-btn");
 		partnerprofilAnzeigen.setStylePrimaryName("cell-btn");
-		//bewerberZusagenButton.setStylePrimaryName("navi-button");
-		//texteAnzeigenButton.setStylePrimaryName("navi-button");
 
 		
 		this.setSpacing(8);
@@ -163,7 +141,8 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	
 		
 		/**
-		 * CLICK-HANDLER
+		 * CLICK-HANDLER der Buttons anlegen
+		 * Öffnen der DialogBox BewerbungBewerten
 		 */
 		bewerbungBewertenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -176,30 +155,18 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 				}		
 			}
 		});
-		
-		
-//		bewerbungstextButton.addClickHandler(new ClickHandler(){
-//			public void onClick(ClickEvent event) {
-//				if (selectionModel.getSelectedObject() == null)
-//				{
-//					Window.alert("Bitte wählen Sie eine Bewerbung aus");
-//				}
-//				DialogBoxBewerbungstext text = new DialogBoxBewerbungstext(selectionModel.getSelectedObject().getBewerbungstext());
-//				int left = Window.getClientWidth() / 3;
-//				int top = Window.getClientHeight() / 8;
-//				text.setPopupPosition(left, top);
-//				text.show();
-//			}
-//		});
-		
+		/**
+		 * Click Handler um zur Hauptseite zurück zu gelangen		
+		 */
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new MeineAusschreibungenForm(identityMarketChoice, navigation));
-//				navigation.reload();				
+				RootPanel.get("Details").add(new MeineAusschreibungenForm(identityMarketChoice, navigation));	
 			}
 		});
-		
+		/**
+		 * Click Handler um PartnerProfilAusschreibung aufzurufen
+		 */
 		partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -217,7 +184,12 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		});
 	}
 	
-	
+	/**
+	 * Impelemtierung der Inneren privaten Klasse um Cell Table mit einheitlichem Datensatz zu befüllen
+	 * Erstellen von Atributen und Gettern und Settern
+	 * @author tomal
+	 *
+	 */
 	public class BewertungBewerbungHybrid{
 		
 		private String bewerbungstext;
@@ -358,12 +330,15 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 			this.enddatum = enddatum;
 		}
 		
-
-		
-	
 	}
 
-	
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird ein Vector mit Bewerbungen als result zurückgibt.
+	 * 
+	 * @author Tom 
+	 *
+	 */
 	private class GetBewerbungenCallback implements AsyncCallback<Vector<Bewerbung>>{
 		public void onFailure(Throwable caught) {
 			Window.alert("Fehler: " + caught.toString());	
@@ -371,12 +346,18 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		public void onSuccess(Vector<Bewerbung> result) {
 			
 			bewerbungen = result;			
-			
+			/**
+			 * Vector mit Bewerbungen wird durchgegangen und jeweils deren verschiedene Attribute in das Objekt localHybrid
+			 * gesetzt.
+			 */
 			for(int i=0;i<bewerbungen.size();i++){
 				
 				final BewertungBewerbungHybrid localHybrid = new BewertungBewerbungHybrid();
 				localHybrid.setBewerberId(bewerbungen.get(i).getOrganisationseinheitId());
-				
+				/**
+				 * Bei erfolgreichem Callback wird die Bewertung zu der übergebenen Bewerbung als
+				 * result zurückgegeben
+				 */
 				projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(bewerbungen.get(i), new AsyncCallback<Bewertung>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Fehler: " + caught.toString());
@@ -385,26 +366,35 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 						localHybrid.setStellungsnahme(result.getStellungnahme());
 						localHybrid.setBewertungWert(result.getWert());
 						localHybrid.setBewertungId(result.getId());
-						
+						/**
+						 * Bei erfolgreichem Callback wird die Organisationseinheit zu der übergebenen Beteiligung als
+						 * result zurückgegeben
+						 */
 						dataGrid.setRowCount(hybrid.size(), true);
 						dataGrid.setRowData(0,hybrid);
 					}
 				});
+				/**
+				 * Bei erfolgreichem Callback wird die Organisationseinheit zu der übergebenen Bewerbung als
+				 * result zurückgegeben
+				 */
 				projektmarktplatzVerwaltung.getOrganisationseinheitById(bewerbungen.get(i).getOrganisationseinheitId(), new AsyncCallback<Organisationseinheit>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Fehler: " + caught.toString());
 					}
 					public void onSuccess(Organisationseinheit result) {
+						/**
+						 * Prüfung ob die Organisationseinheit eine Person, ein Team oder ein Unternehmen ist.
+						 * In Abhängingkeit, welche Art von Organisationseinheit das result ist werden die
+						 * jeweiligen Attribute gesetzt.
+						 */
 						if(result instanceof Person){
-//							bewerber.add(((Person) result).getVorname() + " " + ((Person) result).getNachname()); 
 							String bewerber = ((Person) result).getVorname() + " " + ((Person) result).getNachname();
 							localHybrid.setBewerber(bewerber);
 						} else if(result instanceof Team){
-//							bewerber.add(((Team) result).getName());
 							String bewerber = ((Team) result).getName();
 							localHybrid.setBewerber(bewerber);
 						} else if(result instanceof Unternehmen){
-//							bewerber.add(((Unternehmen) result).getName());
 							String bewerber = ((Unternehmen) result).getName();
 							localHybrid.setBewerber(bewerber);
 						}	
@@ -414,21 +404,30 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 					}
 				});
 				
-				//Erstellen einer neuen Instanz unserer Hybrid-Klasse BewertungBewerbungHybrid
+				/**
+				 * Erstellen einer neuen Instanz unserer Hybrid-Klasse BewertungBewerbungHybrid
+				 */
 				
 				localHybrid.setBewerbungId(bewerbungen.get(i).getId());
 				localHybrid.setBewerbungstext(bewerbungen.get(i).getBewerbungstext());
 				localHybrid.setAusschreibungId(bewerbungen.get(i).getAusschreibungId());
 				localHybrid.setErstellungsdatum(bewerbungen.get(i).getErstellungsdatum());
 				localHybrid.setBewerbungsstatus(bewerbungen.get(i).getStatus());
-				
+				/**
+				 * Das localHybrid-Objekt wird dem Vector hinzugefügt
+				 */
 				hybrid.add(localHybrid);
 				
 				
 			}
 			
-			
+			/**
+			 * Anlegen eines ListDataPager Objects
+			 */
 			final ListDataProvider dataProvider = new ListDataProvider();
+			/**
+			 * Pager konfigurieren und dem Panel hinzifügen
+			 */
 			SimplePager pager;
 			SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 			pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -446,35 +445,6 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 		}
 		
 	}
-	
-//	private class GetBewertungCallback implements AsyncCallback<Bewertung>{
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Fehler: " + caught.toString());
-//		}
-//		public void onSuccess(Bewertung result) {
-//			
-//			bewertungen.add(result);
-//			
-//		}
-//		
-//	}
-	
-//	private class GetBewerberCallback implements AsyncCallback<Organisationseinheit>{
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Fehler: " + caught.toString());
-//		}
-//
-//		public void onSuccess(Organisationseinheit result) {
-//			
-//			if(result instanceof Person){
-//				bewerber.add(((Person) result).getVorname() + " " + ((Person) result).getNachname()); 
-//			} else if(result instanceof Team){
-//				bewerber.add(((Team) result).getName());
-//			} else if(result instanceof Unternehmen){
-//				bewerber.add(((Unternehmen) result).getName());
-//			}
-//		}		
-//	}
 	
 }
 

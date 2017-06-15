@@ -40,6 +40,9 @@ public class BeteiligungaufProjektForm extends Showcase {
 	SimplePager pager;
 	
 	HorizontalPanel hp_pager = new HorizontalPanel();
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -51,6 +54,11 @@ public class BeteiligungaufProjektForm extends Showcase {
 	Navigation navigation = null;
 	
 	private Projekt p ;
+	/**
+	 * Anlegen des Konstruktors
+	 * @param P
+	 * @param navigation
+	 */
 	public BeteiligungaufProjektForm(Projekt P, Navigation navigation){
 		this.p = P ;
 		this.navigation=navigation;
@@ -151,9 +159,6 @@ public class BeteiligungaufProjektForm extends Showcase {
 			}
 		});
 		
-		
-//		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
-		
 	}
 	
 	
@@ -250,10 +255,6 @@ public class BeteiligungaufProjektForm extends Showcase {
 			}
 		
 		}
-	
-	
-	
-	
-	
+
 	
 }
