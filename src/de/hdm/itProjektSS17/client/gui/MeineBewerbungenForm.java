@@ -40,12 +40,16 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
  *
  */
 public class MeineBewerbungenForm extends Showcase{
-	HorizontalPanel hp_pager = new HorizontalPanel();
-	SimplePager pager;
+
 	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityMarketChoice und der Navigation übergeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public MeineBewerbungenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -53,9 +57,14 @@ public class MeineBewerbungenForm extends Showcase{
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
+	
+	/**
+	 * Anlegen der GUI-Elemente und der globalen Variablen
+	 */
 	CellTable<ausschreibungBewerbungHybrid> cellTable = new CellTable<ausschreibungBewerbungHybrid>();
 	Vector<ausschreibungBewerbungHybrid> hybrid = new Vector<ausschreibungBewerbungHybrid>();
-		
+	HorizontalPanel hp_pager = new HorizontalPanel();
+	SimplePager pager;	
 	HorizontalPanel panel_Bewerbung = new HorizontalPanel();
 
 	Button btn_bewerbungloeschen = new Button("Bewerbung zurückziehen");
@@ -63,11 +72,17 @@ public class MeineBewerbungenForm extends Showcase{
 	Button btn_stellungname = new Button ("Stellungnahme anzeigen");
 
 
-	
+	/**
+	 * Setzen der Headline.
+	 * Diese Methode wird von der Superklasse vorgegeben und setzt für dieses GUI Element eine Überschrift.
+	 */
 	protected String getHeadlineText(){
 	return "Meine Bewerbungen";
 	}
 	
+	/**
+	 * Methode die aufgerufen wird, sobald diese Form aufgerufen wird.
+	 */
 	protected void run() {
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -92,6 +107,9 @@ public class MeineBewerbungenForm extends Showcase{
 	
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	
+		/**
+		 * Anlegen der TextColumns für die cellTable
+		 */
 		TextColumn<ausschreibungBewerbungHybrid> AusschreibungNameColumn = new TextColumn<ausschreibungBewerbungHybrid>() {
 
 			@Override
@@ -166,19 +184,21 @@ public class MeineBewerbungenForm extends Showcase{
 			}
 		};
 
+		/**
+		 * Hinzufügen der Columns zu der CellTable
+		 */
 		cellTable.addColumn(AusschreibungNameColumn, "Stelle");
-		//cellTable.setColumnWidth(AusschreibungNameColumn, 100, Unit.PT);
 		cellTable.addColumn(AusschreibenderColumn, "Ausschreibender");
 		cellTable.addColumn(AusschreibenderTeamColumn, "Team");
 		cellTable.addColumn(AusschreibenderUnternehmenColumn, "Unternehmen");
 		cellTable.addColumn(erstellungsdatumColumn, "Erstellungsdatum");
-		//cellTable.setColumnWidth(erstellungsdatumColumn, 80, Unit.PT);
 		cellTable.addColumn(statusColumn, "Status");
 		cellTable.setColumnWidth(statusColumn, 80, Unit.PT);
 		cellTable.addColumn(BewertungColumn, "Bewertung");
 
-		//cellTable.setWidth("70%");
-		
+		/**
+		 * Anlegen des SingleSelectionModels und hinzufügen zur cellTable
+		 */
 		final SingleSelectionModel<ausschreibungBewerbungHybrid> selectionModel = new SingleSelectionModel<>();
 		cellTable.setSelectionModel(selectionModel);	
 		
@@ -189,6 +209,11 @@ public class MeineBewerbungenForm extends Showcase{
 	
 			}
 		});
+		
+		/**
+		 * Anlegen des Click-Handlers mit Hilfe desse eine DialogBox aufgerufen wird, welche den 
+		 * Bewerbungstext zur ausgwählten Bewerbung anzeigt.
+		 */
 		btn_bewerbungstext.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (selectionModel.getSelectedObject() == null)
@@ -202,6 +227,12 @@ public class MeineBewerbungenForm extends Showcase{
 				text.show();
 		}
 		});
+		
+		
+		/**
+		 * Click-Handler um Bewerbungen zu löschen. Hierzu wird ein lokales Bewerbungsobjekt erstellt, welches
+		 * die id der ausgewählten Bewerbung gesetzt bekommt. Dieses wird dann anschließend zum löschen übergeben.
+		 */
 		btn_bewerbungloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
@@ -209,12 +240,6 @@ public class MeineBewerbungenForm extends Showcase{
 				{
 					Window.alert("Bitte wählen Sie die zu löschende Bewerbung aus");
 				}else{				
-					/*for(ausschreibungBewerbungHybrid abH : hybrid){
-						if (selectionModel.getSelectedObject().getBewerbungId()==abH.getBewerbungId())
-						{
-							hybrid.remove(selectionModel.getSelectedObject());
-						}
-					}*/
 						Bewerbung tempBew = new Bewerbung();
 						tempBew.setId(selectionModel.getSelectedObject().getBewerbungId());
 						projektmarktplatzVerwaltung.deleteBewerbung(tempBew, new AsyncCallback<Void>() {
@@ -239,7 +264,9 @@ public class MeineBewerbungenForm extends Showcase{
 		});
 		
 		
-		
+		/**
+		 * Click-Handler um sich die, zur Bewerbungen abgegebene, Stellungnagme anzeigen zulassen
+		 */
 		btn_stellungname.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -257,6 +284,9 @@ public class MeineBewerbungenForm extends Showcase{
 				ft_Stellungname.setWidget(0, 0, txta_Stellungnahme);
 				ft_Stellungname.setWidget(1, 0, ok_Stellungnahme);
 				
+				/**
+				 * Click-Handler um DialogBox wieder zu schließen
+				 */
 				ok_Stellungnahme.addClickHandler(new ClickHandler() {
 					
 					@Override
@@ -282,8 +312,17 @@ public class MeineBewerbungenForm extends Showcase{
 		
 	}
 
+	/**
+	 * Anlegen der Hybrid-Klasse 
+	 * @author Tim
+	 *
+	 */
 	private class ausschreibungBewerbungHybrid{
 		
+		/**
+		 * Deklarieren der Variablen
+		 * mit den jeweiligen Gettern und Settern.
+		 */
 		private int bewerbungId;
 		private String bewerbungstext;
 		private String anrede;
@@ -370,7 +409,12 @@ public class MeineBewerbungenForm extends Showcase{
 		
 	}
 
-	
+	/**
+	 * CallBack um die Bewerbungen in der Celltable auszugeben.
+	 * Bei erfolgreichem Callback wird ein Vector mit Bewerbungs-Objekten als <code>result</code> zurückgegeben.
+	 * @author Tim
+	 *
+	 */
 	private class BewerbungAnzeigenCallback implements AsyncCallback<Vector<Bewerbung>>	{
 		
 		@Override
@@ -381,9 +425,11 @@ public class MeineBewerbungenForm extends Showcase{
 		}
 		@Override
 		public void onSuccess(Vector<Bewerbung> result) {
-			
-
-			
+			/**
+			 * Das result wird in ein neues Bewerbungs-Objekt <code>localHybrid</code> gespeichert.
+			 * Dieses wird übergeben um in einem neuen Callback die passenden Ausschreibungen zu den jeweiligen 
+			 * Bewerbungen zu erhalten.
+			 */
 			for(int i=0;i<result.size();i++){
 				final Bewerbung localBewerbung = result.get(i);
 				final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
@@ -397,9 +443,13 @@ public class MeineBewerbungenForm extends Showcase{
 						Window.alert("Das Anzeigen der Bewerbungen ist fehlgeschlagen!");
 						
 					}
+					/**
+					 * Bei erfolgreichem Callback wird in das <code>localHybrid</code> Obejkt die Ausschreibungsbezeichnung gesetzt.
+					 * Anschließend aus dem <code>result</code> die ProjektId gelesen und übergeben um in einem neuen Callback
+					 * das passende Projekt zu erhalten.
+					 */
 					@Override
 					public void onSuccess(Ausschreibung result) {
-					//final ausschreibungBewerbungHybrid localHybrid = new ausschreibungBewerbungHybrid();
 					final Ausschreibung a = result;
 					localHybrid.setAusschreibungsbezeichnung(result.getBezeichnung());
 					projektmarktplatzVerwaltung.getProjektById(result.getProjektId(), new AsyncCallback<Projekt>(){
@@ -410,9 +460,13 @@ public class MeineBewerbungenForm extends Showcase{
 							
 						}
 
+						/**
+						 * Bei erfolgreichem Callback wird geprüft ob sich das das Projekt auf dem ausgewähltem Projektmarktplatz befindet.
+						 * Falls ja wird über das die <code> AusschreibenderId</code> die Person gesucht. Hierzu wird ein neuer
+						 * Callback aufgerufen. Das result wird ein neuen Person-Objekt <code> ausschreibender</code> gespeichert.
+						 */
 						@Override
 						public void onSuccess(Projekt result) {
-							// TODO Auto-generated method stub
 							if (identityMarketChoice.getSelectedProjectMarketplaceId()==result.getProjektmarktplatzId()){
 								
 								projektmarktplatzVerwaltung.getPersonById(a.getAusschreibenderId(), new AsyncCallback<Person>() { 
@@ -428,13 +482,20 @@ public class MeineBewerbungenForm extends Showcase{
 														public void onSuccess(Person result) {
 																ausschreibender = result;
 																
+																/**
+																 * Neuer Callback um die Bewertung zu einer Bewerbung zu erhalten. Hierzu wird das Objekt 
+																 * <code>localBewerbung</code> übergeben. 
+																 */
 																projektmarktplatzVerwaltung.getBewertungByForeignBewerbung(localBewerbung, new AsyncCallback<Bewertung>() {
 																	
 																	@Override
 																	public void onFailure(Throwable caught) {
 																		Window.alert("Fehler: "+caught.toString());					
 																	}
-
+																	/**
+																	 * Bei erfolgreichem Callback wird die Bewertung in das <code>localHybrid</code> Objekt gespeichert
+																	 * und der <code>cellTable</code> hinzugefügt.
+																	 */
 																	@Override
 																	public void onSuccess(Bewertung result) {	
 																		if(result != null){	
@@ -452,6 +513,9 @@ public class MeineBewerbungenForm extends Showcase{
 																	}
 																});
 																
+																/**
+																 * Setzen der Attribute in das <code>localHybrid</code> Objekt.
+																 */
 																localHybrid.setAnrede(result.getAnrede());
 																localHybrid.setAusschreibungsbezeichnername(result.getNachname());
 																localHybrid.setBewerbungId(localBewerbung.getId());
@@ -464,6 +528,12 @@ public class MeineBewerbungenForm extends Showcase{
 																}else{
 																	localHybrid.setBewerbungstext(localBewerbung.getBewerbungstext());
 																}
+																
+																/**
+																 * Prüfen ob zu der Ausschreibung ein Unternehmen oder Team gehört.
+																 * Falls nicht wird in den <code>localHybrid</code> gesetzt, dass kein Unternehmen
+																 * und Team zum Ausschreibenden gehören.
+																 */
 																Person p = result;
 																if(p.getId()!=identityMarketChoice.getUser().getId()){
 																	if(p.getTeamId()==null && p.getUnternehmenId()==null){
@@ -473,7 +543,10 @@ public class MeineBewerbungenForm extends Showcase{
 																		hybrid.add(localHybrid);
 																		cellTable.setRowCount(hybrid.size(), true);
 																		cellTable.setRowData(0,hybrid);
-																		
+																	
+																		/**
+																		 * Wenn ein Team zum Ausschreibenden gehört wird dieses mit in den <code>localHybrid</code> gesetzt.
+																		 */
 																	}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
 																		
 																		projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
@@ -492,7 +565,10 @@ public class MeineBewerbungenForm extends Showcase{
 																				cellTable.setRowData(0,hybrid);
 																			}
 																		});
-																		
+																		/**
+																		 * Falls ein Unternehmen zum Ausschreibenden gehört wird das Unternehmen wird dieses mit in den
+																		 * <code>localHybrid</code> gesetzt.
+																		 */
 																	}else if(p.getTeamId()==null && p.getUnternehmenId()!=null){
 																		
 																		projektmarktplatzVerwaltung.getUnternehmenById(result.getUnternehmenId(), new AsyncCallback<Unternehmen>() {
@@ -530,6 +606,10 @@ public class MeineBewerbungenForm extends Showcase{
 																			
 																		});
 																		
+																		/**
+																		 * Wenn zum Ausschreibenden ein Team und ein Unternehmen gehört, werden diese beide in den
+																		 * <code>localHybrid</code> gesetzt.
+																		 */
 																	}else if(p.getTeamId()!=null && p.getUnternehmenId()!=null){
 																		
 																		projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
