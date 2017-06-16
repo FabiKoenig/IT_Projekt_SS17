@@ -51,8 +51,8 @@ public class MeineAusschreibungenForm extends Showcase{
 	SimplePager pager;
 	HorizontalPanel hp_pager = new HorizontalPanel();
 	HorizontalPanel buttonPanel = new HorizontalPanel();
-
-	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
+	
 	private static Vector<Ausschreibung> ausschreibungen = new Vector<>();
 	private static int partnerprofilId = 0;
 	private static ClickHandler clickhandler;
@@ -61,6 +61,12 @@ public class MeineAusschreibungenForm extends Showcase{
 	CellTable<AusschreibungProjektHybrid> dataGrid = new CellTable<AusschreibungProjektHybrid>();
 	Vector <Projekt> projekt = new Vector <Projekt>();
 	Vector<AusschreibungProjektHybrid> hybrid = new Vector<AusschreibungProjektHybrid>();
+	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
+	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
 	
 	/**
 	 * Anlegen der Buttons

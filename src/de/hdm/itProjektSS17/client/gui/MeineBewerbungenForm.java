@@ -55,6 +55,10 @@ public class MeineBewerbungenForm extends Showcase{
 		this.navigation=navigation;
 	}
 	
+	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	@SuppressWarnings("unchecked")
 	

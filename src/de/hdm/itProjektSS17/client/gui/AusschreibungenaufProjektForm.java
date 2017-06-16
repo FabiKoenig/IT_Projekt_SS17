@@ -29,7 +29,9 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class AusschreibungenaufProjektForm extends Showcase{
 
-	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
@@ -47,7 +49,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 	private Projekt p;
 	
-	
+	/**
+	 * Setzen des HeadLine Textes
+	 */
 	@Override	
 	protected String getHeadlineText() {
 		return "Auschreibungen zum Projekt "+p.getName();
@@ -55,7 +59,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	}
 	
 	/**
-	 * 
+	 * Kontruktor dem ein Projekt und eine Instanz der navigation übergeben wird
 	 * @param p
 	 * @param navigation
 	 */

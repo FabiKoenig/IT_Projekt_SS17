@@ -29,8 +29,15 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Eigenschaft;
 import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 
+/**
+ * Klasse für Partnerprofile von Ausschreibungen
+ * @author Tim
+ *
+ */
 public class PartnerprofilByAusschreibungForm extends VerticalPanel{
-	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
 	
@@ -41,9 +48,18 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 	Button eigenschaftHinzufuegenButton = new Button("Eigenschaft hinzufügen");
 	Button zurueckButton = new Button("Zurück");
 	HorizontalPanel buttonPanel = new HorizontalPanel();
+	
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * @param partnerprofilId
+	 * @param afterAnlegen
+	 * @param hideEigenschaftHinzufuegenButton
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public PartnerprofilByAusschreibungForm(final int partnerprofilId, boolean afterAnlegen, boolean hideEigenschaftHinzufuegenButton, final IdentityMarketChoice identityMarketChoice, final Navigation navigation){
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -60,12 +76,15 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		
 		
 		
-		//CallBack um die Eigenschaften der gewünschten Person zu laden
+		//CallBack um Partnerprofil zu erhalten
 		projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new AsyncCallback<Partnerprofil>() {
 
 			public void onFailure(Throwable caught) {
 			}
-
+			
+			/**
+			 * Aufruf eines neuen Callbacks um die Eigenschaft zu dem erhalten Partnerprofil zu erhalten
+			 */
 			public void onSuccess(Partnerprofil result) {
 				projektmarktplatzVerwaltung.getEigenschaftByForeignPartnerprofil(result, new AsyncCallback<Vector<Eigenschaft>>() {
 
@@ -73,6 +92,10 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 						Window.alert("Das Laden des Partnerprofils ist fehlgeschlagen.");
 					}
 
+					/**
+					 * Die Eigenschaften werden zur Celltable hinzugefügt.
+					 * Anlegen des Pagers.
+					 */
 					public void onSuccess(Vector<Eigenschaft> result) {
 						
 						final ListDataProvider dataProvider = new ListDataProvider();
@@ -101,7 +124,9 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
-		//Erstellen der TextColumns der CellTable
+		/**
+		 * Erstellen der TextColumns der CellTable
+		 */
 		TextColumn<Eigenschaft> nameColumn = new TextColumn<Eigenschaft>(){
 
 			@Override
@@ -118,12 +143,16 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 			}
 		};
 		
-		//Hinzufügen der TextColumns zur CellTable		
+		/**	
+		 * Hinzufügen der TextColumns zur CellTable	
+		 */
 		dataGrid.addColumn(nameColumn, "Beschreibung");
 		dataGrid.addColumn(wertColumn, "Wert");
 		
 		
-		//
+		/**
+		 * Anlegen des SingleSelectionModels
+		 */
 		final SingleSelectionModel<Eigenschaft> selectionModel = new SingleSelectionModel<>();
 		dataGrid.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -155,7 +184,7 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 		
 		
 		/**
-		 * Click-Handler
+		 * Click-Handler um wieder auf die Ausschreibungen-Übersicht zurückzukommen
 		 */
 		zurueckButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -164,7 +193,11 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 			}
 		});
 		
-		
+		/**
+		 * Click-Handler um eine weitere Eigenschaft hinzuzufügen.
+		 * Hierzu wird eine neue DialogBox aufgerufen.
+		 * @see de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzufügen
+		 */
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				DialogBoxEigenschaftHinzufuegen gg = new DialogBoxEigenschaftHinzufuegen(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung(), false, navigation, identityMarketChoice);
@@ -174,6 +207,10 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 			}
 		});
 		
+		/**
+		 * Click-Handler um eine Eigenschaft zu löschen.
+		 * Hierzu wird die ausgewählte Eigenschaft der delete-Methode übergeben.
+		 */
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
@@ -193,7 +230,10 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 			}
 		});
 		
-		
+		/**
+		 * Wird aufgerufen wenn eine Ausschreibung noch kein Partnerprofil hat.
+		 * Setzen der GUI Elemente.
+		 */
 		if(afterAnlegen == true){
 			loeschenButton.setVisible(false);
 			eigenschaftHinzufuegenButton.setVisible(false);
@@ -216,7 +256,11 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 			buttonPanel.add(addEigenschaftButton);
 			buttonPanel.add(deleteButton);
 			
-			
+			/**
+			 * Click-Handler um eine weitere Eigenschaft hinzuzufügen.
+			 * Hierzu wird eine neue DialogBox aufgerufen.
+			 * @see de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzufügen
+			 */
 			addEigenschaftButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					DialogBoxEigenschaftHinzufuegen dbox = new DialogBoxEigenschaftHinzufuegen(partnerprofilId, true, navigation, identityMarketChoice);
@@ -225,6 +269,10 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 				}
 			});
 			
+			/**
+			 * Click-Handler um eine Eigenschaft zu löschen.
+			 * Hierzu wird die ausgewählte Eigenschaft der delete-Methode übergeben.
+			 */
 			deleteButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
@@ -243,6 +291,9 @@ public class PartnerprofilByAusschreibungForm extends VerticalPanel{
 				}
 			});
 			
+			/**
+			 * Click-Handler um wieder auf die Ausschreibungen-Übersicht zurückzukommen
+			 */
 			returnButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					navigation.reload();					

@@ -64,16 +64,15 @@ public class StellenauschreibungForm extends Showcase {
 		this.navigation=navigation;
 	}
 	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-//	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
-//	private static  Vector<Projekt> projekte = new Vector<>();
-//	private static Vector <Organisationseinheit> ausschreibender = new Vector();
-	
 
+	
 	/**
 	 * Methode um die Headline zu setzen. 
 	 */
-	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
