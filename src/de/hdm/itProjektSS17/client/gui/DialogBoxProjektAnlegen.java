@@ -28,11 +28,18 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class DialogBoxProjektAnlegen extends DialogBox {
 	
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	FlexTable ft_projektErstellen = new FlexTable();
 	Button btn_ok = new Button("OK");
 	Button btn_abbrechen = new Button("Abbrechen");
+	
 	Label lbl_projektname = new Label("Projektname: ");
 	TextBox txt_projektname = new TextBox();
 	Label lbl_beschreibung = new Label("Beschreibung: ");
@@ -43,9 +50,14 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	DateBox db_enddatum = new DateBox();
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel hp = new HorizontalPanel();
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
-	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public DialogBoxProjektAnlegen(final IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 	this.navigation=navigation;
 	this.identityMarketChoice=identityMarketChoice;
@@ -54,16 +66,17 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	this.setAnimationEnabled(false);
 	this.setGlassEnabled(true);
 	
+	/**
+	 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+	 */
 	btn_ok.setStylePrimaryName("cell-btn");
 	btn_abbrechen.setStylePrimaryName("cell-btn");
 	hp.add(btn_ok);
 	hp.add(btn_abbrechen);
 	
-	
-	
-	
-	
-	
+	/**
+	 * Anlegen des ClickHandler des Ok_Buttons
+	 */
 	btn_ok.addClickHandler(new ClickHandler() {
 		
 		@Override
@@ -85,7 +98,9 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		}
 	});
 	
-	
+	/**
+	 * ANlegen des ClickHandler des Abrrechen Button
+	 */
 	btn_abbrechen.addClickHandler(new ClickHandler() {
 		
 		@Override
@@ -95,27 +110,15 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		}
 	});
 	
-	
-	
-
-	
-	
+	/**
+	 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+	 */
 	txta_beschreibung.setPixelSize(200, 200);
 	
-	
-	
 	DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
-	
-	
 	db_startdatum.setFormat(new DateBox.DefaultFormat(dateformat));
-	
-	
-	
 	db_enddatum.setFormat(new DateBox.DefaultFormat(dateformat));
 	
-	
-
-
 	ft_projektErstellen.setWidget(1, 0, lbl_projektname);
 	ft_projektErstellen.setWidget(1, 1, txt_projektname);
 	ft_projektErstellen.setWidget(2, 0, lbl_beschreibung);
@@ -130,12 +133,13 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 	setWidget(ft_projektErstellen);
 	
 	}
-	
-	
-
-	
-	
-	
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird eine Person als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	private class GetPersonCallback implements AsyncCallback<Person> {
 
 		@Override
@@ -155,8 +159,13 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		
 		
 	}
-	
-		
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird ein Projekt als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	private class CreateProjektCallback implements AsyncCallback<Projekt> {
 
 		@Override
@@ -168,6 +177,14 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		public void onSuccess(Projekt result) {
 			final Projekt p = result;
 			int umfang = (int)( (result.getEnddatum().getTime() - result.getStartdatum().getTime()) / (1000 * 60 * 60 * 24) ) + 1;
+			
+			/**
+			 * Anlegen der Callbacks
+			 * Bei erfolgreichem Callback wird eine Beteiligung als result zurückgegeben.
+			 * 
+			 * @author Tom
+			 *
+			 */
 			projektmarktplatzVerwaltung.createBeteiligungProjektleiter(umfang, result.getStartdatum(), result.getEnddatum(), identityMarketChoice.getSelectedIdentityId(), result.getId(), new AsyncCallback<Beteiligung>() {
 
 				@Override
@@ -185,7 +202,4 @@ public class DialogBoxProjektAnlegen extends DialogBox {
 		}
 		
 	}
-	
-	
-	
 }

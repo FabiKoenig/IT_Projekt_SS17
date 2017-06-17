@@ -27,8 +27,13 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class DialogBoxTeamErstellen extends DialogBox {
 
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	private FlexTable ft = new FlexTable();
 	private HorizontalPanel hp = new HorizontalPanel();
 	private Button ok = new Button("OK");
@@ -60,7 +65,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 	private Label lbl_unternehmenIsSet = new Label("Unternehmen gespeichert");
 	private Button bt_unternehmenIsSet = new Button("Ändern");
 	
-	//Einige Variablen für das flexible Auswählen/Anlegen eines Unternehmens im Team-Anlegen-Dialog
+	/**
+	 * Einige Variablen für das flexible Auswählen/Anlegen eines Unternehmens im Team-Anlegen-Dialog
+	 */
 	private final localDialogBoxUnternehmenErstellenFuerTeam db = new localDialogBoxUnternehmenErstellenFuerTeam();
 	private Unternehmen chosenUnternehmen = null;
 	private Unternehmen createdUnternehmen = null;
@@ -72,7 +79,11 @@ public class DialogBoxTeamErstellen extends DialogBox {
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
-	
+	/**
+	 * ANlegen des Konstruktors
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public DialogBoxTeamErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -82,6 +93,10 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		this.setText("Team erstellen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
+		
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		unternehmenErstellenButton.setStylePrimaryName("cell-btn");
 		unternehmenHinzufuegenButton.setStylePrimaryName("cell-btn");
 		ok.setStylePrimaryName("cell-btn");
@@ -89,13 +104,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		abbrechen.setStylePrimaryName("cell-btn");
 		
 		txt_teamname.getElement().setPropertyString("placeholder", "Teamname");
-
 		txt_strasse.getElement().setPropertyString("placeholder", "Straße");
-	
 		txt_hausnummer.getElement().setPropertyString("placeholder", "Hausnummer");
-	
 		txt_plz.getElement().setPropertyString("placeholder", "PLZ");
-		
 		txt_ort.getElement().setPropertyString("placeholder", "Ort");
 		
 		hp.add(ok);
@@ -115,8 +126,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		unternehmenIsNotSet();
 		setWidget(ft);
 		
-
-		
+		/*
+		 * Anlgen des ClickHandler des Erstellen Buttons
+		 */
 		unternehmenErstellenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -127,7 +139,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		});
 		
 		projektmarktplatzverwaltung.getAllUnternehmen(new getUnternehmenCallback());
-		
+		/*
+		 * Anlegen des ClickHandler des OK-Buttons
+		 */
 		ok.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -163,9 +177,17 @@ public class DialogBoxTeamErstellen extends DialogBox {
 				if(wasUnternehmenCreated==0){
 					Unternehmen tempUnternehmen = new Unternehmen();
 					tempUnternehmen.setId(0);
+					
 					projektmarktplatzverwaltung.createPartnerprofil(new createTeamCallback(tempUnternehmen));
 				
 				}else if(wasUnternehmenCreated==1){
+					/**
+					 * Anlegen der Callbacks
+					 * Bei erfolgreichem Callback wird ein Patnerprofilz als result zurückgegeben.
+					 * 
+					 * @author Tom
+					 *
+					 */
 						projektmarktplatzverwaltung.createPartnerprofil(new AsyncCallback<Partnerprofil>() {
 
 							@Override
@@ -176,6 +198,14 @@ public class DialogBoxTeamErstellen extends DialogBox {
 							@Override
 							public void onSuccess(Partnerprofil result) {
 								Partnerprofil partnerprofil_Unternehmen = result;
+								
+								/**
+								 * Anlegen der Callbacks
+								 * Bei erfolgreichem Callback wird ein Unternehmen als result zurückgegeben.
+								 * 
+								 * @author Tom
+								 *
+								 */
 								projektmarktplatzverwaltung.createUnternehmen(createdUnternehmen.getName(), createdUnternehmen.getHausnummer(), createdUnternehmen.getOrt(), createdUnternehmen.getPlz(), createdUnternehmen.getStrasse(), partnerprofil_Unternehmen.getId(), new AsyncCallback<Unternehmen>() {
 
 									@Override
@@ -199,7 +229,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 			}
 						
 		});
-		
+		/*
+		 * Anlegen des ClickHandler des Abbrechen Buttons
+		 */
 		abbrechen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -207,7 +239,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 				hide();
 			}
 		});
-		
+		/*
+		 * Anlegen des ClickHandler des Abbrechen Buttons
+		 */
 		bt_unternehmenIsSet.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -217,7 +251,13 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		});
 		
 	}
-
+	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * der einen Vector von Unternehmen als result zurück gibt.
+	 * @author Tom
+	 *
+	 */
 	private class getUnternehmenCallback implements AsyncCallback<Vector <Unternehmen>>{
 		
 		@Override
@@ -232,7 +272,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 			for (Unternehmen unternehmen : result) {
 				oracle_unternehmenHinzufuegen.add(unternehmen.getName());
 			}
-			
+			/**
+			 * Anlegen des ClickHandler des Hinzufügen Button
+			 */
 			unternehmenHinzufuegenButton.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -254,7 +296,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		}
 		
 	}
-	
+	/*
+	 * Befüllen der Flextable falls ein Unternehmen gesetzt ist
+	 */
 	public void unternehmenIsSet(){
 		ft.setWidget(6, 0, lbl_unternehmenIsSet);
 		ft.setWidget(6, 1, bt_unternehmenIsSet);
@@ -262,7 +306,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		ft.setWidget(7, 1, new Label(""));
 		ft.setWidget(7, 2, new Label(""));
 	}
-	
+	/*
+	 * Befüllen der Flextable falls kein Unternehmen gesetzt ist
+	 */
 	public void unternehmenIsNotSet(){
 		ft.setWidget(6, 0, lbl_unternehmen);
 		ft.setWidget(6, 1, unternehmenErstellenButton);
@@ -270,7 +316,12 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		ft.setWidget(7, 1, sb_unternehmenHinzufuegen);
 		ft.setWidget(7, 2, unternehmenHinzufuegenButton);
 	}
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * der eine Partnerprofil als result zurück gibt.
+	 * @author Tom
+	 *
+	 */
 	private class createTeamCallback implements AsyncCallback<Partnerprofil>{
 
 		private Unternehmen unternehmen;
@@ -290,6 +341,13 @@ public class DialogBoxTeamErstellen extends DialogBox {
 			if(txt_plz.getText().isEmpty()!=true){
 				i=Integer.parseInt(txt_plz.getText());
 			}
+			/**
+			 * Anlegen der Callbacks
+			 * Bei erfolgreichem Callback wird ein Team als result zurückgegeben.
+			 * 
+			 * @author Tom
+			 *
+			 */
 			projektmarktplatzverwaltung.createTeam(txt_teamname.getText(), txt_strasse.getText(), txt_hausnummer.getText(), i, txt_ort.getText(), partnerprofil_team.getId(), new Integer(unternehmen.getId()), new AsyncCallback<Team>() {
 
 				@Override
@@ -302,6 +360,12 @@ public class DialogBoxTeamErstellen extends DialogBox {
 					final Team erstelltes_team = result;
 					final Person user = (Person) identityMarketChoice.getSelectedIdentityAsObject();
 					user.setTeamId(result.getId());
+					
+					/**
+					 * Anlegen der Callbacks 
+					 * @author Tom
+					 *
+					 */
 					projektmarktplatzverwaltung.savePerson(user, new AsyncCallback<Void>() {
 
 						@Override
@@ -332,7 +396,9 @@ public class DialogBoxTeamErstellen extends DialogBox {
 
 		
 	}
-	
+	/**
+	 * ANlegen der Klasse  
+	 */
 	private class localDialogBoxUnternehmenErstellenFuerTeam extends DialogBox{
 		
 		private Button unternehmen_ok = new Button("OK");

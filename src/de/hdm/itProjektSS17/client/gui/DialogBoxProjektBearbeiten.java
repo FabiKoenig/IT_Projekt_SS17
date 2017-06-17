@@ -24,12 +24,18 @@ import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class DialogBoxProjektBearbeiten extends DialogBox {
-	
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	FlexTable ft_projektBearbeiten = new FlexTable();
+	
 	Button btn_speichern = new Button("Speichern");
 	Button btn_abbrechen = new Button("Abbrechen");
+	
 	Label lbl_projektname = new Label("Projektname: ");
 	TextBox txt_projektname = new TextBox();
 	Label lbl_beschreibung = new Label("Beschreibung: ");
@@ -38,22 +44,26 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 	DateBox db_startdatum = new DateBox();
 	Label lbl_enddatum = new Label("Enddatum: ");
 	DateBox db_enddatum = new DateBox();
+	
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel hp = new HorizontalPanel();
 	private Navigation navigation=null;
 	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param p
+	 * @param navigation
+	 */
 	public DialogBoxProjektBearbeiten(Projekt p, Navigation navigation) {
+		final Projekt projekt = p;
 		this.navigation=navigation;
 		this.setText("Projekt bearbeiten");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		
-		
-
-		final Projekt projekt = p; 
-		
-		
-		
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		btn_abbrechen.setStylePrimaryName("cell-btn");
 		btn_speichern.setStylePrimaryName("cell-btn");
 		hp.add(btn_speichern);
@@ -82,7 +92,9 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 		
 		
 		
-		
+		/**
+		 * Anelgen des Clickhandler des Speichern Buttons
+		 */
 		btn_speichern.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -93,7 +105,6 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 			projekt.setStartdatum(db_startdatum.getValue());
 			projekt.setEnddatum(db_enddatum.getValue());
 				
-			// TODO
 			if (db_enddatum.getValue().before(db_startdatum.getValue())) {
 				Window.alert("Das Enddatum muss nach dem Startdatum erfolgen!");
 			}else if (txt_projektname.getText().isEmpty()) {
@@ -108,9 +119,11 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 			}
 				
 				
-			}
-		});
-		
+		}
+	});
+		/**
+		 * Anelgen des Clickhandler des Abbrechen Buttons
+		 */
 		btn_abbrechen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -122,7 +135,10 @@ public class DialogBoxProjektBearbeiten extends DialogBox {
 		setWidget(ft_projektBearbeiten);
 	}
 	
-
+	/**
+	 * Anlegen der Callbacks um zur Navigation zurückzukehren
+	 *
+	 */
 	private class SaveProjektCallback implements AsyncCallback<Void> {
 
 		@Override

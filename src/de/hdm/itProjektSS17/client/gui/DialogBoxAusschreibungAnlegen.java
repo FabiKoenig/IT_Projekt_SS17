@@ -130,6 +130,7 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		
 		
 	}
+	
 	/**
 	 * Anlegen der Callbacks
 	 * Bei erfolgreichem Callback wird ein Partnerprofil als result zurückgegeben.
@@ -137,7 +138,6 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 	 * @author Tom
 	 *
 	 */
-	
 	private class PartnerprofilAnlegenCallback implements AsyncCallback<Partnerprofil> {
 
 		private Projekt pro;
