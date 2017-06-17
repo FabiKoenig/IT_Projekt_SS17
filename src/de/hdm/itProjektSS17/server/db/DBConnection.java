@@ -43,7 +43,7 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://it-projekt-ss-17:europe-west1:itprojekt/itprojekt?user=admin&password=itprojekt";
+    private static String googleUrl = "jdbc:google:mysql://it-projekt-ss-17:europe-west1:itprojekt/itprojekt?user=root&password=itprojekt";
     private static String localUrl = "jdbc:mysql://127.0.0.1:3306/itprojekt?user=root&password=";
 
     /**

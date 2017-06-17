@@ -35,11 +35,22 @@ import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Projekt;
 import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
+/**
+ * Klasse für die verschiedenen Projektmarktplätze
+ * @author Tim
+ *
+ */
 public class ProjektmarktplatzForm extends Showcase {
-	HorizontalPanel hp_pager = new HorizontalPanel();
+	
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityMarketChoice und der Navigation übergeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public ProjektmarktplatzForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -47,15 +58,22 @@ public class ProjektmarktplatzForm extends Showcase {
 		identityMarketChoice.deactivateProjectMarkets();
 		identityMarketChoice.deactivateOrgUnits();
 	}
-
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
+	/**
+	 * Anlegen globaler Vectoren und GUI-Elemente
+	 */
 	private static  Vector<Projektmarktplatz> projektmarktplaetzeGefiltert = new Vector<>();
 	private static Vector<Projektmarktplatz> beigetreteneProjektmarktplaetze = new Vector<>();
 	CellTable<Projektmarktplatz> ct_fremdeProjektmarktplaetze = new CellTable();
 	CellTable<Projektmarktplatz> ct_eigeneProjektmarktplaetze = new CellTable();
 	
 	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
-	
+	HorizontalPanel hp_pager = new HorizontalPanel();
+
 	//Deklarieren der Buttons
 	Button btn_projektmarktplatzuebernehmen = new Button("An bestehendem Projektmarktplatz teilnehmen");
 	Button btn_projektmarktplatzloeschen = new Button("Eigenen Projektmarktplatz löschen");
@@ -68,12 +86,18 @@ public class ProjektmarktplatzForm extends Showcase {
 	SingleSelectionModel<Projektmarktplatz> ssm_fremdeProjektmarktplaetze = new SingleSelectionModel<Projektmarktplatz>();
 	SingleSelectionModel<Projektmarktplatz> ssm_eigeneProjektmarktplaetze = new SingleSelectionModel<Projektmarktplatz>();
 	
+	/**
+	 * Setzen des HeadLine Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Alle Projektmarktplätze";
 	}
 
+	/**
+	 * Methode die starten wenn diese Form aufgerufen wird
+	 */
 	@Override
 	protected void run() {
 		// TODO Auto-generated method stub
@@ -96,7 +120,11 @@ public class ProjektmarktplatzForm extends Showcase {
 		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
 		panel_projektmarktplatz.add(btn_projektmarktplatzuebernehmen);
 
-		
+		/**
+		 * Click-Handler um einen neuen Projektmarktplatz anzulegen.
+		 * Hierzu wird eine neue DialogBox aufgerufen
+		 * @see de.hdm.itProjektSS17.client.gui.DialogBoxProjektmarktplatzErstellen
+		 */
 		btn_projektmarktplatzanlegen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -106,6 +134,10 @@ public class ProjektmarktplatzForm extends Showcase {
 			}
 		});
 		
+		/**
+		 * Click-Handler zum löschen eines Projektparktplatzer.
+		 * Hierzu wird der ausgewählte Projektmarktplatz der Methode zum löschen übergeben.
+		 */
 		btn_projektmarktplatzloeschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
@@ -136,6 +168,10 @@ public class ProjektmarktplatzForm extends Showcase {
 			}
 		});
 		
+		/**
+		 * Click-Handler um einem Projektmarktplatz beizutreten.
+		 * Hierzu wird eine Teilnahe erstellt zwischen dem eingeloggten User und dem ausgewählten Projektmarktplatz.
+		 */
 		btn_projektmarktplatzuebernehmen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -167,6 +203,10 @@ public class ProjektmarktplatzForm extends Showcase {
 			}
 		});
 		
+		/**
+		 * Click-Handler um eine Teilnahme an einem Projektmarktplatz aufzulösen.
+		 * Hierzu wird die eingeloggte Person und der ausgewählte Projektmarktplatz der delete-Methode übergeben.
+		 */
 		btn_projektmarktplatzTeilnahmeentfernen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -201,7 +241,10 @@ public class ProjektmarktplatzForm extends Showcase {
 			}
 		});
 	
-		
+		/**
+		 * CallBack um alle Projektmarktplätze zu erhalten.
+		 * Diese werden in dem Vector <code>projektmarktplaetzeGefiltert</code> gespeichert.
+		 */
 		projektmarktplatzVerwaltung.getAllProjektmarktplatz(new AsyncCallback<Vector<Projektmarktplatz>>() {
 
 			@Override
@@ -209,6 +252,11 @@ public class ProjektmarktplatzForm extends Showcase {
 				Window.alert("fail");
 			}
 
+			/**
+			 * Bei erfolgreichem CallBack wird ein neuer Callback aufgerufen, welcher
+			 * einen Vector mit allen Projektmarktplätze auf denen sich der eingeloggte User bereits befindet 
+			 * zurück gibt. 
+			 */
 			@Override
 			public void onSuccess(Vector<Projektmarktplatz> result) {
 				
@@ -223,6 +271,13 @@ public class ProjektmarktplatzForm extends Showcase {
 						
 					}
 
+					/**
+					 * Die Projektmarktplätze auf denen sich der User bereits befindet werden in dem Vector
+					 * <code>beigetretenProjektmarktplaetze</code> gespeichert.
+					 * Anschließend werden diese aus dem Vector <code>projektmarktplaetzeGefiltert</code> rausgelöscht,
+					 * so dass sich in diesem Vector nur noch die Projektmarktplaetze befinden auf denen sich der
+					 * User noch nicht befindet.
+					 */
 					@Override
 					public void onSuccess(Vector<Projektmarktplatz> result) {
 						beigetreteneProjektmarktplaetze = result;
@@ -233,13 +288,18 @@ public class ProjektmarktplatzForm extends Showcase {
 								}
 							}
 						}
+						/**
+						 * Hinzügen zur cellTable
+						 */
 						if(result != null && projektmarktplaetzeGefiltert != null){
 							
 							
 							ct_fremdeProjektmarktplaetze.setRowData(0, projektmarktplaetzeGefiltert);
 							ct_fremdeProjektmarktplaetze.setRowCount(projektmarktplaetzeGefiltert.size(), true);
 							
-							
+							/**
+							 * Pager anlegen
+							 */
 							final ListDataProvider dataProvider = new ListDataProvider();
 							SimplePager pager;
 							SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -286,7 +346,10 @@ public class ProjektmarktplatzForm extends Showcase {
 		});
 
 		
-		
+		/**
+		 * Anlegen der TextColumn für fremde Projektmarktplaetze und
+		 * hinzufügen zur cellTable.
+		 */
 		TextColumn<Projektmarktplatz> ProjektmarktplatznameColumn_fremd = new TextColumn<Projektmarktplatz>() {
 			@Override
 			public String getValue(Projektmarktplatz object) {
@@ -296,7 +359,6 @@ public class ProjektmarktplatzForm extends Showcase {
 		};
 		ct_fremdeProjektmarktplaetze.addColumn(ProjektmarktplatznameColumn_fremd, "Fremde Projektmarktplätze");
 	
-		//SingleSelectionModel anlegen um verschiedene Zeilen auszuwählen
 		
 		ct_fremdeProjektmarktplaetze.setSelectionModel(ssm_fremdeProjektmarktplaetze);
 		ssm_fremdeProjektmarktplaetze.addSelectionChangeHandler(new Handler() {
@@ -317,7 +379,10 @@ public class ProjektmarktplatzForm extends Showcase {
 		this.add(hp_pager);
 	
 		
-		
+		/**
+		 * Anlegen der Textcolumn für eigene Projektmarktplaetze und
+		 * hinzufügen zur cellTable
+		 */
 		TextColumn<Projektmarktplatz> ProjektmarktplatznameColumn_eigene = new TextColumn<Projektmarktplatz>() {
 			@Override
 			public String getValue(Projektmarktplatz object) {

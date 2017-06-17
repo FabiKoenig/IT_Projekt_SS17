@@ -45,13 +45,21 @@ public class MeinPartnerprofilForm extends Showcase{
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityMarketChoice und der Navigation übergeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public MeinPartnerprofilForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 	}
 
-
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
 	private static int partnerprofilId = 0;
 	
 	
@@ -63,11 +71,16 @@ public class MeinPartnerprofilForm extends Showcase{
 
 	
 
+	/**
+	 * Setzen des Headline-Text	
+	 */	
 	protected String getHeadlineText() {
 		return "Meine Eigenschaften";
 	}
 
-	
+	/**
+	 * Methode die aufgerufen wird, sobald diese Form aufgerufen wird.
+	 */
 	protected void run() {
 		
 		RootPanel.get("Details").setWidth("75%");
@@ -129,7 +142,9 @@ public class MeinPartnerprofilForm extends Showcase{
 		
 		
 		/**
-		 * Click-Handler
+		 * Click-Handler um Eigenschaften zum Partnerprofil hinzufügen zu können.
+		 * Hierzu wird eine neue DialogBox aufgerufen der die <code>partnerprofilId</code> übergeben wird
+		 * @see de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzuefuegen
 		 */
 		
 		eigenschaftHinzufuegenButton.addClickHandler(new ClickHandler() {
@@ -140,6 +155,10 @@ public class MeinPartnerprofilForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler zum loeschen einer Eigenschaft.
+		 * Hierzu wird die ausgewählte Eigenschaft übergeben.
+		 */
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				final Eigenschaft selectedEigenschaft = selectionModel.getSelectedObject();
@@ -152,7 +171,9 @@ public class MeinPartnerprofilForm extends Showcase{
 						Window.alert("Die Eigenschaft wurde erfolgreich gelöscht.");
 						projektmarktplatzVerwaltung.getPartnerprofilById(selectedEigenschaft.getPartnerprofilId(), new AsyncCallback<Partnerprofil>() {
 							
-							
+							/**
+							 * Neuer CallBack der das <coder>Aenderungsdatum</code> neu setzt.
+							 */
 							@Override
 							public void onSuccess(Partnerprofil result) {
 								
@@ -177,68 +198,10 @@ public class MeinPartnerprofilForm extends Showcase{
 
 	}
 	
-//	// GUI Elemente
-//	private HorizontalPanel buttonPanel = new HorizontalPanel();
-//	private Button addEigenschaftenButton = new Button("Eigenschaften hinzufügen");// Clickhandler hinzufuegen
-//	private Button speicherButton = new Button("Speichern"); //Speichern CklickHandler hinzufuegen
-//	private Button loeschenButton = new Button("Löschen"); //Löschen Clickhandler hinzufuegen
-//	private FlexTable eigenschaftenTable = new FlexTable();
-//	
-//	//Style der GUI Elemente
-//	
-//
-//	
-//	
-//	public PartnerprofilEigenschaftenForm(){
-//		
-//		projektmarktplatzVerwaltung.getPersonById(3, new PersonCallback());
-//		buttonPanel.add(addEigenschaftenButton);
-//		this.add(buttonPanel);
-//		this.setSpacing(8);
-//		this.add(eigenschaftenTable);
-//		
-//		
-//	}
-//	
-
-//	
-//	public class GetEigenschaftenCallback implements AsyncCallback<Vector<Eigenschaft>>{
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Fehler: Die Eigenschaften konnten nicht ausgelesen werden" );
-//		}
-//
-//		@Override
-//		public void onSuccess(Vector<Eigenschaft> result) {
-//
-//			
-//			
-//			if (result != null) {
-//				for (Eigenschaft eigenschaft: result){
-//					int row = eigenschaftenTable.getRowCount();
-//					TextBox textbox = new TextBox();
-//					
-//					textbox.setText(eigenschaft.getWert());
-//					textbox.setReadOnly(true);
-//					
-//					eigenschaftenTable.setWidget(row + 1, 1, textbox);
-//					eigenschaftenTable.setWidget(row + 1, 0, new Label(eigenschaft.getName()));
-//					//eigenschaftenTable.setWidget(row + 1, 1, new Label(eigenschaft.getWert()));
-//				}	
-//			}
-//			
-//		}
-//	}
-//	
-
-//	}
-	
 	
 	/**
-	 * ASYNC-CALLBACKS
+	 * ASYNC-CALLBACK der einen Vector mit Eigenschaft-Objekten als <code>result</code> zurückliefert.
 	 */
-	
 	public class GetEigenschaftenCallback implements AsyncCallback<Vector<Eigenschaft>>{
 
 		@Override
@@ -267,6 +230,13 @@ public class MeinPartnerprofilForm extends Showcase{
 		}	
 	}
 	
+	
+	/**
+	 * Callback der ein Partnerprofil zurückgibt.
+	 * Bei erfolreichem Callback wird dieses Partnerprofil übergeben um die dazugehörigen Eigenschaften zu erhalten.
+	 * @author Tim
+	 *
+	 */
 	public class GetPartnerProfilCallback implements AsyncCallback<Partnerprofil>{
 
 		@Override
@@ -282,6 +252,13 @@ public class MeinPartnerprofilForm extends Showcase{
 	}
 	
 	
+	/**
+	 * Callbacl der eine Organisationseinheit-Objekt als <code>result</code> zurückgibt.
+	 * Bei erfolgreichem Callback wird das <code>result</code> übergeben, um das
+	 * dazugehörige Partnerprofil zu erhalten.
+	 * @author Tim
+	 *
+	 */
 	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
 
 		@Override
