@@ -513,7 +513,7 @@ public class MeineBewerbungenForm extends Showcase{
 																																						pager.setDisplay(cellTable);
 																				dataProvider.addDataDisplay(cellTable);
 																				dataProvider.setList(new ArrayList<ausschreibungBewerbungHybrid>(hybrid));
-																				pager.setPageSize(2);
+																				pager.setPageSize(20);
 																				
 																				
 																				

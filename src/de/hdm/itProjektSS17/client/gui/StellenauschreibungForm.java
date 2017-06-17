@@ -75,6 +75,8 @@ public class StellenauschreibungForm extends Showcase {
 	protected void run() {
 		// TODO Auto-generated method stub
 		
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -270,11 +272,9 @@ public class StellenauschreibungForm extends Showcase {
 															pager.setDisplay(cellTable);
 															dataProvider.addDataDisplay(cellTable);
 															dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-															pager.setPageSize(2);
+															pager.setPageSize(20);
 															
 															
-															hp_pager.setWidth("100%");
-															hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 															
 															
 															

@@ -150,6 +150,7 @@ implements ProjektmarktplatzVerwaltung {
 		this.bewerbungMapper = BewerbungMapper.bewerbungMapper();
 		this.bewertungMapper = BewertungMapper.bewertungMapper();
 		this.eigenschaftMapper = EigenschaftMapper.eigenschaftMapper();
+		//this.orgaMapper = OrganisationseinheitMapper.organisationseinheitMapper();
 		this.partnerprofilMapper = PartnerprofilMapper.partnerprofilMapper();
 		this.personMapper = PersonMapper.personMapper();
 		this.projektMapper = ProjektMapper.projektMapper();
@@ -204,7 +205,9 @@ implements ProjektmarktplatzVerwaltung {
 		a.setId(1);
 		a.setPartnerprofilId(partnerprofilId);
 		a.setStatus(Ausschreibungsstatus.laufend);
-				
+		
+//		this.createPartnerprofil();
+		
 		return this.ausschreibungMapper.insert(a); 
 	}
 
@@ -218,10 +221,9 @@ implements ProjektmarktplatzVerwaltung {
 		Partnerprofil p = new Partnerprofil();
 		p.setId(1);
 		
-		/**
-		*Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
-		*die korrekte ID vergeben.
-		*/
+		
+		//Das Partnerprofil wird in die Datenbank geschrieben. Bei der Insert Methode wird dann
+		//die korrekte ID vergeben.
 		return partnerprofilMapper.insert(p);
 	}
 	
@@ -416,7 +418,10 @@ implements ProjektmarktplatzVerwaltung {
 		//this.personMapper.update(personMapper.findById(personId).setUnternehmenId(unternehmenId));
 		Person p = this.personMapper.findById(personId);
 		p.setUnternehmenId(unternehmenId);
-				
+		
+		//personMapper.findById(personId).setUnternehmenId(unternehmenId);
+		
+		
 		this.personMapper.update(p);
 	}
 
