@@ -17,19 +17,38 @@ import de.hdm.itProjektSS17.shared.report.FanInFanOutReport;
 import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 
+/**
+ * Klasse die einen Report zu einer Fan-in/ Fan-out Analyse ausgibt
+ * @author Tim
+ *
+ */
 public class FanInFanOutShowcase extends Showcase{
 
+	/**
+	 * Setzen des Headline Texts
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Report für die FanIn/FanOut-Analyse";
 	}
 
+	/**
+	 * Methode welche startet sobald die Klasse aufgerufen wird
+	 */
 	@Override
 	protected void run() {
+		
 		final Showcase showcase = this;
 		
+		/**
+		 * Auslesen der ProjektmarktplatzAsync Instanz
+		 */
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
+		
+		/**
+		 * Bei erfolgreichem Callback wird ein Report mit einer Fan-in/ Fan-out Analyse ausgegeben.
+		 */
 		reportGenerator.createFanInFanOutReport(new AsyncCallback<FanInFanOutReport>() {
 
 					@Override

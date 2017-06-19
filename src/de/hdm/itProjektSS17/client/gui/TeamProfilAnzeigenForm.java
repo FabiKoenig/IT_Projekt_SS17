@@ -52,6 +52,9 @@ public class TeamProfilAnzeigenForm extends Showcase{
 	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
+	/**
+	 * Anlegen der Panels
+	 */
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();

@@ -11,13 +11,24 @@ import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 import de.hdm.itProjektSS17.shared.*;
 
+/**
+ * Klasse die einen Report mit allen Ausschreibung ausgibt
+ * @author Tim
+ *
+ */
 public class AlleAusschreibungenShowcase extends Showcase{
 
+	/**
+	 * Setzen des Headline Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Report für alle Ausschreibungen";
 	}
 
+	/**
+	 * Methode welche startet, sobald diese Klasse aufgerufen wird.
+	 */
 	@Override
 	protected void run() {
 		
@@ -25,10 +36,14 @@ public class AlleAusschreibungenShowcase extends Showcase{
 		
 		this.append("Auslesen aller Ausschreibungen auf dem Projektmarktplatz");
 		
-		
+		/**
+		 * Auslesen der ReportGeneratorAsync Instanz
+		 */
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
-		
+		/**
+		 * Bei erfolgreichem Callback werden alle Ausschreibungen als Report ausgegeben.
+		 */
 		reportGenerator.createAlleAusschreibungenReport(new AsyncCallback<AlleAusschreibungenReport>() {
 			
 			

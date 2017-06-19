@@ -15,30 +15,49 @@ import de.hdm.itProjektSS17.shared.bo.Organisationseinheit;
 import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibungenReport;
 import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 
+/**
+ * Klasse die einen Report mit allen Bewerbungen auf eigene (User) Ausschreibungen zurückgibt.
+ * @author Tim
+ *
+ */
 public class AlleBewerungenAufEigeneAusschreibungenShowcase extends Showcase{
 
 	private IdentityChoiceReport identityChoiceReport = null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityChoiceReport und der Navigation übergeben wird.
+	 * @param identityChoiceReport
+	 */
 	public AlleBewerungenAufEigeneAusschreibungenShowcase(IdentityChoiceReport identityChoiceReport) {
 		this.identityChoiceReport=identityChoiceReport;
 	}
 	
+	/**
+	 * Setzen des Headline Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Report für alle Bewerbungen auf eigene Ausschreibungen";
 	}
 
+	/**
+	 * Methode die startet, sobald diese Klasse aufgerufen wird
+	 */
 	@Override
 	protected void run() {
 		
 		final Showcase showcase = this;
 		
-//		ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-		
+		/**
+		 * Auslesen der ReportGeneratorAsync Instanz
+		 */		
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
 		
-		
+		/**
+		 * Bei erfolgreichem Callback werden alle Bewerbungen die auf eigene Ausschreibungen eingingen als
+		 * Report ausgegeben.
+		 */
 		reportGenerator.createAlleBewerbungenAufEigeneAusschreibungenReport(identityChoiceReport.getSelectedIdentityAsObject(),
 				new AsyncCallback<AlleBewerbungenAufEigeneAusschreibungenReport>() {
 

@@ -68,13 +68,18 @@ public class BeteiligungaufProjektForm extends Showcase {
 		this.p = P ;
 		this.navigation=navigation;
 	}
-	
+	/**
+	 * Setzen des Headline Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Beteiligung des Projektes "+p.getName();
 	}
 
+	/**
+	 * Methode die startet, sobald diese Form aufgerufen wird.
+	 */
 	@Override
 	protected void run() {
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
