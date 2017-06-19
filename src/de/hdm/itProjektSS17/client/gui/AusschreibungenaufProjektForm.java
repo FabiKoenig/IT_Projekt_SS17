@@ -103,7 +103,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			pager.setDisplay(dataGrid);
 			dataProvider.addDataDisplay(dataGrid);
 			dataProvider.setList(new ArrayList<Ausschreibung>(result));
-			pager.setPageSize(20);
+			pager.setPageSize(10);
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
