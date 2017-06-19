@@ -194,7 +194,7 @@ public class MeineProjektForm extends Showcase{
 			public void onClick(ClickEvent event) {
 				if(selectionModel.getSelectedObject() != null){
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new AusschreibungenaufProjektForm(selectionModel.getSelectedObject(), navigation));
+					RootPanel.get("Details").add(new AusschreibungenaufProjektForm(selectionModel.getSelectedObject(), navigation, identityMarketChoice));
 					
 				} else {
 					Window.alert("Bitte wähle zuerst eine Projekt aus.");
