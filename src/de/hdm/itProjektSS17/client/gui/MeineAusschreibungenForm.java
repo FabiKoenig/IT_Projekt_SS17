@@ -247,7 +247,6 @@ public class MeineAusschreibungenForm extends Showcase{
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
 				dataGrid.addColumn(statusColumn, "Status");			
-//				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				dataGrid.setEmptyTableWidget(new Label("Es sind keine eigenen Ausschreibungen vorhanden"));
 				dataGrid.setLoadingIndicator(null);
 				

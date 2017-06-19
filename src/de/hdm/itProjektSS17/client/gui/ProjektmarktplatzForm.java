@@ -307,7 +307,7 @@ public class ProjektmarktplatzForm extends Showcase {
 							pager.setDisplay(ct_fremdeProjektmarktplaetze);
 							dataProvider.addDataDisplay(ct_fremdeProjektmarktplaetze);
 							dataProvider.setList(new ArrayList<Projektmarktplatz>(projektmarktplaetzeGefiltert));
-							pager.setPageSize(10);
+							pager.setPageSize(5);
 							
 						
 							hp_pager.setWidth("100%");
@@ -327,7 +327,7 @@ public class ProjektmarktplatzForm extends Showcase {
 							pager1.setDisplay(ct_eigeneProjektmarktplaetze);
 							dataProvider1.addDataDisplay(ct_eigeneProjektmarktplaetze);
 							dataProvider1.setList(new ArrayList<Projektmarktplatz>(beigetreteneProjektmarktplaetze));
-							pager1.setPageSize(10);
+							pager1.setPageSize(5);
 							
 							HorizontalPanel hp_pager1 = new HorizontalPanel();
 							hp_pager1.setWidth("100%");
