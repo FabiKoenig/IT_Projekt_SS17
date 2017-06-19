@@ -217,6 +217,10 @@ public class StellenauschreibungForm extends Showcase {
 															Person p = result;
 															if(p.getId()!=identityMarketChoice.getUser().getId()){
 																
+																/**
+																 * Wenn die Organisationseinheit kein Team hat und kein Unternehmen hat,
+																 * wird dem HybridObjekt "Kein Unternehmen" und "Kein Team" hinzugefügt.
+																 */
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																
 																	localHybrid.setTeam("Kein Team");
@@ -224,7 +228,7 @@ public class StellenauschreibungForm extends Showcase {
 																	Hybrid.add(localHybrid);
 																	cellTable.setRowCount(Hybrid.size(), true);
 																	cellTable.setRowData(0,Hybrid);
-																	
+	
 																}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
 																	
 																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {

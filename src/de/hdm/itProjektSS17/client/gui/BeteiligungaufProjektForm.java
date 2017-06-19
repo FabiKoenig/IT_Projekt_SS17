@@ -148,6 +148,10 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setWidth("100%");
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
+		
+		/**
+		 * SeletionModel, das die Selektion der Datensätze in einer CellTable ermöglicht
+		 */
 		final SingleSelectionModel<BeteiligungProjektHybrid> selectionModel = new SingleSelectionModel<>();
 		
 		dataGrid.setSelectionModel(selectionModel);	
@@ -164,11 +168,16 @@ public class BeteiligungaufProjektForm extends Showcase {
 			}
 		});
 	
+		/**
+		 * Hinzufügen der GUI-Elemente zu diesem GWT-Widget
+		 */
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		this.add(hp_pager);
 		
-		
+		/**
+		 * ClickHandler um auf die vorherige Seite zurückzugelangen
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Showcase showcase = new MeineProjektForm(identityMarketChoice, navigation);
@@ -177,6 +186,9 @@ public class BeteiligungaufProjektForm extends Showcase {
 			}
 		});
 		
+		/**
+		 * ClickHandler zum löschen einer Beteiligung
+		 */
 		btn_loeschen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -189,24 +201,11 @@ public class BeteiligungaufProjektForm extends Showcase {
 		
 	}
 	
-	
-	
-//	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-//		}
-//
-//		@Override
-//		public void onSuccess(Organisationseinheit result) {		
-//			if (result != null) {
-//				projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(result, new ););
-//			}			
-//		}
-//	
-//	}
-	
+	/**
+	 * Callback um die Beteiligungen auf ein Projekt anzuzeigen.
+	 * @author Fabian
+	 *
+	 */
 
 	private class getBeteiligung implements AsyncCallback<Vector<Beteiligung>>{
 
@@ -283,7 +282,6 @@ public class BeteiligungaufProjektForm extends Showcase {
 			}
 		
 		}
-	
 	
 	private class BeteiligungLoeschen implements AsyncCallback<Void>{
 

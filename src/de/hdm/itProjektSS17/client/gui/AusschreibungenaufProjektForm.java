@@ -168,7 +168,9 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	
 		dataGrid.setWidth("100%");
 		
-		//was ist des?
+		/**
+		 * SelectionHandler der die Selektion einzelner Datensätze in der CellTable ermöglicht
+		 */
 		final SingleSelectionModel<Ausschreibung> selectionModel = new SingleSelectionModel<>();
 		dataGrid.setSelectionModel(selectionModel);	
 		
@@ -182,15 +184,17 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
-	
-		buttonPanel.add(btn_zurueck);
 		
+		buttonPanel.add(btn_zurueck);
 		btn_zurueck.setStylePrimaryName("cell-btn");
 	
-		//auf welche Variable bezogen
+		// Hinzufügen des ButtonPanels und des DataGrids zu diesem GWT-Widget
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		
+		/**
+		 * Click-Handler um die Navigation neu zu laden
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();

@@ -397,7 +397,7 @@ public class DialogBoxTeamErstellen extends DialogBox {
 		
 	}
 	/**
-	 * ANlegen der Klasse  
+	 * Anlegen der Klasse  
 	 */
 	private class localDialogBoxUnternehmenErstellenFuerTeam extends DialogBox{
 		
