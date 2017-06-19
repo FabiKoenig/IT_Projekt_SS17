@@ -56,12 +56,15 @@ public class BeteiligungaufProjektForm extends Showcase {
 	public Vector<BeteiligungProjektHybrid> beteiligungen = new Vector<BeteiligungProjektHybrid>();
 
 	Button btn_zurueck = new Button("Zurück");
+	Button btn_loeschen = new Button("Löschen");
 	Navigation navigation = null;
+	IdentityMarketChoice identityMarketChoice = null;
 	
 	private Projekt p ;
-	public BeteiligungaufProjektForm(Projekt P, Navigation navigation){
+	public BeteiligungaufProjektForm(Projekt P, Navigation navigation, IdentityMarketChoice identityMarketChoice){
 		this.p = P ;
 		this.navigation=navigation;
+		this.identityMarketChoice=identityMarketChoice;
 	}
 	
 	/**
@@ -90,6 +93,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setWidth("100%", true);
 		
 		btn_zurueck.setStylePrimaryName("cell-btn");
+		btn_loeschen.setStylePrimaryName("cell-btn");
 	
 		/**
 		 * Methode um Beteiligungen zu übergebnen Projekt zu erhalten, neuer CallBack wird aufgerufen.
@@ -158,7 +162,7 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setSelectionModel(selectionModel);	
 		
 		buttonPanel.add(btn_zurueck);
-		
+		buttonPanel.add(btn_loeschen);
 	
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -168,9 +172,6 @@ public class BeteiligungaufProjektForm extends Showcase {
 	
 			}
 		});
-		
-		
-		btn_zurueck.setStylePrimaryName("navi-button");
 	
 		this.add(buttonPanel);
 		this.add(dataGrid);
@@ -179,7 +180,19 @@ public class BeteiligungaufProjektForm extends Showcase {
 		
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				navigation.reload();			
+				Showcase showcase = new MeineProjektForm(identityMarketChoice, navigation);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);			
+			}
+		});
+		
+		btn_loeschen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Beteiligung tempBeteiligung = new Beteiligung();
+				tempBeteiligung.setId(selectionModel.getSelectedObject().getBeteiligungId());
+				projektmarktplatzVerwaltung.deleteBeteiligung(tempBeteiligung, new BeteiligungLoeschen());
 			}
 		});
 		
@@ -288,7 +301,20 @@ public class BeteiligungaufProjektForm extends Showcase {
 		}
 	
 	
-	
+	private class BeteiligungLoeschen implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Beteiligung konnte nicht gelöscht werden");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Beteiligung wurde gelöscht.");
+			navigation.reload();
+		}
+		
+	}
 	
 	
 	

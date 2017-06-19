@@ -3,6 +3,8 @@ package de.hdm.itProjektSS17.client.gui;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+
+import com.google.appengine.api.search.query.QueryParser.item_return;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -17,6 +19,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -30,6 +33,7 @@ import de.hdm.itProjektSS17.client.gui.BeteiligungenForm.BeteiligungProjektHybri
 import de.hdm.itProjektSS17.client.gui.DialogBoxEigenschaftHinzufuegen.SetEigenschaftenCallback;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.*;
+import de.hdm.itProjektSS17.shared.bo.Ausschreibung.Ausschreibungsstatus;
 
 public class MeineAusschreibungenForm extends Showcase{
 
@@ -96,6 +100,7 @@ public class MeineAusschreibungenForm extends Showcase{
 								final AusschreibungProjektHybrid localhybrid = new AusschreibungProjektHybrid();
 								
 								localhybrid.setBezeichnung(ausschreibung.getBezeichnung());
+								localhybrid.setStatus(ausschreibung.getStatus());
 								localhybrid.setBewerbungsfrist(ausschreibung.getBewerbungsfrist());
 								localhybrid.setAusschreibenderid(ausschreibung.getAusschreibenderId());
 								localhybrid.setAusschreibungid(ausschreibung.getId());
@@ -157,6 +162,14 @@ public class MeineAusschreibungenForm extends Showcase{
 					}
 				};
 				
+				TextColumn<AusschreibungProjektHybrid> statusColumn = new TextColumn<AusschreibungProjektHybrid>(){
+
+					@Override
+					public String getValue(AusschreibungProjektHybrid object) {
+						return object.getStatus().toString();
+					}
+				};
+				
 		
 //				TextColumn<Ausschreibung> ausschreibungstextColumn = new TextColumn<Ausschreibung>(){
 //
@@ -181,6 +194,7 @@ public class MeineAusschreibungenForm extends Showcase{
 				dataGrid.addColumn(projektColumn, "Projektname");
 				dataGrid.addColumn(bezeichnungColumn, "Bezeichnung");
 				dataGrid.addColumn(bewerbungsfristColumn, "Bewerbungsfrist");
+				dataGrid.addColumn(statusColumn, "Status");
 				
 //				dataGrid.addColumn(ausschreibungstextColumn, "Ausschreibungstext");
 				
@@ -271,24 +285,29 @@ public class MeineAusschreibungenForm extends Showcase{
 								Label ausschreibungBezeichungLabel = new Label("Bezeichnung:");
 								Label ausschreibungBewerbungsfristLabel = new Label("Bewerbungsfrist:");
 								Label ausschreibungstextLabel = new Label("Ausschreibungstext:");
+								Label ausschreibungsStatusLabel = new Label("Ausschreibungstatus:");
 								final TextBox ausschreibungBezeichungBox = new TextBox();
 								final DateBox ausschreibungBewerbungsfristBox = new DateBox();
 								final TextArea ausschreibungstextBox = new TextArea();
+								final ListBox ausschreibungsStatusBox = new ListBox();
 								Button abbrechenButton = new Button("Abbrechen");
 								Button speichernButton = new Button("Speichern");
 								Button zurueckButton = new Button("Zurück");
 								
-								//Setzen des Formats
+								//Setzen des Formats und weiterer Standardwerte
 								
 								DateTimeFormat dateformat = DateTimeFormat.getFormat("dd.MM.yyyy");
 								ausschreibungBewerbungsfristBox.setFormat(new DateBox.DefaultFormat(dateformat));
 //								ausschreibungstextBox.setHeight("20px");
 								ausschreibungstextBox.setVisibleLines(20);
 								ausschreibungstextBox.setCharacterWidth(70);
+								ausschreibungsStatusBox.addItem("laufend");
+								ausschreibungsStatusBox.addItem("abgebrochen");
+								ausschreibungsStatusBox.addItem("besetzt");
 								ausschreibungBearbeitenDialogBox.setGlassEnabled(true);
 								ausschreibungBearbeitenDialogBox.setAnimationEnabled(false);
 								
-							//Erstellen der FlexTable
+								//Erstellen der FlexTable
 								ausschreibungBearbeitenFlexTable.setWidget(0, 1, ausschreibungBezeichungBox);
 								ausschreibungBearbeitenFlexTable.setWidget(0, 0, ausschreibungBezeichungLabel);
 								
@@ -297,6 +316,9 @@ public class MeineAusschreibungenForm extends Showcase{
 								
 								ausschreibungBearbeitenFlexTable.setWidget(2, 1, ausschreibungstextBox);
 								ausschreibungBearbeitenFlexTable.setWidget(2, 0, ausschreibungstextLabel);
+								
+								ausschreibungBearbeitenFlexTable.setWidget(3, 1, ausschreibungsStatusBox);
+								ausschreibungBearbeitenFlexTable.setWidget(3, 0, ausschreibungsStatusLabel);
 								
 							//Hinzufügen der Buttons zum Buttonpanel
 								buttonPanel.add(speichernButton);
@@ -314,8 +336,11 @@ public class MeineAusschreibungenForm extends Showcase{
 								
 							if(selectionModel.getSelectedObject() != null){	
 							//	Anzeigen der DialogBox
+								ausschreibungBezeichungBox.setValue(selectionModel.getSelectedObject().getBezeichnung());
+								ausschreibungBewerbungsfristBox.setValue(selectionModel.getSelectedObject().getBewerbungsfrist());
+								ausschreibungstextBox.setValue(selectionModel.getSelectedObject().getText());
 								ausschreibungBearbeitenDialogBox.center();
-								ausschreibungBearbeitenDialogBox.show();
+								
 								} else {
 									Window.alert("Bitte wähle zuerst die Ausschreibung aus, die bearbeitet werden soll.");
 								}
@@ -346,13 +371,20 @@ public class MeineAusschreibungenForm extends Showcase{
 											
 											if(ausschreibungBezeichungBox.getText() != "" && ausschreibungstextBox.getText() != ""){
 												Ausschreibung bearbeiteteAusschreibung = new Ausschreibung();
-												
+										
 												bearbeiteteAusschreibung.setId(selectedAusschreibung.getAusschreibungid());
 												bearbeiteteAusschreibung.setAusschreibenderId(selectedAusschreibung.getAusschreibenderid());
 												//bearbeiteteAusschreibung.setAusschreibungstext(selectedAusschreibung.getText());
 												//bearbeiteteAusschreibung.setBewerbungsfrist(selectedAusschreibung.getBewerbungsfrist());
 												bearbeiteteAusschreibung.setPartnerprofilId(selectedAusschreibung.getPartnerprofil());
 												bearbeiteteAusschreibung.setProjektId(selectedAusschreibung.getProjektid());
+												if(ausschreibungsStatusBox.getSelectedItemText().equals("laufend")){
+													bearbeiteteAusschreibung.setStatus(Ausschreibungsstatus.laufend);
+												}else if(ausschreibungsStatusBox.getSelectedItemText().equals("besetzt")){
+													bearbeiteteAusschreibung.setStatus(Ausschreibungsstatus.besetzt);
+												}else if(ausschreibungsStatusBox.getSelectedItemText().equals("abgebrochen")){
+													bearbeiteteAusschreibung.setStatus(Ausschreibungsstatus.abgebrochen);
+												}
 												
 												//bearbeiteteAusschreibung.setId(selectionModel.getSelectedObject().getId());
 												//bearbeiteteAusschreibung.setAusschreibenderId(selectionModel.getSelectedObject().getAusschreibenderId());
@@ -610,6 +642,7 @@ public class MeineAusschreibungenForm extends Showcase{
 			private String bezeichnung;
 			private Date bewerbungsfrist;
 			private int ausschreibungid;
+			private Ausschreibungsstatus status;
 			
 			private int ausschreibenderid;
 			private String Text;
@@ -689,6 +722,12 @@ public class MeineAusschreibungenForm extends Showcase{
 			
 			public void setProjektname(String projektname) {
 				this.projektname = projektname;
+			}
+			public Ausschreibungsstatus getStatus() {
+				return status;
+			}
+			public void setStatus(Ausschreibungsstatus status) {
+				this.status = status;
 			}
 			
 			

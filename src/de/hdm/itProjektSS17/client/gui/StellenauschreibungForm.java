@@ -128,7 +128,9 @@ public class StellenauschreibungForm extends Showcase {
 									public void onSuccess(Vector<Ausschreibung> result) {
 										
 										for(int i=0;i<result.size();i++){
-											
+											if(result.get(i).getStatus()!=Ausschreibungsstatus.laufend){
+												continue;
+											}
 											final Ausschreibung localAusschreibung = result.get(i);
 											final projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
 											projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new AsyncCallback<Projekt>() {
