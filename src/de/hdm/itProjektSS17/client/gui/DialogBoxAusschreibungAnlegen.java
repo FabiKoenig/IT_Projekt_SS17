@@ -26,23 +26,38 @@ import de.hdm.itProjektSS17.shared.bo.Projekt;
 
 public class DialogBoxAusschreibungAnlegen extends DialogBox {
 
-	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	
 	FlexTable ft_ausschreibungAnlegen = new FlexTable();
+	
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
+	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
 	Button btn_ok = new Button("Ok");
 	Button btn_abbrechen = new Button("Abbrechen");
+	
 	Label lbl_bezeichnung = new Label("Bezeichnung: ");
 	TextBox txt_bezeichnung = new TextBox();
 	Label lbl_bewerbungsfrist = new Label("Bewerbungsfrist: ");
 	DateBox db_bewerbungsfrist = new DateBox();
 	Label lbl_ausschreibungstext = new Label("Ausschreibungstext: ");
 	TextArea txta_ausschreibungstext = new TextArea();
+	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
 	DatePicker datepicker = new DatePicker();
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param P
+	 * @param navigation
+	 */
 	public DialogBoxAusschreibungAnlegen(Projekt p, IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -52,9 +67,15 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		this.setGlassEnabled(true);
 		this.center();
 		
+		/**
+		 * Hinzufügen der Buttons zum Horizontal Panel
+		 */
 		buttonPanel.add(btn_ok);
 		buttonPanel.add(btn_abbrechen);
 		
+		/**
+		 * Anlegen der ClickHandler für den Ok-Button 
+		 */
 		btn_ok.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -76,7 +97,9 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 				}
 			}
 		});
-		
+		/**
+		 * Anlegen der Clickhandler des Abbrechen Button
+		 */
 		btn_abbrechen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -85,6 +108,9 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			}
 		});
 		
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		btn_abbrechen.setStylePrimaryName("cell-btn");
 		btn_ok.setStylePrimaryName("cell-btn");
 		txta_ausschreibungstext.setPixelSize(200, 200);
@@ -99,13 +125,19 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		ft_ausschreibungAnlegen.setWidget(3, 1, db_bewerbungsfrist);
 		ft_ausschreibungAnlegen.setWidget(6, 1, buttonPanel);
 		
-		setWidget(ft_ausschreibungAnlegen);
+		this.setWidget(ft_ausschreibungAnlegen);
 		
 		
 		
 	}
 	
-	
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird ein Partnerprofil als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	private class PartnerprofilAnlegenCallback implements AsyncCallback<Partnerprofil> {
 
 		private Projekt pro;
@@ -128,7 +160,13 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 		}
 		
 	}
-	
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird eine Ausschreibung als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	private class AusschreibungAnlegenCallback implements AsyncCallback<Ausschreibung> {
 
 		@Override
@@ -143,7 +181,6 @@ public class DialogBoxAusschreibungAnlegen extends DialogBox {
 			Window.alert("Das Anlegen der Ausschreibung war erfolgreich.");
 			hide();
 			navigation.reload();
-			
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(result.getPartnerprofilId(), true, false, identityMarketChoice, navigation));
 			

@@ -460,6 +460,9 @@ implements ProjektmarktplatzVerwaltung {
 	@Override
 	public void deleteAusschreibung(Ausschreibung a) throws IllegalArgumentException {
 
+		System.out.println("Ausschreibungsbezeichung: "+a.getBezeichnung()+ " PartnerprofilId: "+a.getPartnerprofilId());
+		
+		int partnerprofilId = a.getPartnerprofilId();
 		Vector<Bewerbung> bewerbungen = this.getBewerbungByForeignAusschreibung(a);
 		
 		if (bewerbungen != null) {
@@ -469,8 +472,13 @@ implements ProjektmarktplatzVerwaltung {
 			}
 		}
 		
+		System.out.println("Ausschreibungsbezeichung: "+a.getBezeichnung()+ " PartnerprofilId: "+a.getPartnerprofilId());
+		
 		this.ausschreibungMapper.delete(a);
 		
+		Partnerprofil partnerprofil = this.getPartnerprofilById(partnerprofilId);
+		this.deletePartnerprofil(partnerprofil);
+	
 	}
 
 	

@@ -40,29 +40,39 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	final BewertungBewerbungHybrid bewertungBewerbungHybrid;
 	
-	//Panels anlegen
+	/**
+	 * Panels anlegen
+	 */
 	VerticalPanel vp_BewerbungBewertung = new VerticalPanel();
 	HorizontalPanel hp_Button = new HorizontalPanel();
 	HorizontalPanel hp_BewerbungBewertung = new HorizontalPanel();
 	HorizontalPanel hp_Bewertung = new HorizontalPanel();
 	
-	//Anlegen der Flextables
+	/*
+	 * Anlegen der Flextables
+	 */
 	FlexTable ft_Bewerbung = new FlexTable();
 	FlexTable ft_Bewertung = new FlexTable();
 
-	//Anlegen der Buttons
+	/*
+	 * Anlegen der Buttons
+	 */
 	Button bewerberAnnehmenButton = new Button("Annehmen");
 	Button bewerberAblehnenButton = new Button("Ablehnen");
 	Button speicherButton = new Button("Speichern");
 	Button abbrechenButton = new Button("Abbrechen");
 	
-	//Lables anlegen
+	/*
+	 * Lables anlegen
+	 */
 	Label lbl_Bewerber = new Label("Bewerber: ");
 	Label lbl_Bewerbungstext = new Label("Bewerbungstext: ");
 	Label lbl_Stellungnahme = new Label("Stellungnahme");
 	Label lbl_Bewertung = new Label("Bewertung: ");
 	
-	//ListBox, TextBox + -areas anlegen
+	/**
+	 * ListBox, TextBox/ -areas anlegen
+	 */
 	TextBox txt_Bewerber = new TextBox();
 	TextArea txta_Bewerbungstext = new TextArea();
 	TextArea txta_Stellungnahme = new TextArea();
@@ -72,7 +82,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
-	//Konstruktor erstellen
+	/*
+	 * Konstruktor erstellen
+	 */
 	public DialogBoxBewerbungBewerten(BewertungBewerbungHybrid bbh, IdentityMarketChoice identityMarketChoice, final Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -84,24 +96,32 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 
 		bewertungBewerbungHybrid = bbh;
 		
-		//Array begüllen
+		/*
+		 * Array begüllen
+		 */
 		for (int i = 0; i < bewertungen.length; i++) {
 			lb_Bewertung.addItem(bewertungen[i]);
 		}
 
-		//Buttons dem HorizontalPanel hinzufügen
+		/*
+		 * Buttons dem HorizontalPanel hinzufügen
+		 */
 		hp_Bewertung.add(speicherButton);
 		hp_Bewertung.add(abbrechenButton);
 		hp_Button.add(bewerberAnnehmenButton);
 		hp_Button.add(bewerberAblehnenButton);
 		
-		//Buttons stylen
+		/*
+		 * Buttons stylen
+		 */
 		speicherButton.setStylePrimaryName("cell-btn");
 		abbrechenButton.setStylePrimaryName("cell-btn");
 		bewerberAnnehmenButton.setStylePrimaryName("cell-btn");
 		bewerberAblehnenButton.setStylePrimaryName("cell-btn");
 		
-		//Erstellen der FlexTable
+		/*
+		 * Erstellen der FlexTable
+		 */
 				ft_Bewerbung.setWidget(1, 0, lbl_Bewerber);
 				ft_Bewerbung.setWidget(1, 1, txt_Bewerber);
 				ft_Bewerbung.setWidget(2, 0, lbl_Bewerbungstext);
@@ -124,24 +144,32 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 				txta_Stellungnahme.setText(bewertungBewerbungHybrid.getStellungsnahme());
 				
 								
-		//Panels Widgets zuweisen
+		/*
+		 * Panels Widgets zuweisen
+		 */
 				hp_BewerbungBewertung.add(ft_Bewerbung);
 				hp_BewerbungBewertung.add(ft_Bewertung);
 				vp_BewerbungBewertung.add(hp_BewerbungBewertung);
 				setWidget(vp_BewerbungBewertung);
 
-		//ClickHandler für AbbrechButton anlegen		
+		/*
+		 * ClickHandler für AbbrechButton anlegen		
+		 */
 				abbrechenButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						hide();
 					}
 				});
 				
-		//ClickHandler für SpeicherButton anlegen		
+	/*
+	 * ClickHandler für SpeicherButton anlegen		
+	 */
 				speicherButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						Bewertung bewertung = new Bewertung();
-					//Bewertung aus Listbox ziehen und in double umwandeln
+					/*
+					 * Bewertung aus Listbox ziehen und in double umwandeln
+					 */
 						try {
 							String numberString = lb_Bewertung.getSelectedItemText();
 							Double number = NumberFormat.getDecimalFormat().parse(numberString);
@@ -153,13 +181,17 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						} catch (Exception e) {
 							e.getStackTrace();
 						}
-					//Werte setzen
+					/*
+					 * Werte setzen
+					 */
 						bewertung.setId(bewertungBewerbungHybrid.getBewertungId());
 						bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
 						bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
 						bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());
 						
-					//Prüfung ob Bewertung überschrieben oder neu erstellt wird
+					/*
+					 * Prüfung ob Bewertung überschrieben oder neu erstellt wird
+					 */
 						if(bewertungBewerbungHybrid.getBewertungId() == 0){
 							projektmarktplatzverwaltung.createBewertung(new Date(), bewertung.getStellungnahme(), bewertung.getWert(), bewertung.getBewerbungId(), new CreateBewertungCallback());
 						}
@@ -169,7 +201,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					}				
 				});
 				
-		//ClickHandler für BewerberAnnehmenButton anlegen		
+		/*
+		 * ClickHandler für BewerberAnnehmenButton anlegen		
+		 */
 				bewerberAnnehmenButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(txta_Stellungnahme.getText().isEmpty() ){
@@ -187,7 +221,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 					}
 				});
 				
-		//ClickHandler für BewerberAblehnenButton anlegen		
+		/*
+		 * ClickHandler für BewerberAblehnenButton anlegen		
+		 */
 				bewerberAblehnenButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(bewertungBewerbungHybrid.getBewerbungsstatus() == Bewerbungsstatus.abgelehnt){
@@ -214,7 +250,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 
 						
 						try{
-							//Bewertung aus Listbox ziehen und in double umwandeln
+							/*
+							 * Bewertung aus Listbox ziehen und in double umwandeln
+							 */
 									String numberString = lb_Bewertung.getSelectedItemText();
 									Double number = NumberFormat.getDecimalFormat().parse(numberString);
 									double number2 = number /10;
@@ -223,7 +261,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 									bewertungBewerbungHybrid.setBewertungWert(number2);
 									
 								
-							//Werte setzen
+							/*
+							 * Werte setzen
+							 */
 								bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
 								bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
 								bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());
@@ -253,7 +293,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 	}			
 	
 
-	//Callbacks
+	/*
+	 * Callbacks
+	 */
 	private class SaveBewertungCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {
@@ -340,7 +382,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 						Date date2 = result.getEnddatum();
 						int umfang = (int)( (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) ) + 1;
 						bewertungBewerbungHybrid.setUmfang(umfang);
-						//Bewertung aus Listbox ziehen und in double umwandeln
+						/*
+						 * Bewertung aus Listbox ziehen und in double umwandeln
+						 */
 							
 								String numberString = lb_Bewertung.getSelectedItemText();
 								Double number = NumberFormat.getDecimalFormat().parse(numberString);
@@ -350,7 +394,9 @@ public class DialogBoxBewerbungBewerten extends DialogBox {
 								bewertungBewerbungHybrid.setBewertungWert(number2);
 								
 							
-						//Werte setzen
+						/*
+						 * Werte setzen
+						 */
 							bewertungBewerbungHybrid.setStellungsnahme(txta_Stellungnahme.getText());
 							bewertung.setBewerbungId(bewertungBewerbungHybrid.getBewerbungId());
 							bewertung.setStellungnahme(bewertungBewerbungHybrid.getStellungsnahme());

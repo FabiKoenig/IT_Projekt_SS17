@@ -25,9 +25,21 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class TeamProfilAnzeigenForm extends Showcase{
 
+	
+	/**
+	 * Globale Variablen anlegen
+	 */
+	private Person user; 
+	private Team team; 
+	private Unternehmen unternehmenOfTeam = null;
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityMarketChoice und der Navigation übergeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public TeamProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -35,29 +47,40 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		team = (Team) identityMarketChoice.getSelectedIdentityAsObject();
 	}
 
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	
+	/**
+	 * Anlegen der Panels
+	 */
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable = new FlexTable();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	
-	//Erstellen der Buttons
+	/**
+	 * Erstellen der Buttons
+	 */
 	Button bearbeitenButton = new Button("Bearbeiten");
 	Button speichernButton = new Button("Speichern");
 	Button abbrechenButton = new Button("Abbrechen");
 	Button teamVerlassenButton = new Button("Team verlassen");
 	Button teamLoeschen = new Button("Team löschen");
 	
-	//Erstellen der Text- bzw. ListBoxen
+	/**
+	 * Erstellen der Text- bzw. ListBoxen
+	 */
 	private TextBox teamNameBox = new TextBox();
 	private TextBox strasseBox = new TextBox();
 	private TextBox hausnrBox = new TextBox();
 	private TextBox plzBox = new TextBox();
 	private TextBox ortBox = new TextBox();
 	private TextBox tb_unternehmen = new TextBox();
-	
-	
-	//Erstellen der Label
+		
+	/**
+	 * Erstellen der Label
+	 */
 	private Label teamNameLabel = new Label("Teamname");
 	private Label strasseLabel = new Label("Straße");
 	private Label hausnrLabel = new Label("Hausnummer");
@@ -65,20 +88,25 @@ public class TeamProfilAnzeigenForm extends Showcase{
 	private Label ortLabel = new Label("Ort");
 	private Label unternehmenLabel = new Label("Unternehmen");
 	
-	//SuggestBox um ein neues Team zu wählen
+	/**
+	 * SuggestBox um ein neues Team zu wählen
+	 */
 	private MultiWordSuggestOracle oracle_unternehmen= new MultiWordSuggestOracle();
 	private SuggestBox sb_unternehmen = new SuggestBox(oracle_unternehmen);
 	
-	private Person user; 
-	private Team team; 
-	private Unternehmen unternehmenOfTeam = null;
-		
+
+	/**
+	 * Setzen des Headline-Text	
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Meine Teamdaten";
 	}
 
+	/**
+	 * Methode die aufgerufen wird, sobald diese Form aufgerufen wird.
+	 */
 	@Override
 	protected void run() {
 
@@ -90,7 +118,9 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		plzBox.setText(Integer.toString(team.getPlz()));
 		ortBox.setText(team.getOrt());
 		
-		//Setzen der Boxen auf ReadOnly
+		/**
+		 * Setzen der Boxen auf ReadOnly
+		 */
 		teamNameBox.setReadOnly(true);	
 		strasseBox.setReadOnly(true);
 		hausnrBox.setReadOnly(true);
@@ -98,20 +128,26 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		ortBox.setReadOnly(true);
 		tb_unternehmen.setReadOnly(true);
 		
-		//Stylen der Buttons
+		/**
+		 * Stylen der Buttons
+		 */
 		bearbeitenButton.setStylePrimaryName("cell-btn");
 		speichernButton.setStylePrimaryName("cell-btn");
 		abbrechenButton.setStylePrimaryName("cell-btn");
 		teamVerlassenButton.setStylePrimaryName("cell-btn");
 		teamLoeschen.setStylePrimaryName("cell-btn");
 		
-		//Setzen des SpeicherButtons
+		/**
+		 * etzen des SpeicherButtons
+		 */
 		speichernButton.setVisible(false);
 		abbrechenButton.setVisible(false);
 		teamVerlassenButton.setVisible(false);
 		teamLoeschen.setVisible(false);
 			
-		// Befüllen der FlexTable
+		/**
+		 *  Befüllen der FlexTable
+		 */
 		ftable.setWidget(0, 1, teamNameBox);
 		ftable.setWidget(0, 0, teamNameLabel);
 
@@ -141,19 +177,20 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		buttonPanel.add(abbrechenButton);
 		vpanel.add(buttonPanel);
 		vpanel.add(ftable);
-		
-		
-		
-		
+
 		this.add(vpanel);
 		this.setSpacing(8);
 		
 		
-		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		/**
+		 * ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
+		 */
 		bearbeitenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {				
 				
-				//Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
+				/**
+				 * Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
+				 */
 				teamNameBox.setReadOnly(false);
 				strasseBox.setReadOnly(false);
 				hausnrBox.setReadOnly(false);
@@ -161,24 +198,33 @@ public class TeamProfilAnzeigenForm extends Showcase{
 				ortBox.setReadOnly(false);
 				ftable.setWidget(5, 1, sb_unternehmen);
 				
-				//Setzen des SpeicherButtons auf Visible
+				/**
+				 * Setzen des SpeicherButtons auf Visible
+				 */
 				speichernButton.setVisible(true);
 				abbrechenButton.setVisible(true);
 				teamVerlassenButton.setVisible(true);
 				teamLoeschen.setVisible(true);
-				//Setzen des BearbeitenButtons auf NotVisible
+				/**
+				 * Setzen des BearbeitenButtons auf NotVisible
+				 */
 				bearbeitenButton.setVisible(false);
 
 			}
 		});
 		
-		
+		/**
+		 * ClickHandler zum abbrechen. Die Navigation wird neu geladen.
+		 */
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
 			}
 		});
 		
+		/**
+		 * ClickHandler um ein Team zu verlassen.
+		 */
 		teamVerlassenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -205,6 +251,9 @@ public class TeamProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * ClickHandler um einen Team zu löschen.
+		 */
 		teamLoeschen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -244,6 +293,11 @@ public class TeamProfilAnzeigenForm extends Showcase{
 
 	}
 	
+	/**
+	 * Callback um die Angaben in den Textboxen zu dem Team zu speichern.
+	 * @author Fabian
+	 *
+	 */
 	private class TeamSpeichernCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {
@@ -257,6 +311,11 @@ public class TeamProfilAnzeigenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * Callback um das Unternehmen, dem das Team zugehörig ist auszulesen.
+	 * @author Fabian
+	 *
+	 */
 	private class getUnternehmenOfTeamCallback implements AsyncCallback<Vector<Unternehmen>>{
 
 		@Override
@@ -285,7 +344,10 @@ public class TeamProfilAnzeigenForm extends Showcase{
 				sb_unternehmen.setText(unternehmenOfTeam.getName());
 				tb_unternehmen.setText(unternehmenOfTeam.getName());
 			}
-					
+				
+			/**
+			 * ClickHandler um die Änderungen zu speichern.
+			 */
 			speichernButton.addClickHandler(new ClickHandler() {
 				
 				@Override

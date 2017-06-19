@@ -19,28 +19,52 @@ import de.hdm.itProjektSS17.shared.bo.Partnerprofil;
 import de.hdm.itProjektSS17.shared.report.AlleAusschreibungenZuPartnerprofilReport;
 import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 
+/**
+ * Klasse welche einen Report mit passenden Ausschreibung zum eigenen(User) Partnerprofil
+ * ausgiebt
+ * @author Tim
+ *
+ */
 public class AusschreibungenZuPartnerprofilShowcase extends Showcase{
 
 	private IdentityChoiceReport identityChoiceReport = null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityChoiceReport und der Navigation übergeben wird.
+	 * @param identityChoiceReport
+	 */
 	public AusschreibungenZuPartnerprofilShowcase(IdentityChoiceReport identityChoiceReport) {
 		this.identityChoiceReport = identityChoiceReport;
 	}
 	
-	
+	/**
+	 * Setzen des Headline Texts
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Alle Ausschreibungen, die exakt zu meinem Partnerprofil passen";
 	}
 
+	
+	/**
+	 * Methode welche startet, sobald diese Klasse aufgerufen wird
+	 */
 	@Override
 	protected void run() {
 		
 		final Showcase showcase = this;
 		
+		/**
+		 * Auslesen der ReportGeneratorAsync Instanz
+		 */
 		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 		
+		
+		/**
+		 * Bei erfolgreichem Callback wird ein Report mit allen Ausschreibung ausgegeben die zum Partnerprofil
+		 * Users passen.
+		 */
 		reportGenerator.getAusschreibungByMatchingPartnerprofilOfOrganisationseinheitReport(identityChoiceReport.getSelectedIdentityAsObject(), new AsyncCallback<AlleAusschreibungenZuPartnerprofilReport>() {
 
 			@Override

@@ -38,31 +38,41 @@ import de.hdm.itProjektSS17.shared.bo.Bewerbung.Bewerbungsstatus;
 
 public class StellenauschreibungForm extends Showcase {
 
-	HorizontalPanel hp_pager = new HorizontalPanel();
-	SimplePager pager;
-	
+	/**
+	 * Anlegen von GUI-Elementen und globalen Variablen
+	 */
+	private HorizontalPanel hp_pager = new HorizontalPanel();
+	private SimplePager pager;	
+	private Projektmarktplatz p = new Projektmarktplatz();
+	private Button btn_bewerben = new Button("Bewerben");
+	private Button btn_Text = new Button("Ausschreibungstext anzeigen");
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
+	private Button btn_partnerprofilAnzeigen = new Button("Partnerprofil anzeigen");
+	final Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
+	private CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
+	private Ausschreibung localAusschreibung = new Ausschreibung();
+	private HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityMarketChoice und der Navigation mitgegeben wird.
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public StellenauschreibungForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 	}
 	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-//	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
-//	private static  Vector<Projekt> projekte = new Vector<>();
-//	private static Vector <Organisationseinheit> ausschreibender = new Vector();
+
 	
-	Projektmarktplatz p = new Projektmarktplatz();
-	Button btn_bewerben = new Button("Bewerben");
-	Button btn_Text = new Button("Ausschreibungstext anzeigen");
-	
-	Button btn_partnerprofilAnzeigen = new Button("Partnerprofil anzeigen");
-	final Vector <projektAusschreibungHybrid> Hybrid = new Vector<projektAusschreibungHybrid>();
-	CellTable <projektAusschreibungHybrid> cellTable= new CellTable<projektAusschreibungHybrid>();
-	Ausschreibung localAusschreibung = new Ausschreibung();
-	HorizontalPanel panel_Ausschreibung = new HorizontalPanel();
+	/**
+	 * Methode um die Headline zu setzen. 
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
@@ -70,29 +80,48 @@ public class StellenauschreibungForm extends Showcase {
 	}
 
 	
-	
+	/**
+	 * Methode die beim Anzeigen dieser Form ausgeführt wird.
+	 */
 	@Override
 	protected void run() {
-		// TODO Auto-generated method stub
 		
+		/**
+		 * Setzen der Eigenschaften für die GUI-Elemente
+		 */
+		hp_pager.setWidth("100%");
+		hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		
+		/**
+		 * Setzen der Breite des DIVs, in dem diese Form angezeigt wird.
+		 */
 		RootPanel.get("Details").setWidth("75%");
 		cellTable.setWidth("100%", true);
 		cellTable.setVisibleRangeAndClearData(cellTable.getVisibleRange(),true);
 		cellTable.setLoadingIndicator(null);
 		
+		/**
+		 * Setzen der Styles für die Buttons
+		 */
 		btn_Text.setStylePrimaryName("cell-btn");
 		btn_bewerben.setStylePrimaryName("cell-btn");
 		btn_partnerprofilAnzeigen.setStylePrimaryName("cell-btn");
 		
+		/**
+		 * Hinzufügen der GUI-Elemente zu dem Panel
+		 * und hinzufügen des Panles zu dieser Form
+		 */
 		this.add(panel_Ausschreibung);
 		panel_Ausschreibung.add(btn_Text);		
 		panel_Ausschreibung.add(btn_partnerprofilAnzeigen);
 		panel_Ausschreibung.add(btn_bewerben);
 		
+		/**
+		 * Callback um den vom User ausgewählten Projektmarktplatz auszulesen
+		 */
 		projektmarktplatzVerwaltung.getProjektmarktplatzById(identityMarketChoice.getSelectedProjectMarketplaceId(), new AsyncCallback<Projektmarktplatz>() {
 
 			 @Override
@@ -104,6 +133,9 @@ public class StellenauschreibungForm extends Showcase {
 					 
 				@Override
 				public void onSuccess(Projektmarktplatz result) {
+					/**
+					 * Callback um die Projekte auszulesen, die auf dem ausgewählten Projektmarktplatz angelegt wurden
+					 */
 					projektmarktplatzVerwaltung.getProjektByForeignProjektmarktplatz(result, new AsyncCallback<Vector<Projekt>>() {
 
 						@Override
@@ -116,6 +148,10 @@ public class StellenauschreibungForm extends Showcase {
 					
 							for (Projekt projekt : result) {
 							
+								/**
+								 * Callback um zu jedem Projekt, das auf dem Projektmarktplatz angelegt wurde, die zugehörigen
+								 * Ausschreibungen auszulesen.
+								 */
 								projektmarktplatzVerwaltung.getAusschreibungByForeignProjekt(projekt, new AsyncCallback<Vector<Ausschreibung>>() {
 
 									@Override
@@ -127,6 +163,10 @@ public class StellenauschreibungForm extends Showcase {
 									@Override
 									public void onSuccess(Vector<Ausschreibung> result) {
 										
+										/**
+										 * Für jede Ausschreibung eines Projekts werden nun die Daten ausgelesen und in 
+										 * die HybridKlasse geschrieben.
+										 */
 										for(int i=0;i<result.size();i++){
 											if(result.get(i).getStatus()!=Ausschreibungsstatus.laufend){
 												continue;
@@ -153,6 +193,10 @@ public class StellenauschreibungForm extends Showcase {
 													localHybrid.setAusschreibungstext(localAusschreibung.getAusschreibungstext());
 													localHybrid.setPartnerprofilId(localAusschreibung.getPartnerprofilId());
 												
+													/**
+													 * Zu jeder Ausschreibung wird nun über diesen Callback die ausschreibende Person ausgelesen
+													 * und die Daten der ausschreibenden Person in die innere HybridKlasse geschrieben.
+													 */
 													projektmarktplatzVerwaltung.getPersonById(localAusschreibung.getAusschreibenderId(), new AsyncCallback<Person>() {
 
 														public Person ausschreibender = null;
@@ -165,6 +209,7 @@ public class StellenauschreibungForm extends Showcase {
 													
 														@Override
 														public void onSuccess(Person result) {
+															
 															ausschreibender = result;
 															localHybrid.setAnrede(result.getAnrede());
 															localHybrid.setAusschreibender(result.getNachname());
@@ -272,11 +317,9 @@ public class StellenauschreibungForm extends Showcase {
 															pager.setDisplay(cellTable);
 															dataProvider.addDataDisplay(cellTable);
 															dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-															pager.setPageSize(2);
+															pager.setPageSize(20);
 															
 															
-															hp_pager.setWidth("100%");
-															hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 															
 															
 															
@@ -304,7 +347,10 @@ public class StellenauschreibungForm extends Showcase {
 		});
 		
 		
-
+		/**
+		 * Anlegen der einzelnen Spalten der CellTable
+		 */
+		
 		cellTable.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		TextColumn<projektAusschreibungHybrid> AusschreibenderColumn = new TextColumn<projektAusschreibungHybrid>() {
@@ -386,6 +432,9 @@ public class StellenauschreibungForm extends Showcase {
 			}
 		});
 		
+		/**
+		 * ClickHandler um den Ausschreibungstext einer ausgewählten Ausschreibung anzeigen zu lassen.
+		 */
 		btn_Text.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (selectionModel.getSelectedObject() == null)
@@ -400,7 +449,9 @@ public class StellenauschreibungForm extends Showcase {
 				
 		}
 		});
-		
+		/**
+		 * ClickHandler um sich auf eine Ausschreibung zu bewerben.
+		 */
 		btn_bewerben.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (selectionModel.getSelectedObject() == null)
@@ -436,7 +487,9 @@ public class StellenauschreibungForm extends Showcase {
 		}
 		});
 		
-		
+		/**
+		 * ClickHandler um das Partnerprofil der ausgewählten Ausschreibung anzuzeigen.
+		 */
 		btn_partnerprofilAnzeigen.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -461,7 +514,12 @@ public class StellenauschreibungForm extends Showcase {
 	}
 
 	
-
+/**
+ * HybridKlasse, die Eigenschaften der beiden BusinessObjects Ausschreibung und Projekt übernehmen kann. 
+ * Diese Klasse wird verwendet um die Daten mehrerer BusinessObjects in der CellTable anzeigen zu lassen.
+ * @author Fabian
+ *
+ */
 	private class projektAusschreibungHybrid{
 		
 		private String bezeichnung;

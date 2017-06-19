@@ -21,8 +21,14 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class DialogBoxUnternehmenErstellen extends DialogBox{
 	
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 		private ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 		
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 		private Button unternehmen_ok = new Button("OK");
 		private FlexTable unternehmen_ft = new FlexTable();
 		
@@ -45,13 +51,18 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 		
 		private IdentityMarketChoice identityMarketChoice=null;
 		private Navigation navigation=null;
-		
+		/**
+		 * Anlegen des Konstruktors
+		 * @param identityMarketChoice
+		 * @param navigation
+		 */
 		public DialogBoxUnternehmenErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation){
 			this.identityMarketChoice=identityMarketChoice;
 			this.navigation=navigation;
 			this.setText("Unternehmen erstellen...");
 			this.setAnimationEnabled(false);
 			this.setGlassEnabled(true);
+			
 			unternehmen_ok.setStylePrimaryName("cell-btn");
 
 			txt_unternehmenName.getElement().setPropertyString("placeholder", "Name des Unternehmens");
@@ -73,6 +84,9 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 			unternehmen_ft.setWidget(9, 0, new Label(" "));
 			unternehmen_ft.setWidget(10, 1, unternehmen_ok);
 			
+			/*
+			 * Anlegen des ClickHandler OK-Buttons
+			 */
 			unternehmen_ok.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -110,8 +124,18 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 			setWidget(unternehmen_ft);
 			
 		}
-		
+		/**
+		 * 
+		 * @param plz
+		 */
 		void procede(final int plz) {
+			/**
+			 * Anlegen der Callbacks
+			 * Bei erfolgreichem Callback wird ein Patnerprofil als result zurückgegeben.
+			 * 
+			 * @author Tom
+			 *
+			 */
 			projektmarktplatzverwaltung.createPartnerprofil(new AsyncCallback<Partnerprofil>() {
 
 				@Override
@@ -121,7 +145,14 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 
 				@Override
 				public void onSuccess(Partnerprofil result) {
-
+					
+					/**
+					 * Anlegen der Callbacks
+					 * Bei erfolgreichem Callback wird ein Unternehmen als result zurückgegeben.
+					 * 
+					 * @author Tom
+					 *
+					 */
 					projektmarktplatzverwaltung.createUnternehmen(txt_unternehmenName.getText(), txt_uhausnummer.getText(), 
 							txt_uort.getText(), plz, txt_ustrasse.getText(), result.getId(), new AsyncCallback<Unternehmen>() {
 
@@ -136,6 +167,11 @@ public class DialogBoxUnternehmenErstellen extends DialogBox{
 									Person user = (Person) identityMarketChoice.getSelectedIdentityAsObject();
 									user.setUnternehmenId(result.getId());
 									
+									/**
+									 * Anlegen der Callbacks
+									 * @author Tom
+									 *
+									 */
 									projektmarktplatzverwaltung.savePerson(user, new AsyncCallback<Void>() {
 
 										@Override

@@ -6,17 +6,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.Showcase;
 
-/**
- * @see de.hdm.itProjektSS17.client.client.showcase
- * @author Tim
- *
- */
 public class AGB extends Showcase {
 
-	/**
-	 * HeadlineText returnen
-	 * @return String
-	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Prokeko AGBs";

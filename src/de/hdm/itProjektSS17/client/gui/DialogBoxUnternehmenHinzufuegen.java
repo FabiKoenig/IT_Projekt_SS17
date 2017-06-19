@@ -25,8 +25,19 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
+	Button bt_ja = new Button("Ja");
+	Button bt_nein = new Button("Nein");
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzverwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param person
+	 * @param team
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public DialogBoxUnternehmenHinzufuegen(Person person, Team team, IdentityMarketChoice identityMarketChoice, Navigation navigation){
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
@@ -35,7 +46,12 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 		this.center();
 		projektmarktplatzverwaltung.getUnternehmenByForeignOrganisationseinheit(team, new getUnternehmenByTeamCallback(person));
 	}
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * der eine Person als result zurück gibt.
+	 * @author Tom
+	 *
+	 */
 	private class getUnternehmenByTeamCallback implements AsyncCallback<Unternehmen>{
 
 		private Person person = new Person();
@@ -57,8 +73,6 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 			VerticalPanel vp = new VerticalPanel();
 			vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);	
 			
-			Button bt_ja = new Button("Ja");
-			Button bt_nein = new Button("Nein");
 			bt_ja.setStylePrimaryName("cell-btn");
 			bt_nein.setStylePrimaryName("cell-btn");
 			vp.add(new Label("Das hinzugefügte Team wurde dem Unternehmen: " + result.getName() + " zugeordnet."));
@@ -72,7 +86,9 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 			vp.add(hp1);
 			add(vp);
 			center();
-			
+			/*
+			 * Anlegen des ClickHandlers des Ja-Buttons
+			 */
 			bt_ja.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -81,7 +97,9 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 					projektmarktplatzverwaltung.savePerson(person, new PersonSpeichernCallback());
 				}
 			});
-			
+			/*
+			 * Anlegen des ClickHandlers des Nein-Buttons
+			 */
 			bt_nein.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -93,7 +111,11 @@ public class DialogBoxUnternehmenHinzufuegen extends DialogBox{
 		}
 		
 	}
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 	 
+	 * @author Tom
+	 *
+	 */
 	private class PersonSpeichernCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {

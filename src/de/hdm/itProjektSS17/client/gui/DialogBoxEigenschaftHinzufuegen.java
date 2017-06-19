@@ -29,7 +29,9 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 
 	private int partnerpId = 0;
 	
-	//Erstellen der GUI Elemente
+	/*
+	 * Erstellen der GUI Elemente
+	 */
 	FlexTable eigenschaftHinzufuegenFlexTable = new FlexTable();
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	VerticalPanel dialogBoxPanel = new VerticalPanel();
@@ -47,19 +49,25 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	this.identityMarketChoice=identityMarketChoice;
 	this.partnerpId = partnerprofilId;	
 		
-	//Erstellen der FlexTable
+	/*
+	 * Erstellen der FlexTable
+	 */
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 1, eigenschaftNameBox);
 	eigenschaftHinzufuegenFlexTable.setWidget(0, 0, eigenschaftNameLabel);
 	eigenschaftHinzufuegenFlexTable.setWidget(1, 1, eigenschaftWertBox);
 	eigenschaftHinzufuegenFlexTable.setWidget(1, 0, eigenschaftWertLabel);
 	
-	//Hinzufügen der Buttons zum Buttonpanel
+	/*
+	 * Hinzufügen der Buttons zum Buttonpanel
+	 */
 	buttonPanel.add(speichernButton);
 	buttonPanel.add(abbrechenButton);
 	abbrechenButton.setStylePrimaryName("cell-btn");
 	speichernButton.setStylePrimaryName("cell-btn");
 	
-	//Hinzufügen der FlexTable zur DialogBox
+	/*
+	 * Hinzufügen der FlexTable zur DialogBox
+	 */
 	dialogBoxPanel.setSpacing(8);
 	dialogBoxPanel.add(buttonPanel);
 	dialogBoxPanel.add(eigenschaftHinzufuegenFlexTable);
@@ -75,9 +83,12 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 		Button saveButton = new Button("Speichern");
 		saveButton.setStylePrimaryName("cell-btn");
 		buttonPanel.add(saveButton);
-		
+		/*
+		 * Anlegen der ClickHandler des Save Buttons
+		 */
 		saveButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				
 				projektmarktplatzVerwaltung.getPartnerprofilById(partnerprofilId, new AsyncCallback<Partnerprofil>() {
 
 					public void onFailure(Throwable caught) {
@@ -87,8 +98,14 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 					@Override
 					public void onSuccess(Partnerprofil result) {
 						final Partnerprofil partnerprofil = result;
+						
 						if(eigenschaftNameBox.getText()!= "" && eigenschaftWertBox.getText()!= ""){
-							
+							/**	
+							 * Anlegen des Callbacks
+							 * Bei erfolgreichem Callback wird eine Eigenschaft als result zurückgegeben
+							 * @author Tom 
+							 *
+							 */
 							projektmarktplatzVerwaltung.createEigenschaft(eigenschaftNameBox.getText(), eigenschaftWertBox.getText(), 
 									result.getId(), new AsyncCallback<Eigenschaft>() {
 										public void onFailure(Throwable caught) {
@@ -122,7 +139,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	
 	/**
-	 * CLICK-HANDLER
+	 * Anlegen der CLICK-HANDLER
 	 */
 	
 	abbrechenButton.addClickHandler(new ClickHandler() {
@@ -140,10 +157,12 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	
 	}
 	
-	/**
-	 * ASYNC-CALLBACKS
+	/**	
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird ein Partnerprofil als result zurückgegeben
+	 * @author Tom 
+	 *
 	 */
-	
 	public class SetEigenschaftenCallback implements AsyncCallback<Partnerprofil>{
 		
 	public void onFailure(Throwable caught) {
@@ -162,8 +181,10 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 							Window.alert("Die Eigenschaft wurde erfolgreich angelegt.");
 							hide();
 							
-							// Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
-							// Je nachdem wird die entsprechende Form geladen.
+							/*
+							 * Nun überprüfen wir, ob das Partnerprofil einer Ausschreibung oder einer Organisationseinheit zugehörigt ist.
+							 * Je nachdem wird die entsprechende Form geladen.
+							 */
 							projektmarktplatzVerwaltung.getAllOrganisationseinheiten(new AsyncCallback<Vector<Organisationseinheit>>() {
 								public void onFailure(Throwable caught) {
 								}
@@ -184,12 +205,7 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 									
 								}
 							});
-							
-//							RootPanel.get("Details").clear();
-//							RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(MeineAusschreibungenForm.getPartnerprofilIdOfSelectedAusschreibung()));
-//							
-//							Navigation.getCurrentClickHandler().onClick(Navigation.getCurrentClickEvent());
-						}
+					}
 			});
 		} else{
 			Window.alert("Sie müssen einen Namen und einen Wert eintragen.");
@@ -199,19 +215,4 @@ public class DialogBoxEigenschaftHinzufuegen extends DialogBox{
 	}
 	
 	
-//	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-//		}
-//
-//		@Override
-//		public void onSuccess(Organisationseinheit result) {		
-//			if (result != null) {
-//				projektmarktplatzVerwaltung.getPartnerprofilByForeignOrganisationseinheit(result, new SetEigenschaftenCallback());
-//			}			
-//		}
-//	
-//	}
 }
