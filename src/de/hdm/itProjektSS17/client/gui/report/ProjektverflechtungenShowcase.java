@@ -21,34 +21,59 @@ import de.hdm.itProjektSS17.shared.report.AlleBewerbungenMitAusschreibungenRepor
 import de.hdm.itProjektSS17.shared.report.HTMLReportWriter;
 import de.hdm.itProjektSS17.shared.report.ProjektverflechtungenReport;
 
+/**
+ * Klasse um einen Report mit Projektverflechtungen auszugeben
+ * @author Tim
+ *
+ */
 public class ProjektverflechtungenShowcase extends Showcase{
 
 	private IdentityChoiceReport identityChoiceReport = null;
 	
+	/**
+	 * Konstruktor, dem eine Instanz der IdentityChoiceReport und der Navigation übergeben wird.
+	 * @param identityChoiceReport
+	 */
 	public ProjektverflechtungenShowcase(IdentityChoiceReport identityChoiceReport) {
 		this.identityChoiceReport=identityChoiceReport;
 	}
 	
+	/**
+	 * Setzen des Headline Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		return "Report für Projektverflechtungen";
 	}
 		
-	
+	/**
+	 * Methode die startet sobald diese Seite aufgerufen wird
+	 */
 	@Override
 	protected void run() {
 	
-		
+		/**
+		 * Auslesen der ReportGeneratorAsync Instanz
+		 */
+		ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
+
+			/**
+			 * GUI- Elemente
+			 */
 			VerticalPanel inputPanel = new VerticalPanel();
 			final HTMLResultPanel resultPanel = new HTMLResultPanel();
 			final Showcase showcase = this;
 				
-			ReportGeneratorAsync reportGenerator = ClientsideSettings.getReportGenerator();
 			
 			
 			final ListBox bewerberBox = new ListBox();
 			bewerberBox.addItem("Bitte wähle einen Bewerber aus");
 			
+			/**
+			 * Bei erfolgreichem Callback wird ein Vector mit Organisationseinheiten zurückgegben.
+			 * Anschließend wird geprüft ob es sich bei der jeweiligen Organisationseinheit um eine
+			 * Person, ein Unternehmen oder ein Team handelt.
+			 */
 			reportGenerator.getBewerberAufEigeneAusschreibungen(identityChoiceReport.getSelectedIdentityAsObject(), 
 					new AsyncCallback<Vector<Organisationseinheit>>() {
 
@@ -83,7 +108,10 @@ public class ProjektverflechtungenShowcase extends Showcase{
 			inputPanel.add(resultPanel);
 			this.add(inputPanel);
 			
-			
+			/**
+			 * Anlegen Click-Handler
+			 * 
+			 */
 			bewerberBox.addChangeHandler(new ChangeHandler() {
 				
 				@Override
@@ -97,7 +125,10 @@ public class ProjektverflechtungenShowcase extends Showcase{
 					String last = s.substring(s.indexOf(':')+1, s.length());
 					int selectedId = Integer.valueOf(last);	
 				
-					
+					/**
+					 * Bei erfolgreichem Callback wird zu dem in der Listbox ausgewählten Bewerber 
+					 * ein Report mit dessen Projektverflechtungen ausgegeben.
+					 */
 					reportGenerator.createProjektverflechtungenReport(selectedId, 
 							new AsyncCallback<ProjektverflechtungenReport>() {
 

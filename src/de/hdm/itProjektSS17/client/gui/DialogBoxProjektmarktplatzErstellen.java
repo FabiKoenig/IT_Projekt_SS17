@@ -21,7 +21,14 @@ import de.hdm.itProjektSS17.shared.bo.Projektmarktplatz;
 
 public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
+	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 */
 	private FlexTable ft_pmName = new FlexTable();
 	private Label lbl_pmName = new Label("Name des Marktplatzes: ");
 	private TextBox txt_pmName = new TextBox();
@@ -29,7 +36,14 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	private Vector<Projektmarktplatz> projektmarktplaetze = new Vector<Projektmarktplatz>();
+	Button ok = new Button("OK");
+	Button abbrechen = new Button("Abbrechen");
 	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public DialogBoxProjektmarktplatzErstellen(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		projektmarktplatzVerwaltung.getAllProjektmarktplatz(new getAllProjektmarktplaetze());
 		this.identityMarketChoice=identityMarketChoice;
@@ -38,11 +52,16 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 		this.setText("Projektmarktplatz erstellen...");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
-		Button ok = new Button("OK");
-		Button abbrechen = new Button("Abbrechen");
+		
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		ok.setStylePrimaryName("cell-btn");
 		abbrechen.setStylePrimaryName("cell-btn");
 		
+		/**
+		 * Anlegen des ClickHandler des OK-Buttons
+		 */
 		ok.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -61,11 +80,13 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 			}
 		});
 		
+		/**
+		 * Anlegen des ClickHandler des Abbrechen-Buttons
+		 */
 		abbrechen.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				//TODO Auto-generated method stub
 				hide();
 			}
 		});
@@ -79,6 +100,13 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 		
 	}
 	
+	/**
+	 * Anlegen der Callbacks
+	 * Bei erfolgreichem Callback wird ein Projektmartkplatz als result zurückgegeben.
+	 * 
+	 * @author Tom
+	 *
+	 */
 	private class ProjektmarktplatzErstellenCallback implements AsyncCallback<Projektmarktplatz>{
 
 		@Override
@@ -92,7 +120,11 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 		}
 		
 	}
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * @author Tom
+	 *
+	 */
 	private class pmZuPersonHinzufuegenCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -108,7 +140,12 @@ public class DialogBoxProjektmarktplatzErstellen extends DialogBox{
 			hide();
 		}		
 	}
-	
+	/**
+	 * Private Klasse welche einen neuen CallBack implementiert, 
+	 * der einen Vector von Projektmarktplätzen als result zurück gibt.
+	 * @author Tom
+	 *
+	 */
 	private class getAllProjektmarktplaetze implements AsyncCallback<Vector<Projektmarktplatz>>{
 
 		@Override

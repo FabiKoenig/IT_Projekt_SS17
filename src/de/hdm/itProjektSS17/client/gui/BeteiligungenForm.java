@@ -132,13 +132,6 @@ public class BeteiligungenForm extends Showcase{
 		btn_beteiligungLoeschen.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
-			}
-		});
-
-		btn_beteiligungLoeschen.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
 				/**
 				 * Neues Beteilung-Objekt erstellen und die Id des ausgewählten Objekts setzen.
 				 * Dieses Objekt wird dann zum löschen übergeben.
@@ -147,7 +140,6 @@ public class BeteiligungenForm extends Showcase{
 				Beteiligung beteiligungTemp = new Beteiligung();
 				beteiligungTemp.setId(ssm_beteiligungen.getSelectedObject().getBeteiligungId());
 				projektmarktplatzVerwaltung.deleteBeteiligung(beteiligungTemp, new BeteiligungLoeschenCallback());
-				navigation.reload();
 			}
 		});
 
@@ -252,6 +244,7 @@ public class BeteiligungenForm extends Showcase{
 			dataProvider.addDataDisplay(ct_beteiligungen);
 			dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(hybrid));
 			pager.setPageSize(10);
+
 			
 			HorizontalPanel hp_pager = new HorizontalPanel();
 			hp_pager.setWidth("100%");
@@ -278,6 +271,7 @@ public class BeteiligungenForm extends Showcase{
 		@Override
 		public void onSuccess(Void result) {
 			Window.alert("Beteiligung wurde gelöscht!");
+			navigation.reload();
 		}
 		
 	}

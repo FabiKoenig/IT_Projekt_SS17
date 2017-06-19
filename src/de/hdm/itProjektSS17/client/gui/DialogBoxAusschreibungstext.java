@@ -13,6 +13,11 @@ import de.hdm.itProjektSS17.client.ClientsideSettings;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 
 public class DialogBoxAusschreibungstext extends DialogBox{
+	
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	VerticalPanel vp = new VerticalPanel();
@@ -20,7 +25,14 @@ public class DialogBoxAusschreibungstext extends DialogBox{
 	TextArea txta_ausschreibungsstext = new TextArea();
 	Button btn_zurueck = new Button("Zurück");
 	
+	/**
+	 * Anlegen des Konstruktors
+	 * @param text
+	 */
 	public DialogBoxAusschreibungstext(String text){
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		btn_zurueck.setStylePrimaryName("navi-button");
 		this.setText("Ausschreibungstext anzeigen: ");
 		this.setAnimationEnabled(false);
@@ -39,6 +51,9 @@ public class DialogBoxAusschreibungstext extends DialogBox{
 		vp.add(btn_zurueck);
 		setWidget(vp);
 		
+		/**
+		 * Click Handler für den Zurück Button 
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			
 			@Override

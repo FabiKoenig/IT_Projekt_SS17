@@ -64,16 +64,15 @@ public class StellenauschreibungForm extends Showcase {
 		this.navigation=navigation;
 	}
 	
+	/**
+	 * Auslesen der ProjektmarktplatzAsync Instanz
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-//	private static  Vector<Ausschreibung> ausschreibungen = new Vector<>();
-//	private static  Vector<Projekt> projekte = new Vector<>();
-//	private static Vector <Organisationseinheit> ausschreibender = new Vector();
-	
 
+	
 	/**
 	 * Methode um die Headline zu setzen. 
 	 */
-	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
@@ -169,7 +168,9 @@ public class StellenauschreibungForm extends Showcase {
 										 * die HybridKlasse geschrieben.
 										 */
 										for(int i=0;i<result.size();i++){
-											
+											if(result.get(i).getStatus()!=Ausschreibungsstatus.laufend){
+												continue;
+											}
 											final Ausschreibung localAusschreibung = result.get(i);
 											final projektAusschreibungHybrid localHybrid = new projektAusschreibungHybrid();
 											projektmarktplatzVerwaltung.getProjektById(result.get(i).getProjektId(), new AsyncCallback<Projekt>() {
@@ -216,6 +217,10 @@ public class StellenauschreibungForm extends Showcase {
 															Person p = result;
 															if(p.getId()!=identityMarketChoice.getUser().getId()){
 																
+																/**
+																 * Wenn die Organisationseinheit kein Team hat und kein Unternehmen hat,
+																 * wird dem HybridObjekt "Kein Unternehmen" und "Kein Team" hinzugefügt.
+																 */
 																if(p.getTeamId()==null && p.getUnternehmenId()==null){
 																
 																	localHybrid.setTeam("Kein Team");
@@ -223,7 +228,7 @@ public class StellenauschreibungForm extends Showcase {
 																	Hybrid.add(localHybrid);
 																	cellTable.setRowCount(Hybrid.size(), true);
 																	cellTable.setRowData(0,Hybrid);
-																	
+	
 																}else if(p.getTeamId()!=null && p.getUnternehmenId()==null){
 																	
 																	projektmarktplatzVerwaltung.getTeamById(result.getTeamId(), new AsyncCallback<Team>() {
@@ -316,7 +321,7 @@ public class StellenauschreibungForm extends Showcase {
 															pager.setDisplay(cellTable);
 															dataProvider.addDataDisplay(cellTable);
 															dataProvider.setList(new ArrayList<projektAusschreibungHybrid>(Hybrid));
-															pager.setPageSize(2);
+															pager.setPageSize(20);
 															
 															
 															

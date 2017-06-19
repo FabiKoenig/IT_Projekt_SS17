@@ -5,11 +5,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektSS17.client.Showcase;
 
+/**
+ * Klasse welche die Startseite repräsentiert.
+ * @author Tim
+ *
+ */
 public class StartseiteForm extends VerticalPanel{
 
 
 	public StartseiteForm() {
-		
+		/**
+		 * Anlegen der GUI-Elemente
+		 */
 		VerticalPanel homePanel = new VerticalPanel();
 		VerticalPanel inputPanel = new VerticalPanel();
 		

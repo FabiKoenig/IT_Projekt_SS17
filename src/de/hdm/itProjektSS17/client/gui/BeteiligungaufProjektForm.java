@@ -38,6 +38,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class BeteiligungaufProjektForm extends Showcase {
 	
+
 	
 	/**
 	 * Anlegen von GUI-Elementen und globalen Variablen 
@@ -56,24 +57,33 @@ public class BeteiligungaufProjektForm extends Showcase {
 	 * Instanz der ProjektmarktplatzVerwaltungAsync abrufen.
 	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-	
-	
+	Button btn_loeschen = new Button("Löschen");
+	IdentityMarketChoice identityMarketChoice = null;
+	public BeteiligungaufProjektForm(Projekt P, Navigation navigation, IdentityMarketChoice identityMarketChoice){
+
 	/**
 	 * Konstruktor, dem ein Projekt und eine Instanz der navigation übergeben wird 
 	 * @param Projekt-Objekt
 	 * @param navigation, Instanz der Navigation
+	 * @param identitiyMarketChoice, Instanz der IdentityMarketChoice
 	 */
-	public BeteiligungaufProjektForm(Projekt P, Navigation navigation){
+
 		this.p = P ;
 		this.navigation=navigation;
+		this.identityMarketChoice=identityMarketChoice;
 	}
-	
+	/**
+	 * Setzen des Headline Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Beteiligung des Projektes "+p.getName();
 	}
 
+	/**
+	 * Methode die startet, sobald diese Form aufgerufen wird.
+	 */
 	@Override
 	protected void run() {
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -81,6 +91,12 @@ public class BeteiligungaufProjektForm extends Showcase {
 		RootPanel.get("Details").setWidth("70%");
 		dataGrid.setWidth("100%", true);
 		btn_zurueck.setStylePrimaryName("cell-btn");
+		btn_loeschen.setStylePrimaryName("cell-btn");
+	
+		/**
+		 * Methode um Beteiligungen zu übergebnen Projekt zu erhalten, neuer CallBack wird aufgerufen.
+		 * @param Projekt
+		 */
 		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
 		
 		TextColumn<BeteiligungProjektHybrid> tc_beteiligungen_beteiligterBez = new TextColumn<BeteiligungenForm.BeteiligungProjektHybrid>() {
@@ -132,12 +148,16 @@ public class BeteiligungaufProjektForm extends Showcase {
 		dataGrid.setWidth("100%");
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		
+		
+		/**
+		 * SeletionModel, das die Selektion der Datensätze in einer CellTable ermöglicht
+		 */
 		final SingleSelectionModel<BeteiligungProjektHybrid> selectionModel = new SingleSelectionModel<>();
 		
 		dataGrid.setSelectionModel(selectionModel);	
 		
 		buttonPanel.add(btn_zurueck);
-		
+		buttonPanel.add(btn_loeschen);
 	
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -147,44 +167,45 @@ public class BeteiligungaufProjektForm extends Showcase {
 	
 			}
 		});
-		
-		
-		btn_zurueck.setStylePrimaryName("navi-button");
 	
+		/**
+		 * Hinzufügen der GUI-Elemente zu diesem GWT-Widget
+		 */
 		this.add(buttonPanel);
 		this.add(dataGrid);
 		this.add(hp_pager);
 		
-		
+		/**
+		 * ClickHandler um auf die vorherige Seite zurückzugelangen
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				navigation.reload();			
+				Showcase showcase = new MeineProjektForm(identityMarketChoice, navigation);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);			
 			}
 		});
 		
-		
-//		projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(p, new getBeteiligung());
+		/**
+		 * ClickHandler zum löschen einer Beteiligung
+		 */
+		btn_loeschen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Beteiligung tempBeteiligung = new Beteiligung();
+				tempBeteiligung.setId(selectionModel.getSelectedObject().getBeteiligungId());
+				projektmarktplatzVerwaltung.deleteBeteiligung(tempBeteiligung, new BeteiligungLoeschen());
+			}
+		});
 		
 	}
 	
-	
-	
-//	private class OrganisationseinheitCallback implements AsyncCallback<Organisationseinheit> {
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Das Anzeigen der Person ist fehlgeschlagen!");
-//		}
-//
-//		@Override
-//		public void onSuccess(Organisationseinheit result) {		
-//			if (result != null) {
-//				projektmarktplatzVerwaltung.getBeteiligungByForeignProjekt(result, new ););
-//			}			
-//		}
-//	
-//	}
-	
+	/**
+	 * Callback um die Beteiligungen auf ein Projekt anzuzeigen.
+	 * @author Fabian
+	 *
+	 */
 
 	private class getBeteiligung implements AsyncCallback<Vector<Beteiligung>>{
 
@@ -236,13 +257,14 @@ public class BeteiligungaufProjektForm extends Showcase {
 						final ListDataProvider dataProvider = new ListDataProvider();
 						
 					
-						
+						/**
+						 * Einfügen des Pagers für die CellTable
+						 */
 						pager.setDisplay(dataGrid);
 						dataProvider.addDataDisplay(dataGrid);
 						dataProvider.setList(new ArrayList<BeteiligungProjektHybrid>(beteiligungen));
 						pager.setPageSize(10);
-						
-						
+	
 						hp_pager.setWidth("100%");
 						hp_pager.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 						hp_pager.add(pager);
@@ -262,9 +284,20 @@ public class BeteiligungaufProjektForm extends Showcase {
 		
 		}
 	
-	
-	
-	
+	private class BeteiligungLoeschen implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Beteiligung konnte nicht gelöscht werden");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Beteiligung wurde gelöscht.");
+			navigation.reload();
+		}
+		
+	}
 	
 	
 }

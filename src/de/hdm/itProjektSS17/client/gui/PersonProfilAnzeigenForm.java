@@ -22,17 +22,30 @@ import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
 import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
+/**
+ * Klasse um das Profil einer Person anzuzeigen
+ * @author Tim
+ *
+ */
 public class PersonProfilAnzeigenForm extends Showcase{
 	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
 	
+	/**
+	 * Konstruktor, dem ein Projekt und eine Instanz der navigation übergeben wird 
+	 * @param identityMarketChoice
+	 * @param navigation
+	 */
 	public PersonProfilAnzeigenForm(IdentityMarketChoice identityMarketChoice, Navigation navigation) {
 		this.identityMarketChoice=identityMarketChoice;
 		this.navigation=navigation;
 		user= (Person) identityMarketChoice.getSelectedIdentityAsObject();
 	}
 
+	/**
+	 * Anlegen der GUI-Elemente
+	 */
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable_form = new FlexTable();
 	private FlexTable ftable_team = new FlexTable();
@@ -81,22 +94,36 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	private Label ortLabel = new Label("Ort");
 	private Label emailLabel = new Label("Google-Mail");
 	
-
+	/**
+	 * Instanz der ProjektmarktplatzVerwaltungAsync abrufen.
+	 */
 	private ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	private Person user;
 	
+	/**
+	 * Setzen des HeadLine Textes
+	 */
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Meine Personendaten";
 	}
 
+	/**
+	 * Methode die startet, sobald diese Form aufgerufen wird
+	 */
 	@Override
 	protected void run() {
 		
+		/**
+		 * Aufruf der Methoden um alle Teams alle Unternehmen zu erhalten
+		 */
 		projektmarktplatzVerwaltung.getAllTeams(new getTeamCallback(user));
 		projektmarktplatzVerwaltung.getAllUnternehmen(new getUnternehmenCallback(user));
 		
+		/**
+		 * Werte in die verschiedenen TextBoxen. Diese werden aus dem übergebenen User gelesen.
+		 */
 		vnameBox.setText(user.getVorname());
 		nnameBox.setText(user.getNachname());
 		anredeBox.setText(user.getAnrede());
@@ -190,12 +217,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-//				DialogBoxPersonProfilBearbeiten dbppb = new DialogBoxPersonProfilBearbeiten();
-//				int left = Window.getClientWidth() / 3;
-//				int top = Window.getClientHeight() / 8;
-//				dbppb.setPopupPosition(left, top);
-//				dbppb.show();
-				
+
 				//Setzen der ListBox anstelle der TextBox
 				ftable_form.setWidget(1, 1, anredeListBox);
 				//Setzen auf NotReadOnly, um die Boxen wieder bearbeiten zu können.
@@ -208,7 +230,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				ortBox.setReadOnly(false);
 				
 				//Setzen des SpeicherButtons auf Visible
-
+				//Setzen des abbrechenButtons auf Visible
 				//Setzen des BearbeitenButtons auf NotVisible
 				bearbeitenButton.setVisible(false);
 				speichernButton.setVisible(true);
@@ -217,7 +239,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
-		
+		/**
+		 * Click-Handler für den abbrechen Button
+		 */
 		abbrechenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				teamButton.setVisible(false);
@@ -226,6 +250,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler bei dem der ProilBearbeitenCallBack aufgerufen wird mit der übergebenen Person.
+		 */
 		speichernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				ClientsideSettings.getProjektmarktplatzVerwaltung().
@@ -234,6 +261,11 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler um ein Team zu erstellen.
+		 * Hierzu wird eine neue DialogBox aufgerufen.
+		 * @see de.hdm.itProjektSS17.client.gui.DialogBoxTeamErstellen
+		 */
 		teamErstellenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -244,6 +276,11 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 
+		/**
+		 * Click-Handler um ein Unternehmen zu erstellen.
+		 * Hierzu wird eine neue DialogBox aufgerufen.
+		 * @see de.hdm.itProjektSS17.client.gui.DialogBoxUnternehmenErstellen
+		 */
 		unternehmenErstellenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -254,6 +291,10 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler für den <code>teamButton</code>
+		 * der die DialogBox <code>db_team</code> aufruft.
+		 */
 		teamButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -262,6 +303,10 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler für den <code>unternehmenButton</code>
+		 * der die DialogBox <code>db_unternehmen</code> aufruft.
+		 */
 		unternehmenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -270,6 +315,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler der die DialogBox <code>db_team</code> wieder schließt.
+		 */
 		closeTeam.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -278,6 +326,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 			}
 		});
 		
+		/**
+		 * Click-Handler der die DialogBox <code>db_unternehmen</code> wieder schließt.
+		 */
 		closeUnternehmen.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -288,6 +339,14 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * CallBack um das eigene Profil zu bearbeiten.
+	 * Hierzu werden die Inhalte aus den verschiedenen Boxen gelesen und in das
+	 * <code> result<code> gesetzt.
+	 * Anschließend wird die save Methode aufgerufen um die Änderungen zu speichern.
+	 * @author Tim
+	 *
+	 */
 	private class ProfilBearbeitenCallback implements AsyncCallback<Person>{
 
 		@Override
@@ -313,6 +372,11 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * CallBack der aufgerufen wird, wenn Änderungen am Profil vorgenommen wurden.
+	 * @author Tim
+	 *
+	 */
 	private class PersonSpeichernCallback implements AsyncCallback<Void>{
 		@Override
 		public void onFailure(Throwable caught) {
@@ -329,6 +393,13 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * Callback welcher einen Vector mit Teams als <code> result</code> zurückgibt.
+	 * Das  <code> result</code>  mit den Teams wird durchgegangen, der Name des jeweiligen Teams ausgelesen
+	 * und dann zu <code> oracle_teamHinzufügen</code> hinzugefügt.
+	 * @author Tim
+	 *
+	 */
 	private class getTeamCallback implements AsyncCallback<Vector <Team>>{
 
 		Person personTemp = new Person();
@@ -364,6 +435,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				}
 			});
 			
+			/**
+			 * Click-Handler um ein Team zu einem profil hinzuzufügen
+			 */
 			teamHinzufuegenButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -395,8 +469,18 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		
 	}
 	
+	/**
+	 * Callback welcher einen Vector mit Unternehmen als <code> result</code> zurückgibt.
+	 * Das  <code> result</code>  mit den Unternehmen wird durchgegangen, der Name des jeweiligen Unternehmen ausgelesen
+	 * und dann zu <code> oracle_unternehmenHinzufügen</code> hinzugefügt.
+	 * @author Tim
+	 *
+	 */
 	private class getUnternehmenCallback implements AsyncCallback<Vector <Unternehmen>>{
-		
+		/**
+		 * Personen Objekt wird gespeichert und das Person result abgespeichert. 
+		 * Dies wird später benötigt, falls zu dieser Person ein Unternehmen oder Team hinzugefügt werden soll.
+		 */
 		Person personTemp = new Person();
 		
 		public getUnternehmenCallback(Person result){
@@ -431,6 +515,9 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				}
 			});
 			
+			/**
+			 * Click-Handler um ein Unternehmen zur Person hinzuzufügen
+			 */
 			unternehmenHinzufuegenButton.addClickHandler(new ClickHandler() {
 				
 				@Override

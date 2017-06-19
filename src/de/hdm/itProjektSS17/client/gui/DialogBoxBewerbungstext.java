@@ -17,19 +17,29 @@ import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 
 public class DialogBoxBewerbungstext extends DialogBox {
 
+	/**
+	 * GUI-Elemente & globale Variablen/ Objekte anlegen
+	 * Instanz der ProjektmarktplatzVerwaltungsAsync abrufen
+	 */
 	ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
 	VerticalPanel vp = new VerticalPanel();
 	FlexTable ft_bewerbungstext = new FlexTable();
 	TextArea txta_bewerbungstext = new TextArea();
 	Button btn_zurueck = new Button("Zurück");
 	
+	/*
+	 * Anlegen des Konstruktors
+	 */
 	public DialogBoxBewerbungstext(String text){
 		btn_zurueck.setStylePrimaryName("cell-btn");
 		this.setText("Ihr Bewerbungstext");
 		this.setAnimationEnabled(false);
 		this.setGlassEnabled(true);
 		this.center();
-			
+		
+		/**
+		 * Stylen der Buttons, Textareas sowie Hinzufügen zur FelxTable
+		 */
 		txta_bewerbungstext.setReadOnly(true);
 		txta_bewerbungstext.setCharacterWidth(70);
 		txta_bewerbungstext.setVisibleLines(25);		
@@ -42,6 +52,9 @@ public class DialogBoxBewerbungstext extends DialogBox {
 		vp.add(btn_zurueck);
 		setWidget(vp);
 		
+		/*
+		 * Anlegen des ClickHandlers für den den Zurück Button
+		 */
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			
 			@Override
