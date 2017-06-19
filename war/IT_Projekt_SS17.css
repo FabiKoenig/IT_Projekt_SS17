@@ -279,6 +279,16 @@ margin-right: 5px;
  text-decoration: none;
 } 
 
+.menu-btn:ACTIVE {
+ background: #f2f7ff;
+ background-image: -webkit-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -moz-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -ms-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: -o-linear-gradient(top, #f2f7ff, #deebff);
+ background-image: linear-gradient(to bottom, #f2f7ff, #deebff);
+ text-decoration: none;	
+}
+
 .login-btn {
  background: #ffffff;
  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
