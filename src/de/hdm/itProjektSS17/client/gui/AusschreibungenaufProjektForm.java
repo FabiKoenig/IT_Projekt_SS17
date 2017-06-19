@@ -41,7 +41,8 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	HorizontalPanel buttonPanel = new HorizontalPanel();
 	CellTable<Ausschreibung> dataGrid = new CellTable<Ausschreibung>();
 	Button btn_zurueck = new Button("Zurück");
-	
+	Button btn_partnerprofilAnzeigenButton = new Button("Partnerprofil anzeigen");
+	IdentityMarketChoice identityMarketChoice = null;
 	Navigation navigation = null;
 	Vector<Ausschreibung> ausschreibung = new Vector<Ausschreibung>();
 	
@@ -63,9 +64,10 @@ public class AusschreibungenaufProjektForm extends Showcase{
 	 * @param p
 	 * @param navigation
 	 */
-	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation) {
+	public  AusschreibungenaufProjektForm(Projekt p, Navigation navigation, IdentityMarketChoice imc) {
 		this.p = p;
 		this.navigation=navigation;	
+		this.identityMarketChoice = imc;
 	}
 	
 	
@@ -113,8 +115,7 @@ public class AusschreibungenaufProjektForm extends Showcase{
 			dataGrid.setRowCount(result.size(), true);
 			dataGrid.setRowData(0, result);
 			
-			}
-		
+			}	
 		}
 
 
@@ -183,10 +184,12 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		});
 		
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		
-		
+	
 		buttonPanel.add(btn_zurueck);
+		buttonPanel.add(btn_partnerprofilAnzeigenButton);
+
 		btn_zurueck.setStylePrimaryName("cell-btn");
+		btn_partnerprofilAnzeigenButton.setStylePrimaryName("cell-btn");
 	
 		// Hinzufügen des ButtonPanels und des DataGrids zu diesem GWT-Widget
 		this.add(buttonPanel);
@@ -198,6 +201,16 @@ public class AusschreibungenaufProjektForm extends Showcase{
 		btn_zurueck.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				navigation.reload();
+			}
+		});
+		
+		btn_partnerprofilAnzeigenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(selectionModel.getSelectedObject().getPartnerprofilId(), false, true, identityMarketChoice, navigation));
+				
 			}
 		});
 		
