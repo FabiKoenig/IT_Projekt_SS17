@@ -488,7 +488,7 @@ public class MeineAusschreibungenForm extends Showcase{
 					
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new PartnerprofilByAusschreibungForm(partnerprofilId, false, false, identityMarketChoice, navigation));
-					
+					// TODO
 						clickhandler = this;
 						clickevent = event;
 
@@ -514,8 +514,8 @@ public class MeineAusschreibungenForm extends Showcase{
 
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(new BewerbungenAufAusschreibungForm(selectionModel.getSelectedObject().getAusschreibungid(), navigation, identityMarketChoice));
-						navigation.setCurrentClickHandler(this);
-						navigation.setCurrentClickEvent(event);
+						clickhandler = this;
+						clickevent = event;
 
 						
 					} else {

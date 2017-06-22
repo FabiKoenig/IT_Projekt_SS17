@@ -48,7 +48,7 @@ public class BewerbungenAufAusschreibungForm extends VerticalPanel{
 	Bewertung bewertung = null;
 
 	Button bewerbungBewertenButton = new Button("Bewerbung bewerten");
-	Button partnerprofilAnzeigen = new Button("Partnerprofil des Bewerbers");
+	Button partnerprofilAnzeigen = new Button("Bewerberprofil anzeigen");
 	Button zurueckButton = new Button("Zurück");
 	Navigation navigation = null;
 	private IdentityMarketChoice identityMarketChoice;
