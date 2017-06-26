@@ -162,16 +162,18 @@ public class ReportEntry implements EntryPoint {
 			signOutLink.setHref(loginInfo.getLogoutUrl());
 			
 //			ProjektmarktplatzVerwaltungAsync projektmarktplatzVerwaltung = ClientsideSettings.getProjektmarktplatzVerwaltung();
-			IdentityChoiceReport identityChoiceReport = new IdentityChoiceReport(personId);
+			NavigationReport navigationReport = new NavigationReport();
+			IdentityChoiceReport identityChoiceReport = new IdentityChoiceReport(personId, navigationReport);
+			navigationReport.setIdentityChoiceReport(identityChoiceReport);
 			RootPanel.get("HeaderReport").clear();
 			RootPanel.get("HeaderReport").add(identityChoiceReport);
 //			Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 
 		    RootPanel.get("NavigatorReport").add(Logout);
-		    RootPanel.get("NavigatorReport").add(new NavigationReport(identityChoiceReport));
+		    RootPanel.get("NavigatorReport").add(navigationReport);
 			
 		    
-		    //TopPanel für Logut
+		    //TopPanel für Logout
 //		    VerticalPanel topPanel = new VerticalPanel();
 //		    RootPanel.get("Header").add(topPanel);
 		    //Erstellen Projektmarktzplatz Button

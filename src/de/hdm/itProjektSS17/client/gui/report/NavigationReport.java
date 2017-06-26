@@ -19,32 +19,35 @@ import de.hdm.itProjektSS17.shared.report.AlleBewerbungenAufEigeneAusschreibunge
 
 public class NavigationReport extends StackPanel {
 
-	private static ClickHandler currentClickHandler = null;
-	private static ClickEvent currentClickEvent = null;
+	private ClickHandler currentClickHandler = null;
+	private ClickEvent currentClickEvent = null;
 	
 	//Anlegen der Panels
-	VerticalPanel startseitePanel = new VerticalPanel();
-	VerticalPanel reportPanel = new VerticalPanel();
-	VerticalPanel einstellungenPanel = new VerticalPanel();
+	private VerticalPanel startseitePanel = new VerticalPanel();
+	private VerticalPanel reportPanel = new VerticalPanel();
+	private VerticalPanel einstellungenPanel = new VerticalPanel();
 	
 	
 	//Anlegen der Hyperlinks
-	Hyperlink home = new Hyperlink();
-	Anchor prokekoLink = new Anchor();
+	private Anchor prokekoLink = new Anchor();
 	
 	//Anlegen der Buttons
-	Button prokekoButton = new Button("Prokeko");
-	Button homeButton = new Button("Home");
-	Button impressumButton = new Button("Impressum");
+	private Button prokekoButton = new Button("Prokeko");
+	private Button homeButton = new Button("Home");
+	private Button impressumButton = new Button("Impressum");
 	
-	Button showAusschreibungenButton = new Button("Alle Ausschreibungen");
-	Button showAusschreibungMatchsPartnerprofilButton = new Button("Ausschreibungen zu Partnerprofil");
-	Button showAllBewerbungenFromUserButton = new Button("Bewerbungen zu eigenen Ausschreibungen");
-	Button showBewerbungenAusschreibungenFromUserButton = new Button("Eigene Bewerbungen anzeigen");
-	Button showProjektverflechtungenButton = new Button("Projektverflechtungen anzeigen");
-	Button showFanInFanOutAnalyseButton = new Button("Fan-in/Fan-out Analyse");
+	private Button showAusschreibungenButton = new Button("Alle Ausschreibungen");
+	private Button showAusschreibungMatchsPartnerprofilButton = new Button("Ausschreibungen zu Partnerprofil");
+	private Button showAllBewerbungenFromUserButton = new Button("Bewerbungen zu eigenen Ausschreibungen");
+	private Button showBewerbungenAusschreibungenFromUserButton = new Button("Eigene Bewerbungen anzeigen");
+	private Button showProjektverflechtungenButton = new Button("Projektverflechtungen anzeigen");
+	private Button showFanInFanOutAnalyseButton = new Button("Fan-in/Fan-out Analyse");
+	private IdentityChoiceReport identityChoiceReport = null;
 	
-	public NavigationReport(final IdentityChoiceReport identityChoiceReport){
+	/**
+	 * Ein Objekt dieser Klasse stellt ein Navigationsmenü für den Report-Generator zur Verfügung
+	 */
+	public NavigationReport(){
 	//Zusammensetzen des startseitePanels
 		startseitePanel.add(homeButton);
 		homeButton.setWidth("200px");
@@ -86,10 +89,13 @@ public class NavigationReport extends StackPanel {
 		this.addStyleName("gwt-StackPanel");
 		this.add(startseitePanel, "Startseite");
 		this.add(reportPanel, "Report Locator");
-		this.add(einstellungenPanel, "Einstellungen");
+		this.add(einstellungenPanel, "Prokeko");
 		
 		
-//	Anlegen der ClickHandler
+		//ClickHandler welche den Showcase entsprechend zur Auswahl aufrufen
+		//Einige der hier folgenden ClickHandler speichern zusätzlich mithilfe 
+		//der Variablen currentCLickHandler und currentClickEvent
+		//welche Auswahl der User zuletzt getroffen hat
 		homeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("DetailsReport").clear();
@@ -177,23 +183,45 @@ public class NavigationReport extends StackPanel {
 		});
 	}
 	
-	public static ClickHandler getCurrentClickHandler() {
+	/**
+	 * Liefert das ClickHandler Objekt anhand der letzten Menüauswahl zurück
+	 */
+	public ClickHandler getCurrentClickHandler() {
 		return currentClickHandler;
 	}
-
-	public static ClickEvent getCurrentClickEvent() {
+	
+	/**
+	 * Liefert das ClickEvent Objekt anhand der letzten Menüauswahl zurück
+	 */
+	public ClickEvent getCurrentClickEvent() {
 		return currentClickEvent;
 	}
 
-	public static void setCurrentClickHandler(ClickHandler c){
+	/**
+	 * Überschreibt den zuletzt gespeicherten ClickHandler
+	 * @param c
+	 */
+	public void setCurrentClickHandler(ClickHandler c){
 		currentClickHandler = c;
 	}
-	public static void setCurrentClickEvent(ClickEvent e){
+	/**
+	 * Überschreibt das zuletzt gespeicherte ClickEvent
+	 * @param c
+	 */
+	public void setCurrentClickEvent(ClickEvent e){
 		currentClickEvent = e;
 	}
-
-	public static void reload(){
+	/**
+	 * Aktualisiert den letzten Showcase anhand des zuletzt geklickten Buttons
+	 */
+	public void reload(){
 		currentClickHandler.onClick(currentClickEvent);
+	}
+	/**
+	 * Liefert die Identitätsleiste und Projektmarktplatzleiste zurück
+	 */
+	public void setIdentityChoiceReport(IdentityChoiceReport identityChoiceReport){
+		this.identityChoiceReport=identityChoiceReport;
 	}
 	
 }

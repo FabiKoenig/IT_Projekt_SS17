@@ -431,7 +431,7 @@ public class Projektmarktplatz implements EntryPoint {
 				emailBox.setText(loginInfo.getEmailAddress());
 				emailBox.setReadOnly(true);
 				//Stylen der Buttons
-				speichernButton.setStylePrimaryName("navi-button");
+				speichernButton.setStylePrimaryName("cell-btn");
 				
 				//Hinzufügen der Inhalte der anredeListBox
 				anredeListBox.addItem("Herr");

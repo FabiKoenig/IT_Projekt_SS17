@@ -35,6 +35,7 @@ import de.hdm.itProjektSS17.shared.bo.Unternehmen;
 
 public class Navigation extends StackPanel{
 	
+	//ClickHandler um zu speichern, welche Auswahl der User zuletzt getroffen hat
 	private static ClickHandler currentClickHandler = null;
 	private static ClickEvent currentClickEvent = null;
 	
@@ -43,30 +44,35 @@ public class Navigation extends StackPanel{
 	VerticalPanel projektlocatorPanel = new VerticalPanel();
 	VerticalPanel meineaktivitaetenPanel = new VerticalPanel();
 	VerticalPanel einstellungenPanel = new VerticalPanel();
+	VerticalPanel reportPanel = new VerticalPanel();
+
 	
 	//Anlegen der Hyperlinks
-	Hyperlink home = new Hyperlink();
-	Anchor reportLink = new Anchor("ReportGenerator");
+	private Hyperlink home = new Hyperlink();
+	private Anchor reportLink = new Anchor("ReportGenerator");
 	
 	//Anlegen der Buttons
-	Button homeButton = new Button("Home");
-	Button agbButton = new Button("AGB");
-	Button impressumButton = new Button("Impressum");
+	private Button homeButton = new Button("Home");
+	private Button agbButton = new Button("AGB");
+	private Button impressumButton = new Button("Impressum");
+
+	private Button ausschreibungenButton = new Button("Offene Ausschreibungen");
+	private Button projektmarktplaetzeButton = new Button("Projektmarktplätze");
 	
-	Button ausschreibungenButton = new Button("Stellenausschreibungen");
-	Button projektmarktplaetzeButton = new Button("Projektmarktplätze");
+	private Button meineprojekteButton = new Button("Meine Projekte");
+	private Button meineausschreibungenButton = new Button("Meine Ausschreibungen");
+	private Button meinebewerbungenButton = new Button("Meine Bewerbungen");
+	private Button meineBeteiligungenButton = new Button("Meine Beteiligungen");
 	
-	Button meineprojekteButton = new Button("Meine Projekte");
-	Button meineausschreibungenButton = new Button("Meine Ausschreibungen");
-	Button meinebewerbungenButton = new Button("Meine Bewerbungen");
-	Button meineBeteiligungenButton = new Button("Meine Beteiligungen");
+	private Button personaldataButton = new Button("Persönliche Daten");
+	private Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
 	
-	Button personaldataButton = new Button("Persönliche Daten");
-	Button eigenesprofilButton = new Button("Eigenes Partnerprofil");
+	private Button reportButton = new Button("Report Generator");
+	private IdentityMarketChoice identityMarketChoice = null;
 	
-	Button reportButton = new Button("Report Generator");
-	IdentityMarketChoice identityMarketChoice = null;
-	
+	/**
+	 * Ein Objekt dieser Klasse stellt ein Navigationsmenü für die Hauptseite zur Verfügung
+	 */
 	public Navigation(){
 		
 		//Zusammensetzen des startseitePanels
@@ -76,7 +82,7 @@ public class Navigation extends StackPanel{
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
 		impressumButton.setStylePrimaryName("menu-btn");
-		startseitePanel.add(agbButton);
+		//startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
 		agbButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
@@ -112,20 +118,30 @@ public class Navigation extends StackPanel{
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("menu-btn");
-		einstellungenPanel.add(reportButton);
-		reportButton.setStylePrimaryName("menu-btn");
-		reportButton.setWidth("200px");
+		//einstellungenPanel.add(reportButton);
+		
 		einstellungenPanel.setSpacing(5);
 		
+		
+		//Zusammensetzung des ReportGeneartorPanels
+		reportPanel.add(reportButton);
+		reportButton.setStylePrimaryName("menu-btn");
+		reportButton.setWidth("200px");
+		reportPanel.setSpacing(5);
+		
+		
+		//Setzen der Hauptmenüs
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
 		this.add(startseitePanel, "Startseite");
 		this.add(projektlocatorPanel, "Projekt Locator");
 		this.add(meineaktivitaetenPanel, "Meine Aktivitäten");
 		this.add(einstellungenPanel, "Einstellungen");
+		this.add(reportPanel, "ReportGenerator");
 		
 		
-		//Clickhandler für den Impressum-Button
+		//Einige ClickHandler welche den Showcase entsprechend zur Auswahl aufrufen
+		//Zusätzlich wird die Identitätsleiste je nach Usecase aktiviert/deaktibiert.
 		impressumButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				identityMarketChoice.deactivateProjectMarkets();
@@ -145,6 +161,8 @@ public class Navigation extends StackPanel{
 			}
 		});	
 		
+		//Spezieller ClickHandler welcher je nach gewählter Identität den passenden Showcase aufruft,
+		//um die Eigenschaften der entsprechenden Identität bearbeiten zu können
 		personaldataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -154,20 +172,19 @@ public class Navigation extends StackPanel{
 				identityMarketChoice.activateOrgUnits();
 				//Auslesen des Index, der in der ListBox der agierenden Organisationseinheit ausgewählt ist
 				Organisationseinheit selectedIdentity = identityMarketChoice.getSelectedIdentityAsObject();
-				//Window.alert(selectedIdentity.toString());
-				//Falls der Index 0 ist, dann ist es eine Person und es wird die PersonProfilAnzeigenForm geladen
+				//Falls der Index eine Person ist, dann wird die PersonProfilAnzeigenForm geladen
 				if(selectedIdentity instanceof Person){
 					Showcase showcase = new PersonProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
-				//Falls der Index 1 ist, dann ist ein Team aktiv und es wird die TeamProfilAnzeigenForm geladen.	
+				//Falls der Index ein Team ist, wird die TeamProfilAnzeigenForm geladen.	
 				}else if(selectedIdentity instanceof Team){
 					Showcase showcase = new TeamProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
-				//Falls der Index 2 ist, dann ist ein Unternehmen aktiv und es wird die UnternehmenProfilAnzeigenForm geladen.
+				//Falls der Index ein Unternehmen ist, wird die UnternehmenProfilAnzeigenForm geladen.
 				}else if(selectedIdentity instanceof Unternehmen){
 					Showcase showcase = new UnternehmenProfilAnzeigenForm(identityMarketChoice, getNavigation());
 					RootPanel.get("Details").clear();
@@ -176,6 +193,9 @@ public class Navigation extends StackPanel{
 			} 
 		});
 		
+		//Die hier folgenden ClickHandler speichern zusätzlich mithilfe 
+		//der Variablen currentCLickHandler und currentClickEvent
+		//welche Auswahl der User zuletzt getroffen hat
 		eigenesprofilButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				identityMarketChoice.deactivateProjectMarkets();
@@ -295,36 +315,67 @@ public class Navigation extends StackPanel{
 	}
 	
 
-
+	/**
+	 * Liefert das ClickHandler Objekt anhand der letzten Menüauswahl zurück
+	 */
 	public ClickHandler getCurrentClickHandler() {
 		return currentClickHandler;
 	}
 
+	/**
+	 * Liefert das ClickEvent Objekt anhand der letzten Menüauswahl zurück
+	 */
 	public ClickEvent getCurrentClickEvent() {
 		return currentClickEvent;
 	}
 
+	/**
+	 * Überschreibt den zuletzt gespeicherten ClickHandler
+	 * @param c
+	 */
 	public void setCurrentClickHandler(ClickHandler c){
 		currentClickHandler = c;
 	}
+	/**
+	 * Überschreibt das zuletzt gespeicherte ClickEvent
+	 * @param c
+	 */
 	public void setCurrentClickEvent(ClickEvent e){
 		currentClickEvent = e;
 	}
 
+	/**
+	 * Aktualisiert den letzten Showcase anhand des zuletzt geklickten Buttons
+	 */
 	public void reload(){
 		currentClickHandler.onClick(currentClickEvent);
 	}
 	
+	/**
+	 * Übergibt das eigene Navigation-Objekt
+	 */
 	public Navigation getNavigation(){
 		return this;
 	}
+	
+	/**
+	 * Liefert die Identitätsleiste und Projektmarktplatzleiste zurück
+	 */
 	public IdentityMarketChoice getIdentityMarketChoice(){
 		return identityMarketChoice;
 	}
+	
+	/**
+	 * Überschreibt das IdentityMarketChoice Objekt anhand des übergebenen Wertes
+	 * @param identityMarketChoice
+	 */
 	public void setIdentityMarketChoice(IdentityMarketChoice identityMarketChoice){
 		this.identityMarketChoice=identityMarketChoice;
 	}
 
+	/**
+	 * Gibt den Projektmarktplätze Button zurück
+	 */
 	public Button getProjektmarktplaetzeButton() {
 		return projektmarktplaetzeButton;
 	}
