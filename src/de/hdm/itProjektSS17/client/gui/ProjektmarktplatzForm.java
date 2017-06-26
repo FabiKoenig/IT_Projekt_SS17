@@ -73,7 +73,6 @@ public class ProjektmarktplatzForm extends Showcase {
 	
 	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
 
-	HorizontalPanel panel_beigetreteneProjektmarktplatz = new HorizontalPanel();
 
 	HorizontalPanel panel_eigeneProjektmarktplaetze = new HorizontalPanel();
 
@@ -82,8 +81,8 @@ public class ProjektmarktplatzForm extends Showcase {
 	//Deklarieren der Buttons
 
 	Button btn_projektmarktplatzuebernehmen = new Button("Teilnehmen");
-	Button btn_projektmarktplatzloeschen = new Button("Eigenen Projektmarktplatz löschen");
-	Button btn_projektmarktplatzanlegen = new Button("Neuen Projektmarktplatz anlegen");
+	Button btn_projektmarktplatzloeschen = new Button("Projektmarktplatz löschen");
+	Button btn_projektmarktplatzanlegen = new Button("Projektmarktplatz anlegen");
 
 	Button btn_projektmarktplatzTeilnahmeentfernen = new Button("Teilnahme auflösen");
 	
@@ -128,7 +127,6 @@ public class ProjektmarktplatzForm extends Showcase {
 		panel_eigeneProjektmarktplaetze.add(btn_projektmarktplatzTeilnahmeentfernen);	
 
 		panel_projektmarktplatz.add(btn_projektmarktplatzuebernehmen);
-		panel_beigetreteneProjektmarktplatz.add(btn_projektmarktplatzloeschen);
 		
 		/**
 		 * Click-Handler um einen neuen Projektmarktplatz anzulegen.
@@ -415,8 +413,7 @@ public class ProjektmarktplatzForm extends Showcase {
 		});
 		
 		
-		panel_beigetreteneProjektmarktplatz.add(btn_projektmarktplatzTeilnahmeentfernen);
-		this.add(panel_beigetreteneProjektmarktplatz);
+		
 		
 		
 		ct_eigeneProjektmarktplaetze.setWidth("100%");
