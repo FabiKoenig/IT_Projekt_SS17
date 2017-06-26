@@ -326,12 +326,12 @@ public class PersonProfilAnzeigenForm extends Showcase{
 				plzBox.setReadOnly(false);
 				ortBox.setReadOnly(false);
 				
-				//Setzen des SpeicherButtons auf Visible
-				//Setzen des abbrechenButtons auf Visible
-				//Setzen des BearbeitenButtons auf NotVisible
+				//Setzen des Buttons auf Visible
 				bearbeitenButton.setVisible(false);
+				profilLoeschen.setVisible(false);
 				speichernButton.setVisible(true);
 				abbrechenButton.setVisible(true);
+				
 				
 			}
 		});
