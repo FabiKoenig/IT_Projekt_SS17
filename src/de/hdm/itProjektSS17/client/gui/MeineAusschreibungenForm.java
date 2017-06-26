@@ -76,7 +76,7 @@ public class MeineAusschreibungenForm extends Showcase{
 	 */
 	Button ausschreibungLoeschenButton = new Button("Löschen");
 	Button ausschreibungBearbeitenButton = new Button("Bearbeiten");
-	Button partnerprofilBearbeitenButton = new Button("Gefordertes Partnerprofil anzeigen");
+	Button partnerprofilBearbeitenButton = new Button("Ausschreibungsprofil anzeigen");
 	Button bewerbungenAnzeigenButton = new Button("Bewerbungen anzeigen");
 	Button ausschreibungstextButton = new Button("Ausschreibungstext anzeigen");
 	

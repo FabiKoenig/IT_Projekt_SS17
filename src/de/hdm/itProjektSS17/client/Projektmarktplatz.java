@@ -65,6 +65,9 @@ public class Projektmarktplatz implements EntryPoint {
 	private Anchor signInLink= new Anchor("Login");
 	private Anchor signOutLink = new Anchor("Logout");
 	
+	
+
+	
 	@Override
 	public void onModuleLoad() {
 		
@@ -147,7 +150,7 @@ public class Projektmarktplatz implements EntryPoint {
 	/**
 	 * Methode die die Login-Seite läd
 	 */
-		private void loadLogin(){
+		public void loadLogin(){
 			
 			loginLabel.setStylePrimaryName("startseite_label");
 			loginLabel1.setStylePrimaryName("willkommen_label");

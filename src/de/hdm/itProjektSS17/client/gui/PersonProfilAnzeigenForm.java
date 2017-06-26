@@ -1,10 +1,14 @@
 package de.hdm.itProjektSS17.client.gui;
 
 import java.util.Vector;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -12,11 +16,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itProjektSS17.client.ClientsideSettings;
+import de.hdm.itProjektSS17.client.LoginInfo;
+import de.hdm.itProjektSS17.client.Projektmarktplatz;
 import de.hdm.itProjektSS17.client.Showcase;
+import de.hdm.itProjektSS17.shared.LoginServiceAsync;
 import de.hdm.itProjektSS17.shared.ProjektmarktplatzVerwaltungAsync;
 import de.hdm.itProjektSS17.shared.bo.Person;
 import de.hdm.itProjektSS17.shared.bo.Team;
@@ -31,6 +39,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	
 	private IdentityMarketChoice identityMarketChoice=null;
 	private Navigation navigation=null;
+	private LoginInfo loginInfo = null;
 	
 	/**
 	 * Konstruktor, dem ein Projekt und eine Instanz der navigation übergeben wird 
@@ -46,6 +55,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	/**
 	 * Anlegen der GUI-Elemente
 	 */
+	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private FlexTable ftable_form = new FlexTable();
 	private FlexTable ftable_team = new FlexTable();
@@ -62,6 +72,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Button teamButton = new Button("Team hinzufügen");
 	private Button unternehmenButton = new Button("Unternehmen hinzufügen");
+	private Button profilLoeschen = new Button("Profil löschen");
 	
 	private Button teamErstellenButton = new Button("Team Erstellen");
 	private MultiWordSuggestOracle oracle_teamHinzufuegen= new MultiWordSuggestOracle();
@@ -149,6 +160,7 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		abbrechenButton.setStylePrimaryName("cell-btn");
 		teamButton.setStylePrimaryName("cell-btn");
 		unternehmenButton.setStylePrimaryName("cell-btn");
+		profilLoeschen.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der Inhalte der anredeListBox
 		anredeListBox.addItem("Herr");
@@ -185,10 +197,12 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		 */
 		vpanel.setSpacing(8);
 		ft_buttonPanel.setWidget(0, 0, bearbeitenButton);
-		ft_buttonPanel.setWidget(0, 1, speichernButton);
-		ft_buttonPanel.setWidget(0, 2, abbrechenButton);
-		ft_buttonPanel.setWidget(0, 3, teamButton);
-		ft_buttonPanel.setWidget(0, 4, unternehmenButton);
+		ft_buttonPanel.setWidget(0, 1, profilLoeschen);
+		ft_buttonPanel.setWidget(0, 2, speichernButton);
+		ft_buttonPanel.setWidget(0, 3, abbrechenButton);
+		ft_buttonPanel.setWidget(0, 4, teamButton);
+		ft_buttonPanel.setWidget(0, 5, unternehmenButton);
+		
 		
 		speichernButton.setVisible(false);
 		abbrechenButton.setVisible(false);
@@ -213,6 +227,89 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		vpanel.add(ftable_form);
 		this.add(vpanel);
 		this.setSpacing(8);
+		
+		profilLoeschen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+
+				final DialogBox abfrageBox = new DialogBox();
+				Label abfrageLabel = new Label("Möchten Sie wirklich Ihr Profil löschen?");
+				Button jaButton = new Button("Ja");
+				Button neinButton = new Button("Nein");
+				HorizontalPanel buttonPanel = new HorizontalPanel();
+				VerticalPanel boxPanel = new VerticalPanel();
+				
+				boxPanel.add(abfrageLabel);
+				boxPanel.add(buttonPanel);
+				
+				buttonPanel.add(jaButton);
+				buttonPanel.add(neinButton);
+				jaButton.setStylePrimaryName("cell-btn");
+				neinButton.setStylePrimaryName("cell-btn");
+				boxPanel.setSpacing(8);
+				abfrageBox.add(boxPanel);
+				abfrageBox.setAnimationEnabled(false);
+				abfrageBox.setGlassEnabled(true);
+				abfrageBox.center();
+
+				abfrageBox.show();
+				
+				
+				
+				neinButton.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						abfrageBox.hide();
+					}
+				});
+				
+				jaButton.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						
+						projektmarktplatzVerwaltung.deletePerson(identityMarketChoice.getUser(), new AsyncCallback<Void>() {
+							
+							@Override
+							public void onSuccess(Void result) {
+								Window.alert("Das Profil wurde erfolgreich gelöscht!");
+								
+								//TODO User ausloggen
+								
+								abfrageBox.hide();
+								
+								LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+								loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+									
+									@Override
+									public void onSuccess(LoginInfo result) {
+									
+										loginInfo = result;										
+										Window.open(loginInfo.getLogoutUrl(), "_self", "");
+									}
+									
+									@Override
+									public void onFailure(Throwable caught) {
+										
+										
+									}
+								});
+								
+								
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+					}
+				});
+			}
+		});
 		
 		//ClickHandler, der bei einem Klick auf den bearbeiten Button den ProfilBearbeitenCallback ausführt.
 		bearbeitenButton.addClickHandler(new ClickHandler() {
