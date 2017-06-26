@@ -118,7 +118,7 @@ div#TopLevelFrame {
     background-color:#eeeeee;
     height: 610px;
     min-height: 600px;
-    width:55px;
+    width:25px;
     float:right;
     padding:5px;
     border-right: solid silver;
@@ -132,7 +132,7 @@ div#TopLevelFrame {
     background-color:#eeeeee;
     height: 100%;
     min-height: 600px;
-    width:120px;
+    width:25px;
     float:right;
     padding:5px;
     border-right: solid silver;
