@@ -56,7 +56,7 @@ public class Navigation extends StackPanel{
 	private Button agbButton = new Button("AGB");
 	private Button impressumButton = new Button("Impressum");
 
-	private Button ausschreibungenButton = new Button("Stellenausschreibungen");
+	private Button ausschreibungenButton = new Button("Offene Ausschreibungen");
 	private Button projektmarktplaetzeButton = new Button("Projektmarktplätze");
 	
 	private Button meineprojekteButton = new Button("Meine Projekte");

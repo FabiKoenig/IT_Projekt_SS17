@@ -72,10 +72,11 @@ public class ProjektmarktplatzForm extends Showcase {
 	CellTable<Projektmarktplatz> ct_eigeneProjektmarktplaetze = new CellTable();
 	
 	HorizontalPanel panel_projektmarktplatz = new HorizontalPanel();
+	HorizontalPanel panel_eigeneProjektmarktplaetze = new HorizontalPanel();
 	HorizontalPanel hp_pager = new HorizontalPanel();
 
 	//Deklarieren der Buttons
-	Button btn_projektmarktplatzuebernehmen = new Button("An bestehendem Projektmarktplatz teilnehmen");
+	Button btn_projektmarktplatzuebernehmen = new Button("Teilnehmen");
 	Button btn_projektmarktplatzloeschen = new Button("Eigenen Projektmarktplatz löschen");
 	Button btn_projektmarktplatzanlegen = new Button("Neuen Projektmarktplatz anlegen");
 	Button btn_projektmarktplatzTeilnahmeentfernen = new Button("Teilnahme auflösen");
@@ -92,7 +93,7 @@ public class ProjektmarktplatzForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Alle Projektmarktplätze";
+		return "Projektmarktplätze";
 	}
 
 	/**
@@ -115,9 +116,9 @@ public class ProjektmarktplatzForm extends Showcase {
 		btn_projektmarktplatzuebernehmen.setStylePrimaryName("cell-btn");
 		
 		//Hinzufügen der Buttons zum Panel
-			panel_projektmarktplatz.add(btn_projektmarktplatzloeschen);
-			panel_projektmarktplatz.add(btn_projektmarktplatzTeilnahmeentfernen);
-		panel_projektmarktplatz.add(btn_projektmarktplatzanlegen);
+		panel_eigeneProjektmarktplaetze.add(btn_projektmarktplatzanlegen);
+		panel_eigeneProjektmarktplaetze.add(btn_projektmarktplatzloeschen);
+		panel_eigeneProjektmarktplaetze.add(btn_projektmarktplatzTeilnahmeentfernen);	
 		panel_projektmarktplatz.add(btn_projektmarktplatzuebernehmen);
 
 		/**
@@ -357,7 +358,7 @@ public class ProjektmarktplatzForm extends Showcase {
 				return object.getBezeichnung();
 			}
 		};
-		ct_fremdeProjektmarktplaetze.addColumn(ProjektmarktplatznameColumn_fremd, "Fremde Projektmarktplätze");
+		ct_fremdeProjektmarktplaetze.addColumn(ProjektmarktplatznameColumn_fremd, "Nicht beigetretene Projektmarktplätze");
 	
 		
 		ct_fremdeProjektmarktplaetze.setSelectionModel(ssm_fremdeProjektmarktplaetze);
@@ -406,7 +407,7 @@ public class ProjektmarktplatzForm extends Showcase {
 		
 		
 		ct_eigeneProjektmarktplaetze.setWidth("100%");
-		
+		this.add(panel_eigeneProjektmarktplaetze);
 		this.add(ct_eigeneProjektmarktplaetze);
 		
 	

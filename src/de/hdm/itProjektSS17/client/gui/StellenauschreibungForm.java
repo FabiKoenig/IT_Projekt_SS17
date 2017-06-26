@@ -76,7 +76,7 @@ public class StellenauschreibungForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Offene Stellenausschreibungen";
+		return "Offene Ausschreibungen";
 	}
 
 	
