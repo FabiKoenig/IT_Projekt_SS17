@@ -43,6 +43,7 @@ public class Navigation extends StackPanel{
 	VerticalPanel projektlocatorPanel = new VerticalPanel();
 	VerticalPanel meineaktivitaetenPanel = new VerticalPanel();
 	VerticalPanel einstellungenPanel = new VerticalPanel();
+	VerticalPanel reportPanel = new VerticalPanel();
 	
 	//Anlegen der Hyperlinks
 	Hyperlink home = new Hyperlink();
@@ -76,7 +77,7 @@ public class Navigation extends StackPanel{
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
 		impressumButton.setStylePrimaryName("menu-btn");
-		startseitePanel.add(agbButton);
+		//startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
 		agbButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
@@ -112,10 +113,17 @@ public class Navigation extends StackPanel{
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("menu-btn");
-		einstellungenPanel.add(reportButton);
+		//einstellungenPanel.add(reportButton);
+		
+		einstellungenPanel.setSpacing(5);
+		
+		
+		//Zusammensetzung des ReportGeneartorPanels
+		reportPanel.add(reportButton);
 		reportButton.setStylePrimaryName("menu-btn");
 		reportButton.setWidth("200px");
-		einstellungenPanel.setSpacing(5);
+		reportPanel.setSpacing(5);
+		
 		
 		this.setWidth("250px");
 		this.addStyleName("gwt-StackPanel");
@@ -123,6 +131,7 @@ public class Navigation extends StackPanel{
 		this.add(projektlocatorPanel, "Projekt Locator");
 		this.add(meineaktivitaetenPanel, "Meine Aktivitäten");
 		this.add(einstellungenPanel, "Einstellungen");
+		this.add(reportPanel, "ReportGenerator");
 		
 		
 		//Clickhandler für den Impressum-Button

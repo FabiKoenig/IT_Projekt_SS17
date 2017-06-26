@@ -86,7 +86,7 @@ public class NavigationReport extends StackPanel {
 		this.addStyleName("gwt-StackPanel");
 		this.add(startseitePanel, "Startseite");
 		this.add(reportPanel, "Report Locator");
-		this.add(einstellungenPanel, "Einstellungen");
+		this.add(einstellungenPanel, "Prokeko");
 		
 		
 //	Anlegen der ClickHandler
