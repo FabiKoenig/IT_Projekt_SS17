@@ -40,10 +40,12 @@ public class Navigation extends StackPanel{
 	private static ClickEvent currentClickEvent = null;
 	
 	//Anlegen der Panels
-	private VerticalPanel startseitePanel = new VerticalPanel();
-	private VerticalPanel projektlocatorPanel = new VerticalPanel();
-	private VerticalPanel meineaktivitaetenPanel = new VerticalPanel();
-	private VerticalPanel einstellungenPanel = new VerticalPanel();
+	VerticalPanel startseitePanel = new VerticalPanel();
+	VerticalPanel projektlocatorPanel = new VerticalPanel();
+	VerticalPanel meineaktivitaetenPanel = new VerticalPanel();
+	VerticalPanel einstellungenPanel = new VerticalPanel();
+	VerticalPanel reportPanel = new VerticalPanel();
+
 	
 	//Anlegen der Hyperlinks
 	private Hyperlink home = new Hyperlink();
@@ -80,7 +82,7 @@ public class Navigation extends StackPanel{
 		startseitePanel.add(impressumButton);
 		impressumButton.setWidth("200px");
 		impressumButton.setStylePrimaryName("menu-btn");
-		startseitePanel.add(agbButton);
+		//startseitePanel.add(agbButton);
 		agbButton.setWidth("200px");
 		agbButton.setStylePrimaryName("menu-btn");
 		startseitePanel.setSpacing(5);
@@ -116,10 +118,17 @@ public class Navigation extends StackPanel{
 		einstellungenPanel.add(eigenesprofilButton);
 		eigenesprofilButton.setWidth("200px");
 		eigenesprofilButton.setStylePrimaryName("menu-btn");
-		einstellungenPanel.add(reportButton);
+		//einstellungenPanel.add(reportButton);
+		
+		einstellungenPanel.setSpacing(5);
+		
+		
+		//Zusammensetzung des ReportGeneartorPanels
+		reportPanel.add(reportButton);
 		reportButton.setStylePrimaryName("menu-btn");
 		reportButton.setWidth("200px");
-		einstellungenPanel.setSpacing(5);
+		reportPanel.setSpacing(5);
+		
 		
 		//Setzen der Hauptmenüs
 		this.setWidth("250px");
@@ -128,6 +137,7 @@ public class Navigation extends StackPanel{
 		this.add(projektlocatorPanel, "Projekt Locator");
 		this.add(meineaktivitaetenPanel, "Meine Aktivitäten");
 		this.add(einstellungenPanel, "Einstellungen");
+		this.add(reportPanel, "ReportGenerator");
 		
 		
 		//Einige ClickHandler welche den Showcase entsprechend zur Auswahl aufrufen
