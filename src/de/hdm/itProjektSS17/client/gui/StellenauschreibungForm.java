@@ -331,9 +331,6 @@ public class StellenauschreibungForm extends Showcase {
 															cellTable.setRowData(0,Hybrid);
 															
 														}
-														
-														
-														
 													});
 												} 
 											});
@@ -344,10 +341,7 @@ public class StellenauschreibungForm extends Showcase {
 							}
 						}
 					});
-					
-				
 				}
-				
 		});
 		
 		
