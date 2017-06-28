@@ -641,7 +641,7 @@ implements ReportGenerator{
 		
 		ProjektverflechtungenReport result = new ProjektverflechtungenReport();
 		
-		result.setTitel("Projektverfplechtungen des Users");
+		result.setTitel("Projektverflechtungen des Users");
 		
 		result.setErstellungsdatum(new Date());
 		

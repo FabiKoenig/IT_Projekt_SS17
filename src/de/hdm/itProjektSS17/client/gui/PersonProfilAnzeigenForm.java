@@ -209,17 +209,17 @@ public class PersonProfilAnzeigenForm extends Showcase{
 		teamButton.setVisible(false);
 		unternehmenButton.setVisible(false);
 		
-		ftable_team.setWidget(1, 0, new Label("Team wählen:"));;
+		ftable_team.setWidget(1, 0, new Label("Bestehendes Team wählen:"));;
 		ftable_team.setWidget(1, 1, sb_teamHinzufuegen);
 		ftable_team.setWidget(1, 2, teamHinzufuegenButton);
-		ftable_team.setWidget(2, 0, new Label("Team erstellen:"));
+		ftable_team.setWidget(2, 0, new Label("Oder: Neues Team erstellen:"));
 		ftable_team.setWidget(2, 1, teamErstellenButton);
 		ftable_team.setWidget(3, 1, closeTeam);
 		
-		ftable_unternehmen.setWidget(1, 0, new Label("Unternehmen wählen:"));;
+		ftable_unternehmen.setWidget(1, 0, new Label("Bestehendes Unternehmen wählen:"));;
 		ftable_unternehmen.setWidget(1, 1, sb_unternehmenHinzufuegen);
 		ftable_unternehmen.setWidget(1, 2, unternehmenHinzufuegenButton);
-		ftable_unternehmen.setWidget(2, 0, new Label("Unternehmen erstellen:"));
+		ftable_unternehmen.setWidget(2, 0, new Label("Oder: Neues Unternehmen erstellen:"));
 		ftable_unternehmen.setWidget(2, 1, unternehmenErstellenButton);
 		ftable_unternehmen.setWidget(3, 1, closeUnternehmen);
 		
